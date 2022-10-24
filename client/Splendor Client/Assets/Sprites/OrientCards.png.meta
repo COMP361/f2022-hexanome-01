@@ -1,0 +1,828 @@
+fileFormatVersion: 2
+guid: 610d06418fe70dd4dae948b974baa749
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4848016648794513247
+    second: OrientCards_0
+  - first:
+      213: 3305532118163913543
+    second: OrientCards_1
+  - first:
+      213: 5955545280618605952
+    second: OrientCards_2
+  - first:
+      213: 519564222000950649
+    second: OrientCards_3
+  - first:
+      213: -2218366114704687684
+    second: OrientCards_4
+  - first:
+      213: -9158834776028261548
+    second: OrientCards_5
+  - first:
+      213: 3049311267350165683
+    second: OrientCards_6
+  - first:
+      213: -3394308230240083792
+    second: OrientCards_7
+  - first:
+      213: 528176796199576466
+    second: OrientCards_8
+  - first:
+      213: -7669868487857812422
+    second: OrientCards_9
+  - first:
+      213: 2543025340200198904
+    second: OrientCards_10
+  - first:
+      213: 77981027762360069
+    second: OrientCards_11
+  - first:
+      213: 9184017311211713863
+    second: OrientCards_12
+  - first:
+      213: 712187267141273696
+    second: OrientCards_13
+  - first:
+      213: -3365690524262597913
+    second: OrientCards_14
+  - first:
+      213: 938064907712025169
+    second: OrientCards_15
+  - first:
+      213: 3260249775695142950
+    second: OrientCards_16
+  - first:
+      213: 2668923928584967121
+    second: OrientCards_17
+  - first:
+      213: 4189976063958647589
+    second: OrientCards_18
+  - first:
+      213: -7773429598070276769
+    second: OrientCards_19
+  - first:
+      213: 1138343286504602552
+    second: OrientCards_20
+  - first:
+      213: 3216395410521502579
+    second: OrientCards_21
+  - first:
+      213: 2892046123315151938
+    second: OrientCards_22
+  - first:
+      213: -7509030863659676521
+    second: OrientCards_23
+  - first:
+      213: -8137350240878654330
+    second: OrientCards_24
+  - first:
+      213: -3924425277938406147
+    second: OrientCards_26
+  - first:
+      213: 3789868703529959061
+    second: OrientCards_28
+  - first:
+      213: -8019509360754032949
+    second: OrientCards_30
+  - first:
+      213: 2325735974502938170
+    second: OrientCards_32
+  - first:
+      213: 8866035823416005389
+    second: OrientCards_34
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: OrientCards_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1054
+        width: 250
+        height: 345
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f5f9398c47d974340800000000000000
+      internalID: 4848016648794513247
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OrientCards_1
+      rect:
+        serializedVersion: 2
+        x: 250
+        y: 1054
+        width: 250
+        height: 345
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 74bfdc0b2fb9fdd20800000000000000
+      internalID: 3305532118163913543
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OrientCards_2
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 1054
+        width: 250
+        height: 345
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 08da60ff0e856a250800000000000000
+      internalID: 5955545280618605952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OrientCards_3
+      rect:
+        serializedVersion: 2
+        x: 750
+        y: 1054
+        width: 250
+        height: 345
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 97d6e5a38ecd53700800000000000000
+      internalID: 519564222000950649
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OrientCards_4
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 1054
+        width: 250
+        height: 346
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cbd7347a5c7c631e0800000000000000
+      internalID: -2218366114704687684
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OrientCards_5
+      rect:
+        serializedVersion: 2
+        x: 1250
+        y: 1054
+        width: 250
+        height: 346
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 453575afb4845e080800000000000000
+      internalID: -9158834776028261548
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OrientCards_6
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 1054
+        width: 250
+        height: 346
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3b8b0041174515a20800000000000000
+      internalID: 3049311267350165683
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OrientCards_7
+      rect:
+        serializedVersion: 2
+        x: 1750
+        y: 1054
+        width: 250
+        height: 346
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b0ea5ef5aef4e0d0800000000000000
+      internalID: -3394308230240083792
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OrientCards_8
+      rect:
+        serializedVersion: 2
+        x: 2000
+        y: 1051
+        width: 250
+        height: 352
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 293641c6ff5745700800000000000000
+      internalID: 528176796199576466
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OrientCards_9
+      rect:
+        serializedVersion: 2
+        x: 2250
+        y: 1051
+        width: 250
+        height: 352
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3cc54b3f372f8590800000000000000
+      internalID: -7669868487857812422
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OrientCards_10
+      rect:
+        serializedVersion: 2
+        x: 2500
+        y: 1051
+        width: 252
+        height: 352
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f22379c214aa4320800000000000000
+      internalID: 2543025340200198904
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OrientCards_11
+      rect:
+        serializedVersion: 2
+        x: 2752
+        y: 1051
+        width: 248
+        height: 352
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 50fcef2e45b051100800000000000000
+      internalID: 77981027762360069
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OrientCards_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 701
+        width: 252
+        height: 349
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 745ffc5e51f247f70800000000000000
+      internalID: 9184017311211713863
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OrientCards_13
+      rect:
+        serializedVersion: 2
+        x: 252
+        y: 701
+        width: 252
+        height: 349
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 068038fcb8232e900800000000000000
+      internalID: 712187267141273696
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OrientCards_14
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 701
+        width: 251
+        height: 349
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7eafd65ec4aaa41d0800000000000000
+      internalID: -3365690524262597913
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OrientCards_15
+      rect:
+        serializedVersion: 2
+        x: 755
+        y: 701
+        width: 245
+        height: 349
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1525f60401da40d00800000000000000
+      internalID: 938064907712025169
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OrientCards_16
+      rect:
+        serializedVersion: 2
+        x: 1000
+        y: 702
+        width: 250
+        height: 347
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6202b5fb5ebbe3d20800000000000000
+      internalID: 3260249775695142950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OrientCards_17
+      rect:
+        serializedVersion: 2
+        x: 1250
+        y: 702
+        width: 250
+        height: 347
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d3d8d72c2ce90520800000000000000
+      internalID: 2668923928584967121
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OrientCards_18
+      rect:
+        serializedVersion: 2
+        x: 1500
+        y: 702
+        width: 251
+        height: 347
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 52305add709c52a30800000000000000
+      internalID: 4189976063958647589
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OrientCards_19
+      rect:
+        serializedVersion: 2
+        x: 1751
+        y: 702
+        width: 249
+        height: 347
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f5d738847fa3f1490800000000000000
+      internalID: -7773429598070276769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OrientCards_20
+      rect:
+        serializedVersion: 2
+        x: 2000
+        y: 703
+        width: 250
+        height: 345
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8bbbe8810353ccf00800000000000000
+      internalID: 1138343286504602552
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OrientCards_21
+      rect:
+        serializedVersion: 2
+        x: 2250
+        y: 703
+        width: 250
+        height: 345
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 373b45da59ee2ac20800000000000000
+      internalID: 3216395410521502579
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OrientCards_22
+      rect:
+        serializedVersion: 2
+        x: 2500
+        y: 703
+        width: 250
+        height: 345
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 244ce3e50ac922820800000000000000
+      internalID: 2892046123315151938
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OrientCards_23
+      rect:
+        serializedVersion: 2
+        x: 2750
+        y: 703
+        width: 250
+        height: 345
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 79cce1cc6309ac790800000000000000
+      internalID: -7509030863659676521
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OrientCards_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1
+        width: 504
+        height: 699
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68c0d77c113521f80800000000000000
+      internalID: -8137350240878654330
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OrientCards_26
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 1
+        width: 496
+        height: 699
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dfceae09004a989c0800000000000000
+      internalID: -3924425277938406147
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OrientCards_28
+      rect:
+        serializedVersion: 2
+        x: 1001
+        y: 1
+        width: 497
+        height: 699
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59ef54b9181589430800000000000000
+      internalID: 3789868703529959061
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OrientCards_30
+      rect:
+        serializedVersion: 2
+        x: 1498
+        y: 1
+        width: 501
+        height: 699
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bcef55fb9baf4b090800000000000000
+      internalID: -8019509360754032949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OrientCards_32
+      rect:
+        serializedVersion: 2
+        x: 1999
+        y: 1
+        width: 501
+        height: 699
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a363899eb8ca64020800000000000000
+      internalID: 2325735974502938170
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OrientCards_34
+      rect:
+        serializedVersion: 2
+        x: 2500
+        y: 1
+        width: 500
+        height: 699
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d03599c6b9c7a0b70800000000000000
+      internalID: 8866035823416005389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
