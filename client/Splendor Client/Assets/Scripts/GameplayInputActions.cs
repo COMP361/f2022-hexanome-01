@@ -21,7 +21,7 @@ namespace UnityEngine.InputSystem
     /// <example>
     /// <code>
     /// // Instantiate the default action set.
-    /// var actions = new DefaultInputActions();
+    /// var actions = new GameplayInputActions();
     ///
     /// // One way to use the actions:
     /// actions.Player.Enable();
@@ -36,13 +36,13 @@ namespace UnityEngine.InputSystem
     /// </code>
     /// </example>
     /// </remarks>
-    public class DefaultInputActions : IInputActionCollection2, IDisposable
+    public class GameplayInputActions : IInputActionCollection2, IDisposable
     {
         public InputActionAsset asset { get; }
-        public @DefaultInputActions()
+        public @GameplayInputActions()
         {
             asset = InputActionAsset.FromJson(@"{
-    ""name"": ""DefaultInputActions"",
+    ""name"": ""GameplayInputActions"",
     ""maps"": [
         {
             ""name"": ""Player"",
@@ -962,8 +962,8 @@ namespace UnityEngine.InputSystem
         private readonly InputAction m_Player_Fire;
         public struct PlayerActions
         {
-            private @DefaultInputActions m_Wrapper;
-            public PlayerActions(@DefaultInputActions wrapper) { m_Wrapper = wrapper; }
+            private @GameplayInputActions m_Wrapper;
+            public PlayerActions(@GameplayInputActions wrapper) { m_Wrapper = wrapper; }
             public InputAction @Move => m_Wrapper.m_Player_Move;
             public InputAction @Look => m_Wrapper.m_Player_Look;
             public InputAction @Fire => m_Wrapper.m_Player_Fire;
@@ -1018,8 +1018,8 @@ namespace UnityEngine.InputSystem
         private readonly InputAction m_UI_TrackedDeviceOrientation;
         public struct UIActions
         {
-            private @DefaultInputActions m_Wrapper;
-            public UIActions(@DefaultInputActions wrapper) { m_Wrapper = wrapper; }
+            private @GameplayInputActions m_Wrapper;
+            public UIActions(@GameplayInputActions wrapper) { m_Wrapper = wrapper; }
             public InputAction @Navigate => m_Wrapper.m_UI_Navigate;
             public InputAction @Submit => m_Wrapper.m_UI_Submit;
             public InputAction @Cancel => m_Wrapper.m_UI_Cancel;
