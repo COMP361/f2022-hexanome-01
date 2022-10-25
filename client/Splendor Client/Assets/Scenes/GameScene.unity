@@ -213,6 +213,7 @@ GameObject:
   - component: {fileID: 242697718}
   - component: {fileID: 242697717}
   - component: {fileID: 242697716}
+  - component: {fileID: 242697719}
   m_Layer: 5
   m_Name: Cursor
   m_TagString: Untagged
@@ -277,6 +278,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 5, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &242697719
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 242697715}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!114 &307544648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -317,6 +330,7 @@ GameObject:
   - component: {fileID: 551110247}
   - component: {fileID: 551110246}
   - component: {fileID: 551110245}
+  - component: {fileID: 551110249}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -408,6 +422,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!225 &551110249
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 551110244}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &615537882
 GameObject:
   m_ObjectHideFlags: 0
@@ -499,6 +525,7 @@ GameObject:
   - component: {fileID: 674733705}
   - component: {fileID: 674733704}
   - component: {fileID: 674733703}
+  - component: {fileID: 674733706}
   m_Layer: 5
   m_Name: End Turn Button
   m_TagString: Untagged
@@ -569,7 +596,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 674733704}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 674733706}
+        m_TargetAssemblyTypeName: UnityEngine.Component, UnityEngine
+        m_MethodName: SendMessage
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: OnClick
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &674733704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -608,6 +647,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 674733701}
   m_CullTransparentMesh: 1
+--- !u!114 &674733706
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 674733701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90381034712e27a42a222288d83cc8c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerControl: {fileID: 691041387}
 --- !u!1 &691041385
 GameObject:
   m_ObjectHideFlags: 0
@@ -736,6 +788,7 @@ MonoBehaviour:
   cursor: {fileID: 242697715}
   playerCamera: {fileID: 1175326242}
   player: {fileID: 691041389}
+  allCards: {fileID: 810384185}
   controls: {fileID: -944628639613478452, guid: 68b0984844d79b345af0ecff893baaed, type: 3}
 --- !u!4 &691041388
 Transform:
@@ -808,6 +861,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: 5
+  level: 0
   x: -4.25
   y: 0
   cardObject: {fileID: 3705035989739418207, guid: 61a923ecaabd179489e0ecf947ce5c0f, type: 3}
@@ -1376,7 +1430,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 7.9638977, y: 0}
+  m_AnchoredPosition: {x: 8, y: 0}
   m_SizeDelta: {x: 40, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1701296131
