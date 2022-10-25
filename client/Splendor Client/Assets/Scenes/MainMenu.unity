@@ -157,7 +157,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.0062048184, y: 0.5}
   m_AnchorMax: {x: 0.99069273, y: 0.9782908}
-  m_AnchoredPosition: {x: 0.478302, y: -0.15000534}
+  m_AnchoredPosition: {x: 0.478302, y: -0.15000153}
   m_SizeDelta: {x: -3.2432861, y: -0.29999924}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &20501295
@@ -239,7 +239,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.052195154, y: 0.18400002}
   m_AnchorMax: {x: 0.9463083, y: 0.84743065}
-  m_AnchoredPosition: {x: 0.49996948, y: -0.1770935}
+  m_AnchoredPosition: {x: 0.5, y: -0.1770935}
   m_SizeDelta: {x: -0.4545288, y: -1.1252136}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &46803087
@@ -787,6 +787,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2077443211}
+        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+        m_MethodName: MakePlayers
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1788,7 +1800,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5994879, y: 0.09256734}
   m_AnchorMax: {x: 0.91548795, y: 0.3848582}
-  m_AnchoredPosition: {x: 1.2999954, y: 1.800003}
+  m_AnchoredPosition: {x: 1.2999878, y: 1.800003}
   m_SizeDelta: {x: -3.1958008, y: -2.359604}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &800271672
@@ -1846,18 +1858,6 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 2077443211}
-        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: ClearPlayers
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1813862441}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
@@ -2034,7 +2034,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.052195154, y: 0.18400002}
   m_AnchorMax: {x: 0.25663576, y: 0.85239875}
-  m_AnchoredPosition: {x: -0.7015991, y: -0.9983978}
+  m_AnchoredPosition: {x: -0.7015381, y: -0.9984131}
   m_SizeDelta: {x: -1.4127998, y: -2.0032005}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &833000110
@@ -2609,18 +2609,6 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2077443211}
-        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: ClearSaves
-        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3320,7 +3308,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.2793643, y: 0.35942486}
   m_AnchorMax: {x: 0.72063583, y: 0.63600004}
-  m_AnchoredPosition: {x: -0.000015258789, y: 1}
+  m_AnchoredPosition: {x: 0, y: 1}
   m_SizeDelta: {x: -1.1218872, y: -1.1694031}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1593097805
@@ -3422,18 +3410,6 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2077443211}
-        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: ClearSessions
-        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3862,7 +3838,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.075, y: 0.09256734}
   m_AnchorMax: {x: 0.38859037, y: 0.3848582}
-  m_AnchoredPosition: {x: 1.300003, y: 1.800003}
+  m_AnchoredPosition: {x: 1.3000183, y: 1.800003}
   m_SizeDelta: {x: -2.1958008, y: -2.359604}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1805731769
@@ -4072,7 +4048,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 4.9437, y: -0.000030517578}
+  m_AnchoredPosition: {x: 4.9437, y: 0}
   m_SizeDelta: {x: -9.8874, y: -273.64444}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1883028669
