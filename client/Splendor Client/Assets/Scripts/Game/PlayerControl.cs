@@ -9,6 +9,9 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private Camera playerCamera;
     [SerializeField] private Player player;
 
+    public CardRow allCards;
+    private Card selectedCardToBuy;
+
     private InputAction fire;
     private InputAction look;
  
@@ -18,6 +21,7 @@ public class PlayerControl : MonoBehaviour
     
     private void Start()
     {
+        selectedCardToBuy = null;
         _inputActionMap = controls.FindActionMap("Player");
     
         fire = _inputActionMap.FindAction("Fire");
@@ -41,8 +45,17 @@ public class PlayerControl : MonoBehaviour
             if (go.CompareTag("Card")) {
                 // Debug.Log("Card");
                 Card cardObject = go.GetComponent<Card>();
-                player.TriggerPointsAdd(cardObject);
+                selectedCardToBuy = cardObject;
+                allCards.GreyOutExcept(cardObject);
             }
+        }
+    }
+
+    public void EndTurn()
+    {
+        if (selectedCardToBuy != null) {
+            player.TriggerPointsAdd(selectedCardToBuy);
+            selectedCardToBuy = null;
         }
     }
 
