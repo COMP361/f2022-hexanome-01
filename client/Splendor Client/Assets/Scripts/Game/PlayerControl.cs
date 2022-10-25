@@ -29,13 +29,20 @@ public class PlayerControl : MonoBehaviour
     private void OnFireAction(InputAction.CallbackContext obj)
     {
         Vector2 mousePos = Mouse.current.position.ReadValue();
-        Debug.Log(mousePos);
+        Vector3 worldPos = playerCamera.ScreenToWorldPoint(mousePos);
+        Vector2 worldPos2D = new Vector2(worldPos.x, worldPos.y);
+        Debug.Log(worldPos2D);
+
+        RaycastHit2D hit = Physics2D.Raycast(worldPos2D, Vector2.zero);
+
+        if (hit.collider != null) {
+            Debug.Log(hit.collider.gameObject.name);
+        }
     }
 
     private void UpdateCursor(InputAction.CallbackContext obj)
     {
         Vector2 mousePos = Mouse.current.position.ReadValue();
-        Vector2 pos = playerCamera.ScreenToWorldPoint(mousePos) + new Vector3(0.1f, -0.1f, 0);
-        cursor.transform.position = new Vector3(pos.x, pos.y, cursor.transform.position.z);
+        cursor.transform.position = new Vector3(mousePos.x, mousePos.y, cursor.transform.position.z);
     }
 }
