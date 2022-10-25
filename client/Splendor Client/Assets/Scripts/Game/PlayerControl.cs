@@ -5,9 +5,9 @@ using UnityEngine.InputSystem;
 
 public class PlayerControl : MonoBehaviour
 {
-    public GameObject cursor;
-    public Camera playerCamera;
-    public Player player;
+    [SerializeField] private GameObject cursor;
+    [SerializeField] private Camera playerCamera;
+    [SerializeField] private Player player;
 
     private InputAction fire;
     private InputAction look;
