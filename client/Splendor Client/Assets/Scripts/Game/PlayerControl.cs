@@ -7,6 +7,7 @@ public class PlayerControl : MonoBehaviour
 {
     public GameObject cursor;
     public Camera playerCamera;
+    public Player player;
 
     private InputAction fire;
     private InputAction look;
@@ -31,12 +32,17 @@ public class PlayerControl : MonoBehaviour
         Vector2 mousePos = Mouse.current.position.ReadValue();
         Vector3 worldPos = playerCamera.ScreenToWorldPoint(mousePos);
         Vector2 worldPos2D = new Vector2(worldPos.x, worldPos.y);
-        Debug.Log(worldPos2D);
+        // Debug.Log(worldPos2D);
 
         RaycastHit2D hit = Physics2D.Raycast(worldPos2D, Vector2.zero);
 
         if (hit.collider != null) {
-            Debug.Log(hit.collider.gameObject.name);
+            GameObject go = hit.collider.gameObject;
+            if (go.CompareTag("Card")) {
+                // Debug.Log("Card");
+                Card cardObject = go.GetComponent<Card>();
+                player.TriggerPointsAdd(cardObject);
+            }
         }
     }
 
