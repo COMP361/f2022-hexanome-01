@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class PlayerControl : MonoBehaviour
 {
+    public Dashboard dashboard;
     [SerializeField] private GameObject cursor;
     [SerializeField] private Camera playerCamera;
     [SerializeField] private Player player;
@@ -46,6 +47,7 @@ public class PlayerControl : MonoBehaviour
                 // Debug.Log("Card");
                 Card cardObject = go.GetComponent<Card>();
                 selectedCardToBuy = cardObject;
+                dashboard.DisplayPurchase();
                 allCards.GreyOutExcept(cardObject);
             }
             // else if (go.CompareTag ...
@@ -57,8 +59,10 @@ public class PlayerControl : MonoBehaviour
         // Upon turn end, selected card is bought and added to inventory (points increase by card points)
         if (selectedCardToBuy != null) {
             player.TriggerPointsAdd(selectedCardToBuy);
+            dashboard.UpdatePtsDisplay(player.GetPoints());
             selectedCardToBuy = null;
         }
+        dashboard.ResetEndDisplay();
         allCards.GreyOut();
         StartTurn(); // Player's turn temporarily restarts immediately after end turn
     }

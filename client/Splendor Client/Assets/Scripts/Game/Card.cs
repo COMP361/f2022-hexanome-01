@@ -5,7 +5,6 @@ using UnityEngine;
 public class Card : MonoBehaviour
 {
     public int points;
-    
     private bool active = true;
     private SpriteRenderer m_SpriteRenderer;
 
