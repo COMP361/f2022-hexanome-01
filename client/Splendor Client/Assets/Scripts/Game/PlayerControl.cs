@@ -48,6 +48,7 @@ public class PlayerControl : MonoBehaviour
                 selectedCardToBuy = cardObject;
                 allCards.GreyOutExcept(cardObject);
             }
+            // else if (go.CompareTag ...
         }
     }
 
