@@ -16,19 +16,15 @@ public class MainMenuManager : MonoBehaviour {
     //      player colours in lobby?
     
     public void MakeSessions() { //displays sessions in menu
+        ClearChildren(sessionContent);
         foreach(Session session in sessionList.sessions) {
             GameObject temp = Instantiate(blankSessionSlot, sessionContent.transform.position, Quaternion.identity);
             temp.transform.parent = sessionContent.transform;
             temp.GetComponent<SessionSlot>().Setup(this, session);
         }
     }
-
-    public void ClearSessions() { //clears sessions in menu
-        foreach (Transform child in sessionContent.transform)
-            Destroy(child.gameObject);
-    }
-
     public void MakeSaves() { //displays saves in menu
+        ClearChildren(saveContent);
         foreach (Save save in saveList.saves) {
             GameObject temp = Instantiate(blankSaveSlot, saveContent.transform.position, Quaternion.identity);
             temp.transform.parent = saveContent.transform;
@@ -36,17 +32,14 @@ public class MainMenuManager : MonoBehaviour {
         }
     }
 
-    public void ClearSaves() { //clears saves in menu
-        foreach (Transform child in saveContent.transform)
-            Destroy(child.gameObject);
-    }
-
     public void MakePlayers() { //displays players in lobby
+        ClearChildren(playerContent);
+        //foreach loop
 
     }
 
-    public void ClearPlayers() { //clears players in lobby
-        foreach (Transform child in playerContent.transform)
+    void ClearChildren(GameObject content) { //clears players in lobby
+        foreach (Transform child in content.transform)
             Destroy(child.gameObject);
     }
 
