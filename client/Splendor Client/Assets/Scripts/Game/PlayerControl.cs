@@ -40,7 +40,7 @@ public class PlayerControl : MonoBehaviour
 
         RaycastHit2D hit = Physics2D.Raycast(worldPos2D, Vector2.zero);
 
-        if (hit.collider != null) {
+        if (hit.collider != null) { // Check what was clicked (excluding UI elements)
             GameObject go = hit.collider.gameObject;
             if (go.CompareTag("Card")) {
                 // Debug.Log("Card");
@@ -52,12 +52,20 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
-    public void EndTurn()
+    public void EndTurn() // Player clicks "end turn"
     {
+        // Upon turn end, selected card is bought and added to inventory (points increase by card points)
         if (selectedCardToBuy != null) {
             player.TriggerPointsAdd(selectedCardToBuy);
             selectedCardToBuy = null;
         }
+        allCards.GreyOut();
+        StartTurn(); // Player's turn temporarily restarts immediately after end turn
+    }
+
+    public void StartTurn() // Start of player's turn
+    {
+        allCards.UnGreyOut();
     }
 
     private void UpdateCursor(InputAction.CallbackContext obj)

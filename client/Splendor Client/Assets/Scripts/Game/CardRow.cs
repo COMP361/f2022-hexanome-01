@@ -15,7 +15,7 @@ public class CardRow : MonoBehaviour
 
     [SerializeField] private GameObject cardObject;
 
-    public void GreyOutExcept(int _level, int _index)
+    public void GreyOutExcept(int _level, int _index) // Unused secondary implementation
     {
         if (level != _level) for (int i=0; i<size; i++) cards[i].GreyOut();
         else for (int i=0; i<size; i++) {
@@ -30,6 +30,16 @@ public class CardRow : MonoBehaviour
             if (cards[i] != _card) cards[i].GreyOut();
             else cards[i].UnGreyOut();
         }
+    }
+
+    public void GreyOut()
+    {
+        for (int i=0; i<size; i++) cards[i].GreyOut();
+    }
+
+    public void UnGreyOut()
+    {
+        for (int i=0; i<size; i++) cards[i].UnGreyOut();
     }
 
     void FillEmptyCards()
