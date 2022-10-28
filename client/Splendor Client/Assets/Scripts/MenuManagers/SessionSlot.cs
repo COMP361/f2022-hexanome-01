@@ -21,4 +21,8 @@ public class SessionSlot : MonoBehaviour {
     public void SetText() {
         nameBox.text = thisSession.sessionName;
     }
+
+    public void OnClick() { //passes selected session to manager script
+        thisManager.SetSession(thisSession);
+    }
 }
