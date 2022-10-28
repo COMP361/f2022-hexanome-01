@@ -21,4 +21,8 @@ public class SaveSlot : MonoBehaviour {
     public void SetText() {
         nameBox.text = thisSave.saveName;
     }
+
+    public void OnClick() { //passes selected save to manager script
+        thisManager.SetSave(thisSave);
+    }
 }

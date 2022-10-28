@@ -12,11 +12,20 @@ public class MainMenuManager : MonoBehaviour {
     public UnityEvent leaveSession, promptEndSession;
     [SerializeField] private Save currentSave;
     [SerializeField] private Session currentSession;
-    //Todo: player data
-    //      select save/session to load/join
+    //TODO
+    //      
     //      player colours in lobby?
     
+    public void SetSession(Session newSession) { //set currently selected session
+        currentSession = newSession;
+    }
+
+    public void SetSave(Save newSave) { //set currently selected save
+        currentSave = newSave;
+    }
+
     public void MakeSessions() { //displays sessions in menu
+        currentSession = null;
         ClearChildren(sessionContent);
         foreach(Session session in sessionList.sessions) {
             GameObject temp = Instantiate(blankSessionSlot, sessionContent.transform.position, Quaternion.identity);
@@ -25,6 +34,7 @@ public class MainMenuManager : MonoBehaviour {
         }
     }
     public void MakeSaves() { //displays saves in menu
+        currentSave = null;
         ClearChildren(saveContent);
         foreach (Save save in saveList.saves) {
             GameObject temp = Instantiate(blankSaveSlot, saveContent.transform.position, Quaternion.identity);
