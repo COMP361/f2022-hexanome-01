@@ -1,31 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class Card : MonoBehaviour
+[CreateAssetMenu]
+public class Card : ScriptableObject
 {
-    public int points;
+    [SerializeField] public int id;
+    [SerializeField] private int points;
     private bool active = true;
-    private SpriteRenderer m_SpriteRenderer;
 
+    public Sprite sprite;
+
+    private SpriteRenderer m_SpriteRenderer;
+    
     public int GetPoints()
     {
         if (!active) return 0;
         return points;
-    }
-
-    public void GreyOut()
-    {
-        m_SpriteRenderer = GetComponent<SpriteRenderer>();
-        m_SpriteRenderer.color = Color.grey;
-        active = false;
-    }
-
-    public void UnGreyOut()
-    {
-        m_SpriteRenderer = GetComponent<SpriteRenderer>();
-        m_SpriteRenderer.color = Color.white;
-        active = true;
     }
 
 }

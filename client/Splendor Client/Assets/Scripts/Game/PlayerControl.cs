@@ -11,7 +11,7 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private Player player;
 
     public CardRow allCards;
-    private Card selectedCardToBuy;
+    private CardSlot selectedCardToBuy;
 
     private InputAction fire;
     private InputAction look;
@@ -45,10 +45,10 @@ public class PlayerControl : MonoBehaviour
             GameObject go = hit.collider.gameObject;
             if (go.CompareTag("Card")) {
                 // Debug.Log("Card");
-                Card cardObject = go.GetComponent<Card>();
-                selectedCardToBuy = cardObject;
+                CardSlot cardSlotObject = go.GetComponent<CardSlot>();
+                selectedCardToBuy = cardSlotObject;
                 dashboard.DisplayPurchase();
-                allCards.GreyOutExcept(cardObject);
+                allCards.GreyOutExcept(cardSlotObject);
             }
             // else if (go.CompareTag ...
         }
@@ -58,8 +58,9 @@ public class PlayerControl : MonoBehaviour
     {
         // Upon turn end, selected card is bought and added to inventory (points increase by card points)
         if (selectedCardToBuy != null) {
-            player.TriggerPointsAdd(selectedCardToBuy);
+            player.TriggerCardAdd(selectedCardToBuy.GetCard());
             dashboard.UpdatePtsDisplay(player.GetPoints());
+            allCards.RemoveCard(selectedCardToBuy);
             selectedCardToBuy = null;
         }
         dashboard.ResetEndDisplay();
