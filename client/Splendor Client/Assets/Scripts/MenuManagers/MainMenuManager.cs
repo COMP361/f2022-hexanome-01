@@ -8,6 +8,7 @@ public class MainMenuManager : MonoBehaviour {
     public GameObject blankSessionSlot, sessionContent, blankSaveSlot, saveContent, blankPlayerSlot, playerContent;
     public SaveList saveList;
     public SessionList sessionList;
+    public LobbyPlayerList playerList;
     public UnityEvent leaveSession, promptEndSession;
     [SerializeField] private Save currentSave;
     [SerializeField] private Session currentSession;
@@ -35,6 +36,11 @@ public class MainMenuManager : MonoBehaviour {
     public void MakePlayers() { //displays players in lobby
         ClearChildren(playerContent);
         //foreach loop
+        foreach(LobbyPlayer player in playerList.lobbyplayers){
+            GameObject temp = Instantiate(blankPlayerSlot, playerContent.transform.position, Quaternion.identity);
+            temp.transform.parent = playerContent.transform;
+            temp.GetComponent<PlayerSlot>().Setup(this, player);
+        }
 
     }
 
