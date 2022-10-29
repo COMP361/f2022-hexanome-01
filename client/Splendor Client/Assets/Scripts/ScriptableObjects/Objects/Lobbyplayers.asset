@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02ad6608cd369a340b5f829554ad24e1, type: 3}
   m_Name: Lobbyplayers
   m_EditorClassIdentifier: 
-  lobbyplayers:
+  lobbyPlayers:
   - {fileID: 11400000, guid: 54004207b1693c74fb158cdf5f22f5f4, type: 2}
   - {fileID: 11400000, guid: 567431808e576b74384a80bbf0ae8603, type: 2}

@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0f0ebf1878b1bc94cb20980509b25aa9, type: 3}
-  m_Name: temp2 session
+  m_Name: CreatedSession
   m_EditorClassIdentifier: 
-  sessionName: Yang's game
+  sessionName: dsadsa
   maxPlayers: 4
   playerList: {fileID: 11400000, guid: 0d3cf2fc706e6c548b547a2f3d8f0380, type: 2}

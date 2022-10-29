@@ -2,20 +2,46 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using UnityEngine.Events;
 
 public class MainMenuManager : MonoBehaviour {
     public GameObject blankSessionSlot, sessionContent, blankSaveSlot, saveContent, blankPlayerSlot, playerContent;
+    public Session createdSession;
     public SaveList saveList;
     public SessionList sessionList;
     public LobbyPlayerList playerList;
-    public UnityEvent leaveSession, promptEndSession;
+    public UnityEvent leaveSession, promptEndSession, joinSession;
+    public Text playerText, sessionNameText;
     [SerializeField] private Save currentSave;
     [SerializeField] private Session currentSession;
     //TODO
     //      
     //      player colours in lobby?
-    
+    public void CreateSession() {
+        createdSession.sessionName = sessionNameText.text;
+        createdSession.maxPlayers = int.Parse(playerText.text[playerText.text.Length - 1].ToString());
+    }
+
+    public void JoinSession() {
+        if (currentSession)
+            joinSession.Invoke();
+    }
+
+    public void SetupLobby() {
+        playerText.text = "PLAYERS " + currentSession.playerList.Count() + "/" + currentSession.maxPlayers;
+        sessionNameText.text = currentSession.sessionName;
+    }
+        
+    public void LobbyPlayerLimits(InputField inputField) {
+        if (inputField.text == "-")
+            inputField.text = "";
+        else if (inputField.text != "" && int.Parse(inputField.text) < 2)
+            inputField.text = "2";
+        else if (inputField.text != "" && int.Parse(inputField.text) > 4)
+            inputField.text = "4";
+    }
+
     public void SetSession(Session newSession) { //set currently selected session
         currentSession = newSession;
     }
@@ -29,7 +55,7 @@ public class MainMenuManager : MonoBehaviour {
         ClearChildren(sessionContent);
         foreach(Session session in sessionList.sessions) {
             GameObject temp = Instantiate(blankSessionSlot, sessionContent.transform.position, Quaternion.identity);
-            temp.transform.parent = sessionContent.transform;
+            temp.transform.SetParent(sessionContent.transform);
             temp.GetComponent<SessionSlot>().Setup(this, session);
         }
     }
@@ -38,20 +64,18 @@ public class MainMenuManager : MonoBehaviour {
         ClearChildren(saveContent);
         foreach (Save save in saveList.saves) {
             GameObject temp = Instantiate(blankSaveSlot, saveContent.transform.position, Quaternion.identity);
-            temp.transform.parent = saveContent.transform;
+            temp.transform.SetParent(saveContent.transform);
             temp.GetComponent<SaveSlot>().Setup(this, save);
         }
     }
 
     public void MakePlayers() { //displays players in lobby
         ClearChildren(playerContent);
-        //foreach loop
-        foreach(LobbyPlayer player in playerList.lobbyplayers){
+        foreach (LobbyPlayer player in playerList.lobbyPlayers){
             GameObject temp = Instantiate(blankPlayerSlot, playerContent.transform.position, Quaternion.identity);
-            temp.transform.parent = playerContent.transform;
+            temp.transform.SetParent(playerContent.transform);
             temp.GetComponent<PlayerSlot>().Setup(this, player);
         }
-
     }
 
     void ClearChildren(GameObject content) { //clears players in lobby
@@ -72,5 +96,4 @@ public class MainMenuManager : MonoBehaviour {
     public void StartGame() { //available to host in game lobby
         SceneManager.LoadScene(2);
     }
-    //create session method? particularly for starting session with dedicated save file
 }

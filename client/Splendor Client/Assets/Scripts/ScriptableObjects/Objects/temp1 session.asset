@@ -13,3 +13,5 @@ MonoBehaviour:
   m_Name: temp1 session
   m_EditorClassIdentifier: 
   sessionName: Josh's game
+  maxPlayers: 4
+  playerList: {fileID: 11400000, guid: 0d3cf2fc706e6c548b547a2f3d8f0380, type: 2}
