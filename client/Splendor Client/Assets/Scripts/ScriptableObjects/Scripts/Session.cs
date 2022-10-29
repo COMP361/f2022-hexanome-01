@@ -6,4 +6,6 @@ using UnityEngine;
 public class Session : ScriptableObject {
     //insert session information, maybe wont stay as a ScriptableObject
     public string sessionName;
+    public int maxPlayers;
+    public LobbyPlayerList playerList;
 }

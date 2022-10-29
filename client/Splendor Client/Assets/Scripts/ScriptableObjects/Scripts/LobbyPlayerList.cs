@@ -5,14 +5,9 @@ using UnityEngine;
 [CreateAssetMenu]
 public class LobbyPlayerList : ScriptableObject
 {
-    public List<LobbyPlayer> lobbyplayers;
+    public List<LobbyPlayer> lobbyPlayers;
 
     public int Count(){
-        int count = 0;
-        foreach (LobbyPlayer player in lobbyplayers)
-        {
-            count++;
-        }
-        return count;
+        return lobbyPlayers.Count;
     }
 }
