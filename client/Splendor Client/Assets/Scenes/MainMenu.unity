@@ -642,8 +642,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-<<<<<<< HEAD
-=======
       - m_Target: {fileID: 2120501436}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
@@ -668,7 +666,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
->>>>>>> be93eb3ea679e5182149eeede5fad55382dfe8b8
 --- !u!114 &321641593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1556,7 +1553,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-<<<<<<< HEAD
       - m_Target: {fileID: 2077443211}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
         m_MethodName: LoadSave
@@ -1572,11 +1568,9 @@ MonoBehaviour:
       - m_Target: {fileID: 2077443211}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
         m_MethodName: SetupLobby
-=======
       - m_Target: {fileID: 2130959707}
         m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
         m_MethodName: Play
->>>>>>> be93eb3ea679e5182149eeede5fad55382dfe8b8
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2674,17 +2668,14 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-<<<<<<< HEAD
       - m_Target: {fileID: 1584847844}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
-=======
       - m_Target: {fileID: 2130959707}
         m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
         m_MethodName: Play
         m_Mode: 1
->>>>>>> be93eb3ea679e5182149eeede5fad55382dfe8b8
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
