@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: temp2 save
   m_EditorClassIdentifier: 
   saveName: 2022-10-31
+  maxPlayers: 4

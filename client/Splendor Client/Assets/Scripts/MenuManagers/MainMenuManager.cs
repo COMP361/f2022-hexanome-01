@@ -11,19 +11,36 @@ public class MainMenuManager : MonoBehaviour {
     public SaveList saveList;
     public SessionList sessionList;
     public LobbyPlayerList playerList;
-    public UnityEvent leaveSession, promptEndSession, joinSession;
+    public UnityEvent leaveSession, promptEndSession, joinSession, loadSave;
     public Text playerText, sessionNameText;
     [SerializeField] private Save currentSave;
     [SerializeField] private Session currentSession;
+    private bool sessionCreated;
+    public Save DEFAULTSAVE; //temp var until saves work properly.
     //TODO
     //      
     //      player colours in lobby?
     public void CreateSession() {
         createdSession.sessionName = sessionNameText.text;
         createdSession.maxPlayers = int.Parse(playerText.text[playerText.text.Length - 1].ToString());
+        sessionCreated = true;
+        currentSession = createdSession;
+    }
+
+    public void LoadSave(bool mostRecent) {
+        if (mostRecent)
+            currentSave = DEFAULTSAVE;
+        if (currentSave) {
+            createdSession.sessionName = currentSave.saveName;
+            createdSession.maxPlayers = currentSave.maxPlayers;
+            sessionCreated = true;
+            currentSession = createdSession;
+            loadSave.Invoke();
+        }
     }
 
     public void JoinSession() {
+        sessionCreated = false;
         if (currentSession)
             joinSession.Invoke();
     }
@@ -84,13 +101,13 @@ public class MainMenuManager : MonoBehaviour {
     }
 
     public void ExitSession() { 
-        if (false)  //if host, show prompt
+        if (sessionCreated)  //if host, show prompt
             promptEndSession.Invoke();
         else  //else, leave session
             leaveSession.Invoke();
     }
     public void ContinueGame() {
-        //final implementation will load last-used save (i.e. autosave) into a new session, currently just starts a regular session through the button
+        //final implementation will load last-used save (i.e. autosave) into a new session, currently just starts a regular session through the create session button
     }
 
     public void StartGame() { //available to host in game lobby
