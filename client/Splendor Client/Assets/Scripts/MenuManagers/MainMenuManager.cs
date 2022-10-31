@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.UIElements;
 
 public class MainMenuManager : MonoBehaviour {
     public GameObject blankSessionSlot, sessionContent, blankSaveSlot, saveContent, blankPlayerSlot, playerContent;
@@ -11,8 +12,9 @@ public class MainMenuManager : MonoBehaviour {
     public SaveList saveList;
     public SessionList sessionList;
     public LobbyPlayerList playerList;
-    public UnityEvent leaveSession, promptEndSession, joinSession, loadSave;
+    public UnityEvent leaveSession, promptEndSession, joinSession, loadSave, createSession;
     public Text playerText, sessionNameText;
+    public GameObject playerField, nameField;
     [SerializeField] private Save currentSave;
     [SerializeField] private Session currentSession;
     private bool sessionCreated;
@@ -21,10 +23,13 @@ public class MainMenuManager : MonoBehaviour {
     //      
     //      player colours in lobby?
     public void CreateSession() {
-        createdSession.sessionName = sessionNameText.text;
-        createdSession.maxPlayers = int.Parse(playerText.text[playerText.text.Length - 1].ToString());
-        sessionCreated = true;
-        currentSession = createdSession;
+        if (playerField.GetComponent<InputField>().text != "" && nameField.GetComponent<InputField>().text != "") {
+            createSession.Invoke(); //location of this event may change in the future
+            createdSession.sessionName = sessionNameText.text;
+            createdSession.maxPlayers = int.Parse(playerText.text[playerText.text.Length - 1].ToString());
+            sessionCreated = true;
+            currentSession = createdSession;
+        }
     }
 
     public void LoadSave(bool mostRecent) {
@@ -49,7 +54,7 @@ public class MainMenuManager : MonoBehaviour {
         playerText.text = "PLAYERS " + currentSession.playerList.Count() + "/" + currentSession.maxPlayers;
         sessionNameText.text = currentSession.sessionName;
     }
-        
+
     public void LobbyPlayerLimits(InputField inputField) {
         if (inputField.text == "-")
             inputField.text = "";
@@ -70,9 +75,10 @@ public class MainMenuManager : MonoBehaviour {
     public void MakeSessions() { //displays sessions in menu
         currentSession = null;
         ClearChildren(sessionContent);
-        foreach(Session session in sessionList.sessions) {
+        foreach (Session session in sessionList.sessions) {
             GameObject temp = Instantiate(blankSessionSlot, sessionContent.transform.position, Quaternion.identity);
             temp.transform.SetParent(sessionContent.transform);
+            temp.transform.localScale = new Vector3(1, 1, 1);
             temp.GetComponent<SessionSlot>().Setup(this, session);
         }
     }
@@ -82,15 +88,17 @@ public class MainMenuManager : MonoBehaviour {
         foreach (Save save in saveList.saves) {
             GameObject temp = Instantiate(blankSaveSlot, saveContent.transform.position, Quaternion.identity);
             temp.transform.SetParent(saveContent.transform);
+            temp.transform.localScale = new Vector3(1, 1, 1);
             temp.GetComponent<SaveSlot>().Setup(this, save);
         }
     }
 
     public void MakePlayers() { //displays players in lobby
         ClearChildren(playerContent);
-        foreach (LobbyPlayer player in playerList.lobbyPlayers){
+        foreach (LobbyPlayer player in playerList.lobbyPlayers) {
             GameObject temp = Instantiate(blankPlayerSlot, playerContent.transform.position, Quaternion.identity);
             temp.transform.SetParent(playerContent.transform);
+            temp.transform.localScale = new Vector3(1, 1, 1);
             temp.GetComponent<PlayerSlot>().Setup(this, player);
         }
     }
@@ -100,7 +108,7 @@ public class MainMenuManager : MonoBehaviour {
             Destroy(child.gameObject);
     }
 
-    public void ExitSession() { 
+    public void ExitSession() {
         if (sessionCreated)  //if host, show prompt
             promptEndSession.Invoke();
         else  //else, leave session
