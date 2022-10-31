@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 19826d1ced2aa7841a7b98a7b5e5af79, type: 3}
-  m_Name: temp1 save
+  m_Name: DEFAULTSAVE
   m_EditorClassIdentifier: 
-  saveName: 2022-10-25
+  saveName: Most Recent Game
   maxPlayers: 4
