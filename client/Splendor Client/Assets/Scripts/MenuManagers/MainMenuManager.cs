@@ -4,26 +4,40 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Events;
-using UnityEngine.UIElements;
 
+public enum LastMenuVisited {
+    MAIN,
+    LOAD,
+    JOIN
+}
 public class MainMenuManager : MonoBehaviour {
     public GameObject blankSessionSlot, sessionContent, blankSaveSlot, saveContent, blankPlayerSlot, playerContent;
     public Session createdSession;
     public SaveList saveList;
     public SessionList sessionList;
     public LobbyPlayerList playerList;
-    public UnityEvent leaveSession, promptEndSession, joinSession, loadSave, createSession;
+    public UnityEvent leaveSession, promptEndSession, joinSession, loadSave, createSession, exitToMain, exitToSession, exitToSave;
     public Text playerText, sessionNameText;
     public GameObject playerField, nameField;
     [SerializeField] private Save currentSave;
     [SerializeField] private Session currentSession;
     private bool sessionCreated;
+    private LastMenuVisited previousMenu = LastMenuVisited.MAIN;
     public Save DEFAULTSAVE; //temp var until saves work properly.
     //TODO
     //      
     //      player colours in lobby?
+    public void LoadLastMenu() {
+        if (previousMenu == LastMenuVisited.MAIN)
+            exitToMain.Invoke();
+        else if (previousMenu == LastMenuVisited.LOAD)
+            exitToSave.Invoke();
+        else if (previousMenu == LastMenuVisited.JOIN)
+            exitToSession.Invoke();
+    }
     public void CreateSession() {
         if (playerField.GetComponent<InputField>().text != "" && nameField.GetComponent<InputField>().text != "") {
+            previousMenu = LastMenuVisited.MAIN;
             createSession.Invoke(); //location of this event may change in the future
             createdSession.sessionName = sessionNameText.text;
             createdSession.maxPlayers = int.Parse(playerText.text[playerText.text.Length - 1].ToString());
@@ -36,6 +50,7 @@ public class MainMenuManager : MonoBehaviour {
         if (mostRecent)
             currentSave = DEFAULTSAVE;
         if (currentSave) {
+            previousMenu = mostRecent ? LastMenuVisited.MAIN : LastMenuVisited.LOAD;
             createdSession.sessionName = currentSave.saveName;
             createdSession.maxPlayers = currentSave.maxPlayers;
             sessionCreated = true;
@@ -46,8 +61,10 @@ public class MainMenuManager : MonoBehaviour {
 
     public void JoinSession() {
         sessionCreated = false;
-        if (currentSession)
+        if (currentSession) {
+            previousMenu = LastMenuVisited.JOIN;
             joinSession.Invoke();
+        }
     }
 
     public void SetupLobby() {
@@ -112,7 +129,7 @@ public class MainMenuManager : MonoBehaviour {
         if (sessionCreated)  //if host, show prompt
             promptEndSession.Invoke();
         else  //else, leave session
-            leaveSession.Invoke();
+            LoadLastMenu();
     }
     public void ContinueGame() {
         //final implementation will load last-used save (i.e. autosave) into a new session, currently just starts a regular session through the create session button
