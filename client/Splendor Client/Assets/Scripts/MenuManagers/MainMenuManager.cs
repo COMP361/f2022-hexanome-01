@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using System.Linq;
 
 public enum LastMenuVisited {
     MAIN,
@@ -18,7 +19,7 @@ public class MainMenuManager : MonoBehaviour {
     public LobbyPlayerList playerList;
     public UnityEvent leaveSession, promptEndSession, joinSession, loadSave, createSession, exitToMain, exitToSession, exitToSave;
     public Text playerText, sessionNameText;
-    public GameObject playerField, nameField;
+    public GameObject nameField;
     [SerializeField] private Save currentSave;
     [SerializeField] private Session currentSession;
     private bool sessionCreated;
@@ -36,11 +37,22 @@ public class MainMenuManager : MonoBehaviour {
             exitToSession.Invoke();
     }
     public void CreateSession() {
-        if (playerField.GetComponent<InputField>().text != "" && nameField.GetComponent<InputField>().text != "") {
+        if (nameField.GetComponent<InputField>().text != "") {
             previousMenu = LastMenuVisited.MAIN;
             createSession.Invoke(); //location of this event may change in the future
             createdSession.sessionName = sessionNameText.text;
-            createdSession.maxPlayers = int.Parse(playerText.text[playerText.text.Length - 1].ToString());
+            //determine player count based on selected toggle
+            Toggle[] toggles = GetComponents<Toggle>();
+            foreach (Toggle toggle in toggles) {
+                if (toggle.isOn) {
+                    switch (toggle.name) {
+                        case "TwoPlayersToggle": createdSession.maxPlayers = 2; break;
+                        case "ThreePlayersToggle": createdSession.maxPlayers = 3; break;
+                        case "FourPlayersToggle": createdSession.maxPlayers = 4; break;
+                    }
+                    break;
+                } 
+            }
             sessionCreated = true;
             currentSession = createdSession;
         }
