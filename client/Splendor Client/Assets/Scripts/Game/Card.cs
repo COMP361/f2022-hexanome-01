@@ -8,6 +8,11 @@ public class Card : ScriptableObject
 {
     [SerializeField] public int id;
     [SerializeField] private int points;
+    [SerializeField] public int red;
+    [SerializeField] public int blue;
+    [SerializeField] public int green;
+    [SerializeField] public int brown;
+    [SerializeField] public int white;
     private bool active = true;
 
     public Sprite sprite;

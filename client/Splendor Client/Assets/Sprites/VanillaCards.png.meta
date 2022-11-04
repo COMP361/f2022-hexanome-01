@@ -3,7 +3,7 @@ guid: 2f3fad4888ded134497a524228892eac
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -24,6 +24,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -62,6 +63,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -77,6 +79,30 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 8192
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
     maxTextureSize: 8192
     resizeAlgorithm: 0
     textureFormat: -1
@@ -1990,6 +2016,97 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      MergedImages_75: 5337920122900995323
+      MergedImages_47: 5605027684959492319
+      MergedImages_31: -2437690370789047988
+      MergedImages_39: 8452752795317383956
+      MergedImages_21: -6149749487599210427
+      MergedImages_15: -7284652574446497502
+      MergedImages_97: 1280874859923056148
+      MergedImages_64: -2621927385964922459
+      MergedImages_5: -4058374821772945645
+      MergedImages_89: 5732922580911025562
+      MergedImages_93: 5564580896324710105
+      MergedImages_96: 5988299328657128486
+      MergedImages_40: 8827676455589431675
+      MergedImages_18: 711221630372677434
+      MergedImages_101: 3789221074465341421
+      MergedImages_38: 4346136908358748898
+      MergedImages_91: -5982063304277894831
+      MergedImages_28: 3415410578500228676
+      MergedImages_46: -6391198361336717424
+      MergedImages_13: -7446505377957659988
+      MergedImages_27: 1598818344152810758
+      MergedImages_79: 448359422952076389
+      MergedImages_25: -5314897034184515134
+      MergedImages_65: 4570850554259646275
+      MergedImages_37: -7819232769430131403
+      MergedImages_70: 5759645975571938389
+      MergedImages_48: -2115426161493797708
+      MergedImages_74: -3100012397554255799
+      MergedImages_36: -8782902918993980480
+      MergedImages_17: -5777814878706405777
+      MergedImages_82: -6423761396173855080
+      MergedImages_73: -2807135441250901233
+      MergedImages_32: 6482497378932002141
+      MergedImages_76: -8739907169288453130
+      MergedImages_95: -249307751179316941
+      MergedImages_72: 3052026132641048493
+      MergedImages_0: -3631534589039266192
+      MergedImages_85: -7893783578896934112
+      MergedImages_30: -5686630415260190864
+      MergedImages_1: -3683404485111052946
+      MergedImages_8: -5555856948403218924
+      MergedImages_20: -6996665202199963166
+      MergedImages_23: 4327961106997917730
+      MergedImages_100: 634269434900801570
+      MergedImages_19: 8545478788113436493
+      MergedImages_16: -3034176547076756400
+      MergedImages_86: 3721912088211708641
+      MergedImages_41: -7511594720232249334
+      MergedImages_69: 9067423795044289185
+      MergedImages_6: -4878621599360497556
+      MergedImages_67: 4299938637342937662
+      MergedImages_98: 6779415442745619616
+      MergedImages_88: 3796620400353602986
+      MergedImages_103: -5511470378714673392
+      MergedImages_68: -1516955465188188179
+      MergedImages_78: 3153271342665249412
+      MergedImages_102: -4920246490576618091
+      MergedImages_26: 4303264507543085839
+      MergedImages_3: -6118703917487616307
+      MergedImages_77: -3045147697490006670
+      MergedImages_66: -2184032745042339441
+      MergedImages_7: 3696495127754920428
+      MergedImages_80: -5806839395931263575
+      MergedImages_2: -642442756912127800
+      MergedImages_50: 897189963225386177
+      MergedImages_81: 6259516413369704068
+      MergedImages_9: 3710366521681543769
+      MergedImages_22: -3706139926506971136
+      MergedImages_14: -4192137060989496379
+      MergedImages_43: 4055186407170388026
+      MergedImages_4: 7893127985335278579
+      MergedImages_11: -3048467412873369468
+      MergedImages_90: -3495433679369209146
+      MergedImages_84: 2509952469687965991
+      MergedImages_24: 7544703634102763326
+      MergedImages_29: -3921010744977816426
+      MergedImages_33: -640597325253151159
+      MergedImages_99: -2835238067308289420
+      MergedImages_44: 1805506593307327308
+      MergedImages_92: -4663074471543604826
+      MergedImages_42: -8002878230686533581
+      MergedImages_87: -7008757275188814827
+      MergedImages_35: 5501228999922015784
+      MergedImages_34: -2460983620504939489
+      MergedImages_71: -4467438275390501535
+      MergedImages_10: -6120747735046750675
+      MergedImages_94: 5378436001843236863
+      MergedImages_45: -7095988955241080843
+      MergedImages_83: 5825540783592583656
+      MergedImages_12: -195757326139743857
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
