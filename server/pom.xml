@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>ca.mcgill</groupId>
-  <artifactId>splendorServer</artifactId>
+  <artifactId>splendorserver</artifactId>
   <packaging>jar</packaging>
   <version>1.0</version>
   <name>server</name>
@@ -12,7 +12,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.target>1.8</maven.compiler.target>
     <maven.compiler.source>1.8</maven.compiler.source>
-    <build.name>hex01SplendorServer</build.name>
+    <build.name>hex01splendorserver</build.name>
   </properties>
 
   <!-- main developer -->
@@ -79,7 +79,51 @@
     </dependency>
   </dependencies>
 
-  <plugins>
+  <build>
+    <!-- Override default name of generated artifacts -->
+    <finalName>${build.name}</finalName>
+    <plugins>
+    <plugin>
+           <groupId>org.codehaus.mojo</groupId>
+           <artifactId>exec-maven-plugin</artifactId>
+           <version>1.6.0</version>
+           <executions>
+               <execution>
+                   <goals>
+                       <goal>java</goal>
+                   </goals>
+               </execution>
+           </executions>
+           <configuration>
+               <mainClass>ca.mcgill.splendorserver.Launcher</mainClass>
+           </configuration>
+    </plugin>
+
+    <plugin>
+           <artifactId>maven-assembly-plugin</artifactId>
+           <executions>
+               <execution>
+                   <phase>package</phase>
+                   <goals>
+                       <goal>single</goal>
+                   </goals>
+               </execution>
+           </executions>
+           <configuration>
+               <archive>
+                   <manifest>
+                       <addClasspath>true</addClasspath>
+                       <mainClass>ca.mcgill.splendorserver.Launcher</mainClass>
+                   </manifest>
+               </archive>
+               <descriptorRefs>
+                   <descriptorRef>jar-with-dependencies</descriptorRef>
+               </descriptorRefs>
+               <finalName>SplendorServer</finalName>
+               <appendAssemblyId>false</appendAssemblyId>
+           </configuration>
+    </plugin>
+
     <plugin>
     <groupId>org.apache.maven.plugins</groupId>
     <artifactId>maven-checkstyle-plugin</artifactId>
@@ -133,12 +177,5 @@
     <version>2.22.2</version>
     </plugin>
   </plugins>
-
-
-  <build>
-    <!-- Override default name of generated artifacts -->
-    <finalName>${build.name}</finalName>
-    <plugins>
-    </plugins>
   </build>
 </project>
