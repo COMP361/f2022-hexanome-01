@@ -1,0 +1,1 @@
+memberSearchIndex = [{"p":"ca.mcgill.splendorserver","c":"Launcher","l":"Launcher()","url":"%3Cinit%3E()"},{"p":"ca.mcgill.splendorserver","c":"Launcher","l":"main(String[])","url":"main(java.lang.String[])"}]
