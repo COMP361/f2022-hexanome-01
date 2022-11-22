@@ -12,10 +12,9 @@ public enum LastMenuVisited {
 }
 public class MainMenuManager : MonoBehaviour {
     public GameObject blankSessionSlot, sessionContent, blankSaveSlot, saveContent, blankPlayerSlot, playerContent;
-    public Session createdSession;
+    private Session createdSession = new Session();
     public SaveList saveList;
     public SessionList sessionList;
-    public LobbyPlayerList playerList;
     public UnityEvent leaveSession, promptEndSession, joinSession, loadSave, createSession, exitToMain, exitToSession, exitToSave;
     public Text playerText, sessionNameText;
     public GameObject playerField, nameField;
@@ -27,6 +26,20 @@ public class MainMenuManager : MonoBehaviour {
     //TODO
     //      
     //      player colours in lobby?
+
+    public void TempCreateSessionJson() {
+        FileManager.EncodeSession(sessionList.sessions[0], true);
+    }
+    public void TempLoadSessionJson() {
+        sessionList.sessions.Add(FileManager.DecodeSession("SessionData-Joshua", true));
+    }
+    void Start() { //temp, creates a dummy session
+        List<LobbyPlayer> temp1 = new List<LobbyPlayer>();
+        temp1.Add(new LobbyPlayer("Yang"));
+        temp1.Add(new LobbyPlayer("Joshua"));
+        sessionList.sessions.Add(new Session("Yang's Game", 4, temp1));
+    }
+
     public void LoadLastMenu() {
         if (previousMenu == LastMenuVisited.MAIN)
             exitToMain.Invoke();
@@ -39,10 +52,12 @@ public class MainMenuManager : MonoBehaviour {
         if (playerField.GetComponent<InputField>().text != "" && nameField.GetComponent<InputField>().text != "") {
             previousMenu = LastMenuVisited.MAIN;
             createSession.Invoke(); //location of this event may change in the future
-            createdSession.sessionName = sessionNameText.text;
+            createdSession.sessionName = sessionNameText.text; //probably inconsitencies between this code and displaybar/namebar classes
             createdSession.maxPlayers = int.Parse(playerText.text[playerText.text.Length - 1].ToString());
             sessionCreated = true;
             currentSession = createdSession;
+            //add this/host player to session's playerlist
+            MakePlayers();
         }
     }
 
@@ -61,14 +76,14 @@ public class MainMenuManager : MonoBehaviour {
 
     public void JoinSession() {
         sessionCreated = false;
-        if (currentSession) {
+        if (currentSession != null) {
             previousMenu = LastMenuVisited.JOIN;
             joinSession.Invoke();
         }
     }
 
     public void SetupLobby() {
-        playerText.text = "PLAYERS " + currentSession.playerList.Count() + "/" + currentSession.maxPlayers;
+        playerText.text = "PLAYERS " + currentSession.playerList.Count + "/" + currentSession.maxPlayers;
         sessionNameText.text = currentSession.sessionName;
     }
 
@@ -112,7 +127,7 @@ public class MainMenuManager : MonoBehaviour {
 
     public void MakePlayers() { //displays players in lobby
         ClearChildren(playerContent);
-        foreach (LobbyPlayer player in playerList.lobbyPlayers) {
+        foreach (LobbyPlayer player in currentSession.playerList) {
             GameObject temp = Instantiate(blankPlayerSlot, playerContent.transform.position, Quaternion.identity);
             temp.transform.SetParent(playerContent.transform);
             temp.transform.localScale = new Vector3(1, 1, 1);

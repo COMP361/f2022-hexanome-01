@@ -4,5 +4,5 @@ using UnityEngine;
 
 [CreateAssetMenu]
 public class SessionList : ScriptableObject {
-    public List<Session> sessions;
+    public List<Session> sessions = new List<Session>();
 }
