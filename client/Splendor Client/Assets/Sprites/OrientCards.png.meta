@@ -93,7 +93,7 @@ TextureImporter:
       213: 8866035823416005389
     second: OrientCards_34
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 12
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -114,6 +114,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -152,6 +153,7 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -167,6 +169,30 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
     maxTextureSize: 4096
     resizeAlgorithm: 0
     textureFormat: -1
@@ -820,6 +846,37 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      OrientCards_14: -3365690524262597913
+      OrientCards_10: 2543025340200198904
+      OrientCards_28: 3789868703529959061
+      OrientCards_18: 4189976063958647589
+      OrientCards_16: 3260249775695142950
+      OrientCards_0: 4848016648794513247
+      OrientCards_3: 519564222000950649
+      OrientCards_26: -3924425277938406147
+      OrientCards_11: 77981027762360069
+      OrientCards_20: 1138343286504602552
+      OrientCards_2: 5955545280618605952
+      OrientCards_1: 3305532118163913543
+      OrientCards_30: -8019509360754032949
+      OrientCards_22: 2892046123315151938
+      OrientCards_4: -2218366114704687684
+      OrientCards_9: -7669868487857812422
+      OrientCards_24: -8137350240878654330
+      OrientCards_13: 712187267141273696
+      OrientCards_7: -3394308230240083792
+      OrientCards_5: -9158834776028261548
+      OrientCards_32: 2325735974502938170
+      OrientCards_23: -7509030863659676521
+      OrientCards_21: 3216395410521502579
+      OrientCards_8: 528176796199576466
+      OrientCards_19: -7773429598070276769
+      OrientCards_17: 2668923928584967121
+      OrientCards_12: 9184017311211713863
+      OrientCards_6: 3049311267350165683
+      OrientCards_34: 8866035823416005389
+      OrientCards_15: 938064907712025169
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

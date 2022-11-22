@@ -13,6 +13,9 @@ public class PlayerControl : MonoBehaviour
     public CardRow allCards;
     private CardSlot selectedCardToBuy;
 
+    public NobleRow allNobels; 
+    public List<NobleSlot> noblesOnBoard = new List<NobleSlot>();
+
     private InputAction fire;
     private InputAction look;
  
@@ -63,6 +66,40 @@ public class PlayerControl : MonoBehaviour
             allCards.RemoveCard(selectedCardToBuy);
             selectedCardToBuy = null;
         }
+
+                allNobels = GameObject.Find("NobleRow").GetComponent<NobleRow>();
+
+
+        //Get each slot from row of nobels
+        foreach(NobleSlot nobleSlot in allNobels.GetAllNobels()){
+
+            if(nobleSlot!=null){
+             noblesOnBoard.Add(nobleSlot);
+
+            }
+        }
+        
+        Noble tempNoble = (Noble) ScriptableObject.CreateInstance(typeof(Noble));
+
+
+        // For each noble in the row check if they are impressed
+        foreach(NobleSlot noble in noblesOnBoard){
+
+            if(noble!=null){
+                tempNoble = noble.GetNoble();
+                if(player.hasImpressed(tempNoble)){
+                    player.TriggerNobleAdd(tempNoble);
+                    dashboard.UpdatePtsDisplay(player.GetPoints());
+                    allNobels.RemoveNoble(noble);
+
+                    //Select Noble when there are multiple impressed at once instead of break;
+                    break;
+                }
+            }
+        }
+
+
+
         dashboard.ResetEndDisplay();
         allCards.GreyOut();
         StartTurn(); // Player's turn temporarily restarts immediately after end turn
