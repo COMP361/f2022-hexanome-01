@@ -1264,7 +1264,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10522a79326b5c94796d374dcaef79d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerList: {fileID: 11400000, guid: 0d3cf2fc706e6c548b547a2f3d8f0380, type: 2}
   displayBar: {fileID: 2089150647}
   twoPlayersToggle: {fileID: 609177055}
   threePlayersToggle: {fileID: 1254800894}
@@ -1376,18 +1375,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2077443211}
-        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: MakePlayers
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 2120501436}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
@@ -1411,18 +1398,6 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 2077443211}
-        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: SetupLobby
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 2130959707}
         m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
@@ -6986,10 +6961,8 @@ MonoBehaviour:
   saveContent: {fileID: 1634183612}
   blankPlayerSlot: {fileID: 3067114813929543824, guid: a1e3b02cabf6c82429c59f454ae416fe, type: 3}
   playerContent: {fileID: 1883028667}
-  createdSession: {fileID: 11400000, guid: c5e6666d53fb5fd4baf1a5f6d8de358d, type: 2}
   saveList: {fileID: 11400000, guid: 5eea3d3eb6dc0f0419a04f4dafffb386, type: 2}
   sessionList: {fileID: 11400000, guid: f9f6b38df6dc2964db74231885ebd8bf, type: 2}
-  playerList: {fileID: 11400000, guid: 0d3cf2fc706e6c548b547a2f3d8f0380, type: 2}
   leaveSession:
     m_PersistentCalls:
       m_Calls:
@@ -7158,18 +7131,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 2077443211}
-        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: MakePlayers
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
   createSession:
     m_PersistentCalls:
       m_Calls:
@@ -7212,18 +7173,6 @@ MonoBehaviour:
       - m_Target: {fileID: 891684237}
         m_TargetAssemblyTypeName: NameBar, Assembly-CSharp
         m_MethodName: Setup
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2077443211}
-        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: MakePlayers
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7389,9 +7338,7 @@ MonoBehaviour:
   playerText: {fileID: 2089150647}
   sessionNameText: {fileID: 165226677}
   nameField: {fileID: 1208652351}
-  playerCount: {fileID: 0}
   currentSave: {fileID: 0}
-  currentSession: {fileID: 0}
   DEFAULTSAVE: {fileID: 11400000, guid: 1981883a5a43e174a8125a6a0dcf0b3d, type: 2}
 --- !u!1 &2086210870
 GameObject:
