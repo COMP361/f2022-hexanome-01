@@ -2,10 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu]
-public class Session : ScriptableObject {
+public class Session {
     //insert session information, maybe wont stay as a ScriptableObject
     public string sessionName;
     public int maxPlayers;
-    public LobbyPlayerList playerList;
+    public List<LobbyPlayer> playerList = new List<LobbyPlayer>();
+
+    public Session() { }
+
+    public Session(SessionData data) {
+        sessionName = data.sessionName;
+        maxPlayers = data.maxPlayers;
+        for (int i = 0; i < data.playerList.Length; i++)
+            playerList[i] = new LobbyPlayer(data.playerList[i]); //WILL NEED TO CHANGE ONCE IK ACTUAL PLAYER DATA
+    }
+
+    public Session(string sessionName, int maxPlayers, List<LobbyPlayer> playerList) {
+        this.sessionName = sessionName;
+        this.maxPlayers = maxPlayers;
+        this.playerList = playerList;
+    }
 }
