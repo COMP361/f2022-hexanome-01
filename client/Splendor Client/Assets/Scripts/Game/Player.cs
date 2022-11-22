@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     //This will be a list of the ids of the purchased player cards
     public List<Card> inventory = new List<Card>();
     public List<Noble> noblesVisited = new List<Noble>();
+    public CardGemValue totalGemsAquired = new CardGemValue();
 
     public int GetPoints()
     {
@@ -16,7 +17,15 @@ public class Player : MonoBehaviour
 
     public void TriggerCardAdd(Card cardObject)
     {
+        Card tempCard = (Card) ScriptableObject.CreateInstance(typeof(Card));
+        tempCard = cardObject;
+
         pointsTotal += cardObject.GetPoints();
+
+        if(cardObject != null)
+        totalGemsAquired.AddGemsToInventory(tempCard);
+
+
         inventory.Add(cardObject);
     }
 
@@ -27,40 +36,32 @@ public class Player : MonoBehaviour
         noblesVisited.Add(nobleObject);
     }
 
-    public int GetRed(){
-        int _red = 0;
-        foreach(Card card in this.inventory){
-            _red += card.red;
-        }
-        return _red;
+
+
+    public CardGemValue GetTotalGemsAquired(){
+        return totalGemsAquired;
     }
-    public int GetGreen(){
-        int _green = 0;
-        foreach(Card card in this.inventory){
-            _green += card.green;
-        }
-        return _green;
+
+    public bool hasImpressed(Noble nobleToImpress){
+
+    //    Debug.Log("Noble Value Red: " + nobleToImpress.nobleValue.red);
+    //    Debug.Log("Player Red: " + totalGemsAquired.red);
+    //    Debug.Log("Noble Value Green: " + nobleToImpress.nobleValue.green);
+    //    Debug.Log("Player Green: " + totalGemsAquired.green);
+    //    Debug.Log("Noble Value Blue: " + nobleToImpress.nobleValue.blue);
+    //    Debug.Log("Player Blue: " + totalGemsAquired.blue);
+    //    Debug.Log("Noble Value Brown: " + nobleToImpress.nobleValue.brown);
+    //    Debug.Log("Player Brown: " + totalGemsAquired.brown);
+    //    Debug.Log("Noble Value White: " + nobleToImpress.nobleValue.white);
+    //    Debug.Log("Player White: " + totalGemsAquired.white);
+
+       return (totalGemsAquired.red >= nobleToImpress.nobleValue.red 
+       && totalGemsAquired.green >= nobleToImpress.nobleValue.green 
+       && totalGemsAquired.blue >= nobleToImpress.nobleValue.blue 
+       && totalGemsAquired.brown >= nobleToImpress.nobleValue.brown 
+       && totalGemsAquired.white >= nobleToImpress.nobleValue.white);
+
     }
-    public int GetBlue(){
-        int _blue = 0;
-        foreach(Card card in this.inventory){
-            _blue += card.blue;
-        }
-        return _blue;
-    }
-    public int GetBrown(){
-        int _brown = 0;
-        foreach(Card card in this.inventory){
-            _brown += card.brown;
-        }
-        return _brown;
-    }
-    public int GetWhite(){
-        int _white = 0;
-        foreach(Card card in this.inventory){
-            _white += card.white;
-        }
-        return _white;
-    }
+
 
 }

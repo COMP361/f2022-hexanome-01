@@ -15,7 +15,7 @@ public class PlayerControl : MonoBehaviour
 
     public NobleRow allNobels; 
     public List<NobleSlot> noblesOnBoard = new List<NobleSlot>();
-    
+
     private InputAction fire;
     private InputAction look;
  
@@ -79,9 +79,6 @@ public class PlayerControl : MonoBehaviour
             }
         }
         
-
-
-
         Noble tempNoble = (Noble) ScriptableObject.CreateInstance(typeof(Noble));
 
 
@@ -90,11 +87,12 @@ public class PlayerControl : MonoBehaviour
 
             if(noble!=null){
                 tempNoble = noble.GetNoble();
-                if(player.GetGreen() >= tempNoble.green && player.GetRed() >= tempNoble.red && player.GetBrown() >= tempNoble.brown && player.GetBlue() >= tempNoble.blue && player.GetWhite() >= tempNoble.white){
+                if(player.hasImpressed(tempNoble)){
                     player.TriggerNobleAdd(tempNoble);
                     dashboard.UpdatePtsDisplay(player.GetPoints());
                     allNobels.RemoveNoble(noble);
 
+                    //Select Noble when there are multiple impressed at once instead of break;
                     break;
                 }
             }
