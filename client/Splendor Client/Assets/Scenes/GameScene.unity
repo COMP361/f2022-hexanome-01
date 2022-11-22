@@ -1940,7 +1940,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 691041389}
   cardInventoryPrefab: {fileID: 801052499989994276, guid: bb86294d00efaea42a232d6536d135b9, type: 3}
+  nobleInventoryPrefab: {fileID: 801052499989994276, guid: b5c1d6a8302564ba7872e67033fb5f38, type: 3}
   purchasedCardsParent: {fileID: 981330093}
+  purchasedNoblesParent: {fileID: 981330093}
 --- !u!1 &1175326240
 GameObject:
   m_ObjectHideFlags: 0
