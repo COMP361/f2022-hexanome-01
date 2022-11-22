@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Events;
-using System.Linq;
 
 public enum LastMenuVisited {
     MAIN,
@@ -18,7 +17,7 @@ public class MainMenuManager : MonoBehaviour {
     public SessionList sessionList;
     public UnityEvent leaveSession, promptEndSession, joinSession, loadSave, createSession, exitToMain, exitToSession, exitToSave;
     public Text playerText, sessionNameText;
-    public GameObject nameField;
+    public GameObject playerField, nameField;
     [SerializeField] private Save currentSave;
     [SerializeField] private Session currentSession;
     private bool sessionCreated;
@@ -50,22 +49,11 @@ public class MainMenuManager : MonoBehaviour {
             exitToSession.Invoke();
     }
     public void CreateSession() {
-        if (nameField.GetComponent<InputField>().text != "") {
+        if (playerField.GetComponent<InputField>().text != "" && nameField.GetComponent<InputField>().text != "") {
             previousMenu = LastMenuVisited.MAIN;
             createSession.Invoke(); //location of this event may change in the future
             createdSession.sessionName = sessionNameText.text; //probably inconsitencies between this code and displaybar/namebar classes
-            //determine player count based on selected toggle
-            Toggle[] toggles = GetComponents<Toggle>();
-            foreach (Toggle toggle in toggles) {
-                if (toggle.isOn) {
-                    switch (toggle.name) {
-                        case "TwoPlayersToggle": createdSession.maxPlayers = 2; break;
-                        case "ThreePlayersToggle": createdSession.maxPlayers = 3; break;
-                        case "FourPlayersToggle": createdSession.maxPlayers = 4; break;
-                    }
-                    break;
-                } 
-            }
+            createdSession.maxPlayers = int.Parse(playerText.text[playerText.text.Length - 1].ToString());
             sessionCreated = true;
             currentSession = createdSession;
             //add this/host player to session's playerlist
