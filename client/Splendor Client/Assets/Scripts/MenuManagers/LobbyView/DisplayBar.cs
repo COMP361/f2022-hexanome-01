@@ -7,14 +7,13 @@ using System.Linq;
 
 public class DisplayBar : MonoBehaviour
 {
-    public LobbyPlayerList playerList;
+    public GameObject maxPlayer;
     public Text displayBar;
     public Toggle twoPlayersToggle;
     public Toggle threePlayersToggle;
     public Toggle fourPlayersToggle;
 
     public void SetUpDisplay(){
-        int currentNum = playerList.Count();
         int maxNum = 0;
 
         if (twoPlayersToggle.isOn) maxNum = 2;
@@ -22,6 +21,6 @@ public class DisplayBar : MonoBehaviour
         else if (fourPlayersToggle.isOn) maxNum = 4;
 
         //int max = int.TryParse(maxNum.text, out int result);dicarded
-        displayBar.text = String.Format("PLAYERS {0}/{1}", currentNum, maxNum);
+        displayBar.text = String.Format("PLAYERS 1/{0}", maxNum);
     }
 }
