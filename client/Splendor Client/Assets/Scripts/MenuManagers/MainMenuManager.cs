@@ -101,15 +101,6 @@ public class MainMenuManager : MonoBehaviour {
         sessionNameText.text = currentSession.sessionName;
     }
 
-    public void LobbyPlayerLimits(InputField inputField) {
-        if (inputField.text == "-")
-            inputField.text = "";
-        else if (inputField.text != "" && int.Parse(inputField.text) < 2)
-            inputField.text = "2";
-        else if (inputField.text != "" && int.Parse(inputField.text) > 4)
-            inputField.text = "4";
-    }
-
     public void SetSession(Session newSession) { //set currently selected session
         currentSession = newSession;
     }
