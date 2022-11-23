@@ -43,6 +43,21 @@ public static class FileManager {
         return new Session(data);
     }
 
+    public static string EncodeGameState(GameData data, bool desireFileCreation) { //maybe instead of passing the data, pass the parameters and create the payload in this method
+        //SessionData data = new SessionData(session);
+        string json = JsonUtility.ToJson(data);
+        if (desireFileCreation)
+            WriteToFile("GameData-" + System.DateTime.Now, json);
+        return json;
+    }
+
+    public static GameData DecodeGameState(string source, bool isAFile) {
+        string json = isAFile ? ReadFromFIle(source) : source;
+        GameData data = new GameData();
+        JsonUtility.FromJsonOverwrite(json, data);
+        return data;
+    }
+
     public static void LoadSave() {
 
     }
