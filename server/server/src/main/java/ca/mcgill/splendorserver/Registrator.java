@@ -18,7 +18,6 @@ import org.springframework.stereotype.Component;
 
 /**
  * This class is used to register the splendor gameservice to the lobby service.
- *
  */
 @Component
 public class Registrator {
@@ -34,6 +33,14 @@ public class Registrator {
   @Value("${oauth2.password}")
   private String serviceOauthPassword;
 
+  /**
+   * This is the constructor that will get its value provided by spring from the
+   * properties file.
+   *
+   * @param gameServiceName     the name of the game service that we want to register
+   * @param displayName         the display name of the game
+   * @param gameServiceLocation the url where we want the game to be at
+   */
   @Autowired
   Registrator(@Value("${gameservice.name}") String gameServiceName,
               @Value("${gameservice.displayname}") String displayName,
@@ -46,12 +53,25 @@ public class Registrator {
         new GameServiceRegistrationParameters(gameServiceName, displayName, gameServiceLocation);
   }
 
+  /**
+   * This class will be called as soon as we start up the server. It will register
+   * the game service into the lobby service database.
+   *
+   * @throws InterruptedException throw error if can't access lobby service
+   *                              or cannot register game service
+   */
   @PostConstruct
   private void init() throws InterruptedException {
 
     registerGameService();
   }
 
+  /**
+   * Signs in as an user with service role to the database to get the access token for request.
+   *
+   * @return the access token provided by lobby service (String)
+   * @throws UnirestException throws exception if can't login or can't access lobby service
+   */
   private String getAccessToken() throws UnirestException {
 
     String lobbyServiceTokenUrl = lobbyLocation + "/oauth/token";
@@ -77,6 +97,9 @@ public class Registrator {
     return token;
   }
 
+  /**
+   * Registers the game service to the LS db by getting access token then sending request.
+   */
   private void registerGameService() {
     try {
       String accessToken = getAccessToken();
