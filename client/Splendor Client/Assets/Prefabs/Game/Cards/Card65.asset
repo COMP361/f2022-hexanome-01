@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 65
   points: 0
+  bonus: 71
+  bonusAmount: 1
   red: 0
-  blue: 0
-  green: 1
+  blue: 1
+  green: 0
   brown: 0
-  white: 0
+  white: 2
   sprite: {fileID: 4570850554259646275, guid: 2f3fad4888ded134497a524228892eac, type: 3}

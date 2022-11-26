@@ -10,13 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4c3bc38af4fa4404c8a2f28f2feed2c5, type: 3}
-  m_Name: Card104
+  m_Name: Card4
   m_EditorClassIdentifier: 
-  id: 102
-  points: 0
+  id: 4
+  points: 4
+  bonus: 82
+  bonusAmount: 1
   red: 0
   blue: 0
-  green: 0
+  green: 7
   brown: 0
-  white: 1
-  sprite: {fileID: -4920246490576618091, guid: 2f3fad4888ded134497a524228892eac, type: 3}
+  white: 0
+  sprite: {fileID: 7893127985335278579, guid: 2f3fad4888ded134497a524228892eac, type: 3}

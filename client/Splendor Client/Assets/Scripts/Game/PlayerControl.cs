@@ -10,7 +10,7 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private Camera playerCamera;
     [SerializeField] private Player player;
 
-    public CardRow allCards;
+    public AllCards allCards;
     private CardSlot selectedCardToBuy;
 
     public NobleRow allNobels; 
@@ -67,20 +67,17 @@ public class PlayerControl : MonoBehaviour
             selectedCardToBuy = null;
         }
 
-                allNobels = GameObject.Find("NobleRow").GetComponent<NobleRow>();
-
+        allNobels = GameObject.Find("NobleRow").GetComponent<NobleRow>();
 
         //Get each slot from row of nobels
         foreach(NobleSlot nobleSlot in allNobels.GetAllNobels()){
 
             if(nobleSlot!=null){
-             noblesOnBoard.Add(nobleSlot);
-
+                noblesOnBoard.Add(nobleSlot);
             }
         }
         
         Noble tempNoble = (Noble) ScriptableObject.CreateInstance(typeof(Noble));
-
 
         // For each noble in the row check if they are impressed
         foreach(NobleSlot noble in noblesOnBoard){
@@ -97,8 +94,6 @@ public class PlayerControl : MonoBehaviour
                 }
             }
         }
-
-
 
         dashboard.ResetEndDisplay();
         allCards.GreyOut();

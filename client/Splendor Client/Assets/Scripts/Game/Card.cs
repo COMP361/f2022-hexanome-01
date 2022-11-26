@@ -20,8 +20,6 @@ public class CardGemValue{
           this._white = 0;
       }
 
-
-
      public int red
     {
         get { return _red; }
@@ -70,6 +68,9 @@ public class Card : ScriptableObject
 
     [SerializeField] public int id;
     [SerializeField] private int points;
+    [SerializeField] private char bonus;
+    [SerializeField] private int bonusAmount = 1;
+    
     [SerializeField] private int red;
     [SerializeField] private int blue;
     [SerializeField] private int green;
@@ -93,11 +94,16 @@ public class Card : ScriptableObject
     {
 
         try {
-            gemValue.red = this.red;
-            gemValue.blue = this.blue;
-            gemValue.green = this.green;
-            gemValue.brown = this.brown;
-            gemValue.white = this.white;
+            if (this.bonus == 'W')
+                gemValue.white = this.bonusAmount;
+            else if (this.bonus == 'R')
+                gemValue.red = this.bonusAmount;
+            else if (this.bonus == 'B')
+                gemValue.blue = this.bonusAmount;
+            else if (this.bonus == 'G')
+                gemValue.green = this.bonusAmount;
+            else if (this.bonus == 'K')
+                gemValue.brown = this.bonusAmount;
             
         }
         catch (NullReferenceException ex) {

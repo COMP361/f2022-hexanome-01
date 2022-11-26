@@ -48,7 +48,7 @@ public class NobleRow : MonoBehaviour
         deck.ShuffleDeck();
         for (int i=0; i<size; i++) {
             if (nobles[i] == null) {
-                GameObject prefab = Instantiate(nobleObject, new Vector3(x + i*3, 3, 0), Quaternion.identity);
+                GameObject prefab = Instantiate(nobleObject, new Vector3(x + i*2, 3, 0), Quaternion.identity);
                 nobles[i] = prefab.GetComponent<NobleSlot>();
                 nobles[i].SetNoble(deck.DrawNoble());
             }
@@ -87,5 +87,6 @@ public class NobleRow : MonoBehaviour
     {
         size = Math.Min(size, 5);
         FillEmptyNobles();
+        GreyOut();
     }
 }
