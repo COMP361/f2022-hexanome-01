@@ -25,13 +25,11 @@ public class Player : MonoBehaviour
         if(cardObject != null)
         totalGemsAquired.AddGemsToInventory(tempCard);
 
-
         inventory.Add(cardObject);
     }
 
     public void TriggerNobleAdd(Noble nobleObject)
     {
-
         pointsTotal += nobleObject.GetPoints();
         noblesVisited.Add(nobleObject);
     }
