@@ -1,0 +1,8 @@
+#!/bin/bash
+
+#ONCE server WITH Splendor-Lobby AND Splendor-Database CONTAINER IS BUILT
+#FROM f2022-hexanome-01/server
+
+docker start Splendor-Database
+cd LobbyService
+mvn clean package spring-boot:run 
