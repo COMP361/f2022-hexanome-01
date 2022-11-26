@@ -37,6 +37,12 @@ public class CardSlot : MonoBehaviour
         m_SpriteRenderer.sprite = card.sprite;
     }
 
+    public void EmptySlot()
+    {
+        this.card = null;
+        gameObject.SetActive(false);
+    }
+
     public Card GetCard()
     {
         return card;

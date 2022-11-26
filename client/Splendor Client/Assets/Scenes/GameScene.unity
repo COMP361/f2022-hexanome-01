@@ -1953,6 +1953,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   size: 2
   level: 1
+  deckSprite: {fileID: 490446538}
   deck: {fileID: 712499015}
   x: 2
   y: -3
@@ -2285,6 +2286,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   size: 4
   level: 1
+  deckSprite: {fileID: 318865816}
   deck: {fileID: 810384187}
   x: -4.5
   y: -3
@@ -2427,6 +2429,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   size: 2
   level: 1
+  deckSprite: {fileID: 41346625}
   deck: {fileID: 841830162}
   x: 2
   y: 1
@@ -2477,6 +2480,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   size: 4
   level: 3
+  deckSprite: {fileID: 1006148848}
   deck: {fileID: 901747262}
   x: -4.5
   y: 1
@@ -3023,6 +3027,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   size: 2
   level: 1
+  deckSprite: {fileID: 1506077563}
   deck: {fileID: 1031474558}
   x: 2
   y: -1
@@ -3059,6 +3064,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   size: 4
   level: 2
+  deckSprite: {fileID: 280243734}
   deck: {fileID: 1037662024}
   x: -4.5
   y: -1
