@@ -62,8 +62,9 @@ public class PlayerControl : MonoBehaviour
     {
         // Upon turn end, selected card is bought and added to inventory (points increase by card points)
         if (selectedCardToBuy != null) {
-            player.TriggerCardAdd(selectedCardToBuy.GetCard());
+            if (!player.TriggerCardAdd(selectedCardToBuy.GetCard())) return;
             dashboard.UpdatePtsDisplay(player.GetPoints());
+            dashboard.UpdateTokenDisplay(player.GetTokensAquired());
             allCards.RemoveCard(selectedCardToBuy);
             selectedCardToBuy = null;
         }

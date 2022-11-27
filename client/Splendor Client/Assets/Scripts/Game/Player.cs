@@ -8,24 +8,39 @@ public class Player : MonoBehaviour
     //This will be a list of the ids of the purchased player cards
     public List<Card> inventory = new List<Card>();
     public List<Noble> noblesVisited = new List<Noble>();
-    public CardGemValue totalGemsAquired = new CardGemValue();
+    public CardGemValue bonusesAquired = new CardGemValue();
+    public CardGemValue tokensAquired = new CardGemValue();
+
+    void Start()
+    {
+        tokensAquired.blue = 5; // Hardcode for demo only; REMOVE FOR PROD
+        tokensAquired.green = 5;
+        tokensAquired.brown = 5;
+        tokensAquired.red = 5;
+        tokensAquired.white = 5;
+    }
 
     public int GetPoints()
     {
         return pointsTotal;
     }
 
-    public void TriggerCardAdd(Card cardObject)
+    public bool TriggerCardAdd(Card cardObject)
     {
         Card tempCard = (Card) ScriptableObject.CreateInstance(typeof(Card));
         tempCard = cardObject;
 
+        if (!CardGemValue.combine(bonusesAquired, tokensAquired).CheckSufficientPay(tempCard)) return false;
+        tokensAquired.PayFor(tempCard);
+
         pointsTotal += cardObject.GetPoints();
 
         if(cardObject != null)
-        totalGemsAquired.AddGemsToInventory(tempCard);
+            bonusesAquired.AddGemsToInventory(tempCard);
 
         inventory.Add(cardObject);
+
+        return true;
     }
 
     public void TriggerNobleAdd(Noble nobleObject)
@@ -34,30 +49,16 @@ public class Player : MonoBehaviour
         noblesVisited.Add(nobleObject);
     }
 
-
-
-    public CardGemValue GetTotalGemsAquired(){
-        return totalGemsAquired;
+    public CardGemValue GetTokensAquired(){
+        return tokensAquired;
     }
 
     public bool hasImpressed(Noble nobleToImpress){
-
-    //    Debug.Log("Noble Value Red: " + nobleToImpress.nobleValue.red);
-    //    Debug.Log("Player Red: " + totalGemsAquired.red);
-    //    Debug.Log("Noble Value Green: " + nobleToImpress.nobleValue.green);
-    //    Debug.Log("Player Green: " + totalGemsAquired.green);
-    //    Debug.Log("Noble Value Blue: " + nobleToImpress.nobleValue.blue);
-    //    Debug.Log("Player Blue: " + totalGemsAquired.blue);
-    //    Debug.Log("Noble Value Brown: " + nobleToImpress.nobleValue.brown);
-    //    Debug.Log("Player Brown: " + totalGemsAquired.brown);
-    //    Debug.Log("Noble Value White: " + nobleToImpress.nobleValue.white);
-    //    Debug.Log("Player White: " + totalGemsAquired.white);
-
-       return (totalGemsAquired.red >= nobleToImpress.nobleValue.red 
-       && totalGemsAquired.green >= nobleToImpress.nobleValue.green 
-       && totalGemsAquired.blue >= nobleToImpress.nobleValue.blue 
-       && totalGemsAquired.brown >= nobleToImpress.nobleValue.brown 
-       && totalGemsAquired.white >= nobleToImpress.nobleValue.white);
+       return (bonusesAquired.red >= nobleToImpress.nobleValue.red 
+       && bonusesAquired.green >= nobleToImpress.nobleValue.green 
+       && bonusesAquired.blue >= nobleToImpress.nobleValue.blue 
+       && bonusesAquired.brown >= nobleToImpress.nobleValue.brown 
+       && bonusesAquired.white >= nobleToImpress.nobleValue.white);
 
     }
 
