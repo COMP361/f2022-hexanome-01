@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using JetBrains.Annotations;
+using System.Text;
 
 public static class FileManager {
     //basic file management classes
@@ -30,12 +31,12 @@ public static class FileManager {
     //we only need to use them as strings, so pass a false to second parameter, but having the file option is useful for debugging purposes
     //location of these files on your machine may vary, for windows its in C:/Users/{profile name}/AppData/LocalLow/Comp 361 2022 Hexanome01/Splendor Client
     //(AppData is a hidden folder, so either enable viewing of hidden folders or in search bar put %appdata% to find the folder
-    public static string EncodeSession(Session session, bool desireFileCreation) {
+    public static byte[] EncodeSession(Session session, bool desireFileCreation) {
         SessionData data = new SessionData(session);
         string json = JsonUtility.ToJson(data);
         if(desireFileCreation)
             WriteToFile("SessionData-" + session.playerList[0].username, json);
-        return json;
+        return Encoding.UTF8.GetBytes(json);
     }
 
     public static Session DecodeSession(string source, bool isAFile) { //if not a file, pass the json string. if a file, pass filename (same logic applies for all decode methods)
