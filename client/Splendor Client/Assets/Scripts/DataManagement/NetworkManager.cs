@@ -39,20 +39,25 @@ public class NetworkManager : MonoBehaviour
     }
 
     IEnumerator GetSession(string sessionName){
-        string url = "http://localhost:4244/splendor/getSession/" + sessionName;
+        string url = "http://localhost:4244/splendor/SessionName/" + sessionName;
         using(UnityWebRequest request = UnityWebRequest.Get(url)){
             yield return request.SendWebRequest();
-            if(request.result == UnityWebRequest.Result.ProtocolError || request.result == UnityWebRequest.Result.ConnectionError)
+            if(request.result == UnityWebRequest.Result.ProtocolError || request.result == UnityWebRequest.Result.ConnectionError){
                 Debug.Log(request.error);
-            else
+            }else {
+                //Session session = FileManager.DecodeSession(request.downloadHandler.text, false);
                 Debug.Log(request.downloadHandler.text);
-
+                string session = request.downloadHandler.text;
+                Session sessionreceived = new Session();
+                sessionreceived = FileManager.DecodeSession(session, false);
+                Debug.Log(sessionreceived.getSessionName());
+            }
             
         }
     }
 
     IEnumerator PostSession(){
-       string url = "http://localhost:4244/splendor/postSession";
+       string url = "http://localhost:4244/splendor/Session";
 
        var request = new UnityWebRequest(url, RequestType.POST.ToString());
 
