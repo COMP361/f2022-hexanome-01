@@ -22,4 +22,8 @@ public class Session {
         this.maxPlayers = maxPlayers;
         this.playerList = playerList;
     }
+
+    public string getSessionName(){
+        return sessionName;
+    }
 }

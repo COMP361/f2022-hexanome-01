@@ -1,5 +1,6 @@
 package ca.mcgill.splendorserver.apis;
 
+import ca.mcgill.splendorserver.Database.DataManager;
 import ca.mcgill.splendorserver.models.SessionData;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +16,7 @@ import java.util.Map;
 public class SessionController {
     HashMap<String, SessionData> sessions = new HashMap<String, SessionData>();
 
-    @PostMapping("/postSession")
+    @PostMapping("/Session")
     int receiveSession(@RequestBody SessionData session){
 
         sessions.put(session.getSessionName(), session);
@@ -24,14 +25,14 @@ public class SessionController {
         return session.getMaxPlayers();
     }
 
-    @GetMapping(path = {"/getSession", "/getSession/{sessionName}"})
-    public String getSession(@PathVariable(required=false,name="sessionName") String name) {
-
+    @GetMapping(path = {"/SessionName", "/SessionName/{sessionName}"}, produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public SessionData getSession(@PathVariable(required=false,name="sessionName") String name) {
 
         if (name != null) {
-            return sessions.get(name).getSessionName();
+            return sessions.get(name);
         } else{
-           return "";
+           return null;
         }
     }
 

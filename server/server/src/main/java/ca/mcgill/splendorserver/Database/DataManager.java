@@ -5,7 +5,7 @@ import ca.mcgill.splendorserver.models.SessionData;
 import javax.websocket.Session;
 import java.util.HashMap;
 
-class DataManager {
+public class DataManager {
 
     HashMap<String, SessionData> sessions = new HashMap<String, SessionData>();
 
