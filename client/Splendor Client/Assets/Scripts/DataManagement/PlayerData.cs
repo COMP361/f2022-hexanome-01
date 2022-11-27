@@ -1,10 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
 public class PlayerData {
-    public string username, token; //should password be added?
+    public string username, access_token, refresh_token; //should password be added?
+    public DateTime expires_in;
     public CardData[] inventory, reserved;
     public NobleData[] nobles;
     public int[] discounts = new int[5]; //order: red, green, blue, brown, white
@@ -13,7 +15,9 @@ public class PlayerData {
 
     public PlayerData(LobbyPlayer player) {
         username = player.username;
-        token = player.token;
+        access_token = player.access_token;
+        refresh_token = player.refresh_token;
+        expires_in = player.expires_in;
     }
 
     public PlayerData(Player player) {
@@ -35,7 +39,7 @@ public class PlayerData {
 
     public PlayerData(LobbyPlayer lobbyInfo, Player gameInfo) {
         username = lobbyInfo.username;
-        token = lobbyInfo.token;
+        access_token = lobbyInfo.access_token;
         inventory = new CardData[gameInfo.inventory.Count];
         //reserved = new CardData[player.reserces.Count];
         nobles = new NobleData[gameInfo.noblesVisited.Count];
