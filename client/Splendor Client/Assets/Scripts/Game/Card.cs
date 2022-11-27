@@ -41,6 +41,16 @@ public class CardGemValue {
         set { _white = value; }
     }
 
+    public static CardGemValue combine(CardGemValue a, CardGemValue b) {
+        CardGemValue c = new CardGemValue();
+        c.blue = a.blue + b.blue;
+        c.green = a.green + b.green;
+        c.brown = a.brown + b.brown;
+        c.red = a.red + b.red;
+        c.white = a.white + b.white;
+        return c;
+    }
+
     public void AddGemsToInventory(Card card) {
         Card tempCard = (Card)ScriptableObject.CreateInstance(typeof(Card));
         tempCard = card;
@@ -52,6 +62,21 @@ public class CardGemValue {
             this.brown += tempCard.gemValue.brown;
             this.white += tempCard.gemValue.white;
         }
+    }
+
+    public bool CheckSufficientPay(Card card) {        
+        if (card == null) return false;
+        return !(blue < card.blue || green < card.green || 
+                brown < card.brown || red < card.red || 
+                white < card.white);
+    }
+
+    public void PayFor(Card card) {
+        this.red -= card.red;
+        this.green -= card.green;
+        this.blue -= card.blue;
+        this.brown -= card.brown;
+        this.white -= card.white;
     }
 
 }

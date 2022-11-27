@@ -26,11 +26,11 @@ public class PlayerData {
             nobles[i] = new NobleData(player.noblesVisited[i]);
         /*for (int i = 0;i < reserved.legnth;i++)
          * reserved[i] = new CardData(player.reserves[i]); uncomment when reserved cards are implemented */
-        discounts[0] = player.GetTotalGemsAquired().red;
-        discounts[1] = player.GetTotalGemsAquired().green;
-        discounts[2] = player.GetTotalGemsAquired().blue;
-        discounts[3] = player.GetTotalGemsAquired().brown;
-        discounts[4] = player.GetTotalGemsAquired().white;
+        // discounts[0] = player.GetTotalGemsAquired().red;
+        // discounts[1] = player.GetTotalGemsAquired().green;
+        // discounts[2] = player.GetTotalGemsAquired().blue;
+        // discounts[3] = player.GetTotalGemsAquired().brown;
+        // discounts[4] = player.GetTotalGemsAquired().white;
     }
 
     public PlayerData(LobbyPlayer lobbyInfo, Player gameInfo) {
@@ -45,11 +45,11 @@ public class PlayerData {
             nobles[i] = new NobleData(gameInfo.noblesVisited[i]);
         /*for (int i = 0;i < reserved.legnth;i++)
          * reserved[i] = new CardData(player.reserves[i]); uncomment when reserved cards are implemented */
-        discounts[0] = gameInfo.GetTotalGemsAquired().red;
-        discounts[1] = gameInfo.GetTotalGemsAquired().green;
-        discounts[2] = gameInfo.GetTotalGemsAquired().blue;
-        discounts[3] = gameInfo.GetTotalGemsAquired().brown;
-        discounts[4] = gameInfo.GetTotalGemsAquired().white;
+        // discounts[0] = gameInfo.GetTotalGemsAquired().red;
+        // discounts[1] = gameInfo.GetTotalGemsAquired().green;
+        // discounts[2] = gameInfo.GetTotalGemsAquired().blue;
+        // discounts[3] = gameInfo.GetTotalGemsAquired().brown;
+        // discounts[4] = gameInfo.GetTotalGemsAquired().white;
     }
     
 }
