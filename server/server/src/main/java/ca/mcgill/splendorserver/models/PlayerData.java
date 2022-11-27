@@ -1,10 +1,10 @@
 package ca.mcgill.splendorserver.models;
 
 public class PlayerData {
-	public String username, token; //should password be added?
-    public CardData[] inventory, reserved;
-    public NobleData[] nobles;
-    public int[] discounts = new int[5]; //order: red, green, blue, brown, white
+	private String username, token; //should password be added?
+	private CardData[] inventory, reserved;
+	private NobleData[] nobles;
+	private int[] discounts = new int[5]; //order: red, green, blue, brown, white
 	
     public String getUsername() {
 		return username;
