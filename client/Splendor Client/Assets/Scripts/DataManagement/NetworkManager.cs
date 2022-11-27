@@ -17,6 +17,9 @@ public class Ping {
 
 public class NetworkManager : MonoBehaviour
 {
+
+//FileManager fileManager = new FileManager();
+
    // InputField outputArea;
 
     // Start is called before the first frame update
@@ -26,7 +29,7 @@ public class NetworkManager : MonoBehaviour
         //GameObject.Find("GetButton").GetComponent<Button>().onClick.AddListener(GetData);
     }
 
-    public void GetData() => StartCoroutine(GetData_Coroutine());
+    public void GetData() => StartCoroutine(PostGameState());
 
     // Update is called once per frame
     void Update()
@@ -34,11 +37,11 @@ public class NetworkManager : MonoBehaviour
         
     }
 
-    IEnumerator GetData_Coroutine(){
+    IEnumerator GetGameState(){
         string url = "http://localhost:4244/splendor/ping";
         using(UnityWebRequest request = UnityWebRequest.Get(url)){
             yield return request.SendWebRequest();
-            if(request.isNetworkError || request.isHttpError)
+            if(request.result == UnityWebRequest.Result.ProtocolError || request.result == UnityWebRequest.Result.ConnectionError)
                 Debug.Log(request.error);
             else
                 Debug.Log(request.downloadHandler.text);
@@ -47,13 +50,39 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
+    IEnumerator PostGameState(){
+       string url = "http://localhost:4244/splendor/postSession";
+
+       var request = new UnityWebRequest(url, RequestType.POST.ToString());
+
+       List<LobbyPlayer> playerList = new List<LobbyPlayer>();
+       LobbyPlayer player1 = new LobbyPlayer("player1", "Test");
+       LobbyPlayer player2 = new LobbyPlayer("player2", "Test");
+       LobbyPlayer player3 = new LobbyPlayer("player3", "Test");
+       playerList.Add(player1);
+       playerList.Add(player2);
+       playerList.Add(player3);
+
+       Session session = new Session("Game1", 3, playerList);
+       
+
+       var body = FileManager.EncodeSession(session, false);
+
+       request.uploadHandler = new UploadHandlerRaw(body);
+       request.downloadHandler = new DownloadHandlerBuffer();
+       request.SetRequestHeader("Content-Type", "application/json");
+       yield return request.SendWebRequest();
+       Debug.Log(request.downloadHandler.text);
+
+    }
+
     // private IEnumerator MakeRequests(){
 
-    //     var getRequest = CreateRequest("https://locahost:4244/spendor/ping");
+    //     var getRequest = CreateRequest("http://locahost:4244/splendor/ping");
     //     yield return getRequest.SendWebRequest();
     //     var deserializedGetData = JsonUtility.FromJson<Ping>(getRequest.downloadHandler.text);
     //     //outputArea.text = deserializedGetData.ping;
-    //     Debug.Log(deserializedGetData.ping);
+    //     Debug.Log(deserializedGetData);
         
     // }
 
