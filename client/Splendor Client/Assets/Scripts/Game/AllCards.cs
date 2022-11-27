@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class AllCards : MonoBehaviour
 {
-    [SerializeField] private CardRow[] cards = new CardRow[6];
+    [SerializeField] public CardRow[] cards = new CardRow[6];
     [SerializeField] private int rows;
 
     public void GreyOutExcept(CardSlot _card)
