@@ -10,6 +10,9 @@ public class Deck : MonoBehaviour
     //Takes the first card from the deck and remove it from list of cards 
     public Card DrawCard()
     {
+        if (Count() == 0) {
+            return null;
+        }
         Card cardDrawn = cards[0];
         cards.Remove(cardDrawn);
         return cardDrawn;
@@ -24,5 +27,10 @@ public class Deck : MonoBehaviour
         cards[random] = tempCard;
      }
 
+    }
+
+    public int Count()
+    {
+        return cards.Count;
     }
 }

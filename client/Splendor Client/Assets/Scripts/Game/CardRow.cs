@@ -7,6 +7,8 @@ public class CardRow : MonoBehaviour
 {
     [SerializeField] private int size;
     [SerializeField] private int level;
+    [SerializeField] private GameObject deckSprite;
+
     public Deck deck;
 
     private CardSlot[] cards = new CardSlot[4];
@@ -48,7 +50,7 @@ public class CardRow : MonoBehaviour
         deck.ShuffleDeck();
         for (int i=0; i<size; i++) {
             if (cards[i] == null) {
-                GameObject prefab = Instantiate(cardObject, new Vector3(x + i*2, y, 0), Quaternion.identity);
+                GameObject prefab = Instantiate(cardObject, new Vector3(x + i*1.5F, y, 0), Quaternion.identity);
                 cards[i] = prefab.GetComponent<CardSlot>();
                 cards[i].SetCard(deck.DrawCard());
             }
@@ -69,9 +71,14 @@ public class CardRow : MonoBehaviour
 
     private void fillEmptyCardSpot(int cardIndex)
     {
-        GameObject prefab = Instantiate(cardObject, new Vector3(x + cardIndex*2, y, 0), Quaternion.identity);
+        GameObject prefab = Instantiate(cardObject, new Vector3(x + cardIndex*1.5F, y, 0), Quaternion.identity);
         cards[cardIndex] = prefab.GetComponent<CardSlot>();
-        cards[cardIndex].SetCard(deck.DrawCard());
+        Card drawn = deck.DrawCard();
+        if (drawn == null)
+            cards[cardIndex].EmptySlot();
+        else
+            cards[cardIndex].SetCard(drawn);
+        if (deck.Count() == 0) deckSprite.SetActive(false);
     }
 
     public CardSlot GetCard(int cardIndex)
