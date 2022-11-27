@@ -46,12 +46,12 @@ public static class FileManager {
         return new Session(data);
     }
 
-    public static string EncodeGameState(GameData data, bool desireFileCreation) { //maybe instead of passing the data, pass the parameters and create the payload in this method
+    public static byte[] EncodeGameState(GameData data, bool desireFileCreation) { //maybe instead of passing the data, pass the parameters and create the payload in this method
         //SessionData data = new SessionData(session);
         string json = JsonUtility.ToJson(data);
         if (desireFileCreation)
             WriteToFile("GameData-" + System.DateTime.Now, json);
-        return json;
+        return Encoding.UTF8.GetBytes(json);
     }
 
     public static GameData DecodeGameState(string source, bool isAFile) {
@@ -69,11 +69,11 @@ public static class FileManager {
 
     }
 
-    public static string EncodePlayerData(PlayerData data, bool desireFileCreation) {
+    public static byte[] EncodePlayerData(PlayerData data, bool desireFileCreation) {
         string json = JsonUtility.ToJson(data);
         if (desireFileCreation)
             WriteToFile("PlayerData-" + data.token, json);
-        return json;
+        return Encoding.UTF8.GetBytes(json);
     }
 
     public static PlayerData DecodePlayerData(string source, bool isAFile) {
