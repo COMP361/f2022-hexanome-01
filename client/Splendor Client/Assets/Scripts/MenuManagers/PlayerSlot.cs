@@ -21,7 +21,7 @@ public class PlayerSlot : MonoBehaviour
         SetText();
     }
     public void SetText() {
-        playerName.text = thisLobbyPlayer.userName;
+        playerName.text = thisLobbyPlayer.username;
     }
 
 }
