@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using JetBrains.Annotations;
 
 public static class FileManager {
     //basic file management classes
@@ -26,17 +27,18 @@ public static class FileManager {
     }
 
     //the following are classes to create and read json files/strings. right now filenames are in the format of {ClassName}Data-{identifier}.json
+    //we only need to use them as strings, so pass a false to second parameter, but having the file option is useful for debugging purposes
     //location of these files on your machine may vary, for windows its in C:/Users/{profile name}/AppData/LocalLow/Comp 361 2022 Hexanome01/Splendor Client
     //(AppData is a hidden folder, so either enable viewing of hidden folders or in search bar put %appdata% to find the folder
     public static string EncodeSession(Session session, bool desireFileCreation) {
         SessionData data = new SessionData(session);
         string json = JsonUtility.ToJson(data);
         if(desireFileCreation)
-            WriteToFile("SessionData-" + session.playerList[0].userName, json);
+            WriteToFile("SessionData-" + session.playerList[0].username, json);
         return json;
     }
 
-    public static Session DecodeSession(string source, bool isAFile) { //if not a file, pass the json string. if a file, pass filename
+    public static Session DecodeSession(string source, bool isAFile) { //if not a file, pass the json string. if a file, pass filename (same logic applies for all decode methods)
         string json = isAFile ? ReadFromFIle(source) : source;
         SessionData data = new SessionData();
         JsonUtility.FromJsonOverwrite(json, data);
@@ -64,5 +66,19 @@ public static class FileManager {
 
     public static void CreateSave() {
 
+    }
+
+    public static string EncodePlayerData(PlayerData data, bool desireFileCreation) {
+        string json = JsonUtility.ToJson(data);
+        if (desireFileCreation)
+            WriteToFile("PlayerData-" + data.token, json);
+        return json;
+    }
+
+    public static PlayerData DecodePlayerData(string source, bool isAFile) {
+        string json = isAFile ? ReadFromFIle(source) : source;
+        PlayerData data = new PlayerData();
+        JsonUtility.FromJsonOverwrite(json, data);
+        return data;
     }
 }

@@ -4,44 +4,39 @@ using UnityEngine;
 
 
 public class NobleGemValue {
-       int _red;
-      int _green;
-      int _blue;
-      int _brown;
-      int _white;
+    int _red;
+    int _green;
+    int _blue;
+    int _brown;
+    int _white;
 
-      public NobleGemValue(){
-          this._red = 0;
-          this._green = 0;
-          this._blue = 0;
-          this._brown = 0;
-          this._white = 0;
-      }
+    public NobleGemValue() {
+        this._red = 0;
+        this._green = 0;
+        this._blue = 0;
+        this._brown = 0;
+        this._white = 0;
+    }
 
 
 
-     public int red
-    {
+    public int red {
         get { return _red; }
         set { _red = value; }
     }
-    public int green
-    {
+    public int green {
         get { return _green; }
         set { _green = value; }
     }
-    public int blue
-    {
+    public int blue {
         get { return _blue; }
         set { _blue = value; }
     }
-    public int brown
-    {
+    public int brown {
         get { return _brown; }
         set { _brown = value; }
     }
-    public int white
-    {
+    public int white {
         get { return _white; }
         set { _white = value; }
     }
@@ -49,10 +44,7 @@ public class NobleGemValue {
 
 
 [CreateAssetMenu]
-public class Noble : ScriptableObject
-{
-
-
+public class Noble : ScriptableObject {
     [SerializeField] public int id;
     [SerializeField] private int points;
     [SerializeField] private int red;
@@ -61,7 +53,7 @@ public class Noble : ScriptableObject
     [SerializeField] private int brown;
     [SerializeField] private int white;
 
-    
+
     [SerializeField] public NobleGemValue nobleValue = new NobleGemValue();
 
     private bool active = true;
@@ -69,29 +61,26 @@ public class Noble : ScriptableObject
     public Sprite sprite;
 
     private SpriteRenderer m_SpriteRenderer;
-    
-    public int GetPoints()
-    {
+
+    public void SetValuesFromData(NobleData data) {
+        id = data.id;
+        points = data.points;
+        nobleValue.red = data.red;
+        nobleValue.green = data.green;
+        nobleValue.blue = data.blue;
+        nobleValue.brown = data.brown;
+        nobleValue.white = data.white;
+    }
+    public int GetPoints() {
         return points;
     }
 
-
-
-
-    // Start is called before the first frame update
-    void OnEnable()
-    {
+    void OnEnable() {
         nobleValue.red = this.red;
         nobleValue.blue = this.blue;
         nobleValue.green = this.green;
         nobleValue.brown = this.brown;
         nobleValue.white = this.white;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
 

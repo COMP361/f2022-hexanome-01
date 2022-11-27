@@ -28,10 +28,11 @@ public class MainMenuManager : MonoBehaviour {
     //      
     //      player colours in lobby?
 
+    //EMPTY START METHOD BEFORE DEMO, creates 2 hardcoded players
     private void Start() {
         List<LobbyPlayer> temp1 = new List<LobbyPlayer>();
-        temp1.Add(new LobbyPlayer("Yang"));
-        temp1.Add(new LobbyPlayer("Joshua"));
+        temp1.Add(new LobbyPlayer("Yang", "TEMP"));
+        temp1.Add(new LobbyPlayer("Joshua", "TEMP"));
         sessionList.sessions.Add(new Session("Yang's Game", 4, temp1));
     }
 
