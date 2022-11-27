@@ -8,7 +8,8 @@ public class PlayerControl : MonoBehaviour
     public Dashboard dashboard;
     [SerializeField] private GameObject cursor;
     [SerializeField] private Camera playerCamera;
-    [SerializeField] private Player player;
+    [SerializeField] private Player player; //this client/player
+    [SerializeField] public List<PlayerData> gamePlayersData; //cant change this to a different type later, playerData is combined from LobbyPlayer and Player class
 
     public AllCards allCards;
     private CardSlot selectedCardToBuy;
