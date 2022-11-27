@@ -29,7 +29,8 @@ public class NetworkManager : MonoBehaviour
         //GameObject.Find("GetButton").GetComponent<Button>().onClick.AddListener(GetData);
     }
 
-    public void GetData() => StartCoroutine(PostGameState());
+    public void PostData() => StartCoroutine(PostSession());
+    public void GetData() => StartCoroutine(GetSession("Game1"));
 
     // Update is called once per frame
     void Update()
@@ -37,8 +38,8 @@ public class NetworkManager : MonoBehaviour
         
     }
 
-    IEnumerator GetGameState(){
-        string url = "http://localhost:4244/splendor/ping";
+    IEnumerator GetSession(string sessionName){
+        string url = "http://localhost:4244/splendor/getSession/" + sessionName;
         using(UnityWebRequest request = UnityWebRequest.Get(url)){
             yield return request.SendWebRequest();
             if(request.result == UnityWebRequest.Result.ProtocolError || request.result == UnityWebRequest.Result.ConnectionError)
@@ -50,7 +51,7 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
-    IEnumerator PostGameState(){
+    IEnumerator PostSession(){
        string url = "http://localhost:4244/splendor/postSession";
 
        var request = new UnityWebRequest(url, RequestType.POST.ToString());
