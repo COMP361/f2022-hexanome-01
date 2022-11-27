@@ -1,34 +1,38 @@
 package ca.mcgill.splendorserver.apis;
 
 import ca.mcgill.splendorserver.models.SessionData;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.HashMap; // import the HashMap class
+import java.util.Map;
+
 
 @RestController
 public class SessionController {
-
-    private static FileWriter file;
-
+    HashMap<String, SessionData> sessions = new HashMap<String, SessionData>();
 
     @PostMapping("/postSession")
     int receiveSession(@RequestBody SessionData session){
 
-
-
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            file = new FileWriter("../currentSession.json");
-            file.write(mapper.writeValueAsString(session));
-        }catch (IOException e){
-            e.printStackTrace();
-        }
+        sessions.put(session.getSessionName(), session);
 
         //Will need to handel code to "store session"
         return session.getMaxPlayers();
     }
+
+    @GetMapping(path = {"/getSession", "/getSession/{sessionName}"})
+    public String getSession(@PathVariable(required=false,name="sessionName") String name) {
+
+
+        if (name != null) {
+            return sessions.get(name).getSessionName();
+        } else{
+           return "";
+        }
+    }
+
 }
