@@ -14,7 +14,7 @@ public class Session {
         sessionName = data.sessionName;
         maxPlayers = data.maxPlayers;
         for (int i = 0; i < data.playerList.Length; i++)
-            playerList[i] = data.playerList[i]; //WILL NEED TO CHANGE ONCE IK ACTUAL PLAYER DATA
+            playerList.Add(data.playerList[i]); //WILL NEED TO CHANGE ONCE IK ACTUAL PLAYER DATA
     }
 
     public Session(string sessionName, int maxPlayers, List<LobbyPlayer> playerList) {
