@@ -29,8 +29,8 @@ public class NetworkManager : MonoBehaviour
         //GameObject.Find("GetButton").GetComponent<Button>().onClick.AddListener(GetData);
     }
 
-    public void PostData() => StartCoroutine(PostSession());
-    public void GetData() => StartCoroutine(GetSession("Game1"));
+    public void PostData() => StartCoroutine(PostGame());
+    public void GetData() => StartCoroutine(GetGame("Game1"));
 
     // Update is called once per frame
     void Update()
@@ -80,6 +80,37 @@ public class NetworkManager : MonoBehaviour
        yield return request.SendWebRequest();
        Debug.Log(request.downloadHandler.text);
 
+    }
+
+    IEnumerator GetGame(string gameId) {
+        string url = "http://localhost:4244/splendor/games/" + gameId;
+        using(UnityWebRequest request = UnityWebRequest.Get(url)){
+            yield return request.SendWebRequest();
+            if(request.result == UnityWebRequest.Result.ProtocolError || request.result == UnityWebRequest.Result.ConnectionError)
+                Debug.Log(request.error);
+            else
+                Debug.Log(request.downloadHandler.text);
+
+            
+        }
+    }
+
+    IEnumerator PostGame() {
+        string url = "http://localhost:4244/splendor/games";
+
+        var request = new UnityWebRequest(url, RequestType.POST.ToString());
+        
+        GameData game = new GameData();
+
+        string gameId = "Game1";
+
+        var body = FileManager.EncodeGameState(game, false);
+
+       request.uploadHandler = new UploadHandlerRaw(body);
+       request.downloadHandler = new DownloadHandlerBuffer();
+       request.SetRequestHeader("Content-Type", "application/json");
+       yield return request.SendWebRequest();
+       Debug.Log(request.downloadHandler.text);
     }
 
     // private IEnumerator MakeRequests(){
