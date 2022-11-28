@@ -9,6 +9,8 @@ public class SessionData {
     public LobbyPlayer[] playerList; //WILL NEED TO BE CHANGED/EXPANDED LATER SINCE PLAYERS ARE MORE THAN JUST A NAME and token maybe
 
     public SessionData() { }
+
+    
     public SessionData(Session session) {
         sessionName = session.sessionName;
         maxPlayers = session.maxPlayers;
