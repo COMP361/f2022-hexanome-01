@@ -11,8 +11,6 @@ public class TestPLayerData {
 	@Test
 	public void testMethods() {
 		PlayerData test = new PlayerData(); //other methods need to be added as necessary
-		test.setToken("12345");
-		test.setUsername("Steven");
 		int[] temp = {1, 2, 3, 4, 5};
 		test.setDiscounts(temp);
 		NobleData[] temp1 = {new NobleData()};
@@ -22,7 +20,14 @@ public class TestPLayerData {
 		test.setInventory(temp2);
 		test.setReserved(temp3);
 		
-		assertEquals(test.getToken(), "12345");
+		test.setAccess_token("access");
+		test.setExpires_in("expires");
+		test.setRefresh_token("refresh");
+		test.setUsername("Steven");
+		
+		assertEquals(test.getAccess_token(), "access");
+		assertEquals(test.getExpires_in(), "expires");
+		assertEquals(test.getRefresh_token(), "refresh");
 		assertEquals(test.getUsername(), "Steven");
 		for(int i = 0; i < temp.length;i++)
 			assertEquals(test.getDiscounts()[i], temp[i]);

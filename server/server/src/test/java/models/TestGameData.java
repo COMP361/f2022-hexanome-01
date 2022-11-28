@@ -17,6 +17,7 @@ public class TestGameData {
 		test.setCards(temp2);
 		test.setNobles(temp1);
 		test.setPlayers(temp);
+		test.setGameId("test game");
 		
 		for(int i = 0; i < temp.length;i++)
 			assertEquals(test.getPlayers()[i], temp[i]);
@@ -25,5 +26,6 @@ public class TestGameData {
 		for(int i = 0; i < temp2.length;i++)
 			for(int j = 0;j < temp2[i].length;j++)
 			assertEquals(test.getCards()[i][j], temp2[i][j]);
+		assertEquals(test.getGameId(), "test game");
 	}
 }

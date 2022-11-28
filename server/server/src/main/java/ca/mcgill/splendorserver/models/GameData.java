@@ -1,6 +1,7 @@
 package ca.mcgill.splendorserver.models;
 
 public class GameData {
+	private String gameId;
 	private CardData[][] cards;
 	private NobleData[] noblesDisplayed;
     private PlayerData[] playersInGame; //idk where this data is stored/how to get this data
@@ -28,4 +29,12 @@ public class GameData {
     public PlayerData[] getPlayers() {
     	return playersInGame;
     }
+    
+    public String getGameId() {
+		return gameId;
+	}
+
+	public void setGameId(String gameId) {
+		this.gameId = gameId;
+	}
 }
