@@ -12,6 +12,8 @@ public class GameData {
     public GameData(PlayerControl boardInfo) {
         gameId = boardInfo.gameId;
         noblesDisplayed = new NobleData[boardInfo.noblesOnBoard.Count];
+        for (int i = 0; i < boardInfo.noblesOnBoard.Count; i++)
+            noblesDisplayed[i] = new NobleData(boardInfo.noblesOnBoard[i].GetNoble());
         cards = new CardData[boardInfo.allCards.cards.Length][];
         for (int i = 0; i < boardInfo.allCards.cards.Length; i++) {
             cards[i] = new CardData[boardInfo.allCards.cards[i].deck.Count()];
