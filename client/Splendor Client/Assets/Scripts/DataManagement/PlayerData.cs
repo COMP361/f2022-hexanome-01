@@ -5,8 +5,7 @@ using UnityEngine;
 
 [System.Serializable]
 public class PlayerData {
-    public string username, access_token, refresh_token; //should password be added?
-    public DateTime expires_in;
+    public string username, access_token, refresh_token, expires_in; //should password be added?
     public CardData[] inventory, reserved;
     public NobleData[] nobles;
     public int[] discounts = new int[5]; //order: red, green, blue, brown, white
@@ -40,6 +39,8 @@ public class PlayerData {
     public PlayerData(LobbyPlayer lobbyInfo, Player gameInfo) {
         username = lobbyInfo.username;
         access_token = lobbyInfo.access_token;
+        refresh_token = lobbyInfo.refresh_token;
+        expires_in = lobbyInfo.expires_in;
         inventory = new CardData[gameInfo.inventory.Count];
         //reserved = new CardData[player.reserces.Count];
         nobles = new NobleData[gameInfo.noblesVisited.Count];

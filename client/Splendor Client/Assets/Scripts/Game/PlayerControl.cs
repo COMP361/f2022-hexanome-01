@@ -11,6 +11,8 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private Player player; //this client/player
     [SerializeField] public List<PlayerData> gamePlayersData; //cant change this to a different type later, playerData is combined from LobbyPlayer and Player class
 
+    public string gameId;
+
     public AllCards allCards;
     private CardSlot selectedCardToBuy;
 

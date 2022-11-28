@@ -1,7 +1,7 @@
 package ca.mcgill.splendorserver.models;
 
 public class PlayerData {
-	private String username, token; //should password be added?
+	private String username, access_token, refresh_token, expires_in; //should password be added?
 	private CardData[] inventory, reserved;
 	private NobleData[] nobles;
 	private int[] discounts = new int[5]; //order: red, green, blue, brown, white
@@ -14,15 +14,31 @@ public class PlayerData {
 		this.username = username;
 	}
 	
-    public String getToken() {
-		return token;
+    public String getAccess_token() {
+		return access_token;
 	}
-	
-    public void setToken(String token) {
-		this.token = token;
+
+	public void setAccess_token(String access_token) {
+		this.access_token = access_token;
 	}
-	
-    public CardData[] getInventory() {
+
+	public String getRefresh_token() {
+		return refresh_token;
+	}
+
+	public void setRefresh_token(String refresh_token) {
+		this.refresh_token = refresh_token;
+	}
+
+	public String getExpires_in() {
+		return expires_in;
+	}
+
+	public void setExpires_in(String expires_in) {
+		this.expires_in = expires_in;
+	}
+
+	public CardData[] getInventory() {
 		return inventory;
 	}
 	
