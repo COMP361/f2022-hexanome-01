@@ -9,7 +9,7 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private GameObject cursor;
     [SerializeField] private Camera playerCamera;
     [SerializeField] private Player player; //this client/player
-    [SerializeField] public List<PlayerData> gamePlayersData; //cant change this to a different type later, playerData is combined from LobbyPlayer and Player class
+    [SerializeField] public List<PlayerData> gamePlayersData; //can change this to a different type later, playerData is combined from LobbyPlayer and Player class
 
     public string gameId;
 
@@ -102,6 +102,19 @@ public class PlayerControl : MonoBehaviour
         dashboard.ResetEndDisplay();
         allCards.GreyOut();
         StartTurn(); // Player's turn temporarily restarts immediately after end turn
+    }
+
+    public void SetGameData(GameData data) {
+        gameId = data.gameId;
+
+        gamePlayersData = new List<PlayerData>(data.playersInGame);
+        
+        for (int i = 0; i < data.noblesDisplayed.Length; i++)
+            noblesOnBoard[i].GetNoble().SetData(data.noblesDisplayed[i]);
+        
+        for (int i = 0; i < allCards.cards.Length; i++) 
+            for (int j = 0; j < allCards.cards[i].deck.Count(); j++)
+                allCards.cards[i].deck.cards[j].SetData(data.cards[i][j]);
     }
 
     public void StartTurn() // Start of player's turn

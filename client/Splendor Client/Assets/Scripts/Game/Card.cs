@@ -101,7 +101,7 @@ public class Card : ScriptableObject {
 
     private SpriteRenderer m_SpriteRenderer;
 
-    public void SetValuesFromData(CardData data) {
+    public void SetData(CardData data) {
         id = data.id;
         points = data.points;
         bonus = data.bonus;

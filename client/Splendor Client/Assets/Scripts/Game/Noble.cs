@@ -62,6 +62,15 @@ public class Noble : ScriptableObject {
 
     private SpriteRenderer m_SpriteRenderer;
 
+    public void SetData(NobleData data) {
+        id = data.id;
+        points = data.points;
+        red = data.red;
+        blue = data.blue;
+        green = data.green;
+        brown = data.brown;
+        white = data.white;
+    }
     public void SetValuesFromData(NobleData data) {
         id = data.id;
         points = data.points;
