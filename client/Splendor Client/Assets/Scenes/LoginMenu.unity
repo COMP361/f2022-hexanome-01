@@ -1243,6 +1243,7 @@ MonoBehaviour:
   passwordField: {fileID: 429015468}
   failureText: {fileID: 1068479509}
   username: 
+  mainPlayer: {fileID: 11400000, guid: f0eaca2cb6e0e48a7b2fb69740473fb7, type: 2}
 --- !u!1 &1462177017
 GameObject:
   m_ObjectHideFlags: 0
