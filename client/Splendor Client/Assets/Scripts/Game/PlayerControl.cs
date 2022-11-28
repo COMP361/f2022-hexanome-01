@@ -94,7 +94,7 @@ public class PlayerControl : MonoBehaviour
 
 
         /////// TEST SAVE GAME AFTER TURN ////////////
-        GameData data = new GameData(gameId, allCards, allNobles, gamePlayersData);
+        GameData data = new GameData(this);
         db.UpdateGame(data);
         ///////////////////////////////////////////////
 
@@ -107,8 +107,10 @@ public class PlayerControl : MonoBehaviour
 
         gamePlayersData = new List<PlayerData>(data.playersInGame);
         
-        for (int i = 0; i < data.noblesDisplayed.Length; i++)
-            noblesOnBoard[i].GetNoble().SetData(data.noblesDisplayed[i]);
+        for (int i = 0; i < data.noblesDisplayed.Length; i++)          
+            allNobels.nobles[i].GetNoble().SetData(data.noblesDisplayed[i]);
+
+        // noblesOnBoard[i].GetNoble().SetData(data.noblesDisplayed[i]);
         
         for (int i = 0; i < allCards.cards.Length; i++) 
             for (int j = 0; j < allCards.cards[i].deck.Count(); j++)
