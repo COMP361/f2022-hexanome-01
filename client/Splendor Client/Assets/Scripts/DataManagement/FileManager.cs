@@ -72,7 +72,7 @@ public static class FileManager {
     public static byte[] EncodePlayerData(PlayerData data, bool desireFileCreation) {
         string json = JsonUtility.ToJson(data);
         if (desireFileCreation)
-            WriteToFile("PlayerData-" + data.token, json);
+            WriteToFile("PlayerData-" + data.access_token, json);
         return Encoding.UTF8.GetBytes(json);
     }
 
