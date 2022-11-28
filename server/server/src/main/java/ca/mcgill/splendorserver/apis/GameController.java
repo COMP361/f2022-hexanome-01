@@ -1,8 +1,6 @@
 package ca.mcgill.splendorserver.apis;
 
 import ca.mcgill.splendorserver.models.GameData;
-import ca.mcgill.splendorserver.models.PlayerData;
-import org.springframework.expression.AccessException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,21 +11,23 @@ public class GameController {
 
     private HashMap<String, GameData> games = new HashMap<String, GameData>();
 
-    @GetMapping(path = {"/games", "/games/{gameId}"})
-    public String getGame(@PathVariable(required = false, name = "gameId") String gameId){
+    @GetMapping(path = {"/GameId", "/GameId/{gameId}"}, produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public GameData getGame(@PathVariable(required = false, name = "gameId") String gameId){
         if (gameId != null) {
-            return "Splendor";
+            return games.get(gameId);
         }
         else {
-            return "empty";
+            return null;
         }
     }
 
-    @PostMapping("/games")
-    public String createGame(@RequestBody String gameId) {
-        games.put(gameId, new GameData());
+    @PostMapping("/Game")
+    public String createGame(@RequestBody GameData game) {
 
-        return "gameId";
+        games.put(game.getGameId(), game);
+
+        return game.getGameId();
     }
 
 
