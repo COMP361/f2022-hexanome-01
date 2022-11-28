@@ -12,7 +12,7 @@ public class GameServiceRegistrationParameters {
   private final int minSessionPlayers = 2;
   private final boolean webSupport = false;
 
-  GameServiceRegistrationParameters(String name, String displayName, String location) {
+  public GameServiceRegistrationParameters(String name, String displayName, String location) {
     this.name = name;
     this.displayName = displayName;
     this.location = location;

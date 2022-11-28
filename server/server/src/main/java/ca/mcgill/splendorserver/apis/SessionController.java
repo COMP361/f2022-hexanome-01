@@ -17,7 +17,7 @@ public class SessionController {
     HashMap<String, SessionData> sessions = new HashMap<String, SessionData>();
 
     @PostMapping("/Session")
-    int receiveSession(@RequestBody SessionData session){
+    public int receiveSession(@RequestBody SessionData session){
 
         sessions.put(session.getSessionName(), session);
 
