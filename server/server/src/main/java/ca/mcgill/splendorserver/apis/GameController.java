@@ -30,5 +30,9 @@ public class GameController {
         return game.getGameId();
     }
 
+    @PutMapping(path= {"/Game/GameId/{gameId}"}, consumes= "application/json; charset=UTF-8")
+    public String lauchGame(@PathVariable String gameId, @RequestBody GameData game) {
+        return createGame(game);
+    }
 
 }
