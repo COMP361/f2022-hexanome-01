@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public class GameData {
     public string gameId;
     public CardData[][] cards;
@@ -11,7 +12,9 @@ public class GameData {
     public GameData() { }
     public GameData(PlayerControl boardInfo) {
         gameId = boardInfo.gameId;
-        noblesDisplayed = new NobleData[boardInfo.noblesOnBoard.Count];
+        noblesDisplayed = new NobleData[boardInfo.allNobels.nobles.Length];
+        for (int i = 0; i < boardInfo.allNobels.nobles.Length; i++)
+            noblesDisplayed[i] = new NobleData(boardInfo.allNobels.nobles[i].GetNoble());
         cards = new CardData[boardInfo.allCards.cards.Length][];
         for (int i = 0; i < boardInfo.allCards.cards.Length; i++) {
             cards[i] = new CardData[boardInfo.allCards.cards[i].deck.Count()];
@@ -22,4 +25,6 @@ public class GameData {
         for (int i = 0; i < boardInfo.gamePlayersData.Count; i++)
             playersInGame[i] = boardInfo.gamePlayersData[i];
     }
+
+
 }

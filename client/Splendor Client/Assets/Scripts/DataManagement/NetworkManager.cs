@@ -30,8 +30,17 @@ public class NetworkManager : MonoBehaviour
         //GameObject.Find("GetButton").GetComponent<Button>().onClick.AddListener(GetData);
     }
 
-    public void PostData() => StartCoroutine(PostSession());
+
+    ////////////// For Testing on test scene ////////////
+    public void PostData() { 
+        GameData game = new GameData();
+        string gameId = "Game1";
+        StartCoroutine(PostSession());
+    }
     public void GetData() => StartCoroutine(GetSession("Game1"));
+    /////////////////////////////////////////////////////
+
+    public void UpdateGame(GameData newGameData) => StartCoroutine(PostGame(newGameData));
 
     // Update is called once per frame
     void Update()
@@ -97,16 +106,16 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
-    IEnumerator PostGame() {
-        string url = "http://localhost:4244/splendor/games";
+    
+    IEnumerator PostGame(GameData newGameData) {
+        string url = "http://localhost:4244/splendor/Game";
 
         var request = new UnityWebRequest(url, RequestType.POST.ToString());
         
-        GameData game = new GameData();
 
-        string gameId = "Game1";
-
-        var body = FileManager.EncodeGameState(game, false);
+        Debug.Log(newGameData.gameId);
+        var body = FileManager.EncodeGameState(newGameData, true);
+        
 
        request.uploadHandler = new UploadHandlerRaw(body);
        request.downloadHandler = new DownloadHandlerBuffer();

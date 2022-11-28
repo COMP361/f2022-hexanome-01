@@ -9,7 +9,7 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private GameObject cursor;
     [SerializeField] private Camera playerCamera;
     [SerializeField] private Player player; //this client/player
-    [SerializeField] public List<PlayerData> gamePlayersData; //cant change this to a different type later, playerData is combined from LobbyPlayer and Player class
+    [SerializeField] public List<PlayerData> gamePlayersData; //can change this to a different type later, playerData is combined from LobbyPlayer and Player class
 
     public string gameId;
 
@@ -17,7 +17,6 @@ public class PlayerControl : MonoBehaviour
     private CardSlot selectedCardToBuy;
 
     public NobleRow allNobels; 
-    public List<NobleSlot> noblesOnBoard = new List<NobleSlot>();
 
     private InputAction fire;
     private InputAction look;
@@ -26,6 +25,8 @@ public class PlayerControl : MonoBehaviour
     
     private InputActionMap _inputActionMap;
     
+    public NetworkManager db;
+
     private void Start()
     {
         selectedCardToBuy = null;
@@ -70,22 +71,11 @@ public class PlayerControl : MonoBehaviour
             allCards.RemoveCard(selectedCardToBuy);
             selectedCardToBuy = null;
         }
-
-        allNobels = GameObject.Find("NobleRow").GetComponent<NobleRow>();
-
-        //Get each slot from row of nobels
-        foreach(NobleSlot nobleSlot in allNobels.GetAllNobels()){
-
-            if(nobleSlot!=null){
-                noblesOnBoard.Add(nobleSlot);
-            }
-        }
         
         Noble tempNoble = (Noble) ScriptableObject.CreateInstance(typeof(Noble));
 
         // For each noble in the row check if they are impressed
-        foreach(NobleSlot noble in noblesOnBoard){
-
+        foreach(NobleSlot noble in allNobels.nobles){
             if(noble!=null){
                 tempNoble = noble.GetNoble();
                 if(player.hasImpressed(tempNoble)){
@@ -101,7 +91,30 @@ public class PlayerControl : MonoBehaviour
 
         dashboard.ResetEndDisplay();
         allCards.GreyOut();
+
+
+        /////// TEST SAVE GAME AFTER TURN ////////////
+        GameData data = new GameData(this);
+        db.UpdateGame(data);
+        ///////////////////////////////////////////////
+
+
         StartTurn(); // Player's turn temporarily restarts immediately after end turn
+    }
+
+    public void SetGameData(GameData data) {
+        gameId = data.gameId;
+
+        gamePlayersData = new List<PlayerData>(data.playersInGame);
+        
+        for (int i = 0; i < data.noblesDisplayed.Length; i++)          
+            allNobels.nobles[i].GetNoble().SetData(data.noblesDisplayed[i]);
+
+        // noblesOnBoard[i].GetNoble().SetData(data.noblesDisplayed[i]);
+        
+        for (int i = 0; i < allCards.cards.Length; i++) 
+            for (int j = 0; j < allCards.cards[i].deck.Count(); j++)
+                allCards.cards[i].deck.cards[j].SetData(data.cards[i][j]);
     }
 
     public void StartTurn() // Start of player's turn
