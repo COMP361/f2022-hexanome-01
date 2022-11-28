@@ -1,7 +1,6 @@
 package models;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+import static org.junit.Assert.assertEquals;
 import org.junit.*;
 
 import ca.mcgill.splendorserver.models.*;
