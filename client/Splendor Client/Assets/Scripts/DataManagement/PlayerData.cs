@@ -6,7 +6,7 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerData {
     public string username, access_token, refresh_token, expires_in; //should password be added?
-    public CardData[] inventory, reserved;
+    public CardData[] inventory;//, reserved;
     public NobleData[] nobles;
     public int[] discounts = new int[5]; //order: red, green, blue, brown, white
 

@@ -8,7 +8,7 @@ public class NobleRow : MonoBehaviour
     [SerializeField] private int size;
     public NobleDeck deck;
 
-    private NobleSlot[] nobles = new NobleSlot[5];
+    public NobleSlot[] nobles = new NobleSlot[5];
 
     public float x;
     public float y;

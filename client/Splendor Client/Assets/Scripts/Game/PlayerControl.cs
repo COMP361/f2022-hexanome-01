@@ -17,7 +17,6 @@ public class PlayerControl : MonoBehaviour
     private CardSlot selectedCardToBuy;
 
     public NobleRow allNobels; 
-    public List<NobleSlot> noblesOnBoard = new List<NobleSlot>();
 
     private InputAction fire;
     private InputAction look;
@@ -26,6 +25,8 @@ public class PlayerControl : MonoBehaviour
     
     private InputActionMap _inputActionMap;
     
+    public NetworkManager db;
+
     private void Start()
     {
         selectedCardToBuy = null;
@@ -70,22 +71,11 @@ public class PlayerControl : MonoBehaviour
             allCards.RemoveCard(selectedCardToBuy);
             selectedCardToBuy = null;
         }
-
-        allNobels = GameObject.Find("NobleRow").GetComponent<NobleRow>();
-
-        //Get each slot from row of nobels
-        foreach(NobleSlot nobleSlot in allNobels.GetAllNobels()){
-
-            if(nobleSlot!=null){
-                noblesOnBoard.Add(nobleSlot);
-            }
-        }
         
         Noble tempNoble = (Noble) ScriptableObject.CreateInstance(typeof(Noble));
 
         // For each noble in the row check if they are impressed
-        foreach(NobleSlot noble in noblesOnBoard){
-
+        foreach(NobleSlot noble in allNobels.nobles){
             if(noble!=null){
                 tempNoble = noble.GetNoble();
                 if(player.hasImpressed(tempNoble)){
@@ -101,6 +91,14 @@ public class PlayerControl : MonoBehaviour
 
         dashboard.ResetEndDisplay();
         allCards.GreyOut();
+
+
+        /////// TEST SAVE GAME AFTER TURN ////////////
+        GameData data = new GameData(gameId, allCards, allNobles, gamePlayersData);
+        db.UpdateGame(data);
+        ///////////////////////////////////////////////
+
+
         StartTurn(); // Player's turn temporarily restarts immediately after end turn
     }
 

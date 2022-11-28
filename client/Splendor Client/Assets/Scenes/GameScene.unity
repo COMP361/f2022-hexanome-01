@@ -2132,6 +2132,7 @@ GameObject:
   - component: {fileID: 691041387}
   - component: {fileID: 691041386}
   - component: {fileID: 691041389}
+  - component: {fileID: 691041390}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2255,6 +2256,7 @@ MonoBehaviour:
   allNobels: {fileID: 1549385823}
   noblesOnBoard: []
   controls: {fileID: -944628639613478452, guid: 68b0984844d79b345af0ecff893baaed, type: 3}
+  db: {fileID: 691041390}
 --- !u!4 &691041388
 Transform:
   m_ObjectHideFlags: 0
@@ -2283,6 +2285,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventory: []
   noblesVisited: []
+--- !u!114 &691041390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 691041385}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d590eb9103d34634acce0057d8885c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &712499013
 GameObject:
   m_ObjectHideFlags: 0

@@ -21,8 +21,10 @@ public class GameData {
             for (int j = 0; j < boardInfo.allCards.cards[i].deck.Count(); j++)
                 cards[i][j] = new CardData(boardInfo.allCards.cards[i].deck.cards[j]);
         }
-        playersInGame = new PlayerData[boardInfo.gamePlayersData.Count];
-        for (int i = 0; i < boardInfo.gamePlayersData.Count; i++)
-            playersInGame[i] = boardInfo.gamePlayersData[i];
+        playersInGame = new PlayerData[gamePlayersData.Count];
+        for (int i = 0; i < gamePlayersData.Count; i++)
+            playersInGame[i] = gamePlayersData[i];
     }
+
+
 }
