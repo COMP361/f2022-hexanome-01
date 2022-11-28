@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,7 @@ public class LoginManager : MonoBehaviour {
     public InputField usernameField, passwordField; //username and password
     public GameObject failureText; //error text
     public string username;
+    public Authentication mainPlayer; //player authentication data across scenes
 
     public void loginStart() {
         StartCoroutine(VerifyLogin());
@@ -28,27 +30,29 @@ public class LoginManager : MonoBehaviour {
         auth.SetRequestHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=");
 
         yield return auth.SendWebRequest();
+        DateTime time = DateTime.Now;
 
         if (auth.result != UnityWebRequest.Result.Success)
         {
             failureText.SetActive(true); //if credentials wrong, display error message
-            UnityEngine.Debug.Log(auth.downloadHandler.text);
         }
         else
         {
-            Login();
-            //eventually to be similar to the following (except System.Text.Json doesn't exist anymore):
-            //Login(JsonSerializer.Deserialize<Dictionary<string, string>>((auth.downloadHandler.text)));
+            Login(auth.downloadHandler.text, username, time);
         }
             
     }
 
-    //eventually will need a parameter as follows:
-    //Dictionary<string,string> response
-    public void Login() { //log player in. atm just loads next scene
+    public void Login(string response, string username, DateTime time) { //log player in
 
-        //eventually should add player data to store across scenes
+        //parse POST JSON response into mainPlayer
+        JsonUtility.FromJsonOverwrite(response, mainPlayer);
+        
+        mainPlayer.expires_in = time.AddMinutes(Double.Parse(mainPlayer.expires_in)).ToString(); //set the expiry time
+        mainPlayer.username = username; //add the player's username
 
+
+        //loads next scene
         SceneManager.LoadScene(1);
     }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -63,9 +64,9 @@ public class NetworkManager : MonoBehaviour
        var request = new UnityWebRequest(url, RequestType.POST.ToString());
 
        List<LobbyPlayer> playerList = new List<LobbyPlayer>();
-       LobbyPlayer player1 = new LobbyPlayer("player1", "Test", "Test_Refresh", new System.DateTime());
-       LobbyPlayer player2 = new LobbyPlayer("player2", "Test", "Test_Refresh", new System.DateTime());
-       LobbyPlayer player3 = new LobbyPlayer("player3", "Test", "Test_Refresh", new System.DateTime());
+       LobbyPlayer player1 = new LobbyPlayer("player1", "Test", "Test_Refresh", DateTime.Now.ToString());
+       LobbyPlayer player2 = new LobbyPlayer("player2", "Test", "Test_Refresh", DateTime.Now.ToString());
+       LobbyPlayer player3 = new LobbyPlayer("player3", "Test", "Test_Refresh", DateTime.Now.ToString());
        playerList.Add(player1);
        playerList.Add(player2);
        playerList.Add(player3);

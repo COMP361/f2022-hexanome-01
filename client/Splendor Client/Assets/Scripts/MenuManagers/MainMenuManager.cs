@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -31,8 +32,8 @@ public class MainMenuManager : MonoBehaviour {
     //EMPTY START METHOD BEFORE DEMO, creates 2 hardcoded players
     private void Start() {
         List<LobbyPlayer> temp1 = new List<LobbyPlayer>();
-        temp1.Add(new LobbyPlayer("Yang", "TEMP", "TEMP_REFRESH", new System.DateTime()));
-        temp1.Add(new LobbyPlayer("Joshua", "TEMP", "TEMP_REFRESH", new System.DateTime()));
+        temp1.Add(new LobbyPlayer("Yang", "TEMP", "TEMP_REFRESH", DateTime.Now.ToString()));
+        temp1.Add(new LobbyPlayer("Joshua", "TEMP", "TEMP_REFRESH", DateTime.Now.ToString()));
         sessionList.sessions.Add(new Session("Yang's Game", 4, temp1));
     }
 
