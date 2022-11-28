@@ -49,8 +49,8 @@ public class NetworkManager : MonoBehaviour
                 Debug.Log(request.downloadHandler.text);
                 string session = request.downloadHandler.text;
                 Session sessionreceived = new Session();
-                sessionreceived = FileManager.DecodeSession(session, false);
-                Debug.Log(sessionreceived.getSessionName());
+                //sessionreceived = FileManager.DecodeSession(session, false);
+                //Debug.Log(sessionreceived.getSessionName());
             }
             
         }
