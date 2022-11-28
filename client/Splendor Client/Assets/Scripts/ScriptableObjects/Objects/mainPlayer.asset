@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23909515b754c4d8981b47ea0fc5757c, type: 3}
   m_Name: mainPlayer
   m_EditorClassIdentifier: 
-  username: 
-  access_token: 
-  refresh_token: 
-  expires_in: 
+  username: default
+  access_token: default
+  refresh_token: default
+  expires_in: default
