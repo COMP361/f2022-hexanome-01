@@ -29,8 +29,8 @@ public class NetworkManager : MonoBehaviour
         //GameObject.Find("GetButton").GetComponent<Button>().onClick.AddListener(GetData);
     }
 
-    public void PostData() => StartCoroutine(PostGame());
-    public void GetData() => StartCoroutine(GetGame("Game1"));
+    public void PostData() => StartCoroutine(PostSession());
+    public void GetData() => StartCoroutine(GetSession("Game1"));
 
     // Update is called once per frame
     void Update()
@@ -49,8 +49,9 @@ public class NetworkManager : MonoBehaviour
                 Debug.Log(request.downloadHandler.text);
                 string session = request.downloadHandler.text;
                 Session sessionreceived = new Session();
-                //sessionreceived = FileManager.DecodeSession(session, false);
-                //Debug.Log(sessionreceived.getSessionName());
+                
+                sessionreceived = FileManager.DecodeSession(session, false);
+                Debug.Log(sessionreceived.getSessionName());
             }
             
         }
