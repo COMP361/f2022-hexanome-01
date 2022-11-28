@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.HashMap; // import the HashMap class
 import java.util.Map;
 
@@ -17,7 +18,7 @@ public class SessionController {
     HashMap<String, SessionData> sessions = new HashMap<String, SessionData>();
 
     @PostMapping("/Session")
-    int receiveSession(@RequestBody SessionData session){
+    public int receiveSession(@RequestBody SessionData session){
 
         sessions.put(session.getSessionName(), session);
 
@@ -34,6 +35,12 @@ public class SessionController {
         } else{
            return null;
         }
+    }
+
+    @GetMapping(path = {"/SessionName"}, produces = "application/json; charset=UTF-8")
+    @ResponseBody
+    public Object[] getSessions() {
+        return sessions.values().toArray();
     }
 
 }
