@@ -1242,6 +1242,7 @@ MonoBehaviour:
   usernameField: {fileID: 1845316537}
   passwordField: {fileID: 429015468}
   failureText: {fileID: 1068479509}
+  username: 
 --- !u!1 &1462177017
 GameObject:
   m_ObjectHideFlags: 0
@@ -1438,7 +1439,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.38543266, y: 0.55600005}
   m_AnchorMax: {x: 0.61300004, y: 0.63254845}
-  m_AnchoredPosition: {x: 1.5045929, y: -0.000030517578}
+  m_AnchoredPosition: {x: 1.5045776, y: -0.000030517578}
   m_SizeDelta: {x: 442.48, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1845316537
@@ -1631,7 +1632,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1431071404}
         m_TargetAssemblyTypeName: LoginManager, Assembly-CSharp
-        m_MethodName: VerifyLogin
+        m_MethodName: loginStart
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
