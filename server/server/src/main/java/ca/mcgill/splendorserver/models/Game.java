@@ -21,6 +21,27 @@ public class Game {
   private int turnIndex = 0;
   
   /**
+   * Constructs game for debugging.
+   *
+   */
+  public Game() {
+    this.id = "test";
+    this.name = "Test Game";
+    this.numOfPlayers = 2;
+    this.players[0] = new PlayerData("Jeremy");
+    this.players[1] = new PlayerData("Josh");
+    for (Deck deck : decks) {
+      deck.shuffle();
+    }
+    for (int i = 0; i < 3; i++) {
+      decks[i] = new Deck(4);
+    }
+    for (int i = 3; i < 6; i++) {
+      decks[i] = new Deck(2);
+    }
+  }
+  
+  /**
    * Constructs game.
    *
    * @param id id of game
