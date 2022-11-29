@@ -24,7 +24,7 @@ public class GameData {
         nobles = boardInfo.allNobels.ToArray();
 
         for (int i=0; i<6; i++) {
-            shuffleSeeds[i] = boardInfo.addCards.cards[i].deck.randomSeed;
+            shuffleSeeds[i] = boardInfo.allCards.cards[i].deck.randomSeed;
         }
 
         row1 = boardInfo.allCards.cards[0].DeckToArray();
