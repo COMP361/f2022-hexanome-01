@@ -154,6 +154,7 @@ public class MainMenuManager : MonoBehaviour {
         demo.playerList.Add(demoHost);
         LobbyPlayer demoPlayer = new LobbyPlayer();
         demoPlayer.username = "linus";
+        demo.playerList.Add(demoPlayer);
         sessionList.sessions.Add(demo);
         //
 
@@ -202,6 +203,9 @@ public class MainMenuManager : MonoBehaviour {
     }
 
     public void StartGame() { //available to host in game lobby
+        LobbyPlayer demoPlayer = new LobbyPlayer();
+        demoPlayer.username = "linus";
+        currentSession.playerList.Add(demoPlayer);
         networkManager.registerGame(new GameConfigData(authentication, new SessionData(currentSession), allCards, allNobles));
         globalGameClient.id = authentication.username + "-" + currentSession.sessionName;
         SceneManager.LoadScene(2);
