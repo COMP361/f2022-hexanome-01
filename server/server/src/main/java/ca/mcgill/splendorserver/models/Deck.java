@@ -22,6 +22,18 @@ public class Deck {
   }
 
   /**
+   * Constructs deck from array of cards.
+   *
+   * @param onBoard card number on board
+   * @param cards cards to init with
+   */
+  public Deck(int onBoard, CardData[] cards) {
+    cardsInDeck = new ArrayList<CardData>();
+    Collections.addAll(cardsInDeck, cards);
+    this.onBoard = onBoard;
+  }
+
+  /**
    * Populates deck.
    *
    * @param cards for population

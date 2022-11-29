@@ -19,11 +19,21 @@ public class GameData {
   /**
    * Constructor.
    *
-   * @param currentGame game to contruct off of
+   * @param currentGame game to construct off of
    */
   public GameData(Game currentGame) {
     gameId = currentGame.getId();
     currentPlayer = currentGame.getCurrentPlayer();
+    CardData[][] cardsOnBoard = currentGame.getCardsOnBoard();
+    row1 = cardsOnBoard[0];
+    row2 = cardsOnBoard[1];
+    row3 = cardsOnBoard[2];
+    exRow1 = cardsOnBoard[3];
+    exRow2 = cardsOnBoard[4];
+    exRow3 = cardsOnBoard[5];
+    
+    nobles = currentGame.getNobles();
+    
     players = currentGame.getPlayers();
   }
 
