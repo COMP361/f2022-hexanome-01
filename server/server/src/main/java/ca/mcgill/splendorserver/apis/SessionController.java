@@ -15,32 +15,31 @@ import java.util.Map;
 
 @RestController
 public class SessionController {
-    HashMap<String, SessionData> sessions = new HashMap<String, SessionData>();
+  HashMap<String, SessionData> sessions = new HashMap<String, SessionData>();
 
-    @PostMapping("/Session")
-    public int receiveSession(@RequestBody SessionData session){
+  @PostMapping("/Session")
+  public int receiveSession(@RequestBody SessionData session){
 
-        sessions.put(session.getSessionName(), session);
+    sessions.put(session.getSessionName(), session);
 
-        //Will need to handel code to "store session"
-        return session.getMaxPlayers();
+    //Will need to handel code to "store session"
+    return session.getMaxPlayers();
+  }
+
+  @GetMapping(path = {"/SessionName", "/SessionName/{sessionName}"}, produces = "application/json; charset=UTF-8")
+  @ResponseBody
+  public SessionData getSession(@PathVariable(required=false,name="sessionName") String name) {
+
+    if (name != null) {
+      return sessions.get(name);
+    } else {
+      return null;
     }
+  }
 
-    @GetMapping(path = {"/SessionName", "/SessionName/{sessionName}"}, produces = "application/json; charset=UTF-8")
-    @ResponseBody
-    public SessionData getSession(@PathVariable(required=false,name="sessionName") String name) {
-
-        if (name != null) {
-            return sessions.get(name);
-        } else{
-           return null;
-        }
-    }
-
-    @GetMapping(path = {"/SessionName"}, produces = "application/json; charset=UTF-8")
-    @ResponseBody
-    public Object[] getSessions() {
-        return sessions.values().toArray();
-    }
-
+  @GetMapping(path = {"/SessionName"}, produces = "application/json; charset=UTF-8")
+  @ResponseBody
+  public Object[] getSessions() {
+    return sessions.values().toArray();
+  }
 }
