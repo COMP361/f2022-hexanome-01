@@ -37,7 +37,9 @@ public class Game {
       }
     }
     for (Deck deck : decks) {
-      deck.shuffle();
+      if (deck != null) {
+        deck.shuffle();
+      }
     }
     for (int i = 0; i < 3; i++) {
       decks[i] = new Deck(4);
