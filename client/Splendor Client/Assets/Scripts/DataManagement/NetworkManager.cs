@@ -35,7 +35,7 @@ public class NetworkManager : MonoBehaviour
     public void PostData() { 
         GameData game = new GameData();
         string gameId = "Game1";
-        StartCoroutine(PostSession());
+        //StartCoroutine(PostSession());
     }
     public void GetData() => StartCoroutine(GetSession("Game1"));
     /////////////////////////////////////////////////////
@@ -67,22 +67,27 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
-    IEnumerator PostSession(){
+    public IEnumerator GetSessions() {
+        string url = "http://localhost:4244/splendor/SessionName/";
+
+        using(UnityWebRequest request = UnityWebRequest.Get(url)){
+            yield return request.SendWebRequest();
+            if(request.result == UnityWebRequest.Result.ProtocolError || request.result == UnityWebRequest.Result.ConnectionError) {
+                Debug.Log(request.error);
+            }
+            else {
+                
+            }
+        }
+    }
+
+    IEnumerator PostSession(Session session){
        string url = "http://localhost:4244/splendor/Session";
 
        var request = new UnityWebRequest(url, RequestType.POST.ToString());
 
-       List<LobbyPlayer> playerList = new List<LobbyPlayer>();
-       LobbyPlayer player1 = new LobbyPlayer("player1", "Test", "Test_Refresh", DateTime.Now.ToString());
-       LobbyPlayer player2 = new LobbyPlayer("player2", "Test", "Test_Refresh", DateTime.Now.ToString());
-       LobbyPlayer player3 = new LobbyPlayer("player3", "Test", "Test_Refresh", DateTime.Now.ToString());
-       playerList.Add(player1);
-       playerList.Add(player2);
-       playerList.Add(player3);
-
-       Session session = new Session("Game1", 3, playerList);
+       // Session session = new Session(sessionName, maxPlayers, new List<LobbyPlayer>());
        
-
        var body = FileManager.EncodeSession(session, false);
 
        request.uploadHandler = new UploadHandlerRaw(body);
