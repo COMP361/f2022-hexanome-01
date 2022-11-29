@@ -11,8 +11,7 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private Player player; //this client/player
     [SerializeField] public List<PlayerData> gamePlayersData; //can change this to a different type later, playerData is combined from LobbyPlayer and Player class
 
-    public string gameId;
-    public int currentPlayer;
+    public GlobalGameClient globalGameClient;
 
     public AllCards allCards;
     private CardSlot selectedCardToBuy;
@@ -35,7 +34,7 @@ public class PlayerControl : MonoBehaviour
     private void Start()
     {
         waiting = true;
-        db.InitializePolling(gameId, mainPlayer, this);
+        db.InitializePolling(globalGameClient.id, mainPlayer, this);
 
         selectedCardToBuy = null;
         _inputActionMap = controls.FindActionMap("Player");
@@ -99,15 +98,15 @@ public class PlayerControl : MonoBehaviour
             }
         }
 
-        dashboard.ResetEndDisplay();
+        dashboard.DisplayWaiting();
         allCards.GreyOut();
 
         waiting = true;
 
-        db.endTurn(gameId, player.turnData, mainPlayer, this);
+        db.endTurn(globalGameClient.id, player.turnData, mainPlayer, this);
 
         /////// TEST SAVE GAME AFTER TURN ////////////
-        GameData data = new GameData(this);
+        // GameData data = new GameData(this);
         
 
         //db.UpdateGame(data);
@@ -134,6 +133,7 @@ public class PlayerControl : MonoBehaviour
 
     public void StartTurn() // Start of player's turn
     {
+        dashboard.ResetEndDisplay();
         allCards.UnGreyOut();
         waiting = false;
     }

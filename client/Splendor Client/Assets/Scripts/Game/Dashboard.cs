@@ -25,6 +25,11 @@ public class Dashboard : MonoBehaviour
         endDisplay.text = "Purchase";
     }
 
+    public void DisplayWaiting()
+    {
+        endDisplay.text = "Waiting";
+    }
+
     public void ResetEndDisplay()
     {
         endDisplay.text = "End Turn";

@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class GameConfigData {
     public string gameName;
-    public string hostName;
+    public string hostId;
     public string[] playerIds;
   
     public CardData[] deck1;
@@ -20,7 +20,7 @@ public class GameConfigData {
     public GameConfigData() { }
     public GameConfigData(Authentication mainPlayer, SessionData session, AllCards allCards, NobleRow allNobles) {
         gameName = session.sessionName;
-        hostName = mainPlayer.username;
+        hostId = mainPlayer.username;
         playerIds = new string[4];
         for(int i = 0;i < session.playerList.Length; i++) {
             playerIds[i] = session.playerList[i].username;

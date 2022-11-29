@@ -14,4 +14,11 @@ public class LobbyPlayer {
         this.refresh_token = refresh_token;
         this.expires_in = expires_in;
     }
+
+    public LobbyPlayer(Authentication authentication) {
+        this.username = authentication.username;
+        this.access_token = authentication.access_token;
+        this.refresh_token = authentication.refresh_token;
+        this.expires_in = authentication.expires_in;
+    }
 }

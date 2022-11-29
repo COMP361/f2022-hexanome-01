@@ -25,12 +25,14 @@ public class MainMenuManager : MonoBehaviour {
     private bool sessionCreated;
     private LastMenuVisited previousMenu = LastMenuVisited.MAIN;
     public Save DEFAULTSAVE; //temp var until saves work properly.
-    private NetworkManager networkManager;
-    // private Authentication authentication;
+    public NetworkManager networkManager;
+    public Authentication authentication;
     private SessionData[] sessions;
 
     public AllCards allCards;
     public NobleRow allNobles;
+
+    public GlobalGameClient globalGameClient;
     //TODO
     //      
     //      player colours in lobby?
@@ -81,6 +83,7 @@ public class MainMenuManager : MonoBehaviour {
                 } 
             }
             createdSession.maxPlayers = maxPlayers;
+            createdSession.playerList.Add(new LobbyPlayer(authentication));
 
             // authentication = Instantiate(authentication);
 
@@ -183,6 +186,8 @@ public class MainMenuManager : MonoBehaviour {
     }
 
     public void StartGame() { //available to host in game lobby
+        networkManager.registerGame(new GameConfigData(authentication, new SessionData(currentSession), allCards, allNobles));
+        globalGameClient.id = authentication.username + "-" + currentSession.sessionName;
         SceneManager.LoadScene(2);
     }
 }

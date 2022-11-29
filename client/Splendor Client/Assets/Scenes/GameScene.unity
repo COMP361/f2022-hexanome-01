@@ -1870,7 +1870,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: End Turn
+  m_Text: Waiting
 --- !u!222 &615537885
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2251,13 +2251,12 @@ MonoBehaviour:
   playerCamera: {fileID: 1175326242}
   player: {fileID: 691041389}
   gamePlayersData: []
-  gameId: 
-  currentPlayer: 0
+  globalGameClient: {fileID: 11400000, guid: e173fde9a6432464f8c29d8c55b1ffb0, type: 2}
   allCards: {fileID: 911230083}
   allNobels: {fileID: 1549385823}
   controls: {fileID: -944628639613478452, guid: 68b0984844d79b345af0ecff893baaed, type: 3}
   db: {fileID: 691041390}
-  mainPlayer: {fileID: 0}
+  mainPlayer: {fileID: 11400000, guid: f0eaca2cb6e0e48a7b2fb69740473fb7, type: 2}
 --- !u!4 &691041388
 Transform:
   m_ObjectHideFlags: 0
