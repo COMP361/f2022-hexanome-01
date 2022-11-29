@@ -141,9 +141,22 @@ public class MainMenuManager : MonoBehaviour {
     public void MakeSessions() { //displays sessions in menu
         currentSession = null;
         // networkManager.getSessions(sessions);
-        foreach (SessionData s in sessions) {
-            sessionList.sessions.Add(new Session(s));
-        }
+        // foreach (SessionData s in sessions) {
+        //     sessionList.sessions.Add(new Session(s));
+        // }
+
+        // HARDCODE FOR DEMO
+        Session demo = new Session();
+        demo.sessionName = "maex-demo";
+        demo.maxPlayers = 2;
+        LobbyPlayer demoHost = new LobbyPlayer();
+        demoHost.username = "maex";
+        demo.playerList.Add(demoHost);
+        LobbyPlayer demoPlayer = new LobbyPlayer();
+        demoPlayer.username = "linus";
+        sessionList.sessions.Add(demo);
+        //
+
         ClearChildren(sessionContent);
         foreach (Session session in sessionList.sessions) {
             GameObject temp = Instantiate(blankSessionSlot, sessionContent.transform.position, Quaternion.identity);
