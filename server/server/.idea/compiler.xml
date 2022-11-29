@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="splendorserver" target="1.8" />
+      <module name="splendorserver" target="9" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
