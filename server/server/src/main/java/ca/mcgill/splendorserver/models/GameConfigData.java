@@ -109,4 +109,74 @@ public class GameConfigData {
   public NobleData[] getAllNobles() {
     return allNobles;
   }
+
+/**
+ * @param gameName the gameName to set
+ */
+public void setGameName(String gameName) {
+	this.gameName = gameName;
+}
+
+/**
+ * @param hostId the hostId to set
+ */
+public void setHostId(String hostId) {
+	this.hostId = hostId;
+}
+
+/**
+ * @param playerIds the playerIds to set
+ */
+public void setPlayerIds(String[] playerIds) {
+	this.playerIds = playerIds;
+}
+
+/**
+ * @param deck1 the deck1 to set
+ */
+public void setDeck1(CardData[] deck1) {
+	this.deck1 = deck1;
+}
+
+/**
+ * @param deck2 the deck2 to set
+ */
+public void setDeck2(CardData[] deck2) {
+	this.deck2 = deck2;
+}
+
+/**
+ * @param deck3 the deck3 to set
+ */
+public void setDeck3(CardData[] deck3) {
+	this.deck3 = deck3;
+}
+
+/**
+ * @param exDeck1 the exDeck1 to set
+ */
+public void setExDeck1(CardData[] exDeck1) {
+	this.exDeck1 = exDeck1;
+}
+
+/**
+ * @param exDeck2 the exDeck2 to set
+ */
+public void setExDeck2(CardData[] exDeck2) {
+	this.exDeck2 = exDeck2;
+}
+
+/**
+ * @param exDeck3 the exDeck3 to set
+ */
+public void setExDeck3(CardData[] exDeck3) {
+	this.exDeck3 = exDeck3;
+}
+
+/**
+ * @param allNobles the allNobles to set
+ */
+public void setAllNobles(NobleData[] allNobles) {
+	this.allNobles = allNobles;
+}
 }

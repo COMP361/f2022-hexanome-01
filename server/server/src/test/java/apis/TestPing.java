@@ -9,5 +9,10 @@ public class TestPing {
 	public void Test() {
 		PingController test = new PingController();
 		assertEquals(test.ping(), "Ping");
+		assertEquals(test.pingPolling(), false);
+		test.elapsedTime = 1;
+		assertEquals(test.pingPolling(), false);
+		test.startTime = -2*60*1000 - 1;
+		assertEquals(test.pingPolling(), true);
 	}
 }
