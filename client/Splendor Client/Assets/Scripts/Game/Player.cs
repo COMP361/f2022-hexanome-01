@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
 
     public Authentication mainPlayer;
 
+    public TurnData turnData = new TurnData();
+
     void Start()
     {
         tokensAquired.blue = 5; // Hardcode for demo only; REMOVE FOR PROD
