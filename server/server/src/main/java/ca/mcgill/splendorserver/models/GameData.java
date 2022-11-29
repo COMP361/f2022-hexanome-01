@@ -5,6 +5,7 @@ package ca.mcgill.splendorserver.models;
  */
 public class GameData {
   private String gameId;
+  public int currentPlayer;
   private CardData[] row1;
   private CardData[] row2;
   private CardData[] row3;
@@ -85,5 +86,13 @@ public class GameData {
 
   public void setExRow3(CardData[] exRow3) {
     this.exRow3 = exRow3;
+  }
+  
+  public int getCurrentPlayer() {
+    return currentPlayer;
+  }
+
+  public void setCurrentPlayer(int currentPlayer) {
+    this.currentPlayer = currentPlayer;
   }
 }
