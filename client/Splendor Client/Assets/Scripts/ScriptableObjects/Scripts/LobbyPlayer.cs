@@ -8,6 +8,7 @@ using UnityEngine;
 public class LobbyPlayer {
     public string username, access_token, refresh_token, expires_in;
 
+    public LobbyPlayer() {}
     public LobbyPlayer(string username, string access_token, string refresh_token, string expires_in) {
         this.username = username;
         this.access_token = access_token;
