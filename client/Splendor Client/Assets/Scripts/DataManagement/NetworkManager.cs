@@ -160,7 +160,7 @@ public class NetworkManager : MonoBehaviour
 
     private IEnumerator StartPolling(string gameId){
        string url = "http://localhost:4244/splendor/update/" + gameId;
-       bool ready = false;
+       
        for(;;){
         using(UnityWebRequest request = UnityWebRequest.Get(url)){
             yield return request.SendWebRequest();
@@ -168,9 +168,6 @@ public class NetworkManager : MonoBehaviour
                 Debug.Log(request.error);
             }else {
                 Debug.Log(request.downloadHandler.text);
-                string readyText = request.downloadHandler.text;
-                ready = bool.Parse(readyText);
-                Debug.Log(ready);
 
                 string gameString = request.downloadHandler.text;
 
