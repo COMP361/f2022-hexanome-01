@@ -123,7 +123,6 @@ public class GameConfigData {
    * Sets hostId.
    *
    * @param hostId the hostId to set
-   * 
    */
   public void setHostId(String hostId) {
     this.hostId = hostId;
@@ -133,7 +132,6 @@ public class GameConfigData {
    * Sets playerIds.
    *
    * @param playerIds the playerIds to set
-   * 
    */
   public void setPlayerIds(String[] playerIds) {
     this.playerIds = playerIds;
@@ -143,7 +141,6 @@ public class GameConfigData {
    * Sets deck1.
    *
    * @param deck1 the deck1 to set
-   * 
    */
   public void setDeck1(CardData[] deck1) {
     this.deck1 = deck1;
@@ -153,7 +150,6 @@ public class GameConfigData {
    * Sets deck2.
    *
    * @param deck2 the deck2 to set
-   * 
    */
   public void setDeck2(CardData[] deck2) {
     this.deck2 = deck2;
@@ -163,7 +159,6 @@ public class GameConfigData {
    * Sets deck3.
    *
    * @param deck3 the deck3 to set
-   * 
    */
   public void setDeck3(CardData[] deck3) {
     this.deck3 = deck3;
@@ -173,7 +168,6 @@ public class GameConfigData {
    * Sets exdeck1.
    *
    * @param exDeck1 the exDeck1 to set
-   * 
    */
   public void setExDeck1(CardData[] exDeck1) {
     this.exDeck1 = exDeck1;
@@ -183,7 +177,6 @@ public class GameConfigData {
    * Sets exdeck2.
    *
    * @param exDeck2 the exDeck2 to set
-   * 
    */
   public void setExDeck2(CardData[] exDeck2) {
     this.exDeck2 = exDeck2;
@@ -193,7 +186,6 @@ public class GameConfigData {
    * Sets exdeck3.
    *
    * @param exDeck3 the exDeck3 to set
-   * 
    */
   public void setExDeck3(CardData[] exDeck3) {
     this.exDeck3 = exDeck3;
@@ -203,7 +195,6 @@ public class GameConfigData {
    * Sets all nobles.
    *
    * @param allNobles the allNobles to set
-   * 
    */
   public void setAllNobles(NobleData[] allNobles) {
     this.allNobles = allNobles;
