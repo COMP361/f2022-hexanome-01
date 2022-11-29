@@ -4,7 +4,9 @@ package ca.mcgill.splendorserver.models;
  * Stores and manages Splendor game data.
  */
 public class GameData {
+
   private String gameId;
+  private int currentPlayer;
   private CardData[] row1;
   private CardData[] row2;
   private CardData[] row3;
@@ -12,7 +14,7 @@ public class GameData {
   private CardData[] exRow2;
   private CardData[] exRow3;
   private NobleData[] nobles;
-  private PlayerData[] players; //idk where this data is stored/how to get this data
+  private PlayerData[] players;
 
   /**
    * Setter for nobles.
@@ -174,5 +176,23 @@ public class GameData {
    */
   public void setExRow3(CardData[] exRow3) {
     this.exRow3 = exRow3;
+  }
+
+  /**
+   * Getter for current player.
+   *
+   * @return current player int id
+   */
+  public int getCurrentPlayer() {
+    return currentPlayer;
+  }
+
+  /**
+   * Setter for current player.
+   *
+   * @param currentPlayer current player int id
+   */
+  public void setCurrentPlayer(int currentPlayer) {
+    this.currentPlayer = currentPlayer;
   }
 }
