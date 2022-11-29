@@ -30,7 +30,7 @@ public class TestGame {
     tempData.setExDeck1(temp1);
     tempData.setExDeck2(temp1);
     tempData.setExDeck3(temp1);
-    NobleData[] temp2 = {new NobleData()};
+    NobleData[] temp2 = {new NobleData(), new NobleData(), new NobleData()};
     tempData.setAllNobles(temp2);
     Game test2 = new Game("test2", tempData);
     
@@ -40,7 +40,7 @@ public class TestGame {
     assertEquals(test1.getCurrentPlayer().getId(), temp3[0].getId());
     assertEquals(test1.getPlayers()[0].getId(), temp3[0].getId());
     
-    test1.updateGame(new TurnData(-1, -1, -1));
+    test1.updateGame(new TurnData(null, null));
     assertEquals(test1.getCurrentPlayer().getId(), temp3[1].getId());
   }
 }
