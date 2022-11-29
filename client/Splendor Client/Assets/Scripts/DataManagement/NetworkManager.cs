@@ -46,7 +46,9 @@ public class NetworkManager : MonoBehaviour
 
     public void getSessions(SessionData[] sessions) => StartCoroutine(GetSessions(sessions));
 
-    public void InitializePolling(string gameId, Authentication player) => StartCoroutine(StartPolling(gameId, player));
+    public void InitializePolling(string gameId, Authentication player, PlayerControl control) => StartCoroutine(StartPolling(gameId, player, control));
+
+    public void endTurn(string gameId, TurnData turnData, Authentication mainPlayer, PlayerControl control) => StartCoroutine(EndTurnUpdate(gameId, turnData, mainPlayer, control));
 
     //public void UpdateGame(GameData newGameData) => StartCoroutine(PostGame(newGameData));
 
@@ -126,7 +128,7 @@ public class NetworkManager : MonoBehaviour
     }
 
     
-    IEnumerator EndTurnUpdate(string gameId, TurnData turnData, Authentication mainPlayer) {
+    IEnumerator EndTurnUpdate(string gameId, TurnData turnData, Authentication mainPlayer, PlayerControl control) {
 
         string url = "http://localhost:4244/splendor/endturn/" + gameId;
 
@@ -140,7 +142,7 @@ public class NetworkManager : MonoBehaviour
         yield return request.SendWebRequest();
         Debug.Log(request.downloadHandler.text);
 
-        StartCoroutine(StartPolling(gameId, mainPlayer));
+        StartCoroutine(StartPolling(gameId, mainPlayer, control));
     }
 
     IEnumerator PostGame(GameConfigData gameConfigData) {
@@ -160,7 +162,7 @@ public class NetworkManager : MonoBehaviour
 
     
 
-    private IEnumerator StartPolling(string gameId, Authentication mainPlayer){
+    private IEnumerator StartPolling(string gameId, Authentication mainPlayer, PlayerControl control){
        string url = "http://localhost:4244/splendor/update/" + gameId;
        
        for(;;){
@@ -175,8 +177,10 @@ public class NetworkManager : MonoBehaviour
 
                 GameData game = FileManager.DecodeGameState(gameString, false);
 
-                if(game.players[game.currentPlayer].id == mainPlayer.username)
+                if(game.players[game.currentPlayer].id == mainPlayer.username) {
+                    control.StartTurn();
                     break;
+                }
 
             
             }
