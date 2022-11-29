@@ -56,8 +56,16 @@ public class GameController {
     return game.getGameId();
   }
 
+  /**
+   * Launches game.
+   *
+   * @param gameId the id of the game
+   * @param game the game data for the game with id as above
+   * @return the string of JSON game data
+   * @throws JsonProcessingException when JSON has a processing error
+   */
   @PutMapping(path = {"/GameId/{gameId}"}, consumes = "application/json; charset=UTF-8")
-  public String lauchGame(@PathVariable String gameId, 
+  public String launchGame(@PathVariable String gameId,
       @RequestBody GameData game) throws JsonProcessingException {
     return createGame(game);
   }

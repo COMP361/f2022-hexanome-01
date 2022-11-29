@@ -9,9 +9,6 @@ public class Deck : MonoBehaviour
     public int level;
     [SerializeField]public List<Card> cards = new List<Card>(); 
     //Takes the first card from the deck and remove it from list of cards 
-
-    public int randomSeed;
-
     public Card DrawCard()
     {
         if (Count() == 0) {
@@ -21,42 +18,15 @@ public class Deck : MonoBehaviour
         cards.Remove(cardDrawn);
         return cardDrawn;
     }
-
-    public void ShuffleDeckWithSeed(int seed)
-    {
-        randomSeed = seed;
-        
-        var rng = new Random(seed);
-        int n = cards.Count;
-
-        while (n > 1)
-        {
-            n--;
-            int k = rng.Next(n + 1);
-            Card value = cards[k];
-            cards[k] = cards[n];
-            cards[n] = value;
-        }
-
-    }
-
     //Shuffles the whole whole deck
     public void ShuffleDeck()
     {
-        Random random = new Random();
-        randomSeed = random.Next();
-
-        var rng = new Random(seed);
-        int n = cards.Count;
-
-        while (n > 1)
-        {
-            n--;
-            int k = rng.Next(n + 1);
-            Card value = cards[k];
-            cards[k] = cards[n];
-            cards[n] = value;
-        }
+        for (int i = 0; i < cards.Count; i++) {
+        Card tempCard = cards[i];
+        int random = Random.Range(i, cards.Count);
+        cards[i] = cards[random];
+        cards[random] = tempCard;
+     }
 
     }
 

@@ -49,6 +49,11 @@ public class SessionController {
     }
   }
 
+  /**
+   * Getter for sessions.
+   *
+   * @return array of sessions as objects
+   */
   @GetMapping(path = {"/SessionName"}, produces = "application/json; charset=UTF-8")
   @ResponseBody
   public Object[] getSessions() {

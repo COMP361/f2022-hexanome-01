@@ -45,6 +45,18 @@ public class CardRow : MonoBehaviour
         for (int i=0; i<size; i++) cards[i].UnGreyOut();
     }
 
+    void FillEmptyCards()
+    {
+        deck.ShuffleDeck();
+        for (int i=0; i<size; i++) {
+            if (cards[i] == null) {
+                GameObject prefab = Instantiate(cardObject, new Vector3(x + i*1.5F, y, 0), Quaternion.identity);
+                cards[i] = prefab.GetComponent<CardSlot>();
+                cards[i].SetCard(deck.DrawCard());
+            }
+        }
+    }
+
     public void RemoveCard(CardSlot cardToRemove)
     {
         for(int i = 0; i < cards.Length; i++)
@@ -82,14 +94,7 @@ public class CardRow : MonoBehaviour
     void Start()
     {
         size = Math.Min(size, 4);
-        deck.ShuffleDeck();
-        for (int i=0; i<size; i++) {
-            if (cards[i] == null) {
-                GameObject prefab = Instantiate(cardObject, new Vector3(x + i*1.5F, y, 0), Quaternion.identity);
-                cards[i] = prefab.GetComponent<CardSlot>();
-                cards[i].SetCard(deck.DrawCard());
-            }
-        }
+        FillEmptyCards();
     }
 
 }
