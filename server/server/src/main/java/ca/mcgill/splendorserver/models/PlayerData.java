@@ -56,14 +56,29 @@ public class PlayerData {
     return nobles;
   }
   
+  /**
+   * Sets nobles.
+   *
+   * @param nobles
+   */
   public void setNobles(NobleData[] nobles) {
     this.nobles = nobles;
   }
   
+  /**
+   * Gets discounts.
+   *
+   * @return discounts
+   */
   public int[] getDiscounts() {
     return discounts;
   }
   
+  /**
+   * Sets discounts.
+   *
+   * @param discounts
+   */
   public void setDiscounts(int[] discounts) {
     this.discounts = discounts;
   }
