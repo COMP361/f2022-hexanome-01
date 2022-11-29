@@ -147,7 +147,7 @@ public class MainMenuManager : MonoBehaviour {
 
         // HARDCODE FOR DEMO
         Session demo = new Session();
-        demo.sessionName = "maex-demo";
+        demo.sessionName = "test";
         demo.maxPlayers = 2;
         LobbyPlayer demoHost = new LobbyPlayer();
         demoHost.username = "maex";

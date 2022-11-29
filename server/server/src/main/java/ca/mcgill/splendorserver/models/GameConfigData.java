@@ -121,7 +121,7 @@ public class GameConfigData {
 
   /**
    * sets hostId.
-   * 
+   *
    * @param hostId the hostId to set
    * 
    */
@@ -131,7 +131,7 @@ public class GameConfigData {
 
   /**
    * sets playerIds.
-   * 
+   *
    * @param playerIds the playerIds to set
    * 
    */
@@ -141,7 +141,7 @@ public class GameConfigData {
 
   /**
    * sets deck1.
-   * 
+   *
    * @param deck1 the deck1 to set
    * 
    */
@@ -149,9 +149,9 @@ public class GameConfigData {
     this.deck1 = deck1;
   }
 
-   /**
-    * sets deck2.
-    * 
+  /**
+   * sets deck2.
+   *
    * @param deck2 the deck2 to set
    * 
    */
@@ -161,7 +161,7 @@ public class GameConfigData {
 
   /**
    * sets deck3.
-   * 
+   *
    * @param deck3 the deck3 to set
    * 
    */
@@ -171,7 +171,7 @@ public class GameConfigData {
 
   /**
    * sets exdeck1.
-   * 
+   *
    * @param exDeck1 the exDeck1 to set
    * 
    */
@@ -181,7 +181,7 @@ public class GameConfigData {
 
   /**
    * sets exdeck2.
-   * 
+   *
    * @param exDeck2 the exDeck2 to set
    * 
    */
@@ -191,7 +191,7 @@ public class GameConfigData {
 
   /**
    * sets exdeck3.
-   * 
+   *
    * @param exDeck3 the exDeck3 to set
    * 
    */
@@ -201,7 +201,7 @@ public class GameConfigData {
 
   /**
    * sets all nobles.
-   * 
+   *
    * @param allNobles the allNobles to set
    * 
    */
