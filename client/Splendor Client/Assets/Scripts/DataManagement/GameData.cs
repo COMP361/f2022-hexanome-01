@@ -5,6 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class GameData {
     public string gameId;
+    public int[] shuffleSeeds;
     public int currentPlayer;
     public CardData[] row1;
     public CardData[] row2;
@@ -21,6 +22,10 @@ public class GameData {
         gameId = boardInfo.gameId;
         currentPlayer = boardInfo.currentPlayer;
         nobles = boardInfo.allNobels.ToArray();
+
+        for (int i=0; i<6; i++) {
+            shuffleSeeds[i] = boardInfo.addCards.cards[i].deck.randomSeed;
+        }
 
         row1 = boardInfo.allCards.cards[0].DeckToArray();
         row2 = boardInfo.allCards.cards[1].DeckToArray();
