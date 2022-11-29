@@ -25,6 +25,9 @@ public class MainMenuManager : MonoBehaviour {
     private bool sessionCreated;
     private LastMenuVisited previousMenu = LastMenuVisited.MAIN;
     public Save DEFAULTSAVE; //temp var until saves work properly.
+    private NetworkManager networkManager;
+    // private Authentication authentication;
+    private SessionData[] sessions;
     //TODO
     //      
     //      player colours in lobby?
@@ -74,8 +77,16 @@ public class MainMenuManager : MonoBehaviour {
                     break;
                 } 
             }
-            NetworkManager.Invoke("PostSession", 0);
-            StartCoroutine(NetworkManager.PostSession(createSession));
+            createdSession.maxPlayers = maxPlayers;
+
+            // authentication = Instantiate(authentication);
+
+            // string username = authentication.username;
+            // string access_token = authentication.access_token;
+            // string refresh_token = authentication.refresh_token;
+            // string expires_in = authentication.expires_in;
+            // LobbyPlayer host = new LobbyPlayer(username, access_token, refresh_token, expires_in);
+            // StartCoroutine(networkManager.postSession(sessionName, maxPlayers, host));
             sessionCreated = true;
             currentSession = createdSession;
             //add host/this player to playerlist of created session here
@@ -120,6 +131,10 @@ public class MainMenuManager : MonoBehaviour {
 
     public void MakeSessions() { //displays sessions in menu
         currentSession = null;
+        networkManager.getSessions(sessions);
+        foreach (SessionData s in sessions) {
+            sessionList.sessions.Add(new Session(s));
+        }
         ClearChildren(sessionContent);
         foreach (Session session in sessionList.sessions) {
             GameObject temp = Instantiate(blankSessionSlot, sessionContent.transform.position, Quaternion.identity);
