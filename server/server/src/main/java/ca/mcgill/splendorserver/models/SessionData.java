@@ -1,5 +1,8 @@
 package ca.mcgill.splendorserver.models;
 
+/**
+ * Stores and manages session data.
+ */
 public class SessionData {
   private String sessionName;
   private int maxPlayers;

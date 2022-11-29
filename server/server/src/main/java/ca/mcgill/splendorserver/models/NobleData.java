@@ -1,5 +1,8 @@
 package ca.mcgill.splendorserver.models;
 
+/**
+ * Stores and manages nobles data.
+ */
 public class NobleData {
   private int id;
   private int points;

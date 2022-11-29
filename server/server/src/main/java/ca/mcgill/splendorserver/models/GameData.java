@@ -1,5 +1,8 @@
 package ca.mcgill.splendorserver.models;
 
+/**
+ * Stores and manages Splendor game data.
+ */
 public class GameData {
   private String gameId;
   private CardData[][] cards;
