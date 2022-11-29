@@ -48,7 +48,7 @@ public class NetworkManager : MonoBehaviour
 
     //public void UpdateGame(GameData newGameData) => StartCoroutine(PostGame(newGameData));
 
-    public void GameboardPolling(string gameId) => StartCoroutine(StartPolling(gameId));
+    public void GameboardPolling() => StartCoroutine(StartPolling("test"));
 
     // Update is called once per frame
     void Update()
@@ -175,9 +175,9 @@ public class NetworkManager : MonoBehaviour
 
             
             }
-
+            yield return new WaitForSeconds(3);
             
-            StartCoroutine(PollTimer());
+            //StartCoroutine(PollTimer());
             
         }
        }
