@@ -1,8 +1,10 @@
-package Database;
+package database;
+
 import static org.junit.Assert.assertEquals;
-import org.junit.*;
-import ca.mcgill.splendorserver.Database.*;
+
+import ca.mcgill.splendorserver.database.DataManager;
 import ca.mcgill.splendorserver.models.SessionData;
+import org.junit.Test;
 
 
 public class TestDataManager {

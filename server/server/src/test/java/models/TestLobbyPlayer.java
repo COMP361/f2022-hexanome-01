@@ -10,14 +10,14 @@ public class TestLobbyPlayer {
 	@Test
 	public void testMethods() {
 		LobbyPlayer test = new LobbyPlayer(); //other methods need to be added as necessary
-		test.setAccess_token("access");
-		test.setExpires_in("expires");
-		test.setRefresh_token("refresh");
+		test.setAccessToken("access");
+		test.setExpiresIn("expires");
+		test.setRefreshToken("refresh");
 		test.setUsername("Steven");
 		
-		assertEquals(test.getAccess_token(), "access");
-		assertEquals(test.getExpires_in(), "expires");
-		assertEquals(test.getRefresh_token(), "refresh");
+		assertEquals(test.getAccessToken(), "access");
+		assertEquals(test.getExpiresIn(), "expires");
+		assertEquals(test.getRefreshToken(), "refresh");
 		assertEquals(test.getUsername(), "Steven");
 	}
 }

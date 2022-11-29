@@ -1,5 +1,8 @@
 package ca.mcgill.splendorserver.models;
 
+/**
+ * Holds the data for each card as stored on client as well.
+ */
 public class CardData {
   private int id;
   private int points;
