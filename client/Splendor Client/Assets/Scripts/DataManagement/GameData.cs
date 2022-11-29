@@ -12,17 +12,16 @@ public class GameData {
     public CardData[] exRow1;
     public CardData[] exRow2;
     public CardData[] exRow3;
-    public NobleData[] noblesDisplayed;
-    public PlayerData[] playersInGame; //idk where this data is stored/how to get this data
+    public NobleData[] nobles;
+    public PlayerData[] players; //idk where this data is stored/how to get this data
     
 
     public GameData() { }
     public GameData(PlayerControl boardInfo) {
         gameId = boardInfo.gameId;
         currentPlayer = boardInfo.currentPlayer;
-        noblesDisplayed = boardInfo.allNobels.ToArray();
+        nobles = boardInfo.allNobels.ToArray();
 
-        Debug.Log(noblesDisplayed[0].points);
         row1 = boardInfo.allCards.cards[0].DeckToArray();
         row2 = boardInfo.allCards.cards[1].DeckToArray();
         row3 = boardInfo.allCards.cards[2].DeckToArray();
@@ -30,9 +29,7 @@ public class GameData {
         exRow2 = boardInfo.allCards.cards[4].DeckToArray();
         exRow3 = boardInfo.allCards.cards[5].DeckToArray();
        
-        playersInGame = new PlayerData[boardInfo.gamePlayersData.Count];
-        for (int i = 0; i < boardInfo.gamePlayersData.Count; i++)
-            playersInGame[i] = boardInfo.gamePlayersData[i];
+        players = boardInfo.gamePlayersData.ToArray();
     }
 
 
