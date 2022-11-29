@@ -33,4 +33,15 @@ public class Deck : MonoBehaviour
     {
         return cards.Count;
     }
+
+    public CardData[] ToArray()
+    {
+        CardData[] cardsData = new CardData[cards.Count];
+        for(int i = 0; i < cards.Count; i++){
+            cardsData[i] = new CardData(cards[i]);
+        }   
+        return cardsData;
+
+    }
+
 }

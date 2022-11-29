@@ -86,6 +86,11 @@ public class CardRow : MonoBehaviour
         return cards[cardIndex];
     }
 
+    public CardData[] DeckToArray()
+    {
+        return deck.ToArray();
+    }
+
     void Start()
     {
         size = Math.Min(size, 4);
