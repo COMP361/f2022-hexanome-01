@@ -59,8 +59,8 @@ public class MainMenuManager : MonoBehaviour {
         if (nameField.GetComponent<InputField>().text != "") {
             previousMenu = LastMenuVisited.MAIN;
             createSession.Invoke(); //location of this event may change in the future
-            // string sessionName = sessionNameText.text;
-            // int maxPlayers = 4;
+            string sessionName = sessionNameText.text;
+            int maxPlayers = 4;
             createdSession.sessionName = sessionNameText.text;
             //determine player count based on selected toggle
             Toggle[] toggles = GetComponents<Toggle>();
