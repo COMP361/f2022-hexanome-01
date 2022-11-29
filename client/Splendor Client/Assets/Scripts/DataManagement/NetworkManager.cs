@@ -96,7 +96,7 @@ public class NetworkManager : MonoBehaviour
 
        var request = new UnityWebRequest(url, RequestType.POST.ToString());
 
-       // Session session = new Session(sessionName, maxPlayers, new List<LobbyPlayer>());
+       Session session = new Session(sessionName, maxPlayers, new List<LobbyPlayer>());
        
        var body = FileManager.EncodeSession(session, false);
 
