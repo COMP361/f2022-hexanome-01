@@ -30,14 +30,14 @@ public class Game {
     this.numOfPlayers = 2;
     this.players[0] = new PlayerData("Jeremy");
     this.players[1] = new PlayerData("Josh");
-    for (Deck deck : decks) {
-      deck.shuffle();
-    }
     for (int i = 0; i < 3; i++) {
       decks[i] = new Deck(4);
     }
     for (int i = 3; i < 6; i++) {
       decks[i] = new Deck(2);
+    }
+    for (Deck deck : decks) {
+      deck.shuffle();
     }
   }
   
@@ -59,12 +59,6 @@ public class Game {
     }
     for (Deck deck : decks) {
       deck.shuffle();
-    }
-    for (int i = 0; i < 3; i++) {
-      decks[i] = new Deck(4);
-    }
-    for (int i = 3; i < 6; i++) {
-      decks[i] = new Deck(2);
     }
   }
   
