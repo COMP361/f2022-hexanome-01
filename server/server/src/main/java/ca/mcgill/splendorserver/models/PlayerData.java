@@ -5,9 +5,6 @@ package ca.mcgill.splendorserver.models;
  */
 public class PlayerData {
   private String username;
-  private String accessToken;
-  private String refreshToken;
-  private String expiresIn; //should password be added?
   private CardData[] inventory;
   private NobleData[] nobles;
   private int[] discounts = new int[5]; //order: red, green, blue, brown, white
@@ -28,60 +25,6 @@ public class PlayerData {
    */
   public void setUsername(String username) {
     this.username = username;
-  }
-
-  /**
-   * Getter for access token.
-   *
-   * @return access token string
-   */
-  public String getAccessToken() {
-    return accessToken;
-  }
-
-  /**
-   * Setter for access token.
-   *
-   * @param accessToken access token string
-   */
-  public void setAccessToken(String accessToken) {
-    this.accessToken = accessToken;
-  }
-
-  /**
-   * Getter for refresh token.
-   *
-   * @return refresh token string
-   */
-  public String getRefreshToken() {
-    return refreshToken;
-  }
-
-  /**
-   * Setter for refresh token.
-   *
-   * @param refreshToken refresh token string
-   */
-  public void setRefreshToken(String refreshToken) {
-    this.refreshToken = refreshToken;
-  }
-
-  /**
-   * Getter for expiry time.
-   *
-   * @return expiry time of access token
-   */
-  public String getExpiresIn() {
-    return expiresIn;
-  }
-
-  /**
-   * Setter for expiry time.
-   *
-   * @param expiresIn expiry time of access token
-   */
-  public void setExpiresIn(String expiresIn) {
-    this.expiresIn = expiresIn;
   }
 
   /**
