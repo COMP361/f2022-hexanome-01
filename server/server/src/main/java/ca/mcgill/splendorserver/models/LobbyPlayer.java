@@ -1,37 +1,40 @@
 package ca.mcgill.splendorserver.models;
 
 public class LobbyPlayer {
-    private String username, access_token, refresh_token, expires_in;
+  private String username;
+  private String accessToken;
+  private String refreshToken;
+  private String expiresIn;
 
-    public String getUsername() {
-        return username;
-    }
+  public String getUsername() {
+    return username;
+  }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+  public void setUsername(String username) {
+    this.username = username;
+  }
 
-	public String getAccess_token() {
-		return access_token;
-	}
+  public String getaccessToken() {
+    return accessToken;
+  }
 
-	public void setAccess_token(String access_token) {
-		this.access_token = access_token;
-	}
+  public void setaccessToken(String accessToken) {
+    this.accessToken = accessToken;
+  }
 
-	public String getRefresh_token() {
-		return refresh_token;
-	}
+  public String getrefreshToken() {
+    return refreshToken;
+  }
 
-	public void setRefresh_token(String refresh_token) {
-		this.refresh_token = refresh_token;
-	}
+  public void setrefreshToken(String refreshToken) {
+    this.refreshToken = refreshToken;
+  }
 
-	public String getExpires_in() {
-		return expires_in;
-	}
+  public String getexpiresIn() {
+    return expiresIn;
+  }
 
-	public void setExpires_in(String expires_in) {
-		this.expires_in = expires_in;
-	}
+  public void setexpiresIn(String expiresIn) {
+    this.expiresIn = expiresIn;
+  }
 }
