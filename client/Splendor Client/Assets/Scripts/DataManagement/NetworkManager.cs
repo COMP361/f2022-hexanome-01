@@ -46,7 +46,7 @@ public class NetworkManager : MonoBehaviour
 
     public void getSessions(SessionData[] sessions) => StartCoroutine(GetSessions(sessions));
 
-    public void InitializePolling(string gameId, PlayerData player) => StartCoroutine(StartPolling(gameId, player));
+    public void InitializePolling(string gameId, Authentication player) => StartCoroutine(StartPolling(gameId, player));
 
     //public void UpdateGame(GameData newGameData) => StartCoroutine(PostGame(newGameData));
 
@@ -126,31 +126,21 @@ public class NetworkManager : MonoBehaviour
     }
 
     
-    IEnumerator EndTurnUpdate(GameData newGameData) {
+    IEnumerator EndTurnUpdate(string gameId, TurnData turnData, Authentication mainPlayer) {
 
-        PlayerData currPlayer = newGameData.players[newGameData.currentPlayer];
-
-        string url = "http://localhost:4244/splendor/endturn/" + newGameData.gameId;
-
-        if(newGameData.currentPlayer < newGameData.players.Length -1)
-            newGameData.currentPlayer ++;
-        else
-            newGameData.currentPlayer = 0;
+        string url = "http://localhost:4244/splendor/endturn/" + gameId;
 
         var request = new UnityWebRequest(url, RequestType.POST.ToString());
         
+        var body = FileManager.EncodeGameState(turnData, false);
 
-        Debug.Log(newGameData.gameId);
-        var body = FileManager.EncodeGameState(newGameData, true);
-        
+        request.uploadHandler = new UploadHandlerRaw(body);
+        request.downloadHandler = new DownloadHandlerBuffer();
+        request.SetRequestHeader("Content-Type", "application/json");
+        yield return request.SendWebRequest();
+        Debug.Log(request.downloadHandler.text);
 
-       request.uploadHandler = new UploadHandlerRaw(body);
-       request.downloadHandler = new DownloadHandlerBuffer();
-       request.SetRequestHeader("Content-Type", "application/json");
-       yield return request.SendWebRequest();
-       Debug.Log(request.downloadHandler.text);
-
-       StartCoroutine(StartPolling(newGameData.gameId, currPlayer));
+        StartCoroutine(StartPolling(gameId, mainPlayer));
     }
 
     IEnumerator PostGame(GameConfigData gameConfigData) {
@@ -170,7 +160,7 @@ public class NetworkManager : MonoBehaviour
 
     
 
-    private IEnumerator StartPolling(string gameId, PlayerData currPlayer){
+    private IEnumerator StartPolling(string gameId, Authentication mainPlayer){
        string url = "http://localhost:4244/splendor/update/" + gameId;
        
        for(;;){
@@ -185,7 +175,7 @@ public class NetworkManager : MonoBehaviour
 
                 GameData game = FileManager.DecodeGameState(gameString, false);
 
-                if(game.players[game.currentPlayer].username == currPlayer.username)
+                if(game.players[game.currentPlayer].id == mainPlayer.username)
                     break;
 
             

@@ -28,9 +28,11 @@ public class PlayerControl : MonoBehaviour
     
     public NetworkManager db;
 
+    public Authentication mainPlayer;
+
     private void Start()
     {
-        db.InitializePolling(gameId, gamePlayersData[currentPlayer]);
+        db.InitializePolling(gameId, mainPlayer);
 
         selectedCardToBuy = null;
         _inputActionMap = controls.FindActionMap("Player");
