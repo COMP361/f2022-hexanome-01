@@ -111,7 +111,7 @@ public class PlayerControl : MonoBehaviour
     //     for (int i = 0; i < data.noblesDisplayed.Length; i++)          
     //         allNobels.nobles[i].GetNoble().SetData(data.noblesDisplayed[i]);
 
-    //     // noblesOnBoard[i].GetNoble().SetData(data.noblesDisplayed[i]);
+    //     //noblesOnBoard[i].GetNoble().SetData(data.noblesDisplayed[i]);
         
     //     for (int i = 0; i < allCards.cards.Length; i++) 
     //         for (int j = 0; j < allCards.cards[i].deck.Count(); j++)
