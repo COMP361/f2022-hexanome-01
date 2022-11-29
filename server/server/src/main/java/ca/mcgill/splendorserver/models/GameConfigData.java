@@ -111,7 +111,7 @@ public class GameConfigData {
   }
 
   /**
-   * sets game name.
+   * Sets game name.
    *
    * @param gameName the gameName to set
    */
@@ -120,90 +120,117 @@ public class GameConfigData {
   }
 
   /**
+<<<<<<< HEAD
    * sets hostId.
+=======
+   * Sets hostId.
+>>>>>>> 19b02acfba1ad98c185ec560d936b6b5ac3de356
    *
    * @param hostId the hostId to set
-   * 
    */
   public void setHostId(String hostId) {
     this.hostId = hostId;
   }
 
   /**
+<<<<<<< HEAD
    * sets playerIds.
+=======
+   * Sets playerIds.
+>>>>>>> 19b02acfba1ad98c185ec560d936b6b5ac3de356
    *
    * @param playerIds the playerIds to set
-   * 
    */
   public void setPlayerIds(String[] playerIds) {
     this.playerIds = playerIds;
   }
 
   /**
+<<<<<<< HEAD
    * sets deck1.
+=======
+   * Sets deck1.
+>>>>>>> 19b02acfba1ad98c185ec560d936b6b5ac3de356
    *
    * @param deck1 the deck1 to set
-   * 
    */
   public void setDeck1(CardData[] deck1) {
     this.deck1 = deck1;
   }
 
   /**
+<<<<<<< HEAD
    * sets deck2.
+=======
+   * Sets deck2.
+>>>>>>> 19b02acfba1ad98c185ec560d936b6b5ac3de356
    *
    * @param deck2 the deck2 to set
-   * 
    */
   public void setDeck2(CardData[] deck2) {
     this.deck2 = deck2;
   }
 
   /**
+<<<<<<< HEAD
    * sets deck3.
+=======
+   * Sets deck3.
+>>>>>>> 19b02acfba1ad98c185ec560d936b6b5ac3de356
    *
    * @param deck3 the deck3 to set
-   * 
    */
   public void setDeck3(CardData[] deck3) {
     this.deck3 = deck3;
   }
 
   /**
+<<<<<<< HEAD
    * sets exdeck1.
+=======
+   * Sets exdeck1.
+>>>>>>> 19b02acfba1ad98c185ec560d936b6b5ac3de356
    *
    * @param exDeck1 the exDeck1 to set
-   * 
    */
   public void setExDeck1(CardData[] exDeck1) {
     this.exDeck1 = exDeck1;
   }
 
   /**
+<<<<<<< HEAD
    * sets exdeck2.
+=======
+   * Sets exdeck2.
+>>>>>>> 19b02acfba1ad98c185ec560d936b6b5ac3de356
    *
    * @param exDeck2 the exDeck2 to set
-   * 
    */
   public void setExDeck2(CardData[] exDeck2) {
     this.exDeck2 = exDeck2;
   }
 
   /**
+<<<<<<< HEAD
    * sets exdeck3.
+=======
+   * Sets exdeck3.
+>>>>>>> 19b02acfba1ad98c185ec560d936b6b5ac3de356
    *
    * @param exDeck3 the exDeck3 to set
-   * 
    */
   public void setExDeck3(CardData[] exDeck3) {
     this.exDeck3 = exDeck3;
   }
 
   /**
+<<<<<<< HEAD
    * sets all nobles.
+=======
+   * Sets all nobles.
+>>>>>>> 19b02acfba1ad98c185ec560d936b6b5ac3de356
    *
    * @param allNobles the allNobles to set
-   * 
    */
   public void setAllNobles(NobleData[] allNobles) {
     this.allNobles = allNobles;
