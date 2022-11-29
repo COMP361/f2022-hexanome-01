@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     public CardGemValue bonusesAquired = new CardGemValue();
     public CardGemValue tokensAquired = new CardGemValue();
 
+    public Authentication mainPlayer;
+
     void Start()
     {
         tokensAquired.blue = 5; // Hardcode for demo only; REMOVE FOR PROD
