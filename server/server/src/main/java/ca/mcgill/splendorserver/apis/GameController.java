@@ -36,6 +36,7 @@ public class GameController {
     if (gameId == null || !gameRegistry.containsKey(gameId)) {
       return null;
     }
+    System.out.println("Polled game with ID: " + gameId);
     
     return new GameData(gameRegistry.get(gameId));
   }
@@ -55,7 +56,9 @@ public class GameController {
     }
 
     String id = config.getHostId() + "-" + config.getGameName();
+    
     gameRegistry.put(id, new Game(id, config));
+    System.out.println("Registered game with ID: " + id);
     
     return true;
   }
@@ -78,6 +81,7 @@ public class GameController {
     }
 
     gameRegistry.get(gameId).updateGame(turn);
+    System.out.println("Ended turn on game with ID: " + gameId);
     
     return true;
   }

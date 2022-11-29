@@ -50,7 +50,7 @@ public class NetworkManager : MonoBehaviour
 
     public void endTurn(string gameId, TurnData turnData, Authentication mainPlayer, PlayerControl control) => StartCoroutine(EndTurnUpdate(gameId, turnData, mainPlayer, control));
 
-    //public void UpdateGame(GameData newGameData) => StartCoroutine(PostGame(newGameData));
+    public void registerGame(GameConfigData config) => StartCoroutine(PostGame(config));
 
     //public void GameboardPolling() => StartCoroutine(StartPolling("test"));
 
@@ -177,7 +177,10 @@ public class NetworkManager : MonoBehaviour
 
                 GameData game = FileManager.DecodeGameState(gameString, false);
 
-                if(game.players[game.currentPlayer].id == mainPlayer.username) {
+                Debug.Log(game.players);
+                Debug.Log(game.currentPlayer);
+
+                if(game != null && game.players[game.currentPlayer].id == mainPlayer.username) {
                     control.StartTurn();
                     break;
                 }
