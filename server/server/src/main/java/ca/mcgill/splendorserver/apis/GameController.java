@@ -22,11 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class GameController {
-
-  private HashMap<String, GameData> games = new HashMap<String, GameData>();
   
   private HashMap<String, Game> gameRegistry = new HashMap<String, Game>();
-  private ArrayList<String> playerRegistry = new ArrayList<String>();
 
   /**
    * Getter for the game.
@@ -34,51 +31,18 @@ public class GameController {
    * @param gameId the id of the game
    * @return the game data
    */
-  @GetMapping(path = {"/GameId", "/GameId/{gameId}"}, produces = "application/json; charset=UTF-8")
+  @GetMapping(path = {"/update/{gameId}"}, produces = "application/json; charset=UTF-8")
   @ResponseBody
-  public GameData getGame(@PathVariable(required = false, name = "gameId") String gameId) {
-    if (gameId != null) {
-      return games.get(gameId);
-    } else {
+  public GameData getGame(@PathVariable(required = true, name = "gameId") String gameId) {
+    if (gameId == null || !gameRegistry.containsKey(gameId)) {
       return null;
     }
+    
+    return new GameData(gameRegistry.get(gameId));
   }
 
   /**
-   * Creates a game session.
-   *
-   * @param game the game data for the game to create
-   * @return json of the game data for the created game
-   * @throws JsonProcessingException when JSON processing error occurs
-   */
-  @PostMapping("/Game")
-  public String createGame(@RequestBody GameData game) throws JsonProcessingException {
-
-    ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-    String json = ow.writeValueAsString(game);
-    games.put(game.getGameId(), game);
-    System.out.println(json);
-
-    return game.getGameId();
-  }
-
-  /**
-   * Launches game.
-   *
-   * @param gameId the id of the game
-   * @param game the game data for the game with id as above
-   * @return the string of JSON game data
-   * @throws JsonProcessingException when JSON has a processing error
-   */
-  @PutMapping(path = {"/GameId/{gameId}"}, consumes = "application/json; charset=UTF-8")
-  public String launchGame(@PathVariable String gameId,
-      @RequestBody GameData game) throws JsonProcessingException {
-    return "";
-  }
-
-
-  /**
-   * Registers a new player with server.
+   * Registers a new game.
    *
    * @param config the game data for the game to create
    * @return success flag
@@ -106,7 +70,7 @@ public class GameController {
    * @return success flag
    * @throws JsonProcessingException when JSON processing error occurs
    */
-  @PostMapping("/register/{gameId}")
+  @PostMapping("/endturn/{gameId}")
   public boolean updateGame(@PathVariable String gameId,
       @RequestBody TurnData turn) throws JsonProcessingException {
 

@@ -1,84 +1,46 @@
 package ca.mcgill.splendorserver.models;
 
 /**
- * Stores and manages player-specific game state information.
+ * Holds the data for each player as stored on client as well.
  */
 public class PlayerData {
-  private String username;
-  private CardData[] inventory;
-  private NobleData[] nobles;
-  private int[] discounts = new int[5]; //order: red, green, blue, brown, white
+  private String id;
+  private int points;
 
   /**
-   * Getter for username.
+   * Constructs player.
    *
-   * @return username string
+   * @param id player id
    */
-  public String getUsername() {
-    return username;
-  }
-
-  /**
-   * Setter for username.
-   *
-   * @param username username string
-   */
-  public void setUsername(String username) {
-    this.username = username;
-  }
-
-  /**
-   * Getter for inventory as card data.
-   *
-   * @return inventory as card data array
-   */
-  public CardData[] getInventory() {
-    return inventory;
-  }
-
-  /**
-   * Setter for inventory as card data.
-   *
-   * @param inventory card data array
-   */
-  public void setInventory(CardData[] inventory) {
-    this.inventory = inventory;
-  }
-
-  /**
-   * Getter for noble data.
-   *
-   * @return data for nobles
-   */
-  public NobleData[] getNobles() {
-    return nobles;
+  public PlayerData(String id) {
+    this.id = id;
+    this.points = 0;
   }
   
   /**
-   * Sets nobles.
+   * Gets ID.
    *
-   * @param nobles data for nobles
+   * @return id gotten
    */
-  public void setNobles(NobleData[] nobles) {
-    this.nobles = nobles;
+  public String getId() {
+    return this.id;
   }
   
   /**
-   * Gets discounts.
+   * Gets points.
    *
-   * @return discounts as array of int
+   * @return points gotten
    */
-  public int[] getDiscounts() {
-    return discounts;
+  public int getPoints() {
+    return this.points;
   }
   
   /**
-   * Sets discounts.
+   * Sets points.
    *
-   * @param discounts discounts as array of int
+   * @param points to be set
    */
-  public void setDiscounts(int[] discounts) {
-    this.discounts = discounts;
+  public void setPoints(int points) {
+    this.points = points;
   }
-
 }

@@ -10,12 +10,12 @@ public class Game {
   private Deck[] decks = new Deck[6];
   
   private CardData [][] cardsOnBoard = new CardData [6][];
-  private boolean[] nobles = new boolean[5];
+  private NobleData[] nobles = new NobleData[5];
   
   private String id;
   private String name;
   
-  private Player[] players = new Player[4];
+  private PlayerData[] players = new PlayerData[4];
   private int numOfPlayers;
   
   private int turnIndex = 0;
@@ -31,7 +31,7 @@ public class Game {
     name = config.getGameName();
     numOfPlayers = config.getPlayerIds().length;
     for (int i = 0; i < numOfPlayers; i++) {
-      players[i] = new Player(config.getPlayerIds()[i]);
+      players[i] = new PlayerData(config.getPlayerIds()[i]);
       if (players[i].getId().equals(config.getHostId())) {
         turnIndex = i;
       }
@@ -58,9 +58,36 @@ public class Game {
       cardsOnBoard[i][turn.getColCardTaken()] = decks[i].draw();
     }
     if (turn.getNobleTaken() != -1) {
-      nobles[turn.getNobleTaken()] = false;
+      nobles[turn.getNobleTaken()] = null;
     }
     turnIndex = (turnIndex + 1) % numOfPlayers;
+  }
+  
+  /**
+   * Gets game id.
+   *
+   * @return game id
+   */
+  public String getId() {
+    return this.id;
+  }
+  
+  /**
+   * Gets all players.
+   *
+   * @return all players
+   */
+  public PlayerData[] getPlayers() {
+    return this.players;
+  }
+  
+  /**
+   * Gets current player.
+   *
+   * @return current players
+   */
+  public PlayerData getCurrentPlayer() {
+    return this.players[this.turnIndex];
   }
 
 }
