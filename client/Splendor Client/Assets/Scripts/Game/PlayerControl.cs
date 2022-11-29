@@ -11,8 +11,7 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private Player player; //this client/player
     [SerializeField] public List<PlayerData> gamePlayersData; //can change this to a different type later, playerData is combined from LobbyPlayer and Player class
 
-    public string gameId;
-    public int currentPlayer;
+    public GlobalGameClient globalGameClient;
 
     public AllCards allCards;
     private CardSlot selectedCardToBuy;
@@ -28,8 +27,15 @@ public class PlayerControl : MonoBehaviour
     
     public NetworkManager db;
 
+    public Authentication mainPlayer;
+
+    private bool waiting;
+
     private void Start()
     {
+        waiting = true;
+        db.InitializePolling(globalGameClient.id, mainPlayer, this);
+
         selectedCardToBuy = null;
         _inputActionMap = controls.FindActionMap("Player");
     
@@ -42,6 +48,8 @@ public class PlayerControl : MonoBehaviour
     
     private void OnFireAction(InputAction.CallbackContext obj)
     {
+        if (waiting) return;
+
         Vector2 mousePos = Mouse.current.position.ReadValue();
         Vector3 worldPos = playerCamera.ScreenToWorldPoint(mousePos);
         Vector2 worldPos2D = new Vector2(worldPos.x, worldPos.y);
@@ -90,17 +98,22 @@ public class PlayerControl : MonoBehaviour
             }
         }
 
-        dashboard.ResetEndDisplay();
+        dashboard.DisplayWaiting();
         allCards.GreyOut();
 
+        waiting = true;
+
+        db.endTurn(globalGameClient.id, player.turnData, mainPlayer, this);
 
         /////// TEST SAVE GAME AFTER TURN ////////////
-        GameData data = new GameData(this);
-        db.UpdateGame(data);
+        // GameData data = new GameData(this);
+        
+
+        //db.UpdateGame(data);
         ///////////////////////////////////////////////
 
 
-        StartTurn(); // Player's turn temporarily restarts immediately after end turn
+        // StartTurn(); // Player's turn temporarily restarts immediately after end turn
     }
 
     // public void SetGameData(GameData data) {
@@ -120,7 +133,9 @@ public class PlayerControl : MonoBehaviour
 
     public void StartTurn() // Start of player's turn
     {
+        dashboard.ResetEndDisplay();
         allCards.UnGreyOut();
+        waiting = false;
     }
 
     private void UpdateCursor(InputAction.CallbackContext obj)

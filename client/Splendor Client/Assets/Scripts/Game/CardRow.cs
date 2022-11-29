@@ -95,6 +95,7 @@ public class CardRow : MonoBehaviour
     {
         size = Math.Min(size, 4);
         FillEmptyCards();
+        GreyOut();
     }
 
 }

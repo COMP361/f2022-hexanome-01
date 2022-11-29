@@ -67,7 +67,7 @@ public class Game {
     decks[4] = new Deck(2, config.getExDeck2());
     decks[5] = new Deck(2, config.getExDeck3());
     
-    ArrayList<NobleData> tmp = (ArrayList<NobleData>) Arrays.asList(config.getAllNobles());
+    ArrayList<NobleData> tmp = new ArrayList<>(Arrays.asList(config.getAllNobles()));
     Collections.shuffle(tmp);
     for (int i = 0; i < numOfPlayers + 1; i++) {
       nobles[i] = tmp.get(i);
@@ -86,12 +86,21 @@ public class Game {
    * @param turn turn data
    */
   public void updateGame(TurnData turn) {
-    if (turn.getRowCardTaken() != -1) {
-      int i = turn.getRowCardTaken();
-      cardsOnBoard[i][turn.getColCardTaken()] = decks[i].draw();
+    if (turn.getCardTaken() != null) {
+      for (int i = 0; i < 6; i++) {
+        for (int j = 0; j < cardsOnBoard[i].length; j++) {
+          if (cardsOnBoard[i][j].equals(turn.getCardTaken())) {
+            cardsOnBoard[i][j] = decks[i].draw();
+          }
+        }
+      }
     }
-    if (turn.getNobleTaken() != -1) {
-      nobles[turn.getNobleTaken()] = null;
+    if (turn.getNobleTaken() != null) {
+      for (int i = 0; i < 5; i++) {
+        if (nobles[i].equals(turn.getNobleTaken())) {
+          nobles[i] = null;
+        }
+      }
     }
     turnIndex = (turnIndex + 1) % numOfPlayers;
   }

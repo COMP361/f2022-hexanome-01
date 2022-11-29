@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4740854163311486355
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4740854163311486381}
+  - component: {fileID: 4740854163311486354}
+  - component: {fileID: 4740854163311486380}
+  m_Layer: 0
+  m_Name: NobleRow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4740854163311486381
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4740854163311486355}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 439.8121, y: 189.89742, z: 1.8988037}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4740854163311486354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4740854163311486355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01bfda32fb71b4e9784fd9f5aaf6d0f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  size: 5
+  deck: {fileID: 4740854163311486380}
+  nobles:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  x: -4.25
+  y: 3.5
+  nobleObject: {fileID: 3705035989739418207, guid: c38d7351e39ae4076ad0ffa8924ce960, type: 3}
+--- !u!114 &4740854163311486380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4740854163311486355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75273e036256a41cca864d2c8bfe33cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  level: 0
+  nobles:
+  - {fileID: 11400000, guid: a592215d8c98a4a6996b99675cfd9d8e, type: 2}
+  - {fileID: 11400000, guid: 6d6757b999265497ca04d9ce9420aa05, type: 2}
+  - {fileID: 11400000, guid: 784106ff68b4741a6af3733db9fa3b9d, type: 2}
+  - {fileID: 11400000, guid: 60ffe8a6669224162bc950624fd77efe, type: 2}
+  - {fileID: 11400000, guid: 97961d5fb28cb43fb8359dae54529994, type: 2}
+  - {fileID: 11400000, guid: 9e2da458d98994f2badb18722ccf8827, type: 2}
+  - {fileID: 11400000, guid: 61e2a921500c3a64db410bdc58ed5c39, type: 2}
+  - {fileID: 11400000, guid: d1d6dc190f1dcda4bab130a1ce19b714, type: 2}
+  - {fileID: 11400000, guid: 0b0d6031ac95f034795c671abf37f7ce, type: 2}
+  - {fileID: 11400000, guid: 2e31d5abd236aa046bc4228f2c90830d, type: 2}

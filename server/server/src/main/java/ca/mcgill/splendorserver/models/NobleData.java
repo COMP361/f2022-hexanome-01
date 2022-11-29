@@ -137,4 +137,14 @@ public class NobleData {
   public int getWhite() {
     return white;
   }
+
+  /**
+   * Compares two noble data.
+   *
+   * @param other to be compared to
+   * @return equivalence
+   */
+  public boolean equals(NobleData other) {
+    return this.id == other.id;
+  }
 }

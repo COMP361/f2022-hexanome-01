@@ -36,5 +36,6 @@ public class TestGameConfig {
     assertEquals(test.getExDeck2()[0], temp1[0]);
     assertEquals(test.getExDeck3()[0], temp1[0]);
     assertEquals(test.getAllNobles()[0], temp2[0]);
+
   }
 }
