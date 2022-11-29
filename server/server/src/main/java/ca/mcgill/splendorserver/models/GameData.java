@@ -6,7 +6,7 @@ package ca.mcgill.splendorserver.models;
 public class GameData {
 
   private String gameId;
-  private int currentPlayer;
+  private PlayerData currentPlayer;
   private CardData[] row1;
   private CardData[] row2;
   private CardData[] row3;
@@ -15,6 +15,17 @@ public class GameData {
   private CardData[] exRow3;
   private NobleData[] nobles;
   private PlayerData[] players;
+  
+  /**
+   * Constructor.
+   *
+   * @param currentGame game to contruct off of
+   */
+  public GameData(Game currentGame) {
+    gameId = currentGame.getId();
+    currentPlayer = currentGame.getCurrentPlayer();
+    players = currentGame.getPlayers();
+  }
 
   /**
    * Setter for nobles.
@@ -181,18 +192,18 @@ public class GameData {
   /**
    * Getter for current player.
    *
-   * @return current player int id
+   * @return current player
    */
-  public int getCurrentPlayer() {
+  public PlayerData getCurrentPlayer() {
     return currentPlayer;
   }
 
   /**
    * Setter for current player.
    *
-   * @param currentPlayer current player int id
+   * @param currentPlayer current player
    */
-  public void setCurrentPlayer(int currentPlayer) {
+  public void setCurrentPlayer(PlayerData currentPlayer) {
     this.currentPlayer = currentPlayer;
   }
 }
