@@ -40,9 +40,7 @@ public class NetworkManager : MonoBehaviour
     public void GetData() => StartCoroutine(GetSession("Game1"));
     /////////////////////////////////////////////////////
 
-    public void postSession(string sessionName, int maxPlayer, LobbyPlayer host) {
-        StartCoroutine(PostSession(sessionName, maxPlayer, host));
-    }
+    public void postSession(Session session) => StartCoroutine(PostSession(session));
 
     public void getSessions(SessionData[] sessions) => StartCoroutine(GetSessions(sessions));
 
@@ -91,12 +89,10 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
-    IEnumerator PostSession(string sessionName, int maxPlayers, LobbyPlayer host){
-       string url = "http://localhost:4244/splendor/Session";
+    IEnumerator PostSession(Session session){
+       string url = "http://127.0.0.1:4242/api/sessions";
 
        var request = new UnityWebRequest(url, RequestType.POST.ToString());
-
-       Session session = new Session(sessionName, maxPlayers, new List<LobbyPlayer>());
        
        var body = FileManager.EncodeSession(session, false);
 
