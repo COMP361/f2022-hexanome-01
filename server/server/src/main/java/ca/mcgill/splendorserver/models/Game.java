@@ -8,6 +8,8 @@ package ca.mcgill.splendorserver.models;
 public class Game {
 
   private Deck[] decks = new Deck[6];
+  
+  private CardData [][] cardsOnBoard = new CardData [6][];
   private boolean[] nobles = new boolean[5];
   
   private String id;
@@ -27,10 +29,12 @@ public class Game {
   public Game(String id, GameConfigData config) {
     this.id = id;
     name = config.getGameName();
-    numOfPlayers = config.getPlayerIDs().length;
+    numOfPlayers = config.getPlayerIds().length;
     for (int i = 0; i < numOfPlayers; i++) {
-      players[i] = new Player(config.getPlayerIDs()[i]);
-      if (players[i].getId().equals(config.getHostID())) turnIndex = i;
+      players[i] = new Player(config.getPlayerIds()[i]);
+      if (players[i].getId().equals(config.getHostId())) {
+        turnIndex = i;
+      }
     }
     for (Deck deck : decks) {
       deck.shuffle();
@@ -43,13 +47,20 @@ public class Game {
     }
   }
   
+  /**
+   * Updates game.
+   *
+   * @param turn turn data
+   */
   public void updateGame(TurnData turn) {
-	  if (turn.getRowCardTaken() != -1) {
-		  decks[turn.getRowCardTaken()].draw();
-	  }
-	  if (turn.getNobleTaken() != -1) {
-		  nobles[turn.getNobleTaken()] = false;
-	  }
+    if (turn.getRowCardTaken() != -1) {
+      int i = turn.getRowCardTaken();
+      cardsOnBoard[i][turn.getColCardTaken()] = decks[i].draw();
+    }
+    if (turn.getNobleTaken() != -1) {
+      nobles[turn.getNobleTaken()] = false;
+    }
+    turnIndex = (turnIndex + 1) % numOfPlayers;
   }
 
 }

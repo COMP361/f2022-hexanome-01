@@ -13,8 +13,8 @@ public class Player {
    * @param id player id
    */
   public Player(String id) {
-	  this.id = id;
-	  this.points = 0;
+    this.id = id;
+    this.points = 0;
   }
   
   /**
@@ -23,7 +23,7 @@ public class Player {
    * @return id gotten
    */
   public String getId() {
-	  return this.id;
+    return this.id;
   }
   
   /**
@@ -32,7 +32,7 @@ public class Player {
    * @return points gotten
    */
   public int getPoints() {
-	  return this.points;
+    return this.points;
   }
   
   /**
@@ -41,6 +41,6 @@ public class Player {
    * @param points to be set
    */
   public void setPoints(int points) {
-	  this.points = points;
+    this.points = points;
   }
 }

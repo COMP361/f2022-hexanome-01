@@ -5,17 +5,20 @@ package ca.mcgill.splendorserver.models;
  */
 public class TurnData {
   private int rowCardTaken;
+  private int colCardTaken;
   private int nobleTaken;
   
   /**
-   * Constructs turn data
-   * 
+   * Constructs turn data.
+   *
    * @param rowCardTaken index of row of card taken of -1 if none
+   * @param colCardTaken index of col of card taken of -1 if none
    * @param nobleTaken index of noble taken or -1 if none
    */
-  public TurnData(int rowCardTaken, int nobleTaken) {
-	  this.rowCardTaken = rowCardTaken;
-	  this.nobleTaken = nobleTaken;
+  public TurnData(int rowCardTaken, int colCardTaken, int nobleTaken) {
+    this.rowCardTaken = rowCardTaken;
+    this.colCardTaken = colCardTaken;
+    this.nobleTaken = nobleTaken;
   }
   
   /**
@@ -24,15 +27,24 @@ public class TurnData {
    * @return row index
    */
   public int getRowCardTaken() {
-	  return this.rowCardTaken;
+    return this.rowCardTaken;
+  }
+  
+  /**
+   * Gets index of row of card taken of -1 if none.
+   *
+   * @return row index
+   */
+  public int getColCardTaken() {
+    return this.colCardTaken;
   }
   
   /**
    * Gets index of noble taken or -1 if none.
-   * 
+   *
    * @return noble index
    */
   public int getNobleTaken() {
-	  return this.nobleTaken;
+    return this.nobleTaken;
   }
 }
