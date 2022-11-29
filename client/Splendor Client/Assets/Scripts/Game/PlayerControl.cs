@@ -103,20 +103,20 @@ public class PlayerControl : MonoBehaviour
         StartTurn(); // Player's turn temporarily restarts immediately after end turn
     }
 
-    // public void SetGameData(GameData data) {
-    //     gameId = data.gameId;
+    public void SetGameData(GameData data) {
+        gameId = data.gameId;
 
-    //     gamePlayersData = new List<PlayerData>(data.playersInGame);
+        gamePlayersData = new List<PlayerData>(data.players);
         
-    //     for (int i = 0; i < data.noblesDisplayed.Length; i++)          
-    //         allNobels.nobles[i].GetNoble().SetData(data.noblesDisplayed[i]);
+        for (int i = 0; i < data.nobles.Length; i++)          
+            allNobels.nobles[i].GetNoble().SetData(data.nobles[i]);
 
-    //     //noblesOnBoard[i].GetNoble().SetData(data.noblesDisplayed[i]);
+        //noblesOnBoard[i].GetNoble().SetData(data.noblesDisplayed[i]);
         
-    //     for (int i = 0; i < allCards.cards.Length; i++) 
-    //         for (int j = 0; j < allCards.cards[i].deck.Count(); j++)
-    //             allCards.cards[i].deck.cards[j].SetData(data.cards[i][j]);
-    // }
+        for (int i = 0; i < allCards.cards.Length; i++) 
+            for (int j = 0; j < allCards.cards[i].deck.Count(); j++)
+                allCards.cards[i].deck.cards[j].SetData(data.cards[i][j]);
+    }
 
     public void StartTurn() // Start of player's turn
     {

@@ -7,6 +7,7 @@ public class GameData {
 
   private String gameId;
   private int currentPlayer;
+  private int[] shuffleSeeds;
   private CardData[] row1;
   private CardData[] row2;
   private CardData[] row3;
@@ -22,6 +23,14 @@ public class GameData {
 
   public void setPlayers(PlayerData[] players) {
     this.players = players;
+  }
+    
+  public void setShuffleSeeds(int[] shuffleSeeds) {
+    this.shuffleSeeds = shuffleSeeds;
+  }
+
+  public void getShuffleSeeds(int[] shuffleSeeds) {
+    this.shuffleSeeds = shuffleSeeds;
   }
 
     
