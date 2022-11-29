@@ -147,7 +147,7 @@ public class NetworkManager : MonoBehaviour
     
 
     private IEnumerator StartPolling(string gameId, Authentication mainPlayer, PlayerControl control){
-       string url = "http:/" + HOST + ":4244/splendor/update/" + gameId;
+       string url = "http://" + HOST + ":4244/splendor/update/" + gameId;
        
        for(;;){
         using(UnityWebRequest request = UnityWebRequest.Get(url)){
@@ -164,7 +164,7 @@ public class NetworkManager : MonoBehaviour
                 Debug.Log(game.players);
                 Debug.Log(game.currentPlayer);
 
-                if(game != null && game.players[game.currentPlayer].id == mainPlayer.username) {
+                if(game != null && game.currentPlayer.id == mainPlayer.username) {
                     control.StartTurn();
                     break;
                 }
