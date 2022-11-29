@@ -15,53 +15,73 @@ public class CardData {
   private int brown;
   private int white;
 
+  /**
+   * Gets id.
+   *
+   * @return id to get
+   */
   public int getId() {
     return id;
   }
 
   /**
    * Sets id.
-   * 
-   * @param id
+   *
+   * @param id to set
    */
   public void setId(int id) {
     this.id = id;
   }
 
+  /**
+   * Gets points.
+   *
+   * @return points to get
+   */
   public int getPoints() {
     return points;
   }
 
   /**
    * Sets points.
-   * 
-   * @param points
+   *
+   * @param points to set
    */
   public void setPoints(int points) {
     this.points = points;
   }
 
+  /**
+   * Gets bonus.
+   *
+   * @return bonus to get
+   */
   public char getBonus() {
     return bonus;
   }
 
   /**
    * Sets bonus.
-   * 
-   * @param bonus
+   *
+   * @param bonus to set
    */
   public void setBonus(char bonus) {
     this.bonus = bonus;
   }
 
+  /**
+   * Gets bonusAmount.
+   *
+   * @return bonusAmount to get
+   */
   public int getBonusAmount() {
     return bonusAmount;
   }
 
   /**
    * Sets bonusAmount.
-   * 
-   * @param bonusAmounts
+   *
+   * @param bonusAmount to be set
    */
   public void setBonusAmount(int bonusAmount) {
     this.bonusAmount = bonusAmount;
@@ -69,8 +89,8 @@ public class CardData {
 
   /**
    * Gets red.
-   * 
-   * @return red
+   *
+   * @return red tokens
    */
   public int getRed() {
     return red;
@@ -78,8 +98,8 @@ public class CardData {
 
   /**
    * Sets red.
-   * 
-   * @param red
+   *
+   * @param red tokens
    */
   public void setRed(int red) {
     this.red = red;
@@ -87,8 +107,8 @@ public class CardData {
 
   /**
    * Gets blue.
-   * 
-   * @return blue
+   *
+   * @return blue tokens
    */
   public int getBlue() {
     return blue;
@@ -96,8 +116,8 @@ public class CardData {
 
   /**
    * Sets blue.
-   * 
-   * @param blue
+   *
+   * @param blue tokens
    */
   public void setBlue(int blue) {
     this.blue = blue;
@@ -105,8 +125,8 @@ public class CardData {
 
   /**
    * Gets green.
-   * 
-   * @return green
+   *
+   * @return green tokens
    */
   public int getGreen() {
     return green;
@@ -114,8 +134,8 @@ public class CardData {
 
   /**
    * Sets green.
-   * 
-   * @param green
+   *
+   * @param green tokens
    */
   public void setGreen(int green) {
     this.green = green;
@@ -123,8 +143,8 @@ public class CardData {
 
   /**
    * Gets brown.
-   * 
-   * @return brown
+   *
+   * @return brown tokens
    */
   public int getBrown() {
     return brown;
@@ -132,8 +152,8 @@ public class CardData {
 
   /**
    * Sets brown.
-   * 
-   * @param brown
+   *
+   * @param brown tokens
    */
   public void setBrown(int brown) {
     this.brown = brown;
@@ -141,8 +161,8 @@ public class CardData {
 
   /**
    * Gets white.
-   * 
-   * @return white
+   *
+   * @return white tokens
    */
   public int getWhite() {
     return white;
@@ -150,8 +170,8 @@ public class CardData {
 
   /**
    * Sets white.
-   * 
-   * @param white
+   *
+   * @param white tokens
    */
   public void setWhite(int white) {
     this.white = white;

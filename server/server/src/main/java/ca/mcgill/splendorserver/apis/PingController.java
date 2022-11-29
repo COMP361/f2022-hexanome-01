@@ -10,7 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class PingController {
 
+  /**
+   * Start time.
+   */
   public long startTime = 0L;
+
+  /**
+   * Elapsed time.
+   */
   public long elapsedTime = 0L;
 
   /**
