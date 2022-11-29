@@ -1,5 +1,9 @@
 /*
+<<<<<<< HEAD
  * Copyright (c) 2015, 2020, Oracle and/or its affiliates. All rights reserved.
+=======
+ * Copyright (c) 2015, 2019, Oracle and/or its affiliates. All rights reserved.
+>>>>>>> 85eb7e9c0a6a09c6b426233b33fa5e77682e6082
  * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
  *
  *
@@ -30,12 +34,19 @@ var catPackages = "Packages";
 var catTypes = "Types";
 var catMembers = "Members";
 var catSearchTags = "SearchTags";
+<<<<<<< HEAD
 var highlight = "<span class=\"result-highlight\">$&</span>";
+=======
+var highlight = "<span class=\"resultHighlight\">$&</span>";
+>>>>>>> 85eb7e9c0a6a09c6b426233b33fa5e77682e6082
 var searchPattern = "";
 var RANKING_THRESHOLD = 2;
 var NO_MATCH = 0xffff;
 var MAX_RESULTS_PER_CATEGORY = 500;
+<<<<<<< HEAD
 var UNNAMED = "<Unnamed>";
+=======
+>>>>>>> 85eb7e9c0a6a09c6b426233b33fa5e77682e6082
 function escapeHtml(str) {
     return str.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
@@ -50,6 +61,7 @@ function getURLPrefix(ui) {
         return ui.item.l + slash;
     } else if (ui.item.category === catPackages && ui.item.m) {
         return ui.item.m + slash;
+<<<<<<< HEAD
     } else if (ui.item.category === catTypes || ui.item.category === catMembers) {
         if (ui.item.m) {
             urlPrefix = ui.item.m + slash;
@@ -60,6 +72,16 @@ function getURLPrefix(ui) {
                 }
             });
         }
+=======
+    } else if ((ui.item.category === catTypes && ui.item.p) || ui.item.category === catMembers) {
+        $.each(packageSearchIndex, function(index, item) {
+            if (item.m && ui.item.p == item.l) {
+                urlPrefix = item.m + slash;
+            }
+        });
+        return urlPrefix;
+    } else {
+>>>>>>> 85eb7e9c0a6a09c6b426233b33fa5e77682e6082
         return urlPrefix;
     }
     return urlPrefix;
@@ -145,6 +167,7 @@ $.widget("custom.catcomplete", $.ui.autocomplete, {
         if (item.category === catModules) {
             label = getHighlightedText(item.l, matcher);
         } else if (item.category === catPackages) {
+<<<<<<< HEAD
             label = getHighlightedText(item.l, matcher);
         } else if (item.category === catTypes) {
             label = (item.p && item.p !== UNNAMED)
@@ -154,6 +177,17 @@ $.widget("custom.catcomplete", $.ui.autocomplete, {
             label = (item.p && item.p !== UNNAMED)
                     ? getHighlightedText(item.p + "." + item.c + "." + item.l, matcher)
                     : getHighlightedText(item.c + "." + item.l, matcher);
+=======
+            label = (item.m)
+                    ? getHighlightedText(item.m + "/" + item.l, matcher)
+                    : getHighlightedText(item.l, matcher);
+        } else if (item.category === catTypes) {
+            label = (item.p)
+                    ? getHighlightedText(item.p + "." + item.l, matcher)
+                    : getHighlightedText(item.l, matcher);
+        } else if (item.category === catMembers) {
+            label = getHighlightedText(item.p + "." + (item.c + "." + item.l), matcher);
+>>>>>>> 85eb7e9c0a6a09c6b426233b33fa5e77682e6082
         } else if (item.category === catSearchTags) {
             label = getHighlightedText(item.l, matcher);
         } else {
@@ -218,6 +252,7 @@ function rankMatch(match, category) {
             delta += 5;
     }
     return leftBoundaryMatch + periferalMatch + (delta / 200);
+<<<<<<< HEAD
 
 }
 function doSearch(request, response) {
@@ -319,6 +354,100 @@ $(function() {
         minLength: 1,
         delay: 300,
         source: doSearch,
+=======
+
+}
+$(function() {
+    $("#search").catcomplete({
+        minLength: 1,
+        delay: 300,
+        source: function(request, response) {
+            var result = [];
+            var newResults = [];
+
+            searchPattern = makeCamelCaseRegex(request.term);
+            if (searchPattern === "") {
+                return this.close();
+            }
+            var camelCaseMatcher = createMatcher(searchPattern, "");
+            var boundaryMatcher = createMatcher("\\b" + searchPattern, "");
+
+            function concatResults(a1, a2) {
+                a2.sort(function(e1, e2) {
+                    return e1.ranking - e2.ranking;
+                });
+                a1 = a1.concat(a2.map(function(e) { return e.item; }));
+                a2.length = 0;
+                return a1;
+            }
+
+            if (moduleSearchIndex) {
+                $.each(moduleSearchIndex, function(index, item) {
+                    item.category = catModules;
+                    var ranking = rankMatch(boundaryMatcher.exec(item.l), catModules);
+                    if (ranking < RANKING_THRESHOLD) {
+                        newResults.push({ ranking: ranking, item: item });
+                    }
+                    return newResults.length < MAX_RESULTS_PER_CATEGORY;
+                });
+                result = concatResults(result, newResults);
+            }
+            if (packageSearchIndex) {
+                $.each(packageSearchIndex, function(index, item) {
+                    item.category = catPackages;
+                    var name = (item.m && request.term.indexOf("/") > -1)
+                            ? (item.m + "/" + item.l)
+                            : item.l;
+                    var ranking = rankMatch(boundaryMatcher.exec(name), catPackages);
+                    if (ranking < RANKING_THRESHOLD) {
+                        newResults.push({ ranking: ranking, item: item });
+                    }
+                    return newResults.length < MAX_RESULTS_PER_CATEGORY;
+                });
+                result = concatResults(result, newResults);
+            }
+            if (typeSearchIndex) {
+                $.each(typeSearchIndex, function(index, item) {
+                    item.category = catTypes;
+                    var name = request.term.indexOf(".") > -1
+                        ? item.p + "." + item.l
+                        : item.l;
+                    var ranking = rankMatch(camelCaseMatcher.exec(name), catTypes);
+                    if (ranking < RANKING_THRESHOLD) {
+                        newResults.push({ ranking: ranking, item: item });
+                    }
+                    return newResults.length < MAX_RESULTS_PER_CATEGORY;
+                });
+                result = concatResults(result, newResults);
+            }
+            if (memberSearchIndex) {
+                $.each(memberSearchIndex, function(index, item) {
+                    item.category = catMembers;
+                    var name = request.term.indexOf(".") > -1
+                            ? item.p + "." + item.c + "." + item.l
+                            : item.l;
+                    var ranking = rankMatch(camelCaseMatcher.exec(name), catMembers);
+                    if (ranking < RANKING_THRESHOLD) {
+                        newResults.push({ ranking: ranking, item: item });
+                    }
+                    return newResults.length < MAX_RESULTS_PER_CATEGORY;
+                });
+                result = concatResults(result, newResults);
+            }
+            if (tagSearchIndex) {
+                $.each(tagSearchIndex, function(index, item) {
+                    item.category = catSearchTags;
+                    var ranking = rankMatch(boundaryMatcher.exec(item.l), catSearchTags);
+                    if (ranking < RANKING_THRESHOLD) {
+                        newResults.push({ ranking: ranking, item: item });
+                    }
+                    return newResults.length < MAX_RESULTS_PER_CATEGORY;
+                });
+                result = concatResults(result, newResults);
+            }
+            response(result);
+        },
+>>>>>>> 85eb7e9c0a6a09c6b426233b33fa5e77682e6082
         response: function(event, ui) {
             if (!ui.content.length) {
                 ui.content.push(noResult);
