@@ -7340,6 +7340,8 @@ MonoBehaviour:
   nameField: {fileID: 1208652351}
   currentSave: {fileID: 0}
   DEFAULTSAVE: {fileID: 11400000, guid: 1981883a5a43e174a8125a6a0dcf0b3d, type: 2}
+  allCards: {fileID: 2495688007317858119, guid: c7a231073fd9b0e479884062ae26a9e7, type: 3}
+  allNobles: {fileID: 4740854163311486354, guid: 45a8a1acb3f37674aa6a05b1bd233a48, type: 3}
 --- !u!1 &2086210870
 GameObject:
   m_ObjectHideFlags: 0

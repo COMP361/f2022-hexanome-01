@@ -28,6 +28,9 @@ public class MainMenuManager : MonoBehaviour {
     private NetworkManager networkManager;
     // private Authentication authentication;
     private SessionData[] sessions;
+
+    public AllCards allCards;
+    public NobleRow allNobles;
     //TODO
     //      
     //      player colours in lobby?
