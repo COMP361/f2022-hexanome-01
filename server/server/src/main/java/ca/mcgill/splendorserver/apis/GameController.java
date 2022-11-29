@@ -5,17 +5,15 @@ import ca.mcgill.splendorserver.models.GameConfigData;
 import ca.mcgill.splendorserver.models.GameData;
 import ca.mcgill.splendorserver.models.TurnData;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
 
 /**
  * Game controller class for the server.
@@ -23,7 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class GameController {
   
-  private HashMap<String, Game> gameRegistry = new HashMap<String, Game>();
+  private HashMap<String, Game> gameRegistry = 
+      new HashMap<String, Game>(Map.of("test", new Game()));
 
   /**
    * Getter for the game.
