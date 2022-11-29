@@ -5,7 +5,6 @@ using UnityEngine;
 [System.Serializable]
 public class GameData {
     public string gameId;
-    public int[] shuffleSeeds;
     public int currentPlayer;
     public CardData[] row1;
     public CardData[] row2;

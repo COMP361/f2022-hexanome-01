@@ -40,13 +40,11 @@ public class NetworkManager : MonoBehaviour
     public void GetData() => StartCoroutine(GetSession("Game1"));
     /////////////////////////////////////////////////////
 
-    public void postSession(Session session) => StartCoroutine(PostSession(session));
+    public void postSession(string sessionName, int maxPlayer, LobbyPlayer host) {
+        StartCoroutine(PostSession(sessionName, maxPlayer, host));
+    }
 
-    // public void postSession(string sessionName, int maxPlayer, LobbyPlayer host) {
-    //     StartCoroutine(PostSession(sessionName, maxPlayer, host));
-    // }
-
-    public void getSessions() => StartCoroutine(GetSessions());
+    public void getSessions(SessionData[] sessions) => StartCoroutine(GetSessions(sessions));
 
     public void UpdateGame(GameData newGameData) => StartCoroutine(PostGame(newGameData));
 
@@ -75,7 +73,7 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
-    IEnumerator GetSessions() {
+    IEnumerator GetSessions(SessionData[] sessions) {
         string url = "http://localhost:4244/splendor/SessionName";
 
         using(UnityWebRequest request = UnityWebRequest.Get(url)){
@@ -87,18 +85,18 @@ public class NetworkManager : MonoBehaviour
                 string sessionString = request.downloadHandler.text;
                 SessionListData sessionListData = FileManager.DecodeSessionListData(sessionString, false);
 
-                // sessions = sessionListData.sessionList;
+                sessions = sessionListData.sessionList;
 
             }
         }
     }
 
-    IEnumerator PostSession(Session session){
+    IEnumerator PostSession(string sessionName, int maxPlayers, LobbyPlayer host){
        string url = "http://localhost:4244/splendor/Session";
 
        var request = new UnityWebRequest(url, RequestType.POST.ToString());
 
-       // Session session = new Session(sessionName, maxPlayers, new List<LobbyPlayer>());
+       Session session = new Session(sessionName, maxPlayers, new List<LobbyPlayer>());
        
        var body = FileManager.EncodeSession(session, false);
 

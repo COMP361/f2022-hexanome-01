@@ -21,7 +21,7 @@ public class TestGameController {
     test.createGame(temp);
 
     assertEquals(test.getGame("test"), temp);
-    assertEquals(test.lauchGame(temp.getGameId(), temp), temp.getGameId());
+    assertEquals(test.launchGame(temp.getGameId(), temp), temp.getGameId());
     assertEquals(test.getGame((new GameData()).getGameId()), null);
   }
 }
