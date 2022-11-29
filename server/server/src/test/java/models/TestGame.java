@@ -22,7 +22,7 @@ public class TestGame {
     tempData.setGameName("test");
     tempData.setHostId("player1Id");
     String[] temp = {"player1Id", "player2Id"};
-    CardData[] temp1 = {new CardData()};
+    CardData[] temp1 = {new CardData(), new CardData(), new CardData(), new CardData(), new CardData()};
     tempData.setPlayerIds(temp);
     tempData.setDeck1(temp1);
     tempData.setDeck2(temp1);
@@ -32,7 +32,7 @@ public class TestGame {
     tempData.setExDeck3(temp1);
     NobleData[] temp2 = {new NobleData(), new NobleData(), new NobleData()};
     tempData.setAllNobles(temp2);
-//    Game test2 = new Game("test2", tempData);
+    Game test2 = new Game("test2", tempData);
     
     PlayerData[] temp3 = {new PlayerData("Jeremy"), new PlayerData("Josh")};
     

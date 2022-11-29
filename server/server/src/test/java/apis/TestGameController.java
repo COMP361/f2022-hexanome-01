@@ -8,6 +8,7 @@ import ca.mcgill.splendorserver.models.Game;
 import ca.mcgill.splendorserver.models.GameConfigData;
 import ca.mcgill.splendorserver.models.GameData;
 import ca.mcgill.splendorserver.models.NobleData;
+import ca.mcgill.splendorserver.models.TurnData;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.Test;
@@ -25,7 +26,7 @@ public class TestGameController {
     tempData.setGameName("test");
     tempData.setHostId("player1Id");
     String[] temp = {"player1Id", "player2Id"};
-    CardData[] temp1 = {new CardData()};
+    CardData[] temp1 = {new CardData(), new CardData(), new CardData(), new CardData(), new CardData()};
     tempData.setPlayerIds(temp);
     tempData.setDeck1(temp1);
     tempData.setDeck2(temp1);
@@ -37,8 +38,11 @@ public class TestGameController {
     tempData.setAllNobles(temp2);
     
     assertEquals(test.registerGame(null), false);
-//    assertEquals(test.registerGame(tempData), true);
+    assertEquals(test.registerGame(tempData), true);
     assertEquals(test.getGame("test").getGameId(), "test");
-    
+    assertEquals(test.getGame(null), null);
+    assertEquals(test.getGame("bad"), null);
+    assertEquals(test.updateGame("player1Id-test", null), false);
+    assertEquals(test.updateGame("player1Id-test", new TurnData(null, null)), true);
   }
 }
