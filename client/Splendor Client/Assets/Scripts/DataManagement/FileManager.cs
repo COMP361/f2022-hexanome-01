@@ -48,8 +48,6 @@ public static class FileManager {
 
     public static byte[] EncodeGameState(GameData data, bool desireFileCreation) { //maybe instead of passing the data, pass the parameters and create the payload in this method
         //SessionData data = new SessionData(session);
-        Debug.Log("before encode :");
-        Debug.Log(data.playersInGame);
         string json = JsonUtility.ToJson(data);
         if (desireFileCreation)
             WriteToFile("GameData-" + System.DateTime.Now, json);

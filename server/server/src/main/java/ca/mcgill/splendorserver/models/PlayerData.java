@@ -9,7 +9,6 @@ public class PlayerData {
   private String refreshToken;
   private String expiresIn; //should password be added?
   private CardData[] inventory;
-  private CardData[] reserved;
   private NobleData[] nobles;
   private int[] discounts = new int[5]; //order: red, green, blue, brown, white
   
@@ -51,14 +50,6 @@ public class PlayerData {
   
   public void setInventory(CardData[] inventory) {
     this.inventory = inventory;
-  }
-  
-  public CardData[] getReserved() {
-    return reserved;
-  }
-  
-  public void setReserved(CardData[] reserved) {
-    this.reserved = reserved;
   }
   
   public NobleData[] getNobles() {

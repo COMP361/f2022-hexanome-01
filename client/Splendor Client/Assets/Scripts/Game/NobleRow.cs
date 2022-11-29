@@ -52,9 +52,20 @@ public class NobleRow : MonoBehaviour
             if(nobles[i] == nobleToRemove)
             {
                 Destroy(nobles[i].gameObject);
+                nobles[i] = null;
                 // fillEmptyNobleSpot(i);
             }
         }
+    }
+
+    public NobleData[] ToArray()
+    {
+        NobleData[] nobleData = new NobleData[5];
+        for(int i = 0; i < nobles.Length; i++){
+            if (nobles[i] == null) nobleData[i] = null;
+            else nobleData[i] = new NobleData(nobles[i].GetNoble());
+        }   
+        return nobleData;
     }
 
     // private void fillEmptyNobleSpot(int nobleIndex)
