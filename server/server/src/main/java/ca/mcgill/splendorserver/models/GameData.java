@@ -11,26 +11,24 @@ public class GameData {
 	private CardData[] exRow1;
 	private CardData[] exRow2;
 	private CardData[] exRow3;
-	private NobleData[] noblesDisplayed;
-    private PlayerData[] playersInGame; //idk where this data is stored/how to get this data
+	private NobleData[] nobles;
+    private PlayerData[] players; //idk where this data is stored/how to get this data
     
-
-
-  public void setNobles(NobleData[] noblesDisplayed) {
-    this.noblesDisplayed = noblesDisplayed;
+  public void setNobles(NobleData[] nobles) {
+    this.nobles = nobles;
   }
 
-  public void setPlayers(PlayerData[] playersInGame) {
-    this.playersInGame = playersInGame;
+  public void setPlayers(PlayerData[] players) {
+    this.players = players;
   }
 
     
   public NobleData[] getNobles() {
-    return noblesDisplayed;
+    return nobles;
   }
     
   public PlayerData[] getPlayers() {
-    return playersInGame;
+    return players;
   }
     
   public String getGameId() {
