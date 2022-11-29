@@ -13,7 +13,11 @@ public class PingController {
   public long startTime = 0L;
   public long elapsedTime = 0L;
 
-
+  /**
+   * Tester method.
+   *
+   * @return the string "Ping"
+   */
   @GetMapping("/ping")
   public String ping() {
     return "Ping";
