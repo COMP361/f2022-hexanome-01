@@ -22,10 +22,6 @@ public class GameData {
         currentPlayer = boardInfo.currentPlayer;
         nobles = boardInfo.allNobels.ToArray();
 
-        for (int i=0; i<6; i++) {
-            shuffleSeeds[i] = boardInfo.allCards.cards[i].deck.randomSeed;
-        }
-
         row1 = boardInfo.allCards.cards[0].DeckToArray();
         row2 = boardInfo.allCards.cards[1].DeckToArray();
         row3 = boardInfo.allCards.cards[2].DeckToArray();
