@@ -43,6 +43,7 @@ public class Player : MonoBehaviour
             bonusesAquired.AddGemsToInventory(tempCard);
 
         inventory.Add(cardObject);
+        turnData.cardTaken = new CardData(cardObject);
 
         return true;
     }
@@ -51,6 +52,7 @@ public class Player : MonoBehaviour
     {
         pointsTotal += nobleObject.GetPoints();
         noblesVisited.Add(nobleObject);
+        turnData.nobleTaken = new NobleData(nobleObject);
     }
 
     public CardGemValue GetTokensAquired(){
