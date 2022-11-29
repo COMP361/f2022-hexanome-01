@@ -78,6 +78,18 @@ public class Game {
         deck.shuffle();
       }
     }
+    
+    for (int i = 0; i < 3; i++) {
+      cardsOnBoard[i] = new CardData[4];
+    }
+    
+    for (int i = 3; i < 6; i++) {
+      cardsOnBoard[i] = new CardData[2];
+    }
+
+    for (int i = 0; i < 6; i++) {
+      cardsOnBoard[i] = decks[i].initialDraw();
+    }
   }
   
   /**

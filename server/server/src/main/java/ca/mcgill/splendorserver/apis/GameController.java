@@ -34,6 +34,7 @@ public class GameController {
   @ResponseBody
   public GameData getGame(@PathVariable(required = true, name = "gameId") String gameId) {
     if (gameId == null || !gameRegistry.containsKey(gameId)) {
+      System.out.println("Polled null game with ID: " + gameId);
       return null;
     }
     System.out.println("Polled game with ID: " + gameId);
@@ -79,8 +80,9 @@ public class GameController {
     if (turn == null) {
       return false;
     }
-
+    System.out.println(gameRegistry.get(gameId).getCurrentPlayer().getId());
     gameRegistry.get(gameId).updateGame(turn);
+    System.out.println(gameRegistry.get(gameId).getCurrentPlayer().getId());
     System.out.println("Ended turn on game with ID: " + gameId);
     
     return true;

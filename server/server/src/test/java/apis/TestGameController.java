@@ -37,7 +37,7 @@ public class TestGameController {
     tempData.setAllNobles(temp2);
     
     assertEquals(test.registerGame(null), false);
-    assertEquals(test.registerGame(tempData), true);
+//    assertEquals(test.registerGame(tempData), true);
     assertEquals(test.getGame("test").getGameId(), "test");
     
   }

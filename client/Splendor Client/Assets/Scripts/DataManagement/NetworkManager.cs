@@ -129,7 +129,7 @@ public class NetworkManager : MonoBehaviour
 
                 GameData game = FileManager.DecodeGameState(gameString, false);
 
-                if(game != null) {
+                if(game != null && game.gameId != null) {
                     control.StartJoinedGame();
                     break;
                 }
@@ -161,10 +161,7 @@ public class NetworkManager : MonoBehaviour
 
                 GameData game = FileManager.DecodeGameState(gameString, false);
 
-                Debug.Log(game.players);
-                Debug.Log(game.currentPlayer);
-
-                if(game != null && game.currentPlayer.id == mainPlayer.username) {
+                if(game != null && game.currentPlayer != null && game.currentPlayer.id == mainPlayer.username) {
                     control.StartTurn();
                     break;
                 }

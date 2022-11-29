@@ -32,7 +32,7 @@ public class TestGame {
     tempData.setExDeck3(temp1);
     NobleData[] temp2 = {new NobleData(), new NobleData(), new NobleData()};
     tempData.setAllNobles(temp2);
-    Game test2 = new Game("test2", tempData);
+//    Game test2 = new Game("test2", tempData);
     
     PlayerData[] temp3 = {new PlayerData("Jeremy"), new PlayerData("Josh")};
     
