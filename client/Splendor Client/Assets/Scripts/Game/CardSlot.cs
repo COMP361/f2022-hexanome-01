@@ -8,7 +8,7 @@ the card object. (Make sure to call SetCard(Card card) before using functionalit
 */
 public class CardSlot : MonoBehaviour
 {
-    [SerializeField] private Card card;
+    [SerializeField] public Card card;
 
     private SpriteRenderer m_SpriteRenderer;
 

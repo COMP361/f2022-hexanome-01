@@ -109,7 +109,7 @@ public class Game {
     }
     if (turn.getNobleTaken() != null) {
       for (int i = 0; i < 5; i++) {
-        if (nobles[i].equals(turn.getNobleTaken())) {
+        if (nobles[i] != null && nobles[i].equals(turn.getNobleTaken())) {
           nobles[i] = null;
         }
       }

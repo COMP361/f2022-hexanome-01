@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class NobleSlot : MonoBehaviour
 {
-    [SerializeField] private Noble noble;
+    [SerializeField] public Noble noble;
 
     private SpriteRenderer m_SpriteRenderer;
 

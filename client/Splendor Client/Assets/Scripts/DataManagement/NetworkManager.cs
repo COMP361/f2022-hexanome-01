@@ -162,6 +162,7 @@ public class NetworkManager : MonoBehaviour
                 GameData game = FileManager.DecodeGameState(gameString, false);
 
                 if(game != null && game.currentPlayer != null && game.currentPlayer.id == mainPlayer.username) {
+                    control.UpdateBoard(game);
                     control.StartTurn();
                     break;
                 }

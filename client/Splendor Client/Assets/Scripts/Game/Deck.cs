@@ -20,11 +20,12 @@ public class Deck : MonoBehaviour
     //Shuffles the whole whole deck
     public void ShuffleDeck()
     {
-        for (int i = 0; i < cards.Count; i++) {
-        Card tempCard = cards[i];
-        int random = Random.Range(i, cards.Count);
-        cards[i] = cards[random];
-        cards[random] = tempCard;
+        // for (int i = 0; i < cards.Count; i++) {
+        // Card tempCard = cards[i];
+        // int random = Random.Range(i, cards.Count);
+        // cards[i] = cards[random];
+        // cards[random] = tempCard;
+        // cards.OrderBy(n=>n.getBonusAmount());
      }
 
     }

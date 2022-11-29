@@ -31,6 +31,30 @@ public class PlayerControl : MonoBehaviour
 
     private bool waiting;
 
+    public void UpdateBoard(GameData game) {
+        for (int i=0; i<4; i++) {
+            allCards.cards[0].cards[i].card.SetData(game.row1[i]);
+        }
+        for (int i=0; i<4; i++) {
+            allCards.cards[1].cards[i].card.SetData(game.row2[i]);
+        }
+        for (int i=0; i<4; i++) {
+            allCards.cards[2].cards[i].card.SetData(game.row3[i]);
+        }
+        for (int i=0; i<2; i++) {
+            allCards.cards[3].cards[i].card.SetData(game.exRow1[i]);
+        }
+        for (int i=0; i<2; i++) {
+            allCards.cards[4].cards[i].card.SetData(game.exRow2[i]);
+        }
+        for (int i=0; i<2; i++) {
+            allCards.cards[5].cards[i].card.SetData(game.exRow3[i]);
+        }
+        for (int i=0; i<5; i++) {
+            allNobels.nobles[i].noble.SetData(game.nobles[i]);
+        }
+    }
+
     private void Start()
     {
         waiting = true;

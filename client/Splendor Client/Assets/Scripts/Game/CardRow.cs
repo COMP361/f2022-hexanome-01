@@ -11,7 +11,7 @@ public class CardRow : MonoBehaviour
 
     public Deck deck;
 
-    private CardSlot[] cards = new CardSlot[4];
+    public CardSlot[] cards = new CardSlot[4];
 
     public float x;
     public float y;
