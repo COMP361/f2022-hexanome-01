@@ -20,14 +20,14 @@ public class TestPLayerData {
 		test.setInventory(temp2);
 		//test.setReserved(temp3);
 		
-		test.setAccessToken("access");
-		test.setExpiresIn("expires");
-		test.setRefreshToken("refresh");
+//		test.setAccessToken("access");
+//		test.setExpiresIn("expires");
+//		test.setRefreshToken("refresh");
 		test.setUsername("Steven");
-		
-		assertEquals(test.getAccessToken(), "access");
-		assertEquals(test.getExpiresIn(), "expires");
-		assertEquals(test.getRefreshToken(), "refresh");
+//		
+//		assertEquals(test.getAccessToken(), "access");
+//		assertEquals(test.getExpiresIn(), "expires");
+//		assertEquals(test.getRefreshToken(), "refresh");
 		assertEquals(test.getUsername(), "Steven");
 		for(int i = 0; i < temp.length;i++)
 			assertEquals(test.getDiscounts()[i], temp[i]);

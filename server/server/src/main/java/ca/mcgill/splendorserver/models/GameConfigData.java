@@ -26,7 +26,7 @@ public class GameConfigData {
   
   /**
    * Gets game name.
-   * 
+   *
    * @return gameName
    */
   public String getGameName() {
@@ -35,19 +35,19 @@ public class GameConfigData {
   
   /**
    * Gets host ID.
-   * 
+   *
    * @return hostId
    */
-  public String getHostID() {
+  public String getHostId() {
     return hostId;
   }
   
   /**
    * Gets player IDs.
-   * 
+   *
    * @return hostId
    */
-  public String[] getPlayerIDs() {
+  public String[] getPlayerIds() {
     return playerIds;
   }
 }
