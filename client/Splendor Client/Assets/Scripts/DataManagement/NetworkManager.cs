@@ -37,16 +37,17 @@ public class NetworkManager : MonoBehaviour
         string gameId = "Game1";
         //StartCoroutine(PostSession());
     }
-    public void GetData() => StartCoroutine(GetSession("Game1"));
+    // public void GetData() => StartCoroutine(GetSession("Game1"));
     /////////////////////////////////////////////////////
 
-    public void postSession(string sessionName, int maxPlayer, LobbyPlayer host) {
-        StartCoroutine(PostSession(sessionName, maxPlayer, host));
-    }
+    // public void postSession(string sessionName, int maxPlayer, LobbyPlayer host) {
+    //     StartCoroutine(PostSession(sessionName, maxPlayer, host));
+    // }
 
-    public void getSessions(SessionData[] sessions) => StartCoroutine(GetSessions(sessions));
+    // public void getSessions(SessionData[] sessions) => StartCoroutine(GetSessions(sessions));
 
     public void InitializePolling(string gameId, Authentication player, PlayerControl control) => StartCoroutine(StartPolling(gameId, player, control));
+    public void joinPolling(string gameId, MainMenuManager control) => StartCoroutine(JoinPolling(gameId, control));
 
     public void endTurn(string gameId, TurnData turnData, Authentication mainPlayer, PlayerControl control) => StartCoroutine(EndTurnUpdate(gameId, turnData, mainPlayer, control));
 
@@ -61,72 +62,22 @@ public class NetworkManager : MonoBehaviour
     }
 
     //Its recieved as a long do we store it as a long or string
-    IEnumerator GetSession(string sessionId){
-        string url = "http://localhost:4242/api/sessions/" + sessionId;
-        using(UnityWebRequest request = UnityWebRequest.Get(url)){
-            yield return request.SendWebRequest();
-            if(request.result == UnityWebRequest.Result.ProtocolError || request.result == UnityWebRequest.Result.ConnectionError){
-                Debug.Log(request.error);
-            }else {
-                Debug.Log(request.downloadHandler.text);
-                string session = request.downloadHandler.text;
+    // IEnumerator GetSessions(){
+    //     string url = "http://localhost:4242/api/sessions/";
+    //     using(UnityWebRequest request = UnityWebRequest.Get(url)){
+    //         yield return request.SendWebRequest();
+    //         if(request.result == UnityWebRequest.Result.ProtocolError || request.result == UnityWebRequest.Result.ConnectionError){
+    //             Debug.Log(request.error);
+    //         }else {
+    //             Debug.Log(request.downloadHandler.text);
+    //             string session = request.downloadHandler.text;
                
-                
-                Session sessionreceived = FileManager.DecodeSession(session, false);
-                Debug.Log(sessionreceived.getSessionName());
-            }
+    //             Session[] sessionreceived = FileManager.DecodeSession(session, false);
+    //             Debug.Log(sessionreceived.getSessionName());
+    //         }
             
-        }
-    }
-
-    IEnumerator GetSessions(SessionData[] sessions) {
-        string url = "http://localhost:4244/splendor/SessionName";
-
-        using(UnityWebRequest request = UnityWebRequest.Get(url)){
-            yield return request.SendWebRequest();
-            if(request.result == UnityWebRequest.Result.ProtocolError || request.result == UnityWebRequest.Result.ConnectionError) {
-                Debug.Log(request.error);
-            }
-            else {
-                string sessionString = request.downloadHandler.text;
-                SessionListData sessionListData = FileManager.DecodeSessionListData(sessionString, false);
-
-                sessions = sessionListData.sessionList;
-
-            }
-        }
-    }
-
-    IEnumerator PostSession(string sessionName, int maxPlayers, LobbyPlayer host){
-       string url = "http://localhost:4244/splendor/Session";
-
-       var request = new UnityWebRequest(url, RequestType.POST.ToString());
-
-       Session session = new Session(sessionName, maxPlayers, new List<LobbyPlayer>());
-       
-       var body = FileManager.EncodeSession(session, false);
-
-       request.uploadHandler = new UploadHandlerRaw(body);
-       request.downloadHandler = new DownloadHandlerBuffer();
-       request.SetRequestHeader("Content-Type", "application/json");
-       yield return request.SendWebRequest();
-       Debug.Log(request.downloadHandler.text);
-
-    }
-
-    IEnumerator GetGame(string gameId) {
-        string url = "http://localhost:4244/splendor/games/" + gameId;
-        using(UnityWebRequest request = UnityWebRequest.Get(url)){
-            yield return request.SendWebRequest();
-            if(request.result == UnityWebRequest.Result.ProtocolError || request.result == UnityWebRequest.Result.ConnectionError)
-                Debug.Log(request.error);
-            else
-                Debug.Log(request.downloadHandler.text);
-
-            
-        }
-    }
-
+    //     }
+    // }
     
     IEnumerator EndTurnUpdate(string gameId, TurnData turnData, Authentication mainPlayer, PlayerControl control) {
 
@@ -158,6 +109,38 @@ public class NetworkManager : MonoBehaviour
        request.SetRequestHeader("Content-Type", "application/json");
        yield return request.SendWebRequest();
        Debug.Log(request.downloadHandler.text);
+    }
+
+    
+
+    private IEnumerator JoinPolling(string gameId, MainMenuManager control){
+       string url = "http://localhost:4244/splendor/update/" + gameId;
+       
+       for(;;){
+        using(UnityWebRequest request = UnityWebRequest.Get(url)){
+            yield return request.SendWebRequest();
+            if(request.result == UnityWebRequest.Result.ProtocolError || request.result == UnityWebRequest.Result.ConnectionError){
+                Debug.Log(request.error);
+            }else {
+                Debug.Log(request.downloadHandler.text);
+
+                string gameString = request.downloadHandler.text;
+
+                GameData game = FileManager.DecodeGameState(gameString, false);
+
+                if(game != null) {
+                    control.StartJoinedGame();
+                    break;
+                }
+
+            
+            }
+            yield return new WaitForSeconds(3);
+            
+            //StartCoroutine(PollTimer());
+            
+        }
+       }
     }
 
     

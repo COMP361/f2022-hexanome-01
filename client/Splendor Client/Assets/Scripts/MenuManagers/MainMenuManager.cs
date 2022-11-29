@@ -118,6 +118,9 @@ public class MainMenuManager : MonoBehaviour {
         sessionCreated = false;
         if (currentSession != null) {
             previousMenu = LastMenuVisited.JOIN;
+            globalGameClient.id = currentSession.playerList[0].username + "-" + currentSession.sessionName;
+            currentSession.playerList.Add(new LobbyPlayer(authentication));
+            networkManager.joinPolling(globalGameClient.id, this);
             joinSession.Invoke();
         }
     }
@@ -137,7 +140,7 @@ public class MainMenuManager : MonoBehaviour {
 
     public void MakeSessions() { //displays sessions in menu
         currentSession = null;
-        networkManager.getSessions(sessions);
+        // networkManager.getSessions(sessions);
         foreach (SessionData s in sessions) {
             sessionList.sessions.Add(new Session(s));
         }
@@ -188,6 +191,10 @@ public class MainMenuManager : MonoBehaviour {
     public void StartGame() { //available to host in game lobby
         networkManager.registerGame(new GameConfigData(authentication, new SessionData(currentSession), allCards, allNobles));
         globalGameClient.id = authentication.username + "-" + currentSession.sessionName;
+        SceneManager.LoadScene(2);
+    }
+
+    public void StartJoinedGame() {
         SceneManager.LoadScene(2);
     }
 }
