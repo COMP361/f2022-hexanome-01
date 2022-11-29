@@ -134,7 +134,7 @@ public class NetworkManager : MonoBehaviour
 
         var request = new UnityWebRequest(url, RequestType.POST.ToString());
         
-        var body = FileManager.EncodeGameState(turnData, false);
+        var body = FileManager.EncodeTurnData(turnData, false);
 
         request.uploadHandler = new UploadHandlerRaw(body);
         request.downloadHandler = new DownloadHandlerBuffer();
