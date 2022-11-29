@@ -62,6 +62,16 @@ public static class FileManager {
         return Encoding.UTF8.GetBytes(json);
     }
 
+    public static byte[] EncodeTurnData(TurnData data, bool desireFileCreation) { //maybe instead of passing the data, pass the parameters and create the payload in this method
+        //SessionData data = new SessionData(session);
+        string json = JsonUtility.ToJson(data);
+        if (desireFileCreation)
+            WriteToFile("GameData-" + System.DateTime.Now, json);
+        return Encoding.UTF8.GetBytes(json);
+    }
+
+    
+
     public static GameData DecodeGameState(string source, bool isAFile) {
         string json = isAFile ? ReadFromFIle(source) : source;
         GameData data = new GameData();
