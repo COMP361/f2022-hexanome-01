@@ -30,6 +30,8 @@ public class PlayerControl : MonoBehaviour
 
     private void Start()
     {
+        db.InitializePolling(gameId, gamePlayersData[currentPlayer]);
+
         selectedCardToBuy = null;
         _inputActionMap = controls.FindActionMap("Player");
     
@@ -96,6 +98,9 @@ public class PlayerControl : MonoBehaviour
 
         /////// TEST SAVE GAME AFTER TURN ////////////
         GameData data = new GameData(this);
+        
+
+
         //db.UpdateGame(data);
         ///////////////////////////////////////////////
 
