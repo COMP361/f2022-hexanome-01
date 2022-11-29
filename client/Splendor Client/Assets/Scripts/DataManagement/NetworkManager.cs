@@ -22,6 +22,7 @@ public class NetworkManager : MonoBehaviour
 //FileManager fileManager = new FileManager();
 
    // InputField outputArea;
+   private string HOST = "10.122.184.196";
 
     // Start is called before the first frame update
     void Start()
@@ -81,7 +82,7 @@ public class NetworkManager : MonoBehaviour
     
     IEnumerator EndTurnUpdate(string gameId, TurnData turnData, Authentication mainPlayer, PlayerControl control) {
 
-        string url = "http://localhost:4244/splendor/endturn/" + gameId;
+        string url = "http://" + HOST + ":4244/splendor/endturn/" + gameId;
 
         var request = new UnityWebRequest(url, RequestType.POST.ToString());
         
@@ -97,7 +98,7 @@ public class NetworkManager : MonoBehaviour
     }
 
     IEnumerator PostGame(GameConfigData gameConfigData) {
-        string url = "http://localhost:4244/splendor/register";
+        string url = "http://" + HOST + ":4244/splendor/register";
 
         var request = new UnityWebRequest(url, RequestType.POST.ToString());
 
@@ -114,7 +115,7 @@ public class NetworkManager : MonoBehaviour
     
 
     private IEnumerator JoinPolling(string gameId, MainMenuManager control){
-       string url = "http://localhost:4244/splendor/update/" + gameId;
+       string url = "http://" + HOST + ":4244/splendor/update/" + gameId;
        
        for(;;){
         using(UnityWebRequest request = UnityWebRequest.Get(url)){
@@ -146,7 +147,7 @@ public class NetworkManager : MonoBehaviour
     
 
     private IEnumerator StartPolling(string gameId, Authentication mainPlayer, PlayerControl control){
-       string url = "http://localhost:4244/splendor/update/" + gameId;
+       string url = "http:/" + HOST + ":4244/splendor/update/" + gameId;
        
        for(;;){
         using(UnityWebRequest request = UnityWebRequest.Get(url)){
