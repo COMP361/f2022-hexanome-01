@@ -34,6 +34,7 @@ public class PlayerControl : MonoBehaviour
 
     private void Start()
     {
+        waiting = true;
         db.InitializePolling(gameId, mainPlayer, this);
 
         selectedCardToBuy = null;
