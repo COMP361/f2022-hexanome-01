@@ -56,12 +56,17 @@ public class MainMenuManager : MonoBehaviour {
         if (nameField.GetComponent<InputField>().text != "") {
             previousMenu = LastMenuVisited.MAIN;
             createSession.Invoke(); //location of this event may change in the future
+            // string sessionName = sessionNameText.text;
+            // int maxPlayers = 4;
             createdSession.sessionName = sessionNameText.text;
             //determine player count based on selected toggle
             Toggle[] toggles = GetComponents<Toggle>();
             foreach (Toggle toggle in toggles) {
                 if (toggle.isOn) {
                     switch (toggle.name) {
+                        // case "TwoPlayersToggle": maxPlayers = 2; break;
+                        // case "ThreePlayersToggle": maxPlayers = 3; break;
+                        // case "FourPlayersToggle": maxPlayers = 4; break;
                         case "TwoPlayersToggle": createdSession.maxPlayers = 2; break;
                         case "ThreePlayersToggle": createdSession.maxPlayers = 3; break;
                         case "FourPlayersToggle": createdSession.maxPlayers = 4; break;
@@ -69,6 +74,8 @@ public class MainMenuManager : MonoBehaviour {
                     break;
                 } 
             }
+            NetworkManager.Invoke("PostSession", 0);
+            StartCoroutine(NetworkManager.PostSession(createSession));
             sessionCreated = true;
             currentSession = createdSession;
             //add host/this player to playerlist of created session here

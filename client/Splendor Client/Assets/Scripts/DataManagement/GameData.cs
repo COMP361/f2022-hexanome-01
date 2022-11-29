@@ -5,6 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class GameData {
     public string gameId;
+    public int currentPlayer;
     public CardData[][] cards;
     public NobleData[] noblesDisplayed;
     public PlayerData[] playersInGame; //idk where this data is stored/how to get this data
@@ -12,6 +13,7 @@ public class GameData {
     public GameData() { }
     public GameData(PlayerControl boardInfo) {
         gameId = boardInfo.gameId;
+        currentPlayer = boardInfo.currentPlayer;
         noblesDisplayed = new NobleData[boardInfo.allNobels.nobles.Length];
         for (int i = 0; i < boardInfo.allNobels.nobles.Length; i++)
             noblesDisplayed[i] = new NobleData(boardInfo.allNobels.nobles[i].GetNoble());
