@@ -96,7 +96,7 @@ public class PlayerControl : MonoBehaviour
 
         /////// TEST SAVE GAME AFTER TURN ////////////
         GameData data = new GameData(this);
-        db.UpdateGame(data);
+        //db.UpdateGame(data);
         ///////////////////////////////////////////////
 
 
