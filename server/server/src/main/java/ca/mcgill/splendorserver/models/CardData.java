@@ -176,4 +176,14 @@ public class CardData {
   public void setWhite(int white) {
     this.white = white;
   }
+
+  /**
+   * Compares two card data.
+   *
+   * @param other to be compared to
+   * @return equivalence
+   */
+  public boolean equals(CardData other) {
+    return this.id == other.id;
+  }
 }

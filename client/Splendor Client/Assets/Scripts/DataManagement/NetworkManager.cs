@@ -40,11 +40,19 @@ public class NetworkManager : MonoBehaviour
     public void GetData() => StartCoroutine(GetSession("Game1"));
     /////////////////////////////////////////////////////
 
-    public void postSession(Session session) => StartCoroutine(PostSession(session));
+    public void postSession(string sessionName, int maxPlayer, LobbyPlayer host) {
+        StartCoroutine(PostSession(sessionName, maxPlayer, host));
+    }
 
     public void getSessions(SessionData[] sessions) => StartCoroutine(GetSessions(sessions));
 
-    public void UpdateGame(GameData newGameData) => StartCoroutine(PostGame(newGameData));
+    public void InitializePolling(string gameId, Authentication player, PlayerControl control) => StartCoroutine(StartPolling(gameId, player, control));
+
+    public void endTurn(string gameId, TurnData turnData, Authentication mainPlayer, PlayerControl control) => StartCoroutine(EndTurnUpdate(gameId, turnData, mainPlayer, control));
+
+    public void registerGame(GameConfigData config) => StartCoroutine(PostGame(config));
+
+    //public void GameboardPolling() => StartCoroutine(StartPolling("test"));
 
     // Update is called once per frame
     void Update()
@@ -52,19 +60,19 @@ public class NetworkManager : MonoBehaviour
         
     }
 
-    IEnumerator GetSession(string sessionName){
-        string url = "http://localhost:4244/splendor/SessionName/" + sessionName;
+    //Its recieved as a long do we store it as a long or string
+    IEnumerator GetSession(string sessionId){
+        string url = "http://localhost:4242/api/sessions/" + sessionId;
         using(UnityWebRequest request = UnityWebRequest.Get(url)){
             yield return request.SendWebRequest();
             if(request.result == UnityWebRequest.Result.ProtocolError || request.result == UnityWebRequest.Result.ConnectionError){
                 Debug.Log(request.error);
             }else {
-                //Session session = FileManager.DecodeSession(request.downloadHandler.text, false);
                 Debug.Log(request.downloadHandler.text);
                 string session = request.downloadHandler.text;
-                Session sessionreceived = new Session();
+               
                 
-                sessionreceived = FileManager.DecodeSession(session, false);
+                Session sessionreceived = FileManager.DecodeSession(session, false);
                 Debug.Log(sessionreceived.getSessionName());
             }
             
@@ -89,10 +97,12 @@ public class NetworkManager : MonoBehaviour
         }
     }
 
-    IEnumerator PostSession(Session session){
-       string url = "http://127.0.0.1:4242/api/sessions";
+    IEnumerator PostSession(string sessionName, int maxPlayers, LobbyPlayer host){
+       string url = "http://localhost:4244/splendor/Session";
 
        var request = new UnityWebRequest(url, RequestType.POST.ToString());
+
+       Session session = new Session(sessionName, maxPlayers, new List<LobbyPlayer>());
        
        var body = FileManager.EncodeSession(session, false);
 
@@ -118,14 +128,29 @@ public class NetworkManager : MonoBehaviour
     }
 
     
-    IEnumerator PostGame(GameData newGameData) {
-        string url = "http://localhost:4244/splendor/Game";
+    IEnumerator EndTurnUpdate(string gameId, TurnData turnData, Authentication mainPlayer, PlayerControl control) {
+
+        string url = "http://localhost:4244/splendor/endturn/" + gameId;
 
         var request = new UnityWebRequest(url, RequestType.POST.ToString());
         
+        var body = FileManager.EncodeTurnData(turnData, false);
 
-        Debug.Log(newGameData.gameId);
-        var body = FileManager.EncodeGameState(newGameData, true);
+        request.uploadHandler = new UploadHandlerRaw(body);
+        request.downloadHandler = new DownloadHandlerBuffer();
+        request.SetRequestHeader("Content-Type", "application/json");
+        yield return request.SendWebRequest();
+        Debug.Log(request.downloadHandler.text);
+
+        StartCoroutine(StartPolling(gameId, mainPlayer, control));
+    }
+
+    IEnumerator PostGame(GameConfigData gameConfigData) {
+        string url = "http://localhost:4244/splendor/register";
+
+        var request = new UnityWebRequest(url, RequestType.POST.ToString());
+
+        var body = FileManager.EncodeGameConfig(gameConfigData, false);
         
 
        request.uploadHandler = new UploadHandlerRaw(body);
@@ -133,6 +158,46 @@ public class NetworkManager : MonoBehaviour
        request.SetRequestHeader("Content-Type", "application/json");
        yield return request.SendWebRequest();
        Debug.Log(request.downloadHandler.text);
+    }
+
+    
+
+    private IEnumerator StartPolling(string gameId, Authentication mainPlayer, PlayerControl control){
+       string url = "http://localhost:4244/splendor/update/" + gameId;
+       
+       for(;;){
+        using(UnityWebRequest request = UnityWebRequest.Get(url)){
+            yield return request.SendWebRequest();
+            if(request.result == UnityWebRequest.Result.ProtocolError || request.result == UnityWebRequest.Result.ConnectionError){
+                Debug.Log(request.error);
+            }else {
+                Debug.Log(request.downloadHandler.text);
+
+                string gameString = request.downloadHandler.text;
+
+                GameData game = FileManager.DecodeGameState(gameString, false);
+
+                Debug.Log(game.players);
+                Debug.Log(game.currentPlayer);
+
+                if(game != null && game.players[game.currentPlayer].id == mainPlayer.username) {
+                    control.StartTurn();
+                    break;
+                }
+
+            
+            }
+            yield return new WaitForSeconds(3);
+            
+            //StartCoroutine(PollTimer());
+            
+        }
+       }
+    }
+
+    private IEnumerator PollTimer(){
+        yield return new WaitForSeconds(3);
+        Debug.Log("starting another request for game Update");
     }
 
     // private IEnumerator MakeRequests(){
