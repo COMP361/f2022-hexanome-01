@@ -74,7 +74,9 @@ public class Game {
     }
     
     for (Deck deck : decks) {
-      deck.shuffle();
+      if (deck != null) {
+        deck.shuffle();
+      }
     }
   }
   
