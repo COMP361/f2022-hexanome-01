@@ -71,6 +71,20 @@ public static class FileManager {
 
     }
 
+    public static byte[] EncodeSessionList(SessionListData data, bool desireFileCreation) {
+        string json = JsonUtility.ToJson(data);
+        if (desireFileCreation)
+            WriteToFile("SessionList", json);
+        return Encoding.UTF8.GetBytes(json);
+    }
+
+    public static SessionListData DecodeSessionListData(string source, bool isAFile) {
+        string json = isAFile ? ReadFromFIle(source) : source;
+        SessionListData data = new SessionListData();
+        JsonUtility.FromJsonOverwrite(json, data);
+        return data;
+    }
+
     public static byte[] EncodePlayerData(PlayerData data, bool desireFileCreation) {
         string json = JsonUtility.ToJson(data);
         if (desireFileCreation)
