@@ -60,19 +60,19 @@ public class NetworkManager : MonoBehaviour
         
     }
 
-    IEnumerator GetSession(string sessionName){
-        string url = "http://localhost:4244/splendor/SessionName/" + sessionName;
+    //Its recieved as a long do we store it as a long or string
+    IEnumerator GetSession(string sessionId){
+        string url = "http://localhost:4242/api/sessions/" + sessionId;
         using(UnityWebRequest request = UnityWebRequest.Get(url)){
             yield return request.SendWebRequest();
             if(request.result == UnityWebRequest.Result.ProtocolError || request.result == UnityWebRequest.Result.ConnectionError){
                 Debug.Log(request.error);
             }else {
-                //Session session = FileManager.DecodeSession(request.downloadHandler.text, false);
                 Debug.Log(request.downloadHandler.text);
                 string session = request.downloadHandler.text;
-                Session sessionreceived = new Session();
+               
                 
-                sessionreceived = FileManager.DecodeSession(session, false);
+                Session sessionreceived = FileManager.DecodeSession(session, false);
                 Debug.Log(sessionreceived.getSessionName());
             }
             
