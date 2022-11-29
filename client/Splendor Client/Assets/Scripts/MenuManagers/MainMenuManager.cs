@@ -152,9 +152,6 @@ public class MainMenuManager : MonoBehaviour {
         LobbyPlayer demoHost = new LobbyPlayer();
         demoHost.username = "maex";
         demo.playerList.Add(demoHost);
-        LobbyPlayer demoPlayer = new LobbyPlayer();
-        demoPlayer.username = "linus";
-        demo.playerList.Add(demoPlayer);
         sessionList.sessions.Add(demo);
         //
 
