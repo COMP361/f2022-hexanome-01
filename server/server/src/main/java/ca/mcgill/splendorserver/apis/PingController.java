@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class PingController {
 
-    long startTime = 0L;
-    long elapsedTime = 0L;
+    public long startTime = 0L;
+    public long elapsedTime = 0L;
 
 
     @GetMapping("/ping")
