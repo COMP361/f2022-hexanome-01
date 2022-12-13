@@ -14,11 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   points: 0
-  bonus: 0
-  bonusAmount: 1
+  bonus: 74
+  bonusAmount: 2
   red: 0
   blue: 0
   green: 3
   brown: 0
   white: 0
+  thisEvent:
+    m_PersistentCalls:
+      m_Calls: []
   sprite: {fileID: 4848016648794513247, guid: 610d06418fe70dd4dae948b974baa749, type: 3}

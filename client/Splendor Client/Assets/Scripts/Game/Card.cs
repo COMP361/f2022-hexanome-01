@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
-
+using UnityEngine.Events;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 public class CardGemValue {
     int _red;
@@ -11,6 +12,7 @@ public class CardGemValue {
     int _blue;
     int _brown;
     int _white;
+    int _gold;
 
     public CardGemValue() {
         this._red = 0;
@@ -18,6 +20,12 @@ public class CardGemValue {
         this._blue = 0;
         this._brown = 0;
         this._white = 0;
+        this._gold = 0;
+    }
+
+    public int gold {
+        get { return _gold; }
+        set { _gold = value; }
     }
 
     public int red {
@@ -48,6 +56,7 @@ public class CardGemValue {
         c.brown = a.brown + b.brown;
         c.red = a.red + b.red;
         c.white = a.white + b.white;
+        c.gold = a.gold + b.gold;
         return c;
     }
 
@@ -61,17 +70,18 @@ public class CardGemValue {
             this.blue += tempCard.gemValue.blue;
             this.brown += tempCard.gemValue.brown;
             this.white += tempCard.gemValue.white;
+            this.gold += tempCard.gemValue.gold;
         }
     }
 
-    public bool CheckSufficientPay(Card card) {        
+    public bool CheckSufficientPay(Card card) { //need to check for gold tokens        
         if (card == null) return false;
         return !(blue < card.blue || green < card.green || 
                 brown < card.brown || red < card.red || 
                 white < card.white);
     }
 
-    public void PayFor(Card card) {
+    public void PayFor(Card card) { //need to check for gold tokens
         this.red -= card.red;
         this.green -= card.green;
         this.blue -= card.blue;
@@ -95,11 +105,18 @@ public class Card : ScriptableObject {
     [SerializeField] public int white;
 
     [SerializeField] public CardGemValue gemValue = new CardGemValue();
+
+    public UnityEvent thisEvent;
+
     private bool active = true;
 
     public Sprite sprite;
 
     private SpriteRenderer m_SpriteRenderer;
+
+    public void Use() {
+        thisEvent.Invoke();
+    }
 
     public void SetData(CardData data) {
         id = data.id;
@@ -138,6 +155,8 @@ public class Card : ScriptableObject {
                 gemValue.green = this.bonusAmount;
             else if (this.bonus == 'K')
                 gemValue.brown = this.bonusAmount;
+            else if (bonus == 'J')
+                gemValue.gold = bonusAmount;
 
         }
         catch (NullReferenceException ex) {

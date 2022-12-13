@@ -29,7 +29,7 @@ public class Player : MonoBehaviour
         return pointsTotal;
     }
 
-    public bool TriggerCardAdd(Card cardObject)
+    public bool TriggerCardAdd(Card cardObject) //need to account for gold tokens
     {
         Card tempCard = (Card) ScriptableObject.CreateInstance(typeof(Card));
         tempCard = cardObject;
