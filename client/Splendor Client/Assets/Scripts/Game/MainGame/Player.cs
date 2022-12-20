@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
         tokensAquired.brown = 5;
         tokensAquired.red = 5;
         tokensAquired.white = 5;
+        tokensAquired.gold = 5;
     }
 
     public int GetPoints()
@@ -29,7 +30,7 @@ public class Player : MonoBehaviour
         return pointsTotal;
     }
 
-    public bool TriggerCardAdd(Card cardObject) //need to account for gold tokens
+    public bool TriggerCardAdd(Card cardObject) //need to account for gold tokens/gold discounts
     {
         Card tempCard = (Card) ScriptableObject.CreateInstance(typeof(Card));
         tempCard = cardObject;
@@ -43,7 +44,7 @@ public class Player : MonoBehaviour
             bonusesAquired.AddGemsToInventory(tempCard);
 
         inventory.Add(cardObject);
-        turnData.cardTaken = new CardData(cardObject);
+        turnData.cardTaken = new CardData(cardObject); //TODO: change to be a list of cards taken to accomidate orient cards
 
         return true;
     }

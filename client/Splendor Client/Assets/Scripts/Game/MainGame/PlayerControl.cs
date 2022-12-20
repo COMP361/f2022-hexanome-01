@@ -11,6 +11,10 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private Player player; //this client/player
     [SerializeField] public List<PlayerData> gamePlayersData; //can change this to a different type later, playerData is combined from LobbyPlayer and Player class
 
+    public Player client { 
+        get { return player; }
+    }
+
     public GlobalGameClient globalGameClient;
 
     public AllCards allCards;
@@ -33,6 +37,13 @@ public class PlayerControl : MonoBehaviour
 
     private void Start()
     {
+
+        foreach(CardRow cr in allCards.cards) { //reset satchel values of all cards to 0, since scriptable objects remembers values between scenes, i.e. between games
+            foreach(Card c in cr.deck.cards) {
+                c.satchels = 0;
+            }
+        }
+
         waiting = true;
         db.InitializePolling(globalGameClient.id, mainPlayer, this);
 

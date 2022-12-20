@@ -74,14 +74,14 @@ public class CardGemValue {
         }
     }
 
-    public bool CheckSufficientPay(Card card) { //need to check for gold tokens        
+    public bool CheckSufficientPay(Card card) { //need to check for gold tokens + gem discounts       
         if (card == null) return false;
         return !(blue < card.blue || green < card.green || 
                 brown < card.brown || red < card.red || 
                 white < card.white);
     }
 
-    public void PayFor(Card card) { //need to check for gold tokens
+    public void PayFor(Card card) { //need to check for gold tokens + gem discounts
         this.red -= card.red;
         this.green -= card.green;
         this.blue -= card.blue;
@@ -106,17 +106,14 @@ public class Card : ScriptableObject {
 
     [SerializeField] public CardGemValue gemValue = new CardGemValue();
 
-    public UnityEvent thisEvent;
+    public int satchels = 0;
+    public ActionType action;
 
     private bool active = true;
 
     public Sprite sprite;
 
     private SpriteRenderer m_SpriteRenderer;
-
-    public void Use() {
-        thisEvent.Invoke();
-    }
 
     public void SetData(CardData data) {
         id = data.id;
@@ -129,6 +126,11 @@ public class Card : ScriptableObject {
         brown = data.brown;
         white = data.white;
     }
+
+    public void AddSatchel() {
+        satchels++;
+    }
+
     public int GetPoints() {
         if (!active) return 0;
         return points;
@@ -157,7 +159,6 @@ public class Card : ScriptableObject {
                 gemValue.brown = this.bonusAmount;
             else if (bonus == 'J')
                 gemValue.gold = bonusAmount;
-
         }
         catch (NullReferenceException ex) {
             Debug.Log(ex);
