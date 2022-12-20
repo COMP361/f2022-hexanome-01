@@ -21,7 +21,6 @@ MonoBehaviour:
   green: 3
   brown: 0
   white: 0
-  thisEvent:
-    m_PersistentCalls:
-      m_Calls: []
+  satchels: 0
+  action: 4
   sprite: {fileID: 4848016648794513247, guid: 610d06418fe70dd4dae948b974baa749, type: 3}

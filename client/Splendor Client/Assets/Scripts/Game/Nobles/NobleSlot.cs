@@ -5,11 +5,18 @@ using UnityEngine;
 public class NobleSlot : MonoBehaviour
 {
     [SerializeField] private Noble noble;
+    [SerializeField] private OrientMenuManager omm;
 
     private SpriteRenderer m_SpriteRenderer;
 
     private bool active = true;
 
+    public void SetupOrient(OrientMenuManager omm, NobleSlot nobleSlot) {
+        this.omm = omm;
+        noble = nobleSlot.noble;
+        m_SpriteRenderer = GetComponent<SpriteRenderer>();
+        m_SpriteRenderer.sprite = nobleSlot.noble.sprite;
+    }
     public void GreyOut()
     {
         m_SpriteRenderer = GetComponent<SpriteRenderer>();
