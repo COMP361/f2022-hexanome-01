@@ -60,17 +60,24 @@ public class CardGemValue {
         return c;
     }
 
+    public void RemoveGemsFromInventory(Card card) {
+        if (card) {
+            red -= card.gemValue.red;
+            green -= card.gemValue.green;
+            blue -= card.gemValue.blue;
+            brown -= card.gemValue.brown;
+            white -= card.gemValue.white;
+            gold -= card.gemValue.gold;
+        }
+    }
     public void AddGemsToInventory(Card card) {
-        Card tempCard = (Card)ScriptableObject.CreateInstance(typeof(Card));
-        tempCard = card;
-
-        if (tempCard != null) {
-            this.red += tempCard.gemValue.red;
-            this.green += tempCard.gemValue.green;
-            this.blue += tempCard.gemValue.blue;
-            this.brown += tempCard.gemValue.brown;
-            this.white += tempCard.gemValue.white;
-            this.gold += tempCard.gemValue.gold;
+        if (card) {
+            red += card.gemValue.red;
+            green += card.gemValue.green;
+            blue += card.gemValue.blue;
+            brown += card.gemValue.brown;
+            white += card.gemValue.white;
+            gold += card.gemValue.gold;
         }
     }
 
@@ -114,7 +121,7 @@ public class Card : ScriptableObject {
     public Sprite sprite;
 
     private SpriteRenderer m_SpriteRenderer;
-
+    
     public void SetData(CardData data) {
         id = data.id;
         points = data.points;
