@@ -4,8 +4,8 @@ package ca.mcgill.splendorserver.models;
  * Data passed for each turn.
  */
 public class TurnData {
-  private CardData cardTaken;
-  private NobleData nobleTaken;
+  private CardData[] cardTaken;
+  private NobleData[] nobleTaken;
   
   /**
    * Constructs turn data.
@@ -13,7 +13,7 @@ public class TurnData {
    * @param cardTaken card taken of null if none
    * @param nobleTaken noble taken or null if none
    */
-  public TurnData(CardData cardTaken, NobleData nobleTaken) {
+  public TurnData(CardData[] cardTaken, NobleData[] nobleTaken) {
     this.cardTaken = cardTaken;
     this.nobleTaken = nobleTaken;
   }
@@ -23,7 +23,7 @@ public class TurnData {
    *
    * @return row index
    */
-  public CardData getCardTaken() {
+  public CardData[] getCardTaken() {
     return this.cardTaken;
   }
   
@@ -32,7 +32,7 @@ public class TurnData {
    *
    * @return noble index
    */
-  public NobleData getNobleTaken() {
+  public NobleData[] getNobleTaken() {
     return this.nobleTaken;
   }
 }
