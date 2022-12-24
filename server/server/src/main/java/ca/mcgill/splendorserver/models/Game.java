@@ -101,7 +101,7 @@ public class Game {
     if (turn.getCardTaken() != null) {
       for (int i = 0; i < 6; i++) {
         for (int j = 0; j < cardsOnBoard[i].length; j++) {
-          if (cardsOnBoard[i][j].equals(turn.getCardTaken())) {
+          if (Arrays.asList(turn.getCardTaken()).contains(cardsOnBoard[i][j])) {
             cardsOnBoard[i][j] = decks[i].draw();
           }
         }
@@ -109,7 +109,7 @@ public class Game {
     }
     if (turn.getNobleTaken() != null) {
       for (int i = 0; i < 5; i++) {
-        if (nobles[i].equals(turn.getNobleTaken())) {
+        if (Arrays.asList(turn.getNobleTaken()).contains(nobles[i])) {
           nobles[i] = null;
         }
       }
