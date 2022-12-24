@@ -15,6 +15,12 @@ public class NobleRow : MonoBehaviour
 
     [SerializeField] private GameObject nobleObject;
 
+    public bool IsEmpty() {
+        foreach (NobleSlot ns in nobles)
+            if (ns) //if any noble exists, return false
+                return false;
+        return true; //otherwise return false
+    }
     public void GreyOutExcept(NobleSlot _noble)
     {
         for (int i=0; i<size; i++) {
@@ -58,6 +64,15 @@ public class NobleRow : MonoBehaviour
         }
     }
 
+    public void RemoveNoble(Noble nobleToRemove) {
+        for (int i = 0; i < nobles.Length; i++) {
+            if (nobles[i] && nobles[i].GetNoble() == nobleToRemove) {
+                Destroy(nobles[i].gameObject);
+                nobles[i] = null;
+                // fillEmptyNobleSpot(i);
+            }
+        }
+    }
     public NobleData[] ToArray()
     {
         NobleData[] nobleData = new NobleData[5];

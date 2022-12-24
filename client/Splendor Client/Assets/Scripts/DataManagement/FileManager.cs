@@ -34,7 +34,7 @@ public static class FileManager {
     public static byte[] EncodeSession(Session session, bool desireFileCreation) {
         SessionData data = new SessionData(session);
         string json = JsonUtility.ToJson(data);
-        if(desireFileCreation)
+        if (desireFileCreation)
             WriteToFile("SessionData-" + session.playerList[0].username, json);
         return Encoding.UTF8.GetBytes(json);
     }
@@ -70,7 +70,7 @@ public static class FileManager {
         return Encoding.UTF8.GetBytes(json);
     }
 
-    
+
 
     public static GameData DecodeGameState(string source, bool isAFile) {
         string json = isAFile ? ReadFromFIle(source) : source;

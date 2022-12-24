@@ -60,24 +60,41 @@ public class CardGemValue {
         return c;
     }
 
-    public void AddGemsToInventory(Card card) {
-        Card tempCard = (Card)ScriptableObject.CreateInstance(typeof(Card));
-        tempCard = card;
+    public void RemoveGemsFromInventory(Card card) {
+        if (card) {
+            red -= card.gemValue.red;
+            green -= card.gemValue.green;
+            blue -= card.gemValue.blue;
+            brown -= card.gemValue.brown;
+            white -= card.gemValue.white;
+            gold -= card.gemValue.gold;
+        }
+    }
 
-        if (tempCard != null) {
-            this.red += tempCard.gemValue.red;
-            this.green += tempCard.gemValue.green;
-            this.blue += tempCard.gemValue.blue;
-            this.brown += tempCard.gemValue.brown;
-            this.white += tempCard.gemValue.white;
-            this.gold += tempCard.gemValue.gold;
+    public void ChangeGemAmount(char gem, int amount) {
+        switch (gem) {
+            case 'W': white += amount; break;
+            case 'R': red += amount; break;
+            case 'B': blue += amount; break;
+            case 'G': green += amount; break;
+            case 'K': brown += amount; break;
+        }
+    }
+    public void AddGemsToInventory(Card card) {
+        if (card) {
+            red += card.gemValue.red;
+            green += card.gemValue.green;
+            blue += card.gemValue.blue;
+            brown += card.gemValue.brown;
+            white += card.gemValue.white;
+            gold += card.gemValue.gold;
         }
     }
 
     public bool CheckSufficientPay(Card card) { //need to check for gold tokens + gem discounts       
         if (card == null) return false;
-        return !(blue < card.blue || green < card.green || 
-                brown < card.brown || red < card.red || 
+        return !(blue < card.blue || green < card.green ||
+                brown < card.brown || red < card.red ||
                 white < card.white);
     }
 
