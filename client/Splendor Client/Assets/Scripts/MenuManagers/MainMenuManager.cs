@@ -63,11 +63,10 @@ public class MainMenuManager : MonoBehaviour {
     public void CreateSession() {
         if (nameField.GetComponent<InputField>().text != "") {
             previousMenu = LastMenuVisited.MAIN;
-            createSession.Invoke(); //location of this event may change in the future
+            createSession.Invoke(); // location of this event may change in the future
             string sessionName = sessionNameText.text;
-            int maxPlayers = 4;
-            createdSession.sessionName = sessionNameText.text;
-            //determine player count based on selected toggle
+            createdSession.name = sessionNameText.text;
+            // determine player count based on selected toggle
             Toggle[] toggles = GetComponents<Toggle>();
             foreach (Toggle toggle in toggles) {
                 if (toggle.isOn) {
@@ -75,15 +74,17 @@ public class MainMenuManager : MonoBehaviour {
                         // case "TwoPlayersToggle": maxPlayers = 2; break;
                         // case "ThreePlayersToggle": maxPlayers = 3; break;
                         // case "FourPlayersToggle": maxPlayers = 4; break;
-                        case "TwoPlayersToggle": createdSession.maxPlayers = 2; break;
-                        case "ThreePlayersToggle": createdSession.maxPlayers = 3; break;
-                        case "FourPlayersToggle": createdSession.maxPlayers = 4; break;
+                        case "TwoPlayersToggle": createdSession.maxSessionPlayers = 2; break;
+                        case "ThreePlayersToggle": createdSession.maxSessionPlayers = 3; break;
+                        case "FourPlayersToggle": createdSession.maxSessionPlayers = 4; break;
                     }
                     break;
                 } 
             }
-            createdSession.maxPlayers = maxPlayers;
-            createdSession.playerList.Add(new LobbyPlayer(authentication));
+
+            // add the host as the first player in the array of player usernames for the session
+            createdSession.players = new List<string>();
+            createdSession.players.Add(authentication.username);
 
             // authentication = Instantiate(authentication);
 
@@ -105,8 +106,8 @@ public class MainMenuManager : MonoBehaviour {
             currentSave = DEFAULTSAVE;
         if (currentSave) {
             previousMenu = mostRecent ? LastMenuVisited.MAIN : LastMenuVisited.LOAD;
-            createdSession.sessionName = currentSave.saveName;
-            createdSession.maxPlayers = currentSave.maxPlayers;
+            createdSession.name = currentSave.saveName;
+            createdSession.maxSessionPlayers = currentSave.maxPlayers;
             sessionCreated = true;
             currentSession = createdSession;
             loadSave.Invoke();
@@ -118,16 +119,23 @@ public class MainMenuManager : MonoBehaviour {
         sessionCreated = false;
         if (currentSession != null) {
             previousMenu = LastMenuVisited.JOIN;
-            globalGameClient.id = currentSession.playerList[0].username + "-" + currentSession.sessionName;
-            currentSession.playerList.Add(new LobbyPlayer(authentication));
+            globalGameClient.id = currentSession.players[0] + "-" + currentSession.name;
+            currentSession.players.Add(authentication.username);
             networkManager.joinPolling(globalGameClient.id, this);
             joinSession.Invoke();
         }
     }
 
     public void SetupLobby() {
-        playerText.text = "PLAYERS " + currentSession.playerList.Count() + "/" + currentSession.maxPlayers;
-        sessionNameText.text = currentSession.sessionName;
+        int playerCount = currentSession.players.Count();
+        if (playerCount == 1)
+        {
+            playerText.text = playerCount + " player of " + currentSession.maxSessionPlayers + " total players";
+        }
+        else {
+            playerText.text = playerCount + " players of " + currentSession.maxSessionPlayers + " total players";
+        }
+        sessionNameText.text = currentSession.name;
     }
 
     public void SetSession(Session newSession) { //set currently selected session
@@ -147,14 +155,14 @@ public class MainMenuManager : MonoBehaviour {
 
         // HARDCODE FOR DEMO
         Session demo = new Session();
-        demo.sessionName = "test";
-        demo.maxPlayers = 2;
+        demo.name = "test";
+        demo.maxSessionPlayers = 2;
         LobbyPlayer demoHost = new LobbyPlayer();
         demoHost.username = "maex";
-        demo.playerList.Add(demoHost);
+        demo.players.Add(demoHost.username);
         LobbyPlayer demoPlayer = new LobbyPlayer();
         demoPlayer.username = "linus";
-        demo.playerList.Add(demoPlayer);
+        demo.players.Add(demoPlayer.username);
         sessionList.sessions.Add(demo);
         //
 
@@ -179,11 +187,11 @@ public class MainMenuManager : MonoBehaviour {
 
     public void MakePlayers() { //displays players in lobby
         ClearChildren(playerContent);
-        foreach (LobbyPlayer player in currentSession.playerList) {
+        foreach (string player in currentSession.players) {
             GameObject temp = Instantiate(blankPlayerSlot, playerContent.transform.position, Quaternion.identity);
             temp.transform.SetParent(playerContent.transform);
             temp.transform.localScale = new Vector3(1, 1, 1);
-            temp.GetComponent<PlayerSlot>().Setup(this, player);
+            temp.GetComponent<PlayerSlot>().Setup(player);
         }
     }
 
@@ -205,9 +213,9 @@ public class MainMenuManager : MonoBehaviour {
     public void StartGame() { //available to host in game lobby
         LobbyPlayer demoPlayer = new LobbyPlayer();
         demoPlayer.username = "linus";
-        currentSession.playerList.Add(demoPlayer);
+        currentSession.players.Add(demoPlayer.username);
         networkManager.registerGame(new GameConfigData(authentication, new SessionData(currentSession), allCards, allNobles));
-        globalGameClient.id = authentication.username + "-" + currentSession.sessionName;
+        globalGameClient.id = authentication.username + "-" + currentSession.name;
         SceneManager.LoadScene(2);
     }
 

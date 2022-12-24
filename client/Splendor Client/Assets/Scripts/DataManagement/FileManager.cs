@@ -35,7 +35,7 @@ public static class FileManager {
         SessionData data = new SessionData(session);
         string json = JsonUtility.ToJson(data);
         if (desireFileCreation)
-            WriteToFile("SessionData-" + session.playerList[0].username, json);
+            WriteToFile("SessionData-" + session.players[0], json);
         return Encoding.UTF8.GetBytes(json);
     }
 

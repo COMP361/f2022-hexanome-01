@@ -19,11 +19,11 @@ public class GameConfigData {
 
     public GameConfigData() { }
     public GameConfigData(Authentication mainPlayer, SessionData session, AllCards allCards, NobleRow allNobles) {
-        gameName = session.sessionName;
+        gameName = session.name;
         hostId = mainPlayer.username;
         playerIds = new string[4];
-        for(int i = 0;i < session.playerList.Length; i++) {
-            playerIds[i] = session.playerList[i].username;
+        for(int i = 0;i < session.players.Length; i++) {
+            playerIds[i] = session.players[i];
         }
         deck1 = allCards.cards[0].deck.ToArray();
         deck2 = allCards.cards[1].deck.ToArray();
