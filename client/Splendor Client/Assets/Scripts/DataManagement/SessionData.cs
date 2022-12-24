@@ -4,19 +4,28 @@ using UnityEngine;
 
 [System.Serializable]
 public class SessionData {
-    public string sessionName;
-    public int maxPlayers;
-    public LobbyPlayer[] playerList; //WILL NEED TO BE CHANGED/EXPANDED LATER SINCE PLAYERS ARE MORE THAN JUST A NAME and token maybe
+    public string id;
+    public string creator;
+    public string location;
+    public int maxSessionPlayers;
+    public int minSessionPlayers;
+    public string name;
+    public bool launched;
+    public string[] players;
+    public string savegameid;
 
     public SessionData() { }
 
     
     public SessionData(Session session) {
-        sessionName = session.sessionName;
-        maxPlayers = session.maxPlayers;
-        playerList = new LobbyPlayer[session.playerList.Count];
-        for(int i = 0;i < session.playerList.Count; i++) { //WILL ALSO NEED TO BE CHANGED
-            playerList[i] = session.playerList[i];
-        }
+        id = session.id;
+        creator = session.creator;
+        location = session.location;
+        maxSessionPlayers = session.maxSessionPlayers;
+        minSessionPlayers = session.minSessionPlayers;
+        name = session.name;
+        launched = session.launched;
+        players = session.players;
+        savegameid = session.savegameid;
     }
 }
