@@ -35,10 +35,10 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.31163636, y: 0.48222223}
-  m_AnchorMax: {x: 0.69024247, y: 0.59777796}
-  m_AnchoredPosition: {x: 2.7359924, y: 2}
-  m_SizeDelta: {x: -2.2459106, y: -0.28689575}
+  m_AnchorMin: {x: 0.121226996, y: 0.51100004}
+  m_AnchorMax: {x: 0.87200004, y: 0.5781662}
+  m_AnchoredPosition: {x: -0.21102905, y: 0.3572998}
+  m_SizeDelta: {x: 0.4221, y: 0.77579975}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8256166344628578702
 CanvasRenderer:
@@ -68,8 +68,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: 951c0ccf8e8fe44ddbc142615656d948, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -113,7 +113,11 @@ MonoBehaviour:
   playerName: {fileID: 6324753993391078033}
   preferredColor: {r: 0, g: 0, b: 0, a: 0}
   thisManager: {fileID: 0}
-  thisLobbyPlayer: {fileID: 0}
+  thisLobbyPlayer:
+    username: 
+    access_token: 
+    refresh_token: 
+    expires_in: 
 --- !u!1 &8607124120103895813
 GameObject:
   m_ObjectHideFlags: 0
@@ -148,8 +152,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.019000001, y: 0.059000004}
   m_AnchorMax: {x: 0.98100007, y: 0.94100004}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0.000015259, y: -0.000005722}
+  m_AnchoredPosition: {x: -1.2091064, y: -0.60459805}
+  m_SizeDelta: {x: -84.6399, y: -18.1371}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1734935678904196154
 CanvasRenderer:
@@ -180,13 +184,13 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: e7d670ca374c54b9da0bb7230dc431a6, type: 3}
     m_FontSize: 20
     m_FontStyle: 0
     m_BestFit: 1
     m_MinSize: 0
     m_MaxSize: 132
-    m_Alignment: 3
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
