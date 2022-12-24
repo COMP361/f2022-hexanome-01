@@ -13,7 +13,7 @@ public enum ActionType {
     DOMINO2,
 }
 public class OrientMenuManager : MonoBehaviour {
-    public GameObject blankNobleSlot, blankCardSlot, content;
+    public GameObject blankNobleSlot, blankCardSlot, content, backoutButton;
     public PlayerControl playerControl;
     public Text actionText, errorText;
     public Card currentCard1, currentCard2;
@@ -29,6 +29,14 @@ public class OrientMenuManager : MonoBehaviour {
     //note: for satchels, check if player has a card with a gem discount. if no, dont go through with purchase. (this extends to domino1 cards)
     //note: for sacrifices, must discard with priority, cards with a satchel
     //note: satchels occur before every other action.
+
+    public void SacrificingStatus() {
+        sacrificing = !sacrificing;
+    }
+
+    public void MenuStatus() {
+        playerControl.inOrientMenu = !playerControl.inOrientMenu;
+    }
 
     void ClearChildren() {
         foreach (Transform child in content.transform)
@@ -115,6 +123,7 @@ public class OrientMenuManager : MonoBehaviour {
         foreach (CardSlot cs in playerControl.allCards.cards[dominoLevel + 2].cards)//orient cards (i - 1 + 3 -> i + 2 = j, index j is level i orient)
             temp.Add(cs.GetCard());
         if (temp.Count == 0) { //if no cards to domino, close menu and stop flow of logic
+            MenuStatus();
             gameObject.SetActive(false);
             return;
         }
@@ -131,7 +140,8 @@ public class OrientMenuManager : MonoBehaviour {
 
     //method for displaying available nobles to reserve one
     public void DisplayReservableNobles() {
-        if (playerControl.allNobles.nobles.Length == 0) { //if no nobles to reserve, close menu and stop flow of logic
+        if (playerControl.allNobles.IsEmpty()) { //if no nobles to reserve, close menu and stop flow of logic
+            MenuStatus();
             gameObject.SetActive(false);
             return;
         }
@@ -165,7 +175,7 @@ public class OrientMenuManager : MonoBehaviour {
         currentCard1 = card;
         switch (card.action) {
             case ActionType.RESERVE: DisplayReservableNobles(); break;
-            case ActionType.SACRIFICE: sacrificing = true; DisplaySacrificialCards(); break;
+            case ActionType.SACRIFICE: SacrificingStatus(); backoutButton.SetActive(true); DisplaySacrificialCards(); break;
             case ActionType.DOMINO2: DisplayDominoCards(2); break;
             case ActionType.DOMINO1: dominoSatchel = true; DisplayInventory(); break; //will need to do satchel part first/as well
             case ActionType.SATCHEL: DisplayInventory(); break;
@@ -177,7 +187,7 @@ public class OrientMenuManager : MonoBehaviour {
     public void ConfirmChoice() { //*****confirm that cards for dominos are given to player, and sacrifices are removed*****
         if (currentNoble) {
             playerControl.ReserveNoble(currentNoble);
-            playerControl.inOrientMenu = false;
+            MenuStatus();
             gameObject.SetActive(false);
         }
         else if (currentCard1) {
@@ -195,7 +205,7 @@ public class OrientMenuManager : MonoBehaviour {
                         playerControl.RemoveCard(currentCard2);
                     playerControl.inOrientMenu = false;
                     playerControl.sacrificeMade = true;
-                    sacrificing = false;
+                    SacrificingStatus();
                     gameObject.SetActive(false);
                 }
                 else
@@ -204,7 +214,7 @@ public class OrientMenuManager : MonoBehaviour {
             else if (playerControl.client.inventory.Contains(currentCard1)) { //if performing satchel action, i.e. of chosen card is in inventory but not sacrificial
                 currentCard1.AddSatchel();
                 playerControl.client.bonusesAquired.ChangeGemAmount(currentCard1.GetBonus(), 1);
-                playerControl.inOrientMenu = false;
+                MenuStatus();
                 gameObject.SetActive(false);
             }
             else {
@@ -217,5 +227,4 @@ public class OrientMenuManager : MonoBehaviour {
     }
 }
 
-//TODO: make turndata consistent server-side (and playerdata?)
 //TODO: if there are no nobles to reserve, or no cards to select for domino, player still acquires the orient card but does not do associated action

@@ -15,6 +15,12 @@ public class NobleRow : MonoBehaviour
 
     [SerializeField] private GameObject nobleObject;
 
+    public bool IsEmpty() {
+        foreach (NobleSlot ns in nobles)
+            if (ns) //if any card exists, return false
+                return false;
+        return true; //otherwise return false
+    }
     public void GreyOutExcept(NobleSlot _noble)
     {
         for (int i=0; i<size; i++) {

@@ -18,6 +18,12 @@ public class CardRow : MonoBehaviour
 
     [SerializeField] private GameObject cardObject;
 
+    public bool IsEmpty() {
+        foreach (CardSlot cs in cards)
+            if (cs) //if any card exists, return false
+                return false;
+        return true; //otherwise return false
+    }
     public void GreyOutExcept(int _level, int _index) // Unused secondary implementation
     {
         if (level != _level) for (int i=0; i<size; i++) cards[i].GreyOut();
