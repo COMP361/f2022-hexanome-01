@@ -16,7 +16,7 @@ public class InventoryPanel : MonoBehaviour
     //Display is called by the button to open up the panel
 
     public void InventoryStatus() {
-        playerControl.inInventory = playerControl.inInventory ? false : true;
+        playerControl.inInventory = !playerControl.inInventory;
     }
     public void Display() {
         if (inventoryPanel.activeInHierarchy)
