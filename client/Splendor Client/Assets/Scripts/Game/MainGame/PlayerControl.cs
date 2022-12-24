@@ -19,7 +19,7 @@ public class PlayerControl : MonoBehaviour
     public GlobalGameClient globalGameClient;
 
     public AllCards allCards;
-    private CardSlot selectedCardToBuy;
+    public CardSlot selectedCardToBuy;
 
     public NobleRow allNobles; 
 
@@ -39,7 +39,7 @@ public class PlayerControl : MonoBehaviour
 
     void Start() {
         foreach(CardRow cr in allCards.cards) { //reset satchel values of all cards to 0, since scriptable objects remembers values between scenes, i.e. between games
-            foreach(Card c in cr.deck.cards) { //set orientmanager for orient cards
+            foreach(Card c in cr.deck.cards) { 
                 c.satchels = 0;
             }
         }
@@ -127,7 +127,7 @@ public class PlayerControl : MonoBehaviour
                 omm.gameObject.SetActive(true);
                 omm.PerformAction(selectedCardToBuy.GetCard());
             }
-            return selectedCardToBuy.GetCard().action != ActionType.SACRIFICE ? true : false;
+            return selectedCardToBuy.GetCard().action != ActionType.SACRIFICE;
         }
         else
             return false;

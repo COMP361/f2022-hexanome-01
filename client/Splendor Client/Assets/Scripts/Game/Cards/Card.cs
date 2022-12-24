@@ -70,6 +70,16 @@ public class CardGemValue {
             gold -= card.gemValue.gold;
         }
     }
+
+    public void ChangeGemAmount(char gem, int amount) {
+        switch (gem) {
+            case 'W': white += amount; break;
+            case 'R': red += amount; break;
+            case 'B': blue += amount; break;
+            case 'G': green += amount; break;
+            case 'K': brown += amount; break;
+        }
+    }
     public void AddGemsToInventory(Card card) {
         if (card) {
             red += card.gemValue.red;
@@ -83,8 +93,8 @@ public class CardGemValue {
 
     public bool CheckSufficientPay(Card card) { //need to check for gold tokens + gem discounts       
         if (card == null) return false;
-        return !(blue < card.blue || green < card.green || 
-                brown < card.brown || red < card.red || 
+        return !(blue < card.blue || green < card.green ||
+                brown < card.brown || red < card.red ||
                 white < card.white);
     }
 
@@ -121,7 +131,7 @@ public class Card : ScriptableObject {
     public Sprite sprite;
 
     private SpriteRenderer m_SpriteRenderer;
-    
+
     public void SetData(CardData data) {
         id = data.id;
         points = data.points;

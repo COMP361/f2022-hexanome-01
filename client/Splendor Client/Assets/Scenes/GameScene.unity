@@ -233,12 +233,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 5
-    m_Right: 5
-    m_Top: 5
-    m_Bottom: 5
+    m_Left: 7
+    m_Right: 7
+    m_Top: 7
+    m_Bottom: 7
   m_ChildAlignment: 0
-  m_Spacing: 10
+  m_Spacing: 7
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
@@ -259,7 +259,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
-  m_VerticalFit: 0
+  m_VerticalFit: 2
 --- !u!224 &37590558
 RectTransform:
   m_ObjectHideFlags: 0
@@ -627,7 +627,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1169238747}
   m_HandleRect: {fileID: 1169238746}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -2007,10 +2007,10 @@ RectTransform:
   m_Father: {fileID: 580027530}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.015264105, y: 0.29000002}
+  m_AnchorMin: {x: 0.015264105, y: 0.30532923}
   m_AnchorMax: {x: 0.98631454, y: 0.8154679}
-  m_AnchoredPosition: {x: 0.610199, y: -5.7973}
-  m_SizeDelta: {x: -2.65, y: 11.594}
+  m_AnchoredPosition: {x: 0.96762085, y: -8.297302}
+  m_SizeDelta: {x: -1.9352, y: 16.594}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &484600358
 MonoBehaviour:
@@ -3204,6 +3204,7 @@ MonoBehaviour:
   omm: {fileID: 960569995}
   globalGameClient: {fileID: 11400000, guid: e173fde9a6432464f8c29d8c55b1ffb0, type: 2}
   allCards: {fileID: 911230083}
+  selectedCardToBuy: {fileID: 0}
   allNobles: {fileID: 1549385823}
   controls: {fileID: -944628639613478452, guid: 68b0984844d79b345af0ecff893baaed, type: 3}
   db: {fileID: 691041390}
@@ -4182,7 +4183,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &960569992
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4854,7 +4855,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 158.8327}
+  m_SizeDelta: {x: -719.8687, y: 14}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1157919867
 MonoBehaviour:
@@ -4869,10 +4870,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 5
-    m_Right: 5
-    m_Top: 5
-    m_Bottom: 5
+    m_Left: 7
+    m_Right: 7
+    m_Top: 7
+    m_Bottom: 7
   m_ChildAlignment: 0
   m_Spacing: 7
   m_ChildForceExpandWidth: 1
@@ -4895,7 +4896,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
-  m_VerticalFit: 0
+  m_VerticalFit: 2
 --- !u!1 &1169238745
 GameObject:
   m_ObjectHideFlags: 0
@@ -4929,7 +4930,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -6170,9 +6171,9 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: -17}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1373365870
 MonoBehaviour:
@@ -6901,12 +6902,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 5
-    m_Right: 5
-    m_Top: 5
-    m_Bottom: 5
+    m_Left: 7
+    m_Right: 7
+    m_Top: 7
+    m_Bottom: 7
   m_ChildAlignment: 0
-  m_Spacing: 10
+  m_Spacing: 7
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
@@ -6927,7 +6928,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
-  m_VerticalFit: 0
+  m_VerticalFit: 2
 --- !u!224 &1509346800
 RectTransform:
   m_ObjectHideFlags: 0
@@ -6978,12 +6979,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 5
-    m_Right: 5
-    m_Top: 5
-    m_Bottom: 5
+    m_Left: 7
+    m_Right: 7
+    m_Top: 7
+    m_Bottom: 7
   m_ChildAlignment: 0
-  m_Spacing: 10
+  m_Spacing: 7
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
@@ -7004,7 +7005,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
-  m_VerticalFit: 0
+  m_VerticalFit: 2
 --- !u!224 &1513089749
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7837,12 +7838,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 5
-    m_Right: 5
-    m_Top: 5
-    m_Bottom: 5
+    m_Left: 7
+    m_Right: 7
+    m_Top: 7
+    m_Bottom: 7
   m_ChildAlignment: 0
-  m_Spacing: 10
+  m_Spacing: 7
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 1
@@ -7863,7 +7864,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_HorizontalFit: 2
-  m_VerticalFit: 0
+  m_VerticalFit: 2
 --- !u!224 &1720916635
 RectTransform:
   m_ObjectHideFlags: 0

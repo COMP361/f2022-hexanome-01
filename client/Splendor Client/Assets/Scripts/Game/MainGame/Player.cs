@@ -17,12 +17,12 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        tokensAquired.blue = 5; // Hardcode for demo only; REMOVE FOR PROD
-        tokensAquired.green = 5;
-        tokensAquired.brown = 5;
-        tokensAquired.red = 5;
-        tokensAquired.white = 5;
-        tokensAquired.gold = 5;
+        tokensAquired.blue = 50; // Hardcode for demo only; REMOVE FOR PROD
+        tokensAquired.green = 50;
+        tokensAquired.brown = 50;
+        tokensAquired.red = 50;
+        tokensAquired.white = 50;
+        tokensAquired.gold = 50;
     }
 
     public int GetPoints()
@@ -59,7 +59,8 @@ public class Player : MonoBehaviour
     public void AcquireCard(Card card) { //add a card (for free) to player inventory
         pointsTotal += card.GetPoints(); //increase player point total
         bonusesAquired.AddGemsToInventory(card); //add gem discount to player info
-        inventory.Add(card); //add card to inventory
+        if (card.action != ActionType.SATCHEL && card.action != ActionType.DOMINO1) //dont add satchel cards to inventory, just to save space and less info overload
+            inventory.Add(card); //add card to inventory
         for (int i = 0; i < turnData.cardTaken.Length; i++) {
             if (turnData.cardTaken[i] != null) {
                 turnData.cardTaken[i] = new CardData(card);
@@ -70,7 +71,8 @@ public class Player : MonoBehaviour
 
     public void RemoveCard(Card card) {
         pointsTotal -= card.GetPoints(); //increase player point total
-        bonusesAquired.RemoveGemsFromInventory(card); //add gem discount to player info
+        bonusesAquired.RemoveGemsFromInventory(card); //remove normal bonus
+        bonusesAquired.ChangeGemAmount(card.GetBonus(), -card.satchels); //remove satchel-induced bonus
         inventory.Remove(card); //add card to inventory
     }
 

@@ -18,18 +18,17 @@ public class OrientMenuManager : MonoBehaviour {
     public Text actionText, errorText;
     public Card currentCard1, currentCard2;
     public Noble currentNoble;
-    //public UnityEvent sacrifice, reserve, satchel, domino1, domino2;
     public bool sacrificing = false, dominoSatchel = false;
 
     //note: deck indexs in allcards is: 0 = vanilla1, 1 = vanilla2, 2 = vanilla3, 3 = orient1, 4 = orient2, 5 = orient3
     //note: all 'domino' cards for level 1 also have satchels on them
     //note: domino cards have access to both orient and vanilla cards of the given level
     //note: some orient cards have 2 gold tokens as 'discounts', essentially the card itself is worth 2 gold tokens. once at least one is used, 
-    //      discard card from inventory (so when we implement actual purchasing logic, will need code to 1) a check for this and 2) logic to determing what
+    //      discard card from inventory (so when we implement actual purchasing logic, will need code to 1. a check for this and 2. logic to determing what
     //      gold tokens to use between actual tokens and cards, i.e. to not waste cards)
     //note: for satchels, check if player has a card with a gem discount. if no, dont go through with purchase. (this extends to domino1 cards)
-    //note: for sacrifices, must discard with priority cards with a satchel
-    //note: satchels occur before every other action. maybe use ienumerator?
+    //note: for sacrifices, must discard with priority, cards with a satchel
+    //note: satchels occur before every other action.
 
     void ClearChildren() {
         foreach (Transform child in content.transform)
@@ -40,7 +39,6 @@ public class OrientMenuManager : MonoBehaviour {
         currentNoble = null;
         currentCard1 = null;
         currentCard2 = null;
-        sacrificing = false;
         errorText.text = "";
     }
 
@@ -127,7 +125,7 @@ public class OrientMenuManager : MonoBehaviour {
     public void DisplayInventory() {
         actionText.text = "Please select which card you wish to add the bought satchel card to.";
         List<Object> temp = new List<Object>(playerControl.client.inventory);
-        temp.RemoveAll(card => (card as Card).GetBonus() == 'J');
+        temp.RemoveAll(card => (card as Card).GetBonus() == 'J' || (card as Card).action == ActionType.SATCHEL || (card as Card).action == ActionType.DOMINO1);
         PopulateMenu(temp);
     }
 
@@ -140,7 +138,8 @@ public class OrientMenuManager : MonoBehaviour {
         actionText.text = "Please select which noble you wish to reserve.";
         List<Object> temp = new List<Object>();
         foreach (NobleSlot ns in playerControl.allNobles.nobles)
-            temp.Add(ns.GetNoble());
+            if(ns)
+                temp.Add(ns.GetNoble());
         PopulateMenu(temp);
     }
 
@@ -166,7 +165,7 @@ public class OrientMenuManager : MonoBehaviour {
         currentCard1 = card;
         switch (card.action) {
             case ActionType.RESERVE: DisplayReservableNobles(); break;
-            case ActionType.SACRIFICE: DisplaySacrificialCards(); break;
+            case ActionType.SACRIFICE: sacrificing = true; DisplaySacrificialCards(); break;
             case ActionType.DOMINO2: DisplayDominoCards(2); break;
             case ActionType.DOMINO1: dominoSatchel = true; DisplayInventory(); break; //will need to do satchel part first/as well
             case ActionType.SATCHEL: DisplayInventory(); break;
@@ -185,16 +184,18 @@ public class OrientMenuManager : MonoBehaviour {
             if (dominoSatchel) { //if current card is the pair for a domino1 satchel
                 dominoSatchel = false;
                 currentCard1.AddSatchel();
+                playerControl.client.bonusesAquired.ChangeGemAmount(currentCard1.GetBonus(), 1);
                 DisplayDominoCards(1);
             }
             else if (sacrificing) { //if this is sacrificial
                 if (currentCard1.getBonusAmount() + currentCard1.satchels >= 2 || currentCard2) { //if 2 cards are selected, then it will be enough no matter what
-                    playerControl.AcquireCard(currentCard1);
+                    playerControl.AcquireCard(playerControl.selectedCardToBuy.GetCard());
                     playerControl.RemoveCard(currentCard1);
                     if (currentCard2)
                         playerControl.RemoveCard(currentCard2);
                     playerControl.inOrientMenu = false;
                     playerControl.sacrificeMade = true;
+                    sacrificing = false;
                     gameObject.SetActive(false);
                 }
                 else
@@ -202,6 +203,7 @@ public class OrientMenuManager : MonoBehaviour {
             }
             else if (playerControl.client.inventory.Contains(currentCard1)) { //if performing satchel action, i.e. of chosen card is in inventory but not sacrificial
                 currentCard1.AddSatchel();
+                playerControl.client.bonusesAquired.ChangeGemAmount(currentCard1.GetBonus(), 1);
                 playerControl.inOrientMenu = false;
                 gameObject.SetActive(false);
             }
@@ -215,6 +217,5 @@ public class OrientMenuManager : MonoBehaviour {
     }
 }
 
-//TODO: make turndata or whatever a list of acquired cards instead of a single one, likewise same with nobles (its possible to impress one AND reserve one the same turn)
-//TODO: add reserve inventory (visually)
+//TODO: make turndata consistent server-side (and playerdata?)
 //TODO: if there are no nobles to reserve, or no cards to select for domino, player still acquires the orient card but does not do associated action
