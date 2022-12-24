@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: XCard7
   m_EditorClassIdentifier: 
   id: 7
-  points: 1
-  bonus: 71
+  points: 0
+  bonus: 75
   bonusAmount: 1
-  red: 2
-  blue: 2
+  red: 0
+  blue: 3
   green: 0
-  brown: 2
-  white: 2
+  brown: 1
+  white: 6
   satchels: 0
   action: 5
   sprite: {fileID: -3394308230240083792, guid: 610d06418fe70dd4dae948b974baa749, type: 3}

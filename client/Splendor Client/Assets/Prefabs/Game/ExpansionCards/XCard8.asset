@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: XCard8
   m_EditorClassIdentifier: 
   id: 8
-  points: 0
+  points: 1
   bonus: 71
   bonusAmount: 1
   red: 2

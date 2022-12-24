@@ -16,10 +16,10 @@ MonoBehaviour:
   points: 0
   bonus: 71
   bonusAmount: 1
-  red: 1
+  red: 6
   blue: 0
-  green: 0
-  brown: 6
+  green: 1
+  brown: 3
   white: 3
   satchels: 0
   action: 5
