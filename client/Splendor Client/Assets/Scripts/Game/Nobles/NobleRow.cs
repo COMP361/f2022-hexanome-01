@@ -17,7 +17,7 @@ public class NobleRow : MonoBehaviour
 
     public bool IsEmpty() {
         foreach (NobleSlot ns in nobles)
-            if (ns) //if any card exists, return false
+            if (ns) //if any noble exists, return false
                 return false;
         return true; //otherwise return false
     }
