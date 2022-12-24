@@ -10,6 +10,7 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private Camera playerCamera;
     [SerializeField] private Player player; //this client/player
     [SerializeField] public List<PlayerData> gamePlayersData; //can change this to a different type later, playerData is combined from LobbyPlayer and Player class
+    [SerializeField] private OrientMenuManager omm;
 
     public Player client { 
         get { return player; }
@@ -20,7 +21,7 @@ public class PlayerControl : MonoBehaviour
     public AllCards allCards;
     private CardSlot selectedCardToBuy;
 
-    public NobleRow allNobels; 
+    public NobleRow allNobles; 
 
     private InputAction fire;
     private InputAction look;
@@ -33,19 +34,18 @@ public class PlayerControl : MonoBehaviour
 
     public Authentication mainPlayer;
 
-    private bool waiting;
+    [SerializeField] private bool waiting;
+    public bool inOrientMenu, inInventory, sacrificeMade;
 
-    private void Start()
-    {
-
+    void Start() {
         foreach(CardRow cr in allCards.cards) { //reset satchel values of all cards to 0, since scriptable objects remembers values between scenes, i.e. between games
-            foreach(Card c in cr.deck.cards) {
+            foreach(Card c in cr.deck.cards) { //set orientmanager for orient cards
                 c.satchels = 0;
             }
         }
 
-        waiting = true;
-        db.InitializePolling(globalGameClient.id, mainPlayer, this);
+        //waiting = true;
+        //db.InitializePolling(globalGameClient.id, mainPlayer, this);
 
         selectedCardToBuy = null;
         _inputActionMap = controls.FindActionMap("Player");
@@ -59,7 +59,7 @@ public class PlayerControl : MonoBehaviour
     
     private void OnFireAction(InputAction.CallbackContext obj)
     {
-        if (waiting) return;
+        if (waiting || inOrientMenu || inInventory) return;
 
         Vector2 mousePos = Mouse.current.position.ReadValue();
         Vector3 worldPos = playerCamera.ScreenToWorldPoint(mousePos);
@@ -81,29 +81,80 @@ public class PlayerControl : MonoBehaviour
         }
     }
 
+    void UpdateDisplay() {
+        dashboard.UpdatePtsDisplay(player.GetPoints());
+        dashboard.UpdateTokenDisplay(player.GetTokensAquired());
+    }
+
+    public bool ReserveCard(Card card) {
+        if (player.ReserveCard(card)) {
+            UpdateDisplay();
+            allCards.RemoveCard(card);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public void ReserveNoble(Noble noble) {
+        player.ReserveNoble(noble);
+        allNobles.RemoveNoble(noble);
+    }
+
+    public void AcquireCard(Card card) {
+        player.AcquireCard(card);
+        UpdateDisplay();
+        allCards.RemoveCard(card);
+    }
+
+    public void RemoveCard(Card card) {
+        player.RemoveCard(card);
+        UpdateDisplay();
+    }
+
+    bool PurchaseAction() {
+        if (selectedCardToBuy && //if a card has been selected AND if not... (i.e. if inventory is empty, cannot purchase satchel or domino1)
+            !(player.inventory.Count == 0 && //player's inventory is empty AND the selected card is a satchel or domino1 orient card
+            (selectedCardToBuy.GetCard().action == ActionType.SATCHEL || selectedCardToBuy.GetCard().action == ActionType.DOMINO1))) {
+            if (selectedCardToBuy.GetCard().action != ActionType.SACRIFICE) {
+                if (!player.TriggerCardAdd(selectedCardToBuy.GetCard()))
+                    return false;
+                UpdateDisplay();
+                allCards.RemoveCard(selectedCardToBuy);
+            }
+            if (selectedCardToBuy.GetCard().action != ActionType.NONE) {
+                inOrientMenu = true;
+                omm.gameObject.SetActive(true);
+                omm.PerformAction(selectedCardToBuy.GetCard());
+            }
+            return selectedCardToBuy.GetCard().action != ActionType.SACRIFICE ? true : false;
+        }
+        else
+            return false;
+    }
     public void EndTurn() // Player clicks "end turn"
     {
         // Upon turn end, selected card is bought and added to inventory (points increase by card points)
-        if (selectedCardToBuy != null) {
-            if (!player.TriggerCardAdd(selectedCardToBuy.GetCard())) return;
-            dashboard.UpdatePtsDisplay(player.GetPoints());
-            dashboard.UpdateTokenDisplay(player.GetTokensAquired());
-            allCards.RemoveCard(selectedCardToBuy);
-            selectedCardToBuy = null;
+        if(!PurchaseAction() || !sacrificeMade) //i vote for having a dedicated "purchase" button that either ends your turn outright (assuming your purchase goes through)
+            return;             // or sets a flag making it so you cannot do another action except for ending turn
+
+        // For each noble in the players reserves, check if they are impressed
+        foreach (Noble noble in player.nobleReserves) {
+            if (player.hasImpressed(noble)) {
+                player.TriggerNobleAdd(noble);
+                UpdateDisplay();
+                //we need to be able to select a Noble when there are multiple impressed at once instead of just giving the first break;
+                break;
+            }
         }
-        
-        Noble tempNoble = (Noble) ScriptableObject.CreateInstance(typeof(Noble));
-
-        // For each noble in the row check if they are impressed
-        foreach(NobleSlot noble in allNobels.nobles){
-            if(noble!=null){
-                tempNoble = noble.GetNoble();
-                if(player.hasImpressed(tempNoble)){
-                    player.TriggerNobleAdd(tempNoble);
-                    dashboard.UpdatePtsDisplay(player.GetPoints());
-                    allNobels.RemoveNoble(noble);
-
-                    //Select Noble when there are multiple impressed at once instead of break;
+        // For each noble in the row check if they are impressed (will also need to check player reserves)
+        foreach (NobleSlot noble in allNobles.nobles) {
+            if(noble){
+                if(player.hasImpressed(noble.GetNoble())){
+                    player.TriggerNobleAdd(noble.GetNoble());
+                    UpdateDisplay();
+                    allNobles.RemoveNoble(noble);
+                    //we need to be able to select a Noble when there are multiple impressed at once instead of just giving the first break;
                     break;
                 }
             }
@@ -114,7 +165,7 @@ public class PlayerControl : MonoBehaviour
 
         waiting = true;
 
-        db.endTurn(globalGameClient.id, player.turnData, mainPlayer, this);
+        //db.endTurn(globalGameClient.id, player.turnData, mainPlayer, this);
 
         /////// TEST SAVE GAME AFTER TURN ////////////
         // GameData data = new GameData(this);
@@ -133,7 +184,7 @@ public class PlayerControl : MonoBehaviour
     //     gamePlayersData = new List<PlayerData>(data.playersInGame);
         
     //     for (int i = 0; i < data.noblesDisplayed.Length; i++)          
-    //         allNobels.nobles[i].GetNoble().SetData(data.noblesDisplayed[i]);
+    //         allNobles.nobles[i].GetNoble().SetData(data.noblesDisplayed[i]);
 
     //     // noblesOnBoard[i].GetNoble().SetData(data.noblesDisplayed[i]);
         
@@ -144,9 +195,12 @@ public class PlayerControl : MonoBehaviour
 
     public void StartTurn() // Start of player's turn
     {
+        player.turnData = new TurnData();
         dashboard.ResetEndDisplay();
         allCards.UnGreyOut();
         waiting = false;
+        sacrificeMade = false;
+        selectedCardToBuy = null;
     }
 
     private void UpdateCursor(InputAction.CallbackContext obj)

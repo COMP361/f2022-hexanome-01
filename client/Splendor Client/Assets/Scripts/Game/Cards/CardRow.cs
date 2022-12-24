@@ -69,6 +69,15 @@ public class CardRow : MonoBehaviour
         }
     }
 
+    public void RemoveCard(Card cardToRemove) {
+        for (int i = 0; i < cards.Length; i++) {
+            if (cards[i].GetCard().Equals(cardToRemove)) {
+                Destroy(cards[i].gameObject);
+                fillEmptyCardSpot(i);
+            }
+        }
+    }
+
     private void fillEmptyCardSpot(int cardIndex)
     {
         GameObject prefab = Instantiate(cardObject, new Vector3(x + cardIndex*1.5F, y, 0), Quaternion.identity);

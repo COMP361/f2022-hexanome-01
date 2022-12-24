@@ -1,4 +1,4 @@
 public class TurnData {
-    public CardData cardTaken;
-    public NobleData nobleTaken;
+    public CardData[] cardTaken = new CardData[3];
+    public NobleData[] nobleTaken = new NobleData[2];
 }

@@ -32,6 +32,11 @@ public class AllCards : MonoBehaviour
             cards[level].RemoveCard(cardToRemove);
     }
 
+    public void RemoveCard(Card cardToRemove) {
+        for (int level = 0; level < rows; level++)
+            cards[level].RemoveCard(cardToRemove);
+    }
+
     public CardSlot GetCard(int rowIndex, int cardIndex)
     {
         return cards[rowIndex].GetCard(cardIndex);
