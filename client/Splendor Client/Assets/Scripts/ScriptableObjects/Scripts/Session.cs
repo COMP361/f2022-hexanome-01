@@ -4,26 +4,41 @@ using UnityEngine;
 
 public class Session {
     //insert session information, maybe wont stay as a ScriptableObject
-    public string sessionName;
-    public int maxPlayers;
-    public List<LobbyPlayer> playerList = new List<LobbyPlayer>();
-
+    public string id;
+    public string creator;
+    public string location;
+    public int maxSessionPlayers;
+    public int minSessionPlayers;
+    public string name;
+    public bool launched;
+    public string[] players;
+    public string savegameid;
+    
     public Session() { }
 
     public Session(SessionData data) {
-        sessionName = data.sessionName;
-        maxPlayers = data.maxPlayers;
-        for (int i = 0; i < data.playerList.Length; i++)
-            playerList.Add(data.playerList[i]); //WILL NEED TO CHANGE ONCE IK ACTUAL PLAYER DATA
+        id = data.id;
+        creator = data.creator;
+        location = data.location;
+        maxSessionPlayers = data.maxSessionPlayers;
+        minSessionPlayers = data.minSessionPlayers;
+        name = data.name;
+        launched = data.launched;
+        players = data.players;
+        savegameid = data.savegameid;
     }
 
-    public Session(string sessionName, int maxPlayers, List<LobbyPlayer> playerList) {
-        this.sessionName = sessionName;
-        this.maxPlayers = maxPlayers;
-        this.playerList = playerList;
+    public Session(string name, int maxSessionPlayers, List<LobbyPlayer> playerList) {
+        this.name = name;
+        this.maxSessionPlayers = maxSessionPlayers;
+
+        this.players = new string[playerList.Count];
+        for (int i = 0; i < playerList.Count; i++) {
+            players[i] = playerList[i].username;
+        }
     }
 
     public string getSessionName(){
-        return sessionName;
+        return name;
     }
 }
