@@ -20,6 +20,6 @@ public class DisplayBar : MonoBehaviour
         else if (fourPlayersToggle.isOn) maxNum = 4;
 
         //int max = int.TryParse(maxNum.text, out int result);dicarded
-        displayBar.text = String.Format("PLAYERS 1/{0}", maxNum);
+        displayBar.text = String.Format("1 player out of {0} players", maxNum);
     }
 }
