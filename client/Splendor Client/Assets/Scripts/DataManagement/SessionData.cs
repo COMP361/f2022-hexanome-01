@@ -25,7 +25,7 @@ public class SessionData {
         minSessionPlayers = session.minSessionPlayers;
         name = session.name;
         launched = session.launched;
-        players = session.players;
+        players = session.players.ToArray();
         savegameid = session.savegameid;
     }
 }

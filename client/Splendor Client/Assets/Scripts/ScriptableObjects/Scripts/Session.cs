@@ -11,7 +11,7 @@ public class Session {
     public int minSessionPlayers;
     public string name;
     public bool launched;
-    public string[] players;
+    public List<string> players;
     public string savegameid;
     
     public Session() { }
@@ -24,7 +24,7 @@ public class Session {
         minSessionPlayers = data.minSessionPlayers;
         name = data.name;
         launched = data.launched;
-        players = data.players;
+        players = new List<string>(data.players);
         savegameid = data.savegameid;
     }
 
@@ -32,9 +32,9 @@ public class Session {
         this.name = name;
         this.maxSessionPlayers = maxSessionPlayers;
 
-        this.players = new string[playerList.Count];
-        for (int i = 0; i < playerList.Count; i++) {
-            players[i] = playerList[i].username;
+        this.players = new List<string>();
+        foreach (LobbyPlayer player in playerList) {
+            players.Add(player.username);
         }
     }
 
