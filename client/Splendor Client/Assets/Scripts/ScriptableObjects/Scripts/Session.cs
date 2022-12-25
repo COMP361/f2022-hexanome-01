@@ -14,7 +14,9 @@ public class Session {
     public List<string> players;
     public string savegameid;
     
-    public Session() { }
+    public Session() {
+        players = new List<string>();
+    }
 
     public Session(SessionData data) {
         id = data.id;
