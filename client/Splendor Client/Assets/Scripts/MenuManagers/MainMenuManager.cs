@@ -159,10 +159,10 @@ public class MainMenuManager : MonoBehaviour {
         demo.maxSessionPlayers = 2;
         LobbyPlayer demoHost = new LobbyPlayer();
         demoHost.username = "maex";
-        demo.players.Add(demoHost.username);
+        demo.players.Add("maex");
         LobbyPlayer demoPlayer = new LobbyPlayer();
         demoPlayer.username = "linus";
-        demo.players.Add(demoPlayer.username);
+        demo.players.Add("linus");
         sessionList.sessions.Add(demo);
         //
 
