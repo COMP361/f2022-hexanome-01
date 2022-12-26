@@ -114,18 +114,20 @@ public class PlayerControl : MonoBehaviour {
         if (selectedCardToBuy && //if a card has been selected AND if not... (i.e. if inventory is empty, cannot purchase satchel or domino1)
             !(player.inventory.Count == 0 && //player's inventory is empty AND the selected card is a satchel or domino1 orient card
             (selectedCardToBuy.GetCard().action == ActionType.SATCHEL || selectedCardToBuy.GetCard().action == ActionType.DOMINO1))) {
-            if (selectedCardToBuy.GetCard().action != ActionType.SACRIFICE) {//if purchasing card is not a sacrifice card (buying a sacrifice card is handled in OrientMenuManager), try to purchase it
-                if (!player.TriggerCardAdd(selectedCardToBuy.GetCard())) //if insufficient funds, fail purchase, otherwise update display since you have purchased it
+            bool purchaseResult = false;
+            if (selectedCardToBuy.GetCard().action != ActionType.SACRIFICE) { //if purchasing card is not a sacrifice card (buying a sacrifice card is handled in OrientMenuManager), try to purchase it
+                purchaseResult = player.TriggerCardAdd(selectedCardToBuy.GetCard());
+                if (!purchaseResult) //if insufficient funds, fail purchase, otherwise update display since you have purchased it
                     return false;
                 UpdateDisplay();
                 allCards.RemoveCard(selectedCardToBuy);
             }
-            if (selectedCardToBuy.GetCard().action != ActionType.NONE) { //if the purchased card has a corresponding action, activate OrientMenuManager and perform action
+            if ((purchaseResult || selectedCardToBuy.GetCard().action == ActionType.SACRIFICE) && selectedCardToBuy.GetCard().action != ActionType.NONE) { //if the purchased card has a corresponding action, activate OrientMenuManager and perform action
                 inOrientMenu = true;
                 omm.gameObject.SetActive(true);
                 omm.PerformAction(selectedCardToBuy.GetCard());
             }
-            return selectedCardToBuy.GetCard().action != ActionType.SACRIFICE; //returns true UNLESS the card is a sacrifice card
+            return purchaseResult; //returns true UNLESS the card is a sacrifice card or insufficient funds
         }
         else //fail purchase if 1) no card selected, 2) trying to buy a satchel card with an empty inventory, 3) trying to buy a domino1 card with empty inventory
             return false;
