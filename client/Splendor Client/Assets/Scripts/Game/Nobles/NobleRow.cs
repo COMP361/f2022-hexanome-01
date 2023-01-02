@@ -103,6 +103,6 @@ public class NobleRow : MonoBehaviour
     {
         size = Math.Min(size, 5);
         FillEmptyNobles();
-        GreyOut();
+        //GreyOut();
     }
 }

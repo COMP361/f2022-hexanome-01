@@ -46,7 +46,6 @@ public class NobleSlot : MonoBehaviour {
     */
     public void SetNoble(Noble noble) { //only used when displaying nobles on board i believe
         this.noble = noble;
-        gameObject.transform.localScale = new Vector3(0.2f, 0.2f, 0.2f);
         gameObject.GetComponent<Button>().interactable = false;
         m_SpriteRenderer = GetComponent<SpriteRenderer>();
         m_SpriteRenderer.sprite = noble.sprite;

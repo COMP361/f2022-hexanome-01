@@ -161,7 +161,7 @@ public class PlayerControl : MonoBehaviour {
         }
 
         dashboard.DisplayWaiting();
-        allCards.GreyOut();
+        //allCards.GreyOut();
 
         waiting = true;
 
@@ -197,7 +197,7 @@ public class PlayerControl : MonoBehaviour {
     {
         player.turnData = new TurnData();
         dashboard.ResetEndDisplay();
-        allCards.UnGreyOut();
+        //allCards.UnGreyOut();
         waiting = false;
         sacrificeMade = false;
         selectedCardToBuy = null;
