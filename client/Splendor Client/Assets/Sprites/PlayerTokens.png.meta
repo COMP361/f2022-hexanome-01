@@ -1,37 +1,25 @@
 fileFormatVersion: 2
-guid: 45d2ad82ed2c4184f83ae28b78a51df4
+guid: 5ec94d2a207bd47c0a7233248f1eb0b3
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7036783396256450302
-    second: Nobles_Front_0
+      213: -4038156864698992630
+    second: PlayerTokens_0
   - first:
-      213: 5730917634005838715
-    second: Nobles_Front_1
+      213: 6511064641121823832
+    second: PlayerTokens_1
   - first:
-      213: 1080244508336821361
-    second: Nobles_Front_2
+      213: 1909415648645690943
+    second: PlayerTokens_2
   - first:
-      213: -5892536658559983924
-    second: Nobles_Front_3
+      213: 990949176025478803
+    second: PlayerTokens_3
   - first:
-      213: -3969970970966472551
-    second: Nobles_Front_4
+      213: 1060589613705084601
+    second: PlayerTokens_4
   - first:
-      213: 1615370809186789441
-    second: Nobles_Front_5
-  - first:
-      213: -8684534728835504518
-    second: Nobles_Front_6
-  - first:
-      213: 6901127805908262461
-    second: Nobles_Front_7
-  - first:
-      213: -1912560958598431753
-    second: Nobles_Front_8
-  - first:
-      213: -6224197403792099953
-    second: Nobles_Front_9
+      213: -4654325913593194128
+    second: PlayerTokens_5
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -121,13 +109,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Nobles_Front_0
+      name: PlayerTokens_0
       rect:
         serializedVersion: 2
-        x: 11
-        y: 312
-        width: 83
-        height: 83
+        x: 54
+        y: 171
+        width: 60
+        height: 77
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -135,20 +123,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ef68b37673da7a160800000000000000
-      internalID: 7036783396256450302
+      spriteID: a08bf440ab595f7c0800000000000000
+      internalID: -4038156864698992630
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Nobles_Front_1
+      name: PlayerTokens_1
       rect:
         serializedVersion: 2
-        x: 107
-        y: 312
-        width: 83
-        height: 83
+        x: 139
+        y: 171
+        width: 61
+        height: 77
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -156,20 +144,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b7ba0f3793f488f40800000000000000
-      internalID: 5730917634005838715
+      spriteID: 85c2ca34bc2fb5a50800000000000000
+      internalID: 6511064641121823832
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Nobles_Front_2
+      name: PlayerTokens_2
       rect:
         serializedVersion: 2
-        x: 203
-        y: 312
-        width: 83
-        height: 83
+        x: 225
+        y: 171
+        width: 60
+        height: 77
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -177,20 +165,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1749bfd28accdfe00800000000000000
-      internalID: 1080244508336821361
+      spriteID: f36391a7a6b9f7a10800000000000000
+      internalID: 1909415648645690943
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Nobles_Front_3
+      name: PlayerTokens_3
       rect:
         serializedVersion: 2
-        x: 11
-        y: 216
-        width: 83
-        height: 83
+        x: 311
+        y: 171
+        width: 60
+        height: 77
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -198,20 +186,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: cce90980121893ea0800000000000000
-      internalID: -5892536658559983924
+      spriteID: 396f67b760f80cd00800000000000000
+      internalID: 990949176025478803
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Nobles_Front_4
+      name: PlayerTokens_4
       rect:
         serializedVersion: 2
-        x: 107
-        y: 216
-        width: 83
-        height: 83
+        x: 396
+        y: 171
+        width: 61
+        height: 77
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -219,20 +207,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9984eea8f64d7e8c0800000000000000
-      internalID: -3969970970966472551
+      spriteID: 9be3c5962a8f7be00800000000000000
+      internalID: 1060589613705084601
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Nobles_Front_5
+      name: PlayerTokens_5
       rect:
         serializedVersion: 2
-        x: 203
-        y: 216
-        width: 83
-        height: 83
+        x: 482
+        y: 171
+        width: 60
+        height: 77
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -240,92 +228,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1482d1e3133fa6610800000000000000
-      internalID: 1615370809186789441
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Nobles_Front_6
-      rect:
-        serializedVersion: 2
-        x: 11
-        y: 120
-        width: 83
-        height: 83
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a7667304da55a7780800000000000000
-      internalID: -8684534728835504518
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Nobles_Front_7
-      rect:
-        serializedVersion: 2
-        x: 107
-        y: 120
-        width: 83
-        height: 83
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d3e9bbcfc2bb5cf50800000000000000
-      internalID: 6901127805908262461
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Nobles_Front_8
-      rect:
-        serializedVersion: 2
-        x: 203
-        y: 120
-        width: 83
-        height: 83
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 7fbb57bf0f73575e0800000000000000
-      internalID: -1912560958598431753
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Nobles_Front_9
-      rect:
-        serializedVersion: 2
-        x: 107
-        y: 24
-        width: 83
-        height: 83
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f85301f30753f99a0800000000000000
-      internalID: -6224197403792099953
+      spriteID: 079d163cd33886fb0800000000000000
+      internalID: -4654325913593194128
       vertices: []
       indices: 
       edges: []
