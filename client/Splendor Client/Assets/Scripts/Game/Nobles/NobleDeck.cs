@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class NobleDeck : MonoBehaviour
 {
-     public int level;
-    [SerializeField]public List<Noble> nobles = new List<Noble>(); 
+    public int level;
+    [SerializeField]public List<Noble> nobles = new List<Noble>();
+
     //Takes the first card from the deck and remove it from list of cards 
     public Noble DrawNoble()
     {
@@ -13,6 +14,7 @@ public class NobleDeck : MonoBehaviour
         nobles.Remove(nobleDrawn);
         return nobleDrawn;
     }
+
     //Shuffles the whole whole deck
     public void ShuffleDeck()
     {

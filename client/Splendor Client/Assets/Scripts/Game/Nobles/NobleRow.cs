@@ -41,10 +41,10 @@ public class NobleRow : MonoBehaviour
 
     void FillEmptyNobles()
     {
-        deck.ShuffleDeck();
-        for (int i=0; i<size; i++) {
+        deck.ShuffleDeck(); // TO REMOVE: shuffling should occur at the start of the game on the server side
+        for (int i = 0; i < size; i++) {
             if (nobles[i] == null) {
-                GameObject prefab = Instantiate(nobleObject, new Vector3(x + i*2, y, 0), Quaternion.identity);
+                GameObject prefab = Instantiate(nobleObject, new Vector3(x, y + i * 0.98f, 0), Quaternion.identity);
                 nobles[i] = prefab.GetComponent<NobleSlot>();
                 nobles[i].SetNoble(deck.DrawNoble());
             }
