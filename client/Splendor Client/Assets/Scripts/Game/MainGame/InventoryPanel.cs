@@ -2,16 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-/*
-This script it's used to display the cards that the player has in its
-inventory
-*/
+
+/* 
+ * This script it's used to display the cards and nobles that any player has in their inventory.
+ * Since reserved cards and nobles are kept "in hand" or "face down" according to Splendor rules, 
+ * reserved cards and nobles should not be displayed in the inventory since the inventory is public.
+ */
 public class InventoryPanel : MonoBehaviour {
     [SerializeField] private PlayerControl playerControl;
     [SerializeField] private GameObject inventoryPanel; //menu do make appear/disappear through button press
     [SerializeField] private GameObject purchasedCardContent, nobleContent; //, reservedCardContent, reservedNobleContent; //panels to display information on
-    [SerializeField] private GameObject cardSlot;//Blank card prefab
-    [SerializeField] private GameObject nobleSlot;//Blank noble prefab
+    [SerializeField] private GameObject cardSlot; //Blank card prefab
+    [SerializeField] private GameObject nobleSlot; //Blank noble prefab
+    [SerializeField] private Text playerName; //the player name to whom the inventory belongs
     //Display is called by the button to open/close the panel
 
     public void InventoryStatus() {//switches inventory status (needed for use with button)
@@ -21,6 +24,10 @@ public class InventoryPanel : MonoBehaviour {
         if (inventoryPanel.activeInHierarchy)
             inventoryPanel.SetActive(false);
         else {
+            //set inventory panel title as the inventory owner's name
+            Text ownerName = inventoryPanel.transform.Find("OwnerName").gameObject.GetComponent<Text>();
+            if (ownerName != null) ownerName.text = playerName.text;
+
             inventoryPanel.SetActive(true);
             DisplayPlayerCards(playerControl.client.inventory, playerControl.client.noblesVisited);
             //DisplayReservedCards(playerControl.client.cardReserves, playerControl.client.nobleReserves);

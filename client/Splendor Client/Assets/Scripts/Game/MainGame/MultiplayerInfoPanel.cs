@@ -16,6 +16,6 @@ public class MultiplayerInfoPanel : MonoBehaviour
 
     public void UpdatePlayerPoints(int pts)
     {
-        pointsField.text = String.Format("Points: {0}", pts);
+        pointsField.text = String.Format("{0}", pts);
     }
 }

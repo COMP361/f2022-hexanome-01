@@ -32,18 +32,22 @@ public class CardGemValue {
         get { return _red; }
         set { _red = value; }
     }
+
     public int green {
         get { return _green; }
         set { _green = value; }
     }
+
     public int blue {
         get { return _blue; }
         set { _blue = value; }
     }
+
     public int brown {
         get { return _brown; }
         set { _brown = value; }
     }
+
     public int white {
         get { return _white; }
         set { _white = value; }
@@ -80,6 +84,7 @@ public class CardGemValue {
             case 'K': brown += amount; break;
         }
     }
+
     public void AddGemsToInventory(Card card) {
         if (card) {
             red += card.gemValue.red;
