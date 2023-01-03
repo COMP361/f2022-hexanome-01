@@ -21,4 +21,6 @@ MonoBehaviour:
   green: 2
   brown: 0
   white: 1
-  sprite: {fileID: -5686630415260190864, guid: 2f3fad4888ded134497a524228892eac, type: 3}
+  satchels: 0
+  action: 0
+  sprite: {fileID: -332399674439812792, guid: 2f3fad4888ded134497a524228892eac, type: 3}

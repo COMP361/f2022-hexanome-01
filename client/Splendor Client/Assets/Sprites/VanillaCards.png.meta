@@ -1,7 +1,277 @@
 fileFormatVersion: 2
 guid: 2f3fad4888ded134497a524228892eac
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: 4818683829441689650
+    second: VanillaCards_0
+  - first:
+      213: -6201531326657552075
+    second: VanillaCards_1
+  - first:
+      213: 6119428728928203570
+    second: VanillaCards_2
+  - first:
+      213: 842479281101053534
+    second: VanillaCards_3
+  - first:
+      213: -2318713819741578413
+    second: VanillaCards_4
+  - first:
+      213: 7682093225420870581
+    second: VanillaCards_5
+  - first:
+      213: 9182829290004470691
+    second: VanillaCards_6
+  - first:
+      213: -4939438422222960740
+    second: VanillaCards_7
+  - first:
+      213: 1291587819099912633
+    second: VanillaCards_8
+  - first:
+      213: -5608594199113942665
+    second: VanillaCards_9
+  - first:
+      213: 5968410322735076802
+    second: VanillaCards_10
+  - first:
+      213: 5217332220276685886
+    second: VanillaCards_11
+  - first:
+      213: 6771594249997527485
+    second: VanillaCards_12
+  - first:
+      213: 824059304085820239
+    second: VanillaCards_13
+  - first:
+      213: 5368055956504324872
+    second: VanillaCards_14
+  - first:
+      213: -1934125934361466924
+    second: VanillaCards_15
+  - first:
+      213: 8939005711705726143
+    second: VanillaCards_16
+  - first:
+      213: 6209779288288456055
+    second: VanillaCards_17
+  - first:
+      213: 1789337536311254008
+    second: VanillaCards_18
+  - first:
+      213: -8912878509518513793
+    second: VanillaCards_19
+  - first:
+      213: -5282695089745293650
+    second: VanillaCards_20
+  - first:
+      213: -5190062404232671898
+    second: VanillaCards_21
+  - first:
+      213: -1988921581236800579
+    second: VanillaCards_22
+  - first:
+      213: -5787859594388646436
+    second: VanillaCards_23
+  - first:
+      213: 2871411244561799543
+    second: VanillaCards_24
+  - first:
+      213: -2453210590282204529
+    second: VanillaCards_25
+  - first:
+      213: 5932140876949805699
+    second: VanillaCards_26
+  - first:
+      213: -2914204367824496579
+    second: VanillaCards_27
+  - first:
+      213: -7906756545344548985
+    second: VanillaCards_28
+  - first:
+      213: 4942776220919907307
+    second: VanillaCards_29
+  - first:
+      213: -332399674439812792
+    second: VanillaCards_30
+  - first:
+      213: 2317045395160406641
+    second: VanillaCards_31
+  - first:
+      213: -1380808329291330278
+    second: VanillaCards_32
+  - first:
+      213: 9071057935995922416
+    second: VanillaCards_33
+  - first:
+      213: -1608245319587132188
+    second: VanillaCards_34
+  - first:
+      213: -4047327296328066030
+    second: VanillaCards_35
+  - first:
+      213: 3693224682727749825
+    second: VanillaCards_36
+  - first:
+      213: 6666710918107352587
+    second: VanillaCards_37
+  - first:
+      213: 7246807775092776456
+    second: VanillaCards_38
+  - first:
+      213: -699553549129248620
+    second: VanillaCards_39
+  - first:
+      213: -6580642399127953086
+    second: VanillaCards_40
+  - first:
+      213: 6198378575821773897
+    second: VanillaCards_41
+  - first:
+      213: 3351359384911742062
+    second: VanillaCards_42
+  - first:
+      213: 3983997755970775996
+    second: VanillaCards_43
+  - first:
+      213: -7865522390617823622
+    second: VanillaCards_44
+  - first:
+      213: 4385214480018180796
+    second: VanillaCards_45
+  - first:
+      213: 1570695383943999937
+    second: VanillaCards_46
+  - first:
+      213: -126775805370413311
+    second: VanillaCards_47
+  - first:
+      213: 1623952967501016969
+    second: VanillaCards_48
+  - first:
+      213: 3013070295325536029
+    second: VanillaCards_49
+  - first:
+      213: -8692739049157328119
+    second: VanillaCards_50
+  - first:
+      213: 1965470566572352579
+    second: VanillaCards_51
+  - first:
+      213: -1113239201874354726
+    second: VanillaCards_52
+  - first:
+      213: 7839870900852286969
+    second: VanillaCards_53
+  - first:
+      213: -6231574627011422436
+    second: VanillaCards_54
+  - first:
+      213: 5011984622356287150
+    second: VanillaCards_55
+  - first:
+      213: 7713889688753547787
+    second: VanillaCards_56
+  - first:
+      213: 243563856969071268
+    second: VanillaCards_57
+  - first:
+      213: -3068960957830101778
+    second: VanillaCards_58
+  - first:
+      213: -1590828801839309402
+    second: VanillaCards_59
+  - first:
+      213: -6507825423792989178
+    second: VanillaCards_60
+  - first:
+      213: -8766218000722055571
+    second: VanillaCards_61
+  - first:
+      213: 538394956589098051
+    second: VanillaCards_62
+  - first:
+      213: 7859255962423876710
+    second: VanillaCards_63
+  - first:
+      213: 2349256363275883084
+    second: VanillaCards_64
+  - first:
+      213: -5613600397158658945
+    second: VanillaCards_65
+  - first:
+      213: 3750962293571682016
+    second: VanillaCards_66
+  - first:
+      213: -3996652466553084575
+    second: VanillaCards_67
+  - first:
+      213: 7773267543076252868
+    second: VanillaCards_68
+  - first:
+      213: 4559851777140947414
+    second: VanillaCards_69
+  - first:
+      213: -3163892780583302709
+    second: VanillaCards_70
+  - first:
+      213: -5181736262419896825
+    second: VanillaCards_71
+  - first:
+      213: -7437183738338477453
+    second: VanillaCards_72
+  - first:
+      213: -8104645612669852517
+    second: VanillaCards_73
+  - first:
+      213: 699283001004663710
+    second: VanillaCards_74
+  - first:
+      213: -74023044217675281
+    second: VanillaCards_75
+  - first:
+      213: -2016322878498547217
+    second: VanillaCards_76
+  - first:
+      213: 4449398680170714277
+    second: VanillaCards_77
+  - first:
+      213: 4545925023699151221
+    second: VanillaCards_78
+  - first:
+      213: -1912286398934743322
+    second: VanillaCards_79
+  - first:
+      213: -5570384456214217676
+    second: VanillaCards_80
+  - first:
+      213: -4196473344867727810
+    second: VanillaCards_81
+  - first:
+      213: -7415714847778833719
+    second: VanillaCards_82
+  - first:
+      213: -1091505090613249593
+    second: VanillaCards_83
+  - first:
+      213: 7639674564932977549
+    second: VanillaCards_84
+  - first:
+      213: 7495855399504262698
+    second: VanillaCards_85
+  - first:
+      213: -77137402639142675
+    second: VanillaCards_86
+  - first:
+      213: -3233451073240030332
+    second: VanillaCards_87
+  - first:
+      213: 6329098898405105905
+    second: VanillaCards_88
+  - first:
+      213: -3779964087420199995
+    second: VanillaCards_89
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -32,7 +302,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -65,10 +335,10 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 8192
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -77,34 +347,10 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
-    maxTextureSize: 8192
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Server
-    maxTextureSize: 8192
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: WebGL
-    maxTextureSize: 8192
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -115,1891 +361,1891 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: MergedImages_0
+      name: VanillaCards_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 2787.111
-        width: 250
-        height: 343.8889
+        y: 1079
+        width: 90
+        height: 126
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 07635ce28823a9dc0800000000000000
-      internalID: -3631534589039266192
+      spriteID: 2387ac299676fd240800000000000000
+      internalID: 4818683829441689650
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_1
+      name: VanillaCards_1
       rect:
         serializedVersion: 2
-        x: 250
-        y: 2787.111
-        width: 250
-        height: 343.8889
+        x: 100
+        y: 1080
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e6500e4e22be1ecc0800000000000000
-      internalID: -3683404485111052946
+      spriteID: 531ae139d1cbfe9a0800000000000000
+      internalID: -6201531326657552075
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_2
+      name: VanillaCards_2
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 1080
+        width: 90
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 233f510c1049ce450800000000000000
+      internalID: 6119428728928203570
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VanillaCards_3
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 1080
+        width: 90
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5e97a8417611bb00800000000000000
+      internalID: 842479281101053534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VanillaCards_4
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 1080
+        width: 90
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 35b9386e01642dfd0800000000000000
+      internalID: -2318713819741578413
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VanillaCards_5
       rect:
         serializedVersion: 2
         x: 500
-        y: 2787.111
-        width: 250
-        height: 343.8889
+        y: 1080
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8c0eab567b59517f0800000000000000
-      internalID: -642442756912127800
+      spriteID: 5b355a846174c9a60800000000000000
+      internalID: 7682093225420870581
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_3
+      name: VanillaCards_6
       rect:
         serializedVersion: 2
-        x: 750
-        y: 2787.111
-        width: 250
-        height: 343.8889
+        x: 600
+        y: 1080
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: dce0c50943ff51ba0800000000000000
-      internalID: -6118703917487616307
+      spriteID: 3abd4c72696ff6f70800000000000000
+      internalID: 9182829290004470691
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_4
+      name: VanillaCards_7
       rect:
         serializedVersion: 2
-        x: 1000
-        y: 2785
-        width: 247
-        height: 349
+        x: 700
+        y: 1080
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3fb9a9445160a8d60800000000000000
-      internalID: 7893127985335278579
+      spriteID: c970c7ddce6937bb0800000000000000
+      internalID: -4939438422222960740
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_5
+      name: VanillaCards_8
       rect:
         serializedVersion: 2
-        x: 1246
-        y: 2785
-        width: 254
-        height: 349
+        x: 800
+        y: 1080
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 31795de0a91cda7c0800000000000000
-      internalID: -4058374821772945645
+      spriteID: 9b9fba14744ace110800000000000000
+      internalID: 1291587819099912633
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_6
+      name: VanillaCards_9
       rect:
         serializedVersion: 2
-        x: 1500
-        y: 2785
-        width: 252
-        height: 349
+        x: 900
+        y: 1080
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c68c190e087ab4cb0800000000000000
-      internalID: -4878621599360497556
+      spriteID: 7793f70aa454a22b0800000000000000
+      internalID: -5608594199113942665
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_7
-      rect:
-        serializedVersion: 2
-        x: 1752
-        y: 2785
-        width: 248
-        height: 349
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: ce15bcbdbb69c4330800000000000000
-      internalID: 3696495127754920428
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MergedImages_8
-      rect:
-        serializedVersion: 2
-        x: 2011
-        y: 2786
-        width: 246
-        height: 343
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4165a87aa81a5e2b0800000000000000
-      internalID: -5555856948403218924
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MergedImages_9
-      rect:
-        serializedVersion: 2
-        x: 2257
-        y: 2786
-        width: 246
-        height: 343
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 952845f61bedd7330800000000000000
-      internalID: 3710366521681543769
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MergedImages_10
-      rect:
-        serializedVersion: 2
-        x: 2503
-        y: 2786
-        width: 247
-        height: 343
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d2ef2c43d5cbe0ba0800000000000000
-      internalID: -6120747735046750675
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MergedImages_11
-      rect:
-        serializedVersion: 2
-        x: 2751
-        y: 2786
-        width: 246
-        height: 343
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 488245a1a0ba1b5d0800000000000000
-      internalID: -3048467412873369468
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MergedImages_12
+      name: VanillaCards_10
       rect:
         serializedVersion: 2
         x: 0
-        y: 2433
-        width: 250
-        height: 350
+        y: 945
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f81a241cfb7884df0800000000000000
-      internalID: -195757326139743857
+      spriteID: 2c51668019d04d250800000000000000
+      internalID: 5968410322735076802
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_13
+      name: VanillaCards_11
       rect:
         serializedVersion: 2
-        x: 250
-        y: 2433
-        width: 251
-        height: 350
+        x: 100
+        y: 945
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: caa3cc0efc2b8a890800000000000000
-      internalID: -7446505377957659988
+      spriteID: e3cbac00300b76840800000000000000
+      internalID: 5217332220276685886
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_14
+      name: VanillaCards_12
       rect:
         serializedVersion: 2
-        x: 502
-        y: 2433
-        width: 251
-        height: 350
+        x: 200
+        y: 945
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5c398fdcd8982d5c0800000000000000
-      internalID: -4192137060989496379
+      spriteID: db92e2ac71989fd50800000000000000
+      internalID: 6771594249997527485
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_15
+      name: VanillaCards_13
       rect:
         serializedVersion: 2
-        x: 753
-        y: 2433
-        width: 247
-        height: 350
+        x: 300
+        y: 945
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2215bfb4417b7ea90800000000000000
-      internalID: -7284652574446497502
+      spriteID: f4314ed2295af6b00800000000000000
+      internalID: 824059304085820239
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_16
+      name: VanillaCards_14
       rect:
         serializedVersion: 2
-        x: 1000
-        y: 2435
-        width: 251
-        height: 346
+        x: 400
+        y: 945
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 05c2ba5918074e5d0800000000000000
-      internalID: -3034176547076756400
+      spriteID: 80b2cd5837a2f7a40800000000000000
+      internalID: 5368055956504324872
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_17
+      name: VanillaCards_15
       rect:
         serializedVersion: 2
-        x: 1251
-        y: 2435
-        width: 251
-        height: 346
+        x: 500
+        y: 945
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f6eecb0eaf311dfa0800000000000000
-      internalID: -5777814878706405777
+      spriteID: 4d7a38bc5ba9825e0800000000000000
+      internalID: -1934125934361466924
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_18
+      name: VanillaCards_16
       rect:
         serializedVersion: 2
-        x: 1502
-        y: 2435
-        width: 251
-        height: 346
+        x: 600
+        y: 945
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a3700fafd44ced900800000000000000
-      internalID: 711221630372677434
+      spriteID: fbc586b755abd0c70800000000000000
+      internalID: 8939005711705726143
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_19
+      name: VanillaCards_17
       rect:
         serializedVersion: 2
-        x: 1753
-        y: 2435
-        width: 247
-        height: 346
+        x: 700
+        y: 945
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d4f03219ea3a79670800000000000000
-      internalID: 8545478788113436493
+      spriteID: 77de204ac519d2650800000000000000
+      internalID: 6209779288288456055
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_20
+      name: VanillaCards_18
       rect:
         serializedVersion: 2
-        x: 2000
-        y: 2435
-        width: 251
-        height: 346
+        x: 800
+        y: 945
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2e9d88a811ad6ee90800000000000000
-      internalID: -6996665202199963166
+      spriteID: 8fbda1b420105d810800000000000000
+      internalID: 1789337536311254008
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_21
+      name: VanillaCards_19
       rect:
         serializedVersion: 2
-        x: 2252
-        y: 2435
-        width: 248
-        height: 346
+        x: 900
+        y: 945
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 540320e7c63b7aaa0800000000000000
-      internalID: -6149749487599210427
+      spriteID: f799fe1d7381f4480800000000000000
+      internalID: -8912878509518513793
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_22
-      rect:
-        serializedVersion: 2
-        x: 2500
-        y: 2435
-        width: 251
-        height: 346
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 000e8a07f55219cc0800000000000000
-      internalID: -3706139926506971136
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MergedImages_23
-      rect:
-        serializedVersion: 2
-        x: 2751
-        y: 2434
-        width: 249
-        height: 347
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 228315042b1001c30800000000000000
-      internalID: 4327961106997917730
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MergedImages_24
+      name: VanillaCards_20
       rect:
         serializedVersion: 2
         x: 0
-        y: 2091
-        width: 251
-        height: 338
+        y: 810
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e3f3b4e4bfb24b860800000000000000
-      internalID: 7544703634102763326
+      spriteID: eae08070ec810b6b0800000000000000
+      internalID: -5282695089745293650
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_25
+      name: VanillaCards_21
       rect:
         serializedVersion: 2
-        x: 252
-        y: 2091
-        width: 249
-        height: 338
+        x: 100
+        y: 810
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2c1a7a39e41bd36b0800000000000000
-      internalID: -5314897034184515134
+      spriteID: 66d0a91ddb139f7b0800000000000000
+      internalID: -5190062404232671898
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_26
+      name: VanillaCards_22
       rect:
         serializedVersion: 2
-        x: 501
-        y: 2091
-        width: 251
-        height: 338
+        x: 200
+        y: 810
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f03e6aa154448bb30800000000000000
-      internalID: 4303264507543085839
+      spriteID: db3b5401c5ee564e0800000000000000
+      internalID: -1988921581236800579
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_27
+      name: VanillaCards_23
       rect:
         serializedVersion: 2
-        x: 752
-        y: 2091
-        width: 248
-        height: 338
+        x: 300
+        y: 810
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6054b9720d4203610800000000000000
-      internalID: 1598818344152810758
+      spriteID: cd5d0a24d546dafa0800000000000000
+      internalID: -5787859594388646436
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_28
+      name: VanillaCards_24
       rect:
         serializedVersion: 2
-        x: 1000
-        y: 2089
-        width: 248
-        height: 342
+        x: 400
+        y: 810
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4461e9553d9f56f20800000000000000
-      internalID: 3415410578500228676
+      spriteID: 7791b24405d49d720800000000000000
+      internalID: 2871411244561799543
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_29
+      name: VanillaCards_25
       rect:
         serializedVersion: 2
-        x: 1248
-        y: 2089
-        width: 252
-        height: 342
+        x: 500
+        y: 810
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6948b197085c599c0800000000000000
-      internalID: -3921010744977816426
+      spriteID: f8ab00f37f174fdd0800000000000000
+      internalID: -2453210590282204529
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_30
+      name: VanillaCards_26
       rect:
         serializedVersion: 2
-        x: 1500
-        y: 2089
-        width: 253
-        height: 342
+        x: 600
+        y: 810
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 077fb7134c70511b0800000000000000
-      internalID: -5686630415260190864
+      spriteID: 38ada20a2b2335250800000000000000
+      internalID: 5932140876949805699
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_31
+      name: VanillaCards_27
       rect:
         serializedVersion: 2
-        x: 1753
-        y: 2089
-        width: 247
-        height: 342
+        x: 700
+        y: 810
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c418ab0f5859b2ed0800000000000000
-      internalID: -2437690370789047988
+      spriteID: d38ddec419aae87d0800000000000000
+      internalID: -2914204367824496579
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_32
+      name: VanillaCards_28
       rect:
         serializedVersion: 2
-        x: 2000
-        y: 2088
-        width: 248
-        height: 344
+        x: 800
+        y: 810
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d5d84a8350576f950800000000000000
-      internalID: 6482497378932002141
+      spriteID: 78f4e3550de854290800000000000000
+      internalID: -7906756545344548985
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_33
+      name: VanillaCards_29
       rect:
         serializedVersion: 2
-        x: 2249
-        y: 2088
-        width: 251
-        height: 344
+        x: 900
+        y: 810
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 946783070242c17f0800000000000000
-      internalID: -640597325253151159
+      spriteID: be3cd24f8c4489440800000000000000
+      internalID: 4942776220919907307
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_34
-      rect:
-        serializedVersion: 2
-        x: 2500
-        y: 2088
-        width: 252
-        height: 344
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f149fbd9f64d8ddd0800000000000000
-      internalID: -2460983620504939489
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MergedImages_35
-      rect:
-        serializedVersion: 2
-        x: 2752
-        y: 2088
-        width: 248
-        height: 344
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 82edd60f0aa485c40800000000000000
-      internalID: 5501228999922015784
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MergedImages_36
+      name: VanillaCards_30
       rect:
         serializedVersion: 2
         x: 0
-        y: 1739
-        width: 249
-        height: 347
+        y: 675
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0c35f98345cdc1680800000000000000
-      internalID: -8782902918993980480
+      spriteID: 8493f89d144136bf0800000000000000
+      internalID: -332399674439812792
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_37
+      name: VanillaCards_31
       rect:
         serializedVersion: 2
-        x: 249
-        y: 1739
-        width: 252
-        height: 347
+        x: 100
+        y: 675
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 53de50a69318c7390800000000000000
-      internalID: -7819232769430131403
+      spriteID: 17a9dfab28cc72020800000000000000
+      internalID: 2317045395160406641
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_38
+      name: VanillaCards_32
       rect:
         serializedVersion: 2
-        x: 501
-        y: 1739
-        width: 252
-        height: 347
+        x: 200
+        y: 675
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2ea00f7cd74905c30800000000000000
-      internalID: 4346136908358748898
+      spriteID: a1d80bde32266dce0800000000000000
+      internalID: -1380808329291330278
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_39
+      name: VanillaCards_33
       rect:
         serializedVersion: 2
-        x: 754
-        y: 1739
-        width: 246
-        height: 347
+        x: 300
+        y: 675
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 413351bf1e53e4570800000000000000
-      internalID: 8452752795317383956
+      spriteID: 0f7660cd12fd2ed70800000000000000
+      internalID: 9071057935995922416
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_40
+      name: VanillaCards_34
       rect:
         serializedVersion: 2
-        x: 1000
-        y: 1738
-        width: 247
-        height: 349
+        x: 400
+        y: 675
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b79cc7f17f4328a70800000000000000
-      internalID: 8827676455589431675
+      spriteID: 4ec0356176d5ea9e0800000000000000
+      internalID: -1608245319587132188
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_41
+      name: VanillaCards_35
       rect:
         serializedVersion: 2
-        x: 1247
-        y: 1738
-        width: 253
-        height: 349
+        x: 500
+        y: 675
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a086bdb666471c790800000000000000
-      internalID: -7511594720232249334
+      spriteID: 21c9f94844105d7c0800000000000000
+      internalID: -4047327296328066030
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_42
+      name: VanillaCards_36
       rect:
         serializedVersion: 2
-        x: 1500
-        y: 1738
-        width: 251
-        height: 349
+        x: 600
+        y: 675
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 338f83776a010f090800000000000000
-      internalID: -8002878230686533581
+      spriteID: 1c831b90848f04330800000000000000
+      internalID: 3693224682727749825
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_43
+      name: VanillaCards_37
       rect:
         serializedVersion: 2
-        x: 1751
-        y: 1738
-        width: 249
-        height: 349
+        x: 700
+        y: 675
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a3032615d8ae64830800000000000000
-      internalID: 4055186407170388026
+      spriteID: b0ec10e124ae48c50800000000000000
+      internalID: 6666710918107352587
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_44
+      name: VanillaCards_38
       rect:
         serializedVersion: 2
-        x: 2000
-        y: 1739
-        width: 250
-        height: 347
+        x: 800
+        y: 675
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c4b75bd3ea27e0910800000000000000
-      internalID: 1805506593307327308
+      spriteID: 80e91f5b645d19460800000000000000
+      internalID: 7246807775092776456
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_45
+      name: VanillaCards_39
       rect:
         serializedVersion: 2
-        x: 2250
-        y: 1740
-        width: 251
-        height: 346
+        x: 900
+        y: 675
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5f792c034abf58d90800000000000000
-      internalID: -7095988955241080843
+      spriteID: 49099c2e0cfaa46f0800000000000000
+      internalID: -699553549129248620
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_46
-      rect:
-        serializedVersion: 2
-        x: 2501
-        y: 1739
-        width: 252
-        height: 347
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 09f577fc3f6ed47a0800000000000000
-      internalID: -6391198361336717424
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MergedImages_47
-      rect:
-        serializedVersion: 2
-        x: 2753
-        y: 1739
-        width: 247
-        height: 347
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: fd89d369bfe09cd40800000000000000
-      internalID: 5605027684959492319
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MergedImages_48
+      name: VanillaCards_40
       rect:
         serializedVersion: 2
         x: 0
-        y: 1391
-        width: 247
-        height: 346
+        y: 540
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4b418973d1f74a2e0800000000000000
-      internalID: -2115426161493797708
+      spriteID: 241aa1e8a9cdca4a0800000000000000
+      internalID: -6580642399127953086
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_50
+      name: VanillaCards_41
       rect:
         serializedVersion: 2
-        x: 252
-        y: 1391
-        width: 247
-        height: 346
+        x: 100
+        y: 540
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1cc481e9485737c00800000000000000
-      internalID: 897189963225386177
+      spriteID: 94c9f3b6970150650800000000000000
+      internalID: 6198378575821773897
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_64
+      name: VanillaCards_42
       rect:
         serializedVersion: 2
-        x: 1000
-        y: 1216
-        width: 249
-        height: 342
+        x: 200
+        y: 540
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5a931bc1fea0d9bd0800000000000000
-      internalID: -2621927385964922459
+      spriteID: e640654ba9b628e20800000000000000
+      internalID: 3351359384911742062
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_65
+      name: VanillaCards_43
       rect:
         serializedVersion: 2
-        x: 1249
-        y: 1216
-        width: 251
-        height: 342
+        x: 300
+        y: 540
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3472b089c5cee6f30800000000000000
-      internalID: 4570850554259646275
+      spriteID: cbb6796d9d00a4730800000000000000
+      internalID: 3983997755970775996
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_66
+      name: VanillaCards_44
       rect:
         serializedVersion: 2
-        x: 1500
-        y: 1216
-        width: 251
-        height: 342
+        x: 400
+        y: 540
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f891ee53ac1c0b1e0800000000000000
-      internalID: -2184032745042339441
+      spriteID: a76e75e1f0d08d290800000000000000
+      internalID: -7865522390617823622
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_67
+      name: VanillaCards_45
       rect:
         serializedVersion: 2
-        x: 1751
-        y: 1216
-        width: 249
-        height: 342
+        x: 500
+        y: 540
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e329dca98637cab30800000000000000
-      internalID: 4299938637342937662
+      spriteID: cba0261f5596bdc30800000000000000
+      internalID: 4385214480018180796
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_68
+      name: VanillaCards_46
       rect:
         serializedVersion: 2
-        x: 1999
-        y: 1213
-        width: 250
-        height: 348
+        x: 600
+        y: 540
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: defde55aa01b2fae0800000000000000
-      internalID: -1516955465188188179
+      spriteID: 1c1f35a312b3cc510800000000000000
+      internalID: 1570695383943999937
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_69
+      name: VanillaCards_47
       rect:
         serializedVersion: 2
-        x: 2250
-        y: 1213
-        width: 250
-        height: 348
+        x: 700
+        y: 540
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1aa0a8b76e5f5dd70800000000000000
-      internalID: 9067423795044289185
+      spriteID: 10f48c2a31a9d3ef0800000000000000
+      internalID: -126775805370413311
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_70
+      name: VanillaCards_48
       rect:
         serializedVersion: 2
-        x: 2500
-        y: 1213
-        width: 250
-        height: 348
+        x: 800
+        y: 540
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 55c39f5bf7f5eef40800000000000000
-      internalID: 5759645975571938389
+      spriteID: 98fe6dfae90798610800000000000000
+      internalID: 1623952967501016969
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_71
+      name: VanillaCards_49
       rect:
         serializedVersion: 2
-        x: 2750
-        y: 1213
-        width: 250
-        height: 348
+        x: 900
+        y: 540
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 16d8d5bde887002c0800000000000000
-      internalID: -4467438275390501535
+      spriteID: d1fe82c387390d920800000000000000
+      internalID: 3013070295325536029
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_72
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 691
-        width: 248
-        height: 344
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: da76749e899fa5a20800000000000000
-      internalID: 3052026132641048493
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MergedImages_73
-      rect:
-        serializedVersion: 2
-        x: 248
-        y: 691
-        width: 251
-        height: 344
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f03a4d3603d0b09d0800000000000000
-      internalID: -2807135441250901233
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MergedImages_74
-      rect:
-        serializedVersion: 2
-        x: 499
-        y: 691
-        width: 252
-        height: 344
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 948b874262b8af4d0800000000000000
-      internalID: -3100012397554255799
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MergedImages_75
-      rect:
-        serializedVersion: 2
-        x: 751
-        y: 691
-        width: 249
-        height: 344
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: bfc5cecf11a141a40800000000000000
-      internalID: 5337920122900995323
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MergedImages_76
-      rect:
-        serializedVersion: 2
-        x: 1000
-        y: 691
-        width: 246
-        height: 344
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6f30cac4cbc95b680800000000000000
-      internalID: -8739907169288453130
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MergedImages_77
-      rect:
-        serializedVersion: 2
-        x: 1246
-        y: 691
-        width: 252
-        height: 344
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 27d62829d467db5d0800000000000000
-      internalID: -3045147697490006670
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MergedImages_78
-      rect:
-        serializedVersion: 2
-        x: 1498
-        y: 691
-        width: 252
-        height: 344
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 4823bf3549ba2cb20800000000000000
-      internalID: 3153271342665249412
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MergedImages_79
-      rect:
-        serializedVersion: 2
-        x: 1750
-        y: 691
-        width: 250
-        height: 344
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 564f1c80584e83600800000000000000
-      internalID: 448359422952076389
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MergedImages_80
-      rect:
-        serializedVersion: 2
-        x: 2001
-        y: 691
-        width: 249
-        height: 345
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9ade5c9d556f96fa0800000000000000
-      internalID: -5806839395931263575
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MergedImages_81
-      rect:
-        serializedVersion: 2
-        x: 2250
-        y: 691
-        width: 251
-        height: 345
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 48ed0ac73054ed650800000000000000
-      internalID: 6259516413369704068
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MergedImages_82
-      rect:
-        serializedVersion: 2
-        x: 2501
-        y: 691
-        width: 252
-        height: 345
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 896a0337b073ad6a0800000000000000
-      internalID: -6423761396173855080
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MergedImages_83
-      rect:
-        serializedVersion: 2
-        x: 2753
-        y: 691
-        width: 247
-        height: 345
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8e136964a7a78d050800000000000000
-      internalID: 5825540783592583656
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MergedImages_84
+      name: VanillaCards_50
       rect:
         serializedVersion: 2
         x: 0
-        y: 341
-        width: 248
-        height: 349
+        y: 405
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7299dde097425d220800000000000000
-      internalID: 2509952469687965991
+      spriteID: 9038fc114ef2d5780800000000000000
+      internalID: -8692739049157328119
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_85
+      name: VanillaCards_51
       rect:
         serializedVersion: 2
-        x: 248
-        y: 341
-        width: 251
-        height: 349
+        x: 100
+        y: 405
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 02b590678a5a37290800000000000000
-      internalID: -7893783578896934112
+      spriteID: 344e7091111c64b10800000000000000
+      internalID: 1965470566572352579
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_86
+      name: VanillaCards_52
       rect:
         serializedVersion: 2
-        x: 499
-        y: 341
-        width: 252
-        height: 349
+        x: 200
+        y: 405
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1ea571f1353e6a330800000000000000
-      internalID: 3721912088211708641
+      spriteID: add5d3618dafc80f0800000000000000
+      internalID: -1113239201874354726
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_87
+      name: VanillaCards_53
       rect:
         serializedVersion: 2
-        x: 751
-        y: 341
-        width: 249
-        height: 349
+        x: 300
+        y: 405
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 51c9f676464ebbe90800000000000000
-      internalID: -7008757275188814827
+      spriteID: 9f5e8320c01dccc60800000000000000
+      internalID: 7839870900852286969
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_88
+      name: VanillaCards_54
       rect:
         serializedVersion: 2
-        x: 1000
-        y: 342
-        width: 251
-        height: 346
+        x: 400
+        y: 405
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: aade316832e40b430800000000000000
-      internalID: 3796620400353602986
+      spriteID: c1795ad94eff489a0800000000000000
+      internalID: -6231574627011422436
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_89
+      name: VanillaCards_55
       rect:
         serializedVersion: 2
-        x: 1251
-        y: 342
-        width: 250
-        height: 346
+        x: 500
+        y: 405
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a9d640886be6f8f40800000000000000
-      internalID: 5732922580911025562
+      spriteID: eae444b95752e8540800000000000000
+      internalID: 5011984622356287150
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_90
+      name: VanillaCards_56
       rect:
         serializedVersion: 2
-        x: 1501
-        y: 343
-        width: 251
-        height: 344
+        x: 600
+        y: 405
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6caf2459699bd7fc0800000000000000
-      internalID: -3495433679369209146
+      spriteID: b0a24be4dcd3d0b60800000000000000
+      internalID: 7713889688753547787
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_91
+      name: VanillaCards_57
       rect:
         serializedVersion: 2
-        x: 1752
-        y: 343
-        width: 248
-        height: 345
+        x: 700
+        y: 405
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 159dd9c7e117bfca0800000000000000
-      internalID: -5982063304277894831
+      spriteID: 4aaf3c69900516300800000000000000
+      internalID: 243563856969071268
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_92
+      name: VanillaCards_58
       rect:
         serializedVersion: 2
-        x: 2000
-        y: 343
-        width: 248
-        height: 345
+        x: 800
+        y: 405
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6a97372697e694fb0800000000000000
-      internalID: -4663074471543604826
+      spriteID: ee48ef6d44cd865d0800000000000000
+      internalID: -3068960957830101778
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_93
+      name: VanillaCards_59
       rect:
         serializedVersion: 2
-        x: 2249
-        y: 343
-        width: 250
-        height: 345
+        x: 900
+        y: 405
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9deeb51c7dc593d40800000000000000
-      internalID: 5564580896324710105
+      spriteID: 6ad58ef12ad3ce9e0800000000000000
+      internalID: -1590828801839309402
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_94
-      rect:
-        serializedVersion: 2
-        x: 2499
-        y: 343
-        width: 250
-        height: 345
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: fffc9092c0b04aa40800000000000000
-      internalID: 5378436001843236863
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MergedImages_95
-      rect:
-        serializedVersion: 2
-        x: 2749
-        y: 343
-        width: 251
-        height: 345
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 3319433dbe74a8cf0800000000000000
-      internalID: -249307751179316941
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: MergedImages_96
+      name: VanillaCards_60
       rect:
         serializedVersion: 2
         x: 0
-        y: 2
-        width: 275
-        height: 338
+        y: 270
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 62c71551386ba1350800000000000000
-      internalID: 5988299328657128486
+      spriteID: 60c109ac14f8fa5a0800000000000000
+      internalID: -6507825423792989178
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_97
+      name: VanillaCards_61
       rect:
         serializedVersion: 2
-        x: 275
-        y: 2
-        width: 241
-        height: 338
+        x: 100
+        y: 270
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 416217316e496c110800000000000000
-      internalID: 1280874859923056148
+      spriteID: d6ea35b7c23285680800000000000000
+      internalID: -8766218000722055571
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_98
+      name: VanillaCards_62
       rect:
         serializedVersion: 2
-        x: 516
-        y: 2
-        width: 242
-        height: 338
+        x: 200
+        y: 270
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0a476a12d62551e50800000000000000
-      internalID: 6779415442745619616
+      spriteID: 344ea584c53c87700800000000000000
+      internalID: 538394956589098051
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_99
+      name: VanillaCards_63
       rect:
         serializedVersion: 2
-        x: 758
-        y: 2
-        width: 241
-        height: 338
+        x: 300
+        y: 270
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 472ac60eff537a8d0800000000000000
-      internalID: -2835238067308289420
+      spriteID: 66c552f58afa11d60800000000000000
+      internalID: 7859255962423876710
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_100
+      name: VanillaCards_64
       rect:
         serializedVersion: 2
-        x: 1001
-        y: 1
-        width: 257
-        height: 340
+        x: 400
+        y: 270
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2286627c0b06dc800800000000000000
-      internalID: 634269434900801570
+      spriteID: c42926b273c3a9020800000000000000
+      internalID: 2349256363275883084
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_101
+      name: VanillaCards_65
       rect:
         serializedVersion: 2
-        x: 1258
-        y: 1
-        width: 247
-        height: 340
+        x: 500
+        y: 270
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: def3ee6bd74069430800000000000000
-      internalID: 3789221074465341421
+      spriteID: f7ccd505e2c7812b0800000000000000
+      internalID: -5613600397158658945
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_102
+      name: VanillaCards_66
       rect:
         serializedVersion: 2
-        x: 1505
-        y: 1
-        width: 247
-        height: 340
+        x: 600
+        y: 270
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 59d71d9a2e5c7bbb0800000000000000
-      internalID: -4920246490576618091
+      spriteID: 0ee793225581e0430800000000000000
+      internalID: 3750962293571682016
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: MergedImages_103
+      name: VanillaCards_67
       rect:
         serializedVersion: 2
-        x: 1752
-        y: 1
-        width: 248
-        height: 340
+        x: 700
+        y: 270
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 01fcf9e34e25383b0800000000000000
-      internalID: -5511470378714673392
+      spriteID: 1652a60c1c90988c0800000000000000
+      internalID: -3996652466553084575
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VanillaCards_68
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 270
+        width: 90
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4cc222955a130eb60800000000000000
+      internalID: 7773267543076252868
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VanillaCards_69
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 270
+        width: 90
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d97bec3809d74f30800000000000000
+      internalID: 4559851777140947414
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VanillaCards_70
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 135
+        width: 90
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bc9c8e177489714d0800000000000000
+      internalID: -3163892780583302709
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VanillaCards_71
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 135
+        width: 90
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 706a3b6c256c618b0800000000000000
+      internalID: -5181736262419896825
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VanillaCards_72
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 135
+        width: 90
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 37af50b3bc0d9c890800000000000000
+      internalID: -7437183738338477453
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VanillaCards_73
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 135
+        width: 90
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b94a26a61c3868f80800000000000000
+      internalID: -8104645612669852517
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VanillaCards_74
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 135
+        width: 90
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e932a583f2a54b900800000000000000
+      internalID: 699283001004663710
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VanillaCards_75
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 135
+        width: 90
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe16638fe6409fef0800000000000000
+      internalID: -74023044217675281
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VanillaCards_76
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 135
+        width: 90
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe9d99266059404e0800000000000000
+      internalID: -2016322878498547217
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VanillaCards_77
+      rect:
+        serializedVersion: 2
+        x: 700
+        y: 135
+        width: 90
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a4daa396807fbd30800000000000000
+      internalID: 4449398680170714277
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VanillaCards_78
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 135
+        width: 90
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 579a52549be561f30800000000000000
+      internalID: 4545925023699151221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VanillaCards_79
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 135
+        width: 90
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6e60fa2e6a13675e0800000000000000
+      internalID: -1912286398934743322
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VanillaCards_80
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 90
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43c7ef8a9d402b2b0800000000000000
+      internalID: -5570384456214217676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VanillaCards_81
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 0
+        width: 90
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e3683c90ab123c5c0800000000000000
+      internalID: -4196473344867727810
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VanillaCards_82
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 0
+        width: 90
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9ca7d86d2a6161990800000000000000
+      internalID: -7415714847778833719
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VanillaCards_83
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 0
+        width: 90
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c9777337e13ad0f0800000000000000
+      internalID: -1091505090613249593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VanillaCards_84
+      rect:
+        serializedVersion: 2
+        x: 400
+        y: 0
+        width: 90
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d83ca624a83950a60800000000000000
+      internalID: 7639674564932977549
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VanillaCards_85
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 0
+        width: 90
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a26352765c0a60860800000000000000
+      internalID: 7495855399504262698
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VanillaCards_86
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 0
+        width: 90
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de03cc4e0f3fdeef0800000000000000
+      internalID: -77137402639142675
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VanillaCards_87
+      rect:
+        serializedVersion: 2
+        x: 700
+        y: 0
+        width: 90
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4832ce461697023d0800000000000000
+      internalID: -3233451073240030332
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VanillaCards_88
+      rect:
+        serializedVersion: 2
+        x: 800
+        y: 0
+        width: 90
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f0a0c34ae975d750800000000000000
+      internalID: 6329098898405105905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: VanillaCards_89
+      rect:
+        serializedVersion: 2
+        x: 900
+        y: 0
+        width: 90
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5cbd59980beda8bc0800000000000000
+      internalID: -3779964087420199995
       vertices: []
       indices: 
       edges: []

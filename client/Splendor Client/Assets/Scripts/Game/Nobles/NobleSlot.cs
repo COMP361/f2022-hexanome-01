@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -41,11 +42,11 @@ public class NobleSlot : MonoBehaviour {
         m_SpriteRenderer.color = Color.white;
         active = true;
     }
-    /*Sets the card field to the card received as input and 
-    updates the sprite render to display image of card
-    */
+
+    // Sets the noble field to the noble received as input and updates the sprite render to display image of noble
     public void SetNoble(Noble noble) { //only used when displaying nobles on board i believe
         this.noble = noble;
+        gameObject.transform.localScale = new UnityEngine.Vector3(0.77f, 0.77f, 0.77f);
         gameObject.GetComponent<Button>().interactable = false;
         m_SpriteRenderer = GetComponent<SpriteRenderer>();
         m_SpriteRenderer.sprite = noble.sprite;

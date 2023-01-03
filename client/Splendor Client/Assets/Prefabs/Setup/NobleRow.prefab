@@ -52,8 +52,8 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  x: -4.25
-  y: 3.5
+  x: -4.7
+  y: -1.96
   nobleObject: {fileID: 3705035989739418207, guid: c38d7351e39ae4076ad0ffa8924ce960, type: 3}
 --- !u!114 &4740854163311486380
 MonoBehaviour:

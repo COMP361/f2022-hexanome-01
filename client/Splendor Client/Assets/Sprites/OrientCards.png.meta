@@ -78,20 +78,20 @@ TextureImporter:
       213: -8137350240878654330
     second: OrientCards_24
   - first:
+      213: -7697856873077533532
+    second: OrientCards_25
+  - first:
       213: -3924425277938406147
     second: OrientCards_26
+  - first:
+      213: 7860766621398467923
+    second: OrientCards_27
   - first:
       213: 3789868703529959061
     second: OrientCards_28
   - first:
-      213: -8019509360754032949
-    second: OrientCards_30
-  - first:
-      213: 2325735974502938170
-    second: OrientCards_32
-  - first:
-      213: 8866035823416005389
-    second: OrientCards_34
+      213: 7804405861963195755
+    second: OrientCards_29
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -122,7 +122,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -155,7 +155,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 4096
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -167,31 +167,7 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
-    maxTextureSize: 4096
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Server
-    maxTextureSize: 4096
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: WebGL
-    maxTextureSize: 4096
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -209,11 +185,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 1054
-        width: 250
-        height: 345
+        y: 270
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -229,12 +205,12 @@ TextureImporter:
       name: OrientCards_1
       rect:
         serializedVersion: 2
-        x: 250
-        y: 1054
-        width: 250
-        height: 345
+        x: 100
+        y: 270
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -250,12 +226,12 @@ TextureImporter:
       name: OrientCards_2
       rect:
         serializedVersion: 2
-        x: 500
-        y: 1054
-        width: 250
-        height: 345
+        x: 200
+        y: 270
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -271,12 +247,12 @@ TextureImporter:
       name: OrientCards_3
       rect:
         serializedVersion: 2
-        x: 750
-        y: 1054
-        width: 250
-        height: 345
+        x: 300
+        y: 270
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -292,12 +268,12 @@ TextureImporter:
       name: OrientCards_4
       rect:
         serializedVersion: 2
-        x: 1000
-        y: 1054
-        width: 250
-        height: 346
+        x: 400
+        y: 270
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -313,12 +289,12 @@ TextureImporter:
       name: OrientCards_5
       rect:
         serializedVersion: 2
-        x: 1250
-        y: 1054
-        width: 250
-        height: 346
+        x: 500
+        y: 270
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -334,12 +310,12 @@ TextureImporter:
       name: OrientCards_6
       rect:
         serializedVersion: 2
-        x: 1500
-        y: 1054
-        width: 250
-        height: 346
+        x: 600
+        y: 270
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -355,12 +331,12 @@ TextureImporter:
       name: OrientCards_7
       rect:
         serializedVersion: 2
-        x: 1750
-        y: 1054
-        width: 250
-        height: 346
+        x: 700
+        y: 270
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -376,12 +352,12 @@ TextureImporter:
       name: OrientCards_8
       rect:
         serializedVersion: 2
-        x: 2000
-        y: 1051
-        width: 250
-        height: 352
+        x: 800
+        y: 270
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -397,12 +373,12 @@ TextureImporter:
       name: OrientCards_9
       rect:
         serializedVersion: 2
-        x: 2250
-        y: 1051
-        width: 250
-        height: 352
+        x: 900
+        y: 270
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -418,12 +394,12 @@ TextureImporter:
       name: OrientCards_10
       rect:
         serializedVersion: 2
-        x: 2500
-        y: 1051
-        width: 252
-        height: 352
+        x: 0
+        y: 135
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -439,12 +415,12 @@ TextureImporter:
       name: OrientCards_11
       rect:
         serializedVersion: 2
-        x: 2752
-        y: 1051
-        width: 248
-        height: 352
+        x: 100
+        y: 135
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -460,12 +436,12 @@ TextureImporter:
       name: OrientCards_12
       rect:
         serializedVersion: 2
-        x: 0
-        y: 701
-        width: 252
-        height: 349
+        x: 200
+        y: 135
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -481,12 +457,12 @@ TextureImporter:
       name: OrientCards_13
       rect:
         serializedVersion: 2
-        x: 252
-        y: 701
-        width: 252
-        height: 349
+        x: 300
+        y: 135
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -502,12 +478,12 @@ TextureImporter:
       name: OrientCards_14
       rect:
         serializedVersion: 2
-        x: 504
-        y: 701
-        width: 251
-        height: 349
+        x: 400
+        y: 135
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -523,12 +499,12 @@ TextureImporter:
       name: OrientCards_15
       rect:
         serializedVersion: 2
-        x: 755
-        y: 701
-        width: 245
-        height: 349
+        x: 500
+        y: 135
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -544,12 +520,12 @@ TextureImporter:
       name: OrientCards_16
       rect:
         serializedVersion: 2
-        x: 1000
-        y: 702
-        width: 250
-        height: 347
+        x: 600
+        y: 135
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -565,12 +541,12 @@ TextureImporter:
       name: OrientCards_17
       rect:
         serializedVersion: 2
-        x: 1250
-        y: 702
-        width: 250
-        height: 347
+        x: 700
+        y: 135
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -586,12 +562,12 @@ TextureImporter:
       name: OrientCards_18
       rect:
         serializedVersion: 2
-        x: 1500
-        y: 702
-        width: 251
-        height: 347
+        x: 800
+        y: 135
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -607,12 +583,12 @@ TextureImporter:
       name: OrientCards_19
       rect:
         serializedVersion: 2
-        x: 1751
-        y: 702
-        width: 249
-        height: 347
+        x: 900
+        y: 135
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -628,12 +604,12 @@ TextureImporter:
       name: OrientCards_20
       rect:
         serializedVersion: 2
-        x: 2000
-        y: 703
-        width: 250
-        height: 345
+        x: 0
+        y: 0
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -649,12 +625,12 @@ TextureImporter:
       name: OrientCards_21
       rect:
         serializedVersion: 2
-        x: 2250
-        y: 703
-        width: 250
-        height: 345
+        x: 100
+        y: 0
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -670,12 +646,12 @@ TextureImporter:
       name: OrientCards_22
       rect:
         serializedVersion: 2
-        x: 2500
-        y: 703
-        width: 250
-        height: 345
+        x: 200
+        y: 0
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -691,12 +667,12 @@ TextureImporter:
       name: OrientCards_23
       rect:
         serializedVersion: 2
-        x: 2750
-        y: 703
-        width: 250
-        height: 345
+        x: 300
+        y: 0
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -712,12 +688,12 @@ TextureImporter:
       name: OrientCards_24
       rect:
         serializedVersion: 2
-        x: 0
-        y: 353
-        width: 250
-        height: 347
+        x: 400
+        y: 0
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -730,15 +706,36 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
+      name: OrientCards_25
+      rect:
+        serializedVersion: 2
+        x: 500
+        y: 0
+        width: 90
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4a41a6c75f7bb2590800000000000000
+      internalID: -7697856873077533532
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
       name: OrientCards_26
       rect:
         serializedVersion: 2
-        x: 250
-        y: 349
-        width: 248
-        height: 351
+        x: 600
+        y: 0
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -751,15 +748,36 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
+      name: OrientCards_27
+      rect:
+        serializedVersion: 2
+        x: 700
+        y: 0
+        width: 90
+        height: 125
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 35504b2189d071d60800000000000000
+      internalID: 7860766621398467923
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
       name: OrientCards_28
       rect:
         serializedVersion: 2
-        x: 501
-        y: 351
-        width: 249
-        height: 348
+        x: 800
+        y: 0
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -772,64 +790,22 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: OrientCards_30
+      name: OrientCards_29
       rect:
         serializedVersion: 2
-        x: 748
-        y: 349
-        width: 254
-        height: 351
+        x: 900
+        y: 0
+        width: 90
+        height: 125
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bcef55fb9baf4b090800000000000000
-      internalID: -8019509360754032949
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: OrientCards_32
-      rect:
-        serializedVersion: 2
-        x: 1003
-        y: 349
-        width: 247
-        height: 350
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a363899eb8ca64020800000000000000
-      internalID: 2325735974502938170
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: OrientCards_34
-      rect:
-        serializedVersion: 2
-        x: 1250
-        y: 351
-        width: 250
-        height: 349
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: d03599c6b9c7a0b70800000000000000
-      internalID: 8866035823416005389
+      spriteID: b65ea4d28c1de4c60800000000000000
+      internalID: 7804405861963195755
       vertices: []
       indices: 
       edges: []
