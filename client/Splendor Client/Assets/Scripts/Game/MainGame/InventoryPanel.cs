@@ -9,7 +9,7 @@ inventory
 public class InventoryPanel : MonoBehaviour {
     [SerializeField] private PlayerControl playerControl;
     [SerializeField] private GameObject inventoryPanel; //menu do make appear/disappear through button press
-    [SerializeField] private GameObject purchasedCardContent, nobleContent, reservedCardContent, reservedNobleContent; //panels to display information on
+    [SerializeField] private GameObject purchasedCardContent, nobleContent; //, reservedCardContent, reservedNobleContent; //panels to display information on
     [SerializeField] private GameObject cardSlot;//Blank card prefab
     [SerializeField] private GameObject nobleSlot;//Blank noble prefab
     //Display is called by the button to open/close the panel
@@ -23,11 +23,12 @@ public class InventoryPanel : MonoBehaviour {
         else {
             inventoryPanel.SetActive(true);
             DisplayPlayerCards(playerControl.client.inventory, playerControl.client.noblesVisited);
-            DisplayReservedCards(playerControl.client.cardReserves, playerControl.client.nobleReserves);
+            //DisplayReservedCards(playerControl.client.cardReserves, playerControl.client.nobleReserves);
         }
         InventoryStatus();
     }
 
+    /*
     public void DisplayReservedCards(List<Card> playerCards, List<Noble> playerNobles) { //displays reserved cards/nobles
         ClearChildren(reservedCardContent, reservedNobleContent);
         foreach (Card card in playerCards) {
@@ -43,6 +44,8 @@ public class InventoryPanel : MonoBehaviour {
             nobleInstance.GetComponent<NobleSlot>().SetupInventory(noble);
         }
     }
+    */
+
     public void DisplayPlayerCards(List<Card> playerCards, List<Noble> playerNobles) { //displays acquired cards/nobles
         ClearChildren(purchasedCardContent, nobleContent);
         foreach (Card card in playerCards) {
