@@ -120,11 +120,7 @@ public class GameConfigData {
   }
 
   /**
-<<<<<<< HEAD
-   * sets hostId.
-=======
    * Sets hostId.
->>>>>>> 19b02acfba1ad98c185ec560d936b6b5ac3de356
    *
    * @param hostId the hostId to set
    */
@@ -133,11 +129,7 @@ public class GameConfigData {
   }
 
   /**
-<<<<<<< HEAD
-   * sets playerIds.
-=======
    * Sets playerIds.
->>>>>>> 19b02acfba1ad98c185ec560d936b6b5ac3de356
    *
    * @param playerIds the playerIds to set
    */
@@ -146,11 +138,7 @@ public class GameConfigData {
   }
 
   /**
-<<<<<<< HEAD
-   * sets deck1.
-=======
    * Sets deck1.
->>>>>>> 19b02acfba1ad98c185ec560d936b6b5ac3de356
    *
    * @param deck1 the deck1 to set
    */
@@ -159,11 +147,7 @@ public class GameConfigData {
   }
 
   /**
-<<<<<<< HEAD
-   * sets deck2.
-=======
    * Sets deck2.
->>>>>>> 19b02acfba1ad98c185ec560d936b6b5ac3de356
    *
    * @param deck2 the deck2 to set
    */
@@ -172,11 +156,7 @@ public class GameConfigData {
   }
 
   /**
-<<<<<<< HEAD
-   * sets deck3.
-=======
    * Sets deck3.
->>>>>>> 19b02acfba1ad98c185ec560d936b6b5ac3de356
    *
    * @param deck3 the deck3 to set
    */
@@ -185,11 +165,7 @@ public class GameConfigData {
   }
 
   /**
-<<<<<<< HEAD
-   * sets exdeck1.
-=======
    * Sets exdeck1.
->>>>>>> 19b02acfba1ad98c185ec560d936b6b5ac3de356
    *
    * @param exDeck1 the exDeck1 to set
    */
@@ -198,11 +174,7 @@ public class GameConfigData {
   }
 
   /**
-<<<<<<< HEAD
-   * sets exdeck2.
-=======
    * Sets exdeck2.
->>>>>>> 19b02acfba1ad98c185ec560d936b6b5ac3de356
    *
    * @param exDeck2 the exDeck2 to set
    */
@@ -211,11 +183,7 @@ public class GameConfigData {
   }
 
   /**
-<<<<<<< HEAD
-   * sets exdeck3.
-=======
    * Sets exdeck3.
->>>>>>> 19b02acfba1ad98c185ec560d936b6b5ac3de356
    *
    * @param exDeck3 the exDeck3 to set
    */
@@ -224,11 +192,7 @@ public class GameConfigData {
   }
 
   /**
-<<<<<<< HEAD
-   * sets all nobles.
-=======
    * Sets all nobles.
->>>>>>> 19b02acfba1ad98c185ec560d936b6b5ac3de356
    *
    * @param allNobles the allNobles to set
    */
