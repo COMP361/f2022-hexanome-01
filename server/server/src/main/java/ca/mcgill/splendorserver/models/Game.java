@@ -109,11 +109,7 @@ public class Game {
     }
     if (turn.getNobleTaken() != null) {
       for (int i = 0; i < 5; i++) {
-<<<<<<< HEAD
         if (Arrays.asList(turn.getNobleTaken()).contains(nobles[i])) {
-=======
-        if (nobles[i] != null && nobles[i].equals(turn.getNobleTaken())) {
->>>>>>> master
           nobles[i] = null;
         }
       }
