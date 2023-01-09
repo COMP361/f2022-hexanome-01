@@ -19,10 +19,10 @@ public class Ping {
 public class NetworkManager : MonoBehaviour
 {
 
-//FileManager fileManager = new FileManager();
+    //FileManager fileManager = new FileManager();
 
-   // InputField outputArea;
-   private string HOST = "10.122.184.196";
+    // InputField outputArea;
+    private string HOST = "10.122.184.196";
 
     // Start is called before the first frame update
     void Start()
@@ -115,68 +115,65 @@ public class NetworkManager : MonoBehaviour
     
 
     private IEnumerator JoinPolling(string gameId, MainMenuManager control){
-       string url = "http://" + HOST + ":4244/splendor/update/" + gameId;
+        string url = "http://" + HOST + ":4244/splendor/update/" + gameId;
        
-       for(;;){
-        using(UnityWebRequest request = UnityWebRequest.Get(url)){
-            yield return request.SendWebRequest();
-            if(request.result == UnityWebRequest.Result.ProtocolError || request.result == UnityWebRequest.Result.ConnectionError){
-                Debug.Log(request.error);
-            }else {
-                Debug.Log(request.downloadHandler.text);
-
-                string gameString = request.downloadHandler.text;
-
-                GameData game = FileManager.DecodeGameState(gameString, false);
-
-                if(game != null && game.gameId != null) {
-                    control.StartJoinedGame();
-                    break;
+        for(;;){
+            using(UnityWebRequest request = UnityWebRequest.Get(url)){
+                yield return request.SendWebRequest();
+                if (request.result == UnityWebRequest.Result.ProtocolError || request.result == UnityWebRequest.Result.ConnectionError) {
+                    Debug.Log(request.error);
                 }
+                else {
+                    Debug.Log(request.downloadHandler.text);
 
-            
+                    string gameString = request.downloadHandler.text;
+
+                    GameData game = FileManager.DecodeGameState(gameString, false);
+
+                    if(game != null && game.gameId != null) {
+                        control.StartJoinedGame();
+                        break;
+                    }
+                }
+                yield return new WaitForSeconds(3);
+                
+                //StartCoroutine(PollTimer());
             }
-            yield return new WaitForSeconds(3);
-            
-            //StartCoroutine(PollTimer());
-            
         }
-       }
     }
 
     
 
     private IEnumerator StartPolling(string gameId, Authentication mainPlayer, PlayerControl control){
-       string url = "http://" + HOST + ":4244/splendor/update/" + gameId;
+        string url = "http://" + HOST + ":4244/splendor/update/" + gameId;
        
-       for(;;){
-        using(UnityWebRequest request = UnityWebRequest.Get(url)){
-            yield return request.SendWebRequest();
-            if(request.result == UnityWebRequest.Result.ProtocolError || request.result == UnityWebRequest.Result.ConnectionError){
-                Debug.Log(request.error);
-            }else {
-                Debug.Log(request.downloadHandler.text);
-
-                string gameString = request.downloadHandler.text;
-
-                GameData game = FileManager.DecodeGameState(gameString, false);
-
-                if(game != null && game.currentPlayer != null && game.currentPlayer.id == mainPlayer.username) {
-                    control.StartTurn();
-                    break;
+        for(;;) {
+            using(UnityWebRequest request = UnityWebRequest.Get(url)){
+                yield return request.SendWebRequest();
+                if (request.result == UnityWebRequest.Result.ProtocolError || request.result == UnityWebRequest.Result.ConnectionError) {
+                    Debug.Log(request.error);
                 }
-
+                else {
+                    Debug.Log(request.downloadHandler.text);
+                    
+                    string gameString = request.downloadHandler.text;
+                    
+                    GameData game = FileManager.DecodeGameState(gameString, false);
+                    
+                    if(game != null && game.currentPlayer != null && game.currentPlayer.id == mainPlayer.username) {
+                        control.UpdateBoard(game);
+                        control.StartTurn();
+                        break;
+                    }
+                }
+                yield return new WaitForSeconds(3);
             
+                //StartCoroutine(PollTimer());
             }
-            yield return new WaitForSeconds(3);
-            
-            //StartCoroutine(PollTimer());
-            
         }
-       }
     }
 
-    private IEnumerator PollTimer(){
+    private IEnumerator PollTimer() {
         yield return new WaitForSeconds(3);
         Debug.Log("starting another request for game Update");
     }
@@ -202,9 +199,5 @@ public class NetworkManager : MonoBehaviour
     //     request.SetRequestHeader("content-Type", "application/json");
 
     //     return request;
-    // }
-
-
-
-    
+    // } 
 }

@@ -18,13 +18,12 @@ public class NobleDeck : MonoBehaviour
     //Shuffles the whole whole deck
     public void ShuffleDeck()
     {
-        for (int i = 0; i < nobles.Count; i++) {
-        Noble tempNoble = nobles[i];
-        int random = Random.Range(i, nobles.Count);
-        nobles[i] = nobles[random];
-        nobles[random] = tempNoble;
-     }
-
+        // for (int i = 0; i < nobles.Count; i++) {
+        // Noble tempNoble = nobles[i];
+        // int random = Random.Range(i, nobles.Count);
+        // nobles[i] = nobles[random];
+        // nobles[random] = tempNoble;
+        // nobles.OrderBy()
     }
 }
 
