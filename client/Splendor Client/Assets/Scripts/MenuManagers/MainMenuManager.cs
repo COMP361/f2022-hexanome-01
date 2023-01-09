@@ -146,24 +146,27 @@ public class MainMenuManager : MonoBehaviour {
         currentSave = newSave;
     }
 
-    public void MakeSessions() { //displays sessions in menu
+    /**
+     * Displays sessions in "join" menu.
+     */
+    public void MakeSessions(SessionData[] sessions) { //displays sessions in menu
         currentSession = null;
-        // networkManager.getSessions(sessions);
-        // foreach (SessionData s in sessions) {
-        //     sessionList.sessions.Add(new Session(s));
-        // }
+        foreach (SessionData s in sessions)
+        {
+            sessionList.sessions.Add(new Session(s));
+        }
 
         // HARDCODE FOR DEMO
-        Session demo = new Session();
-        demo.name = "test";
-        demo.maxSessionPlayers = 2;
-        LobbyPlayer demoHost = new LobbyPlayer();
-        demoHost.username = "maex";
-        demo.players.Add("maex");
-        LobbyPlayer demoPlayer = new LobbyPlayer();
-        demoPlayer.username = "linus";
-        demo.players.Add("linus");
-        sessionList.sessions.Add(demo);
+        //Session demo = new Session();
+        //demo.name = "test";
+        //demo.maxSessionPlayers = 2;
+        //LobbyPlayer demoHost = new LobbyPlayer();
+        //demoHost.username = "maex";
+        //demo.players.Add("maex");
+        //LobbyPlayer demoPlayer = new LobbyPlayer();
+        //demoPlayer.username = "linus";
+        //demo.players.Add("linus");
+        //sessionList.sessions.Add(demo);
         //
 
         ClearChildren(sessionContent);
