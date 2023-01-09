@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class NobleSlot : MonoBehaviour {
+
     [SerializeField] private Noble noble;
     [SerializeField] private OrientMenuManager omm;
     [SerializeField] private Image image;
@@ -21,6 +22,7 @@ public class NobleSlot : MonoBehaviour {
         m_SpriteRenderer.sprite = noble.sprite;
         image.sprite = noble.sprite;
     }
+
     public void SetupOrient(OrientMenuManager omm, Noble noble) { //sets orient specific info + regular inventory info, used when filling orient menu with options
         this.omm = omm;
         image.color = Color.gray;
@@ -31,6 +33,7 @@ public class NobleSlot : MonoBehaviour {
         omm.Setup(noble);
         omm.ResetHighlightedCard();
     }
+
     public void GreyOut() {
         m_SpriteRenderer = GetComponent<SpriteRenderer>();
         m_SpriteRenderer.color = Color.grey;
