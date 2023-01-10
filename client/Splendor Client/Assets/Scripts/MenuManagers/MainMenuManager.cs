@@ -18,8 +18,7 @@ public class MainMenuManager : MonoBehaviour {
     public SaveList saveList;
     public SessionList sessionList;
     public UnityEvent leaveSession, promptEndSession, joinSession, loadSave, createSession, exitToMain, exitToSession, exitToSave;
-    public Text playerText, sessionNameText;
-    public GameObject nameField;
+    public Text playerText, sessionNameText, nameField;
     [SerializeField] private Save currentSave;
     private Session currentSession;
     private bool sessionCreated;
@@ -42,7 +41,7 @@ public class MainMenuManager : MonoBehaviour {
         List<LobbyPlayer> temp1 = new List<LobbyPlayer>();
         temp1.Add(new LobbyPlayer("Yang", "TEMP", "TEMP_REFRESH", DateTime.Now.ToString()));
         temp1.Add(new LobbyPlayer("Joshua", "TEMP", "TEMP_REFRESH", DateTime.Now.ToString()));
-        sessionList.sessions.Add(new Session("Yang's Game", 4, temp1));
+        sessionList.sessions.Add(new Session("splendor", 4, temp1, "Yang's Game"));
     }
 
     public void TempCreateSessionJson() {
@@ -60,44 +59,40 @@ public class MainMenuManager : MonoBehaviour {
         else if (previousMenu == LastMenuVisited.JOIN)
             exitToSession.Invoke();
     }
-    public void CreateSession() {
-        if (nameField.GetComponent<InputField>().text != "") {
-            previousMenu = LastMenuVisited.MAIN;
-            createSession.Invoke(); // location of this event may change in the future
-            string sessionName = sessionNameText.text;
-            createdSession.name = sessionNameText.text;
-            // determine player count based on selected toggle
-            Toggle[] toggles = GetComponents<Toggle>();
-            foreach (Toggle toggle in toggles) {
-                if (toggle.isOn) {
-                    switch (toggle.name) {
-                        // case "TwoPlayersToggle": maxPlayers = 2; break;
-                        // case "ThreePlayersToggle": maxPlayers = 3; break;
-                        // case "FourPlayersToggle": maxPlayers = 4; break;
-                        case "TwoPlayersToggle": createdSession.maxSessionPlayers = 2; break;
-                        case "ThreePlayersToggle": createdSession.maxSessionPlayers = 3; break;
-                        case "FourPlayersToggle": createdSession.maxSessionPlayers = 4; break;
-                    }
-                    break;
-                } 
+
+    public void CreateSession(Session session) {
+        previousMenu = LastMenuVisited.MAIN;
+        UnityEngine.Debug.Log(session.ToString());
+        currentSession = session;
+        sessionCreated = true;
+
+        createSession.Invoke(); // location of this event may change in the future
+        MakePlayers(); // displays the players in the current session
+    }
+
+    /// <summary>
+    /// Determines if a session from a given list of sessions is available to join and displays it if so.
+    /// </summary>
+    /// <param name="sessions">SessionListData of all sessions currently stored in the LobbyService</param>
+    public void determineAvailable(SessionListData sessions)
+    {
+        List<SessionData> availableSessions = new List<SessionData>();
+        SessionData[] sessionList = sessions.sessionList;
+
+        if (sessionList != null)
+        {
+            for (int i = 0; i < sessionList.Length; i++)
+            {
+                SessionData session = sessionList[i];
+                if (session.launched == true) continue; //a launched session is not available
+                else if (session.players.Length == session.maxSessionPlayers) continue; //a full session is not available
+                else availableSessions.Add(session);
             }
 
-            // add the host as the first player in the array of player usernames for the session
-            createdSession.players = new List<string>();
-            createdSession.players.Add(authentication.username);
-
-            // authentication = Instantiate(authentication);
-
-            // string username = authentication.username;
-            // string access_token = authentication.access_token;
-            // string refresh_token = authentication.refresh_token;
-            // string expires_in = authentication.expires_in;
-            // LobbyPlayer host = new LobbyPlayer(username, access_token, refresh_token, expires_in);
-            // StartCoroutine(networkManager.postSession(sessionName, maxPlayers, host));
-            sessionCreated = true;
-            currentSession = createdSession;
-            //add host/this player to playerlist of created session here
-            MakePlayers();
+            MakeSessions(availableSessions.ToArray()); //displays the available sessions
+        }
+        else { //if there are no sessions available
+            ClearChildren(sessionContent); 
         }
     }
 
@@ -106,7 +101,7 @@ public class MainMenuManager : MonoBehaviour {
             currentSave = DEFAULTSAVE;
         if (currentSave) {
             previousMenu = mostRecent ? LastMenuVisited.MAIN : LastMenuVisited.LOAD;
-            createdSession.name = currentSave.saveName;
+            createdSession.sessionName = currentSave.saveName;
             createdSession.maxSessionPlayers = currentSave.maxPlayers;
             sessionCreated = true;
             currentSession = createdSession;
@@ -130,12 +125,12 @@ public class MainMenuManager : MonoBehaviour {
         int playerCount = currentSession.players.Count();
         if (playerCount == 1)
         {
-            playerText.text = playerCount + " player of " + currentSession.maxSessionPlayers + " total players";
+            playerText.text = "1 player of " + currentSession.maxSessionPlayers + " total players";
         }
         else {
             playerText.text = playerCount + " players of " + currentSession.maxSessionPlayers + " total players";
         }
-        sessionNameText.text = currentSession.name;
+        sessionNameText.text = currentSession.sessionName;
     }
 
     public void SetSession(Session newSession) { //set currently selected session

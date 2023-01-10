@@ -34,6 +34,8 @@ public class LoginManager : MonoBehaviour {
 
         if (auth.result != UnityWebRequest.Result.Success)
         {
+            usernameField.text = "";
+            passwordField.text = "";
             failureText.SetActive(true); //if credentials wrong, display error message
         }
         else {
