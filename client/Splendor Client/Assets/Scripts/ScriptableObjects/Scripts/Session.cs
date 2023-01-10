@@ -30,7 +30,8 @@ public class Session {
         minSessionPlayers = data.minSessionPlayers;
         Enum.TryParse<GameVersion>(data.name, out name);
         launched = data.launched;
-        players = new List<string>(data.players);
+        if (data.players == null) players = new List<string>();
+        else players = new List<string>(data.players);
         savegameid = data.savegameid;
         sessionName = data.sessionName;
     }
@@ -48,10 +49,11 @@ public class Session {
     }
 
     public string getName(){
-        return name.ToString();
-    }
-
-    public string ToString() {
-        return "ID: " + id + "\nCREATOR: " + creator + "\nLOCATION: " + location;
+        switch (name) {
+            case GameVersion.splendor: return "splendor with orient";
+            case GameVersion.cities: return "splendor with orient and cities";
+            case GameVersion.tradingposts: return "splendor with orient and trading posts";
+            default: return name.ToString();
+        }
     }
 }

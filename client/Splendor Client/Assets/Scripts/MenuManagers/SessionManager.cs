@@ -39,8 +39,19 @@ public class SessionManager : MonoBehaviour
 
         if (request.result == UnityWebRequest.Result.Success)
         {
+            string json = request.downloadHandler.text; // formatting to match a list of SessionData
+            json = json.Replace("{\"sessions\":{", "").Replace("}}}}", "}}").Replace(",\"playerLocations\":{}", "");
+            json = json.Replace("{\"gameParameters\":", "").Replace("},\"creator", ",\"creator");
+            json = "\"id\":" + json.Replace(":{", ",").Replace("},", "},\"id\":") + ",";
+            string[] jsons = json.Replace("},", "}").Split('}');
+
+            List<Session> sessions = new List<Session>();
+            foreach (string session in jsons) {
+                sessions.Add(FileManager.DecodeSession("{" + session + "}", false));
+            }
+
             MainMenuManager mmm = GetComponent<MainMenuManager>();
-            mmm.determineAvailable(FileManager.DecodeSessionListData(request.downloadHandler.text, false));
+            mmm.determineAvailable(sessions);
         }
     }
 
@@ -114,8 +125,11 @@ public class SessionManager : MonoBehaviour
 
         if (request.result == UnityWebRequest.Result.Success)
         {
-            Session session = FileManager.DecodeSession(request.downloadHandler.text, false);
+            string json = request.downloadHandler.text;
+            json = json.Replace("{\"gameParameters\":", "").Replace("},\"creator", ",\"creator");
+            Session session = FileManager.DecodeSession(json, false);
             session.id = id;
+
             MainMenuManager mmm = GetComponent<MainMenuManager>();
             mmm.CreateSession(session);
         }

@@ -62,7 +62,6 @@ public class MainMenuManager : MonoBehaviour {
 
     public void CreateSession(Session session) {
         previousMenu = LastMenuVisited.MAIN;
-        UnityEngine.Debug.Log(session.ToString());
         currentSession = session;
         sessionCreated = true;
 
@@ -74,19 +73,17 @@ public class MainMenuManager : MonoBehaviour {
     /// Determines if a session from a given list of sessions is available to join and displays it if so.
     /// </summary>
     /// <param name="sessions">SessionListData of all sessions currently stored in the LobbyService</param>
-    public void determineAvailable(SessionListData sessions)
+    public void determineAvailable(List<Session> allSessions)
     {
         List<SessionData> availableSessions = new List<SessionData>();
-        SessionData[] sessionList = sessions.sessionList;
 
-        if (sessionList != null)
+        if (allSessions != null)
         {
-            for (int i = 0; i < sessionList.Length; i++)
+            foreach (Session session in allSessions)
             {
-                SessionData session = sessionList[i];
                 if (session.launched == true) continue; //a launched session is not available
-                else if (session.players.Length == session.maxSessionPlayers) continue; //a full session is not available
-                else availableSessions.Add(session);
+                else if (session.players.Count == session.maxSessionPlayers) continue; //a full session is not available
+                else availableSessions.Add(new SessionData(session));
             }
 
             MakeSessions(availableSessions.ToArray()); //displays the available sessions
@@ -130,7 +127,7 @@ public class MainMenuManager : MonoBehaviour {
         else {
             playerText.text = playerCount + " players of " + currentSession.maxSessionPlayers + " total players";
         }
-        sessionNameText.text = currentSession.sessionName;
+        sessionNameText.text = currentSession.getName();
     }
 
     public void SetSession(Session newSession) { //set currently selected session
@@ -172,6 +169,7 @@ public class MainMenuManager : MonoBehaviour {
             temp.GetComponent<SessionSlot>().Setup(this, session);
         }
     }
+
     public void MakeSaves() { //displays saves in menu
         currentSave = null;
         ClearChildren(saveContent);
