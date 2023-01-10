@@ -14,7 +14,7 @@ public static class FileManager {
         stream.Close();
     }
 
-    private static string ReadFromFIle(string fileName) {
+    private static string ReadFromFile(string fileName) {
         string path = Application.persistentDataPath + "/" + fileName + ".json";
         if (File.Exists(path)) {
             using (StreamReader reader = new StreamReader(path))
@@ -40,7 +40,7 @@ public static class FileManager {
     }
 
     public static Session DecodeSession(string source, bool isAFile) { //if not a file, pass the json string. if a file, pass filename (same logic applies for all decode methods)
-        string json = isAFile ? ReadFromFIle(source) : source;
+        string json = isAFile ? ReadFromFile(source) : source;
         SessionData data = new SessionData();
         JsonUtility.FromJsonOverwrite(json, data);
         return new Session(data);
@@ -73,7 +73,7 @@ public static class FileManager {
 
 
     public static GameData DecodeGameState(string source, bool isAFile) {
-        string json = isAFile ? ReadFromFIle(source) : source;
+        string json = isAFile ? ReadFromFile(source) : source;
         GameData data = new GameData();
         JsonUtility.FromJsonOverwrite(json, data);
         return data;
@@ -95,7 +95,7 @@ public static class FileManager {
     }
 
     public static SessionListData DecodeSessionListData(string source, bool isAFile) {
-        string json = isAFile ? ReadFromFIle(source) : source;
+        string json = isAFile ? ReadFromFile(source) : source;
         SessionListData data = new SessionListData();
         JsonUtility.FromJsonOverwrite(json, data);
         return data;
