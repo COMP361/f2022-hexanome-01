@@ -19,7 +19,7 @@ public class SessionSlot : MonoBehaviour {
     }
 
     public void SetText() {
-        nameBox.text = thisSession.name;
+        nameBox.text = thisSession.sessionName;
     }
 
     public void OnClick() { //passes selected session to manager script
