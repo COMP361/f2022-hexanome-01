@@ -13,7 +13,6 @@ public class SessionData {
     public bool launched;
     public string[] players;
     public string savegameid;
-    public string sessionName;
 
     public SessionData() { }
 
@@ -28,6 +27,5 @@ public class SessionData {
         launched = session.launched;
         players = session.players.ToArray();
         savegameid = session.savegameid;
-        sessionName = session.sessionName;
     }
 }

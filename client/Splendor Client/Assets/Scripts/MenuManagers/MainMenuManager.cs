@@ -41,7 +41,7 @@ public class MainMenuManager : MonoBehaviour {
         List<LobbyPlayer> temp1 = new List<LobbyPlayer>();
         temp1.Add(new LobbyPlayer("Yang", "TEMP", "TEMP_REFRESH", DateTime.Now.ToString()));
         temp1.Add(new LobbyPlayer("Joshua", "TEMP", "TEMP_REFRESH", DateTime.Now.ToString()));
-        sessionList.sessions.Add(new Session("splendor", 4, temp1, "Yang's Game"));
+        sessionList.sessions.Add(new Session("splendor", 4, temp1));
     }
 
     public void TempCreateSessionJson() {
@@ -75,7 +75,7 @@ public class MainMenuManager : MonoBehaviour {
     /// <param name="sessions">SessionListData of all sessions currently stored in the LobbyService</param>
     public void determineAvailable(List<Session> allSessions)
     {
-        List<SessionData> availableSessions = new List<SessionData>();
+        List<Session> availableSessions = new List<Session>();
 
         if (allSessions != null)
         {
@@ -83,10 +83,10 @@ public class MainMenuManager : MonoBehaviour {
             {
                 if (session.launched == true) continue; //a launched session is not available
                 else if (session.players.Count == session.maxSessionPlayers) continue; //a full session is not available
-                else availableSessions.Add(new SessionData(session));
+                else availableSessions.Add(session);
             }
 
-            MakeSessions(availableSessions.ToArray()); //displays the available sessions
+            MakeSessions(availableSessions); //displays the available sessions
         }
         else { //if there are no sessions available
             ClearChildren(sessionContent); 
@@ -98,7 +98,6 @@ public class MainMenuManager : MonoBehaviour {
             currentSave = DEFAULTSAVE;
         if (currentSave) {
             previousMenu = mostRecent ? LastMenuVisited.MAIN : LastMenuVisited.LOAD;
-            createdSession.sessionName = currentSave.saveName;
             createdSession.maxSessionPlayers = currentSave.maxPlayers;
             sessionCreated = true;
             currentSession = createdSession;
@@ -141,12 +140,13 @@ public class MainMenuManager : MonoBehaviour {
     /**
      * Displays sessions in "join" menu.
      */
-    public void MakeSessions(SessionData[] sessions) { //displays sessions in menu
+    public void MakeSessions(List<Session> sessions) { //displays sessions in menu
         currentSession = null;
-        foreach (SessionData s in sessions)
-        {
-            sessionList.sessions.Add(new Session(s));
-        }
+        //I think these next three lines are trying to do the session management instead of the LobbyService?
+        //foreach (SessionData s in sessions)
+        //{
+        //    sessionList.sessions.Add(new Session(s));
+        //}
 
         // HARDCODE FOR DEMO
         //Session demo = new Session();
@@ -162,7 +162,7 @@ public class MainMenuManager : MonoBehaviour {
         //
 
         ClearChildren(sessionContent);
-        foreach (Session session in sessionList.sessions) {
+        foreach (Session session in sessions) {
             GameObject temp = Instantiate(blankSessionSlot, sessionContent.transform.position, Quaternion.identity);
             temp.transform.SetParent(sessionContent.transform);
             temp.transform.localScale = new Vector3(1, 1, 1);
