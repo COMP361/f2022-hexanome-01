@@ -13,10 +13,8 @@ using UnityEngine.UI;
 public class SessionManager : MonoBehaviour
 {
     //for create session
-    public InputField sessionNameField;
     public Authentication mainPlayer;
     public Toggle splendorToggle, citiesToggle, tradingPostsToggle;
-    public GameObject createFail;
 
     //******************************** JOIN SESSION ********************************
 
@@ -40,18 +38,22 @@ public class SessionManager : MonoBehaviour
         if (request.result == UnityWebRequest.Result.Success)
         {
             string json = request.downloadHandler.text; // formatting to match a list of SessionData
-            json = json.Replace("{\"sessions\":{", "").Replace("}}}}", "}}").Replace(",\"playerLocations\":{}", "");
-            json = json.Replace("{\"gameParameters\":", "").Replace("},\"creator", ",\"creator");
-            json = "\"id\":" + json.Replace(":{", ",").Replace("},", "},\"id\":") + ",";
-            string[] jsons = json.Replace("},", "}").Split('}');
+            if (!json.Equals("{\"sessions\":{}}"))
+            {
+                json = json.Replace("{\"sessions\":{", "").Replace("}}}}", "}}").Replace(",\"playerLocations\":{}", "");
+                json = json.Replace("{\"gameParameters\":", "").Replace("},\"creator", ",\"creator");
+                json = "\"id\":" + json.Replace(":{", ",").Replace("},", "},\"id\":") + ",";
+                string[] jsons = json.Replace("},", "}").Split('}');
 
-            List<Session> sessions = new List<Session>();
-            foreach (string session in jsons) {
-                sessions.Add(FileManager.DecodeSession("{" + session + "}", false));
+                List<Session> sessions = new List<Session>();
+                foreach (string session in jsons)
+                {
+                    sessions.Add(FileManager.DecodeSession("{" + session + "}", false));
+                }
+
+                MainMenuManager mmm = GetComponent<MainMenuManager>();
+                mmm.determineAvailable(sessions);
             }
-
-            MainMenuManager mmm = GetComponent<MainMenuManager>();
-            mmm.determineAvailable(sessions);
         }
     }
 
@@ -71,36 +73,32 @@ public class SessionManager : MonoBehaviour
     /// </summary>
     /// <returns>Allows POST request</returns>
     public IEnumerator createSession() {
-        string sessionName = sessionNameField.text; //keep the submitted session name even if it is changed after create button clicked
         string game = ""; //determine game version based on selected toggle
         if (splendorToggle.isOn) game = "splendor";
         else if (citiesToggle.isOn) game = "cities";
         else if (tradingPostsToggle.isOn) game = "tradingposts";
 
-        if (sessionName == "") createFail.SetActive(true);
-        else
+        string url = "http://127.0.0.1:4242/api/sessions"; //url for POST request
+        WWWForm form = new WWWForm();
+        form.AddField("creator", mainPlayer.username);
+        form.AddField("game", game);
+        form.AddField("savegame", "");
+        //LobbyService requires UTF8 encoded json NOT UnityWebRequest's default of URL encoded
+        UnityWebRequest create = new UnityWebRequest(url);
+        create.method = "POST";
+        create.SetRequestHeader("Authorization", "Bearer " + mainPlayer.access_token);
+        create.SetRequestHeader("Content-Type", "application/json");
+        string body = "{\"game\":\"" + game + "\", \"creator\":\"" + mainPlayer.username + "\", \"savegame\":\"\"}";
+        create.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(body));
+        create.downloadHandler = new DownloadHandlerBuffer();
+
+        yield return create.SendWebRequest();
+
+        if (create.result == UnityWebRequest.Result.Success)
         {
-            string url = "http://127.0.0.1:4242/api/sessions"; //url for POST request
-            WWWForm form = new WWWForm();
-            form.AddField("creator", mainPlayer.username);
-            form.AddField("game", game);
-            form.AddField("savegame", "");
-            //LobbyService requires UTF8 encoded json NOT UnityWebRequest's default of URL encoded
-            UnityWebRequest create = new UnityWebRequest(url);
-            create.method = "POST";
-            create.SetRequestHeader("Authorization", "Bearer " + mainPlayer.access_token);
-            create.SetRequestHeader("Content-Type", "application/json");
-            string body = "{\"game\":\"" + game + "\", \"creator\":\"" + mainPlayer.username + "\", \"savegame\":\"\"}";
-            create.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(body));
-            create.downloadHandler = new DownloadHandlerBuffer();
-
-            yield return create.SendWebRequest();
-
-            if (create.result == UnityWebRequest.Result.Success)
-            {
-                getSessionStart(create.downloadHandler.text);
-            }
+            getSessionStart(create.downloadHandler.text);
         }
+    
     }
 
     /// <summary>

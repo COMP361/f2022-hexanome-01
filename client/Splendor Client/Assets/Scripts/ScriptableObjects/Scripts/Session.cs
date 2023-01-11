@@ -14,7 +14,6 @@ public class Session {
     public bool launched;
     public List<string> players;
     public string savegameid;
-    public string sessionName;
 
     public enum GameVersion { splendor, cities, tradingposts };
 
@@ -33,10 +32,9 @@ public class Session {
         if (data.players == null) players = new List<string>();
         else players = new List<string>(data.players);
         savegameid = data.savegameid;
-        sessionName = data.sessionName;
     }
 
-    public Session(string name, int maxSessionPlayers, List<LobbyPlayer> playerList, string sessionName) {
+    public Session(string name, int maxSessionPlayers, List<LobbyPlayer> playerList) {
         Enum.TryParse<GameVersion>(name, out this.name);
         this.maxSessionPlayers = maxSessionPlayers;
 
@@ -44,8 +42,6 @@ public class Session {
         foreach (LobbyPlayer player in playerList) {
             players.Add(player.username);
         }
-
-        this.sessionName = sessionName;
     }
 
     public string getName(){
