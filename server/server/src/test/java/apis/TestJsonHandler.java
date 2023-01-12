@@ -2,24 +2,27 @@ package apis;
 
 import static org.junit.Assert.assertEquals;
 
-import ca.mcgill.splendorserver.apis.JSONHandler;
+import ca.mcgill.splendorserver.apis.JsonHandler;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.junit.Test;
 
-public class TestJSONHandler {
+/**
+ * Tester for JSON Handling class for the server.
+ */
+public class TestJsonHandler {
   
   @Test
   public void testObjectEncoding() {
     HashMap<String, String> objMapping = new HashMap<String, String>();
     objMapping.put("points", "5");
     objMapping.put("price", "6$");
-    JSONObject json = JSONHandler.encodeJsonRequest("item", objMapping);
-    JSONObject decodedJson = (JSONObject) JSONHandler.decodeJsonRequest(json.toString());
+    JSONObject json = JsonHandler.encodeJsonRequest("item", objMapping);
+    JSONObject decodedJson = (JSONObject) JsonHandler.decodeJsonRequest(json.toString());
     JSONObject objDecoded = (JSONObject) 
-        JSONHandler.decodeJsonRequest(decodedJson.get("params").toString());
+        JsonHandler.decodeJsonRequest(decodedJson.get("parameters").toString());
     assertEquals("item", decodedJson.get("type"));
     assertEquals("5", objDecoded.get("points"));
     assertEquals("6$", objDecoded.get("price"));
@@ -30,9 +33,9 @@ public class TestJSONHandler {
     ArrayList<String> arrMapping = new ArrayList<String>();
     arrMapping.add("5");
     arrMapping.add("6");
-    JSONArray json = JSONHandler.encodeJsonRequest("item", arrMapping);
-    JSONArray decodedJson = (JSONArray) JSONHandler.decodeJsonRequest(json.toString());
-    JSONArray arrDecoded = (JSONArray) JSONHandler.decodeJsonRequest(decodedJson.get(1).toString());
+    JSONArray json = JsonHandler.encodeJsonRequest("item", arrMapping);
+    JSONArray decodedJson = (JSONArray) JsonHandler.decodeJsonRequest(json.toString());
+    JSONArray arrDecoded = (JSONArray) JsonHandler.decodeJsonRequest(decodedJson.get(1).toString());
     assertEquals("item", decodedJson.get(0));
     assertEquals("5", arrDecoded.get(0));
     assertEquals("6", arrDecoded.get(1));
@@ -42,34 +45,33 @@ public class TestJSONHandler {
   public void testNestedEncoding() {
     HashMap<String, String> objMapping1 = new HashMap<String, String>();
     HashMap<String, String> objMapping2 = new HashMap<String, String>();
-    ArrayList<String> arrMapping = new ArrayList<String>();
     
     objMapping1.put("points", "5");
     objMapping1.put("price", "6$");
     objMapping2.put("points", "8");
     objMapping2.put("price", "12$");
-    JSONObject jsonObj1 = JSONHandler.encodeJsonRequest("item", objMapping1);
-    JSONObject jsonObj2 = JSONHandler.encodeJsonRequest("item", objMapping2);
+    JSONObject jsonObj1 = JsonHandler.encodeJsonRequest("item", objMapping1);
+    JSONObject jsonObj2 = JsonHandler.encodeJsonRequest("item", objMapping2);
     
+    ArrayList<String> arrMapping = new ArrayList<String>();
     arrMapping.add(jsonObj1.toString());
     arrMapping.add(jsonObj2.toString());
-    JSONArray jsonArr = JSONHandler.encodeJsonRequest("inventory", arrMapping);
+    JSONArray jsonArr = JsonHandler.encodeJsonRequest("inventory", arrMapping);
     
-    JSONArray decodedArr = (JSONArray) JSONHandler.decodeJsonRequest(jsonArr.toString());
-    JSONArray arrElements = (JSONArray) JSONHandler.decodeJsonRequest(decodedArr.get(1).toString());
+    JSONArray decodedArr = (JSONArray) JsonHandler.decodeJsonRequest(jsonArr.toString());
+    JSONArray arrElements = (JSONArray) JsonHandler.decodeJsonRequest(decodedArr.get(1).toString());
     JSONObject obj1Decoded = (JSONObject) 
-        JSONHandler.decodeJsonRequest(arrElements.get(0).toString());
+        JsonHandler.decodeJsonRequest(arrElements.get(0).toString());
     JSONObject obj2Decoded = (JSONObject) 
-        JSONHandler.decodeJsonRequest(arrElements.get(1).toString());
+        JsonHandler.decodeJsonRequest(arrElements.get(1).toString());
     JSONObject obj1Params = (JSONObject) 
-        JSONHandler.decodeJsonRequest(obj1Decoded.get("params").toString());
+        JsonHandler.decodeJsonRequest(obj1Decoded.get("parameters").toString());
+    assertEquals("5", obj1Params.get("points"));
     JSONObject obj2Params = (JSONObject) 
-        JSONHandler.decodeJsonRequest(obj2Decoded.get("params").toString());
-    
+        JsonHandler.decodeJsonRequest(obj2Decoded.get("parameters").toString()); 
+    assertEquals("12$", obj2Params.get("price"));
     assertEquals("inventory", decodedArr.get(0));
     assertEquals("item", obj1Decoded.get("type"));
     assertEquals("item", obj2Decoded.get("type"));
-    assertEquals("5", obj1Params.get("points"));
-    assertEquals("12$", obj2Params.get("price"));
   }
 }
