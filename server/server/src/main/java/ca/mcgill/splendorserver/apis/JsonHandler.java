@@ -32,7 +32,8 @@ public class JsonHandler {
   /**
    * Encodes a hashmap to a JSONObject.
    *
-   * @param type - for optional additional info, and hasmap of parameters.
+   * @param type - for optional additional info.
+   * @param parameters - hasmap of parameters.
    * @return JSONObject representation
    */
   @SuppressWarnings("unchecked")
@@ -50,7 +51,8 @@ public class JsonHandler {
   /**
    * Encodes a hashmap to a JSONArray.
    *
-   * @param type for optional additional info, and arraylist of parameters.
+   * @param type for optional additional info.
+   * @param parameters - arraylist of parameters.
    * @return JSONObject representation
    */
   @SuppressWarnings("unchecked")
