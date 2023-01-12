@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -37,6 +38,62 @@ public class PlayerControl : MonoBehaviour {
     public bool inOrientMenu, inInventory, sacrificeMade;
 
     void Start() {
+        //the following was a test i made to make sure JSONHandler was working. ive left it here incase we find some uknown error with it
+        /*
+        Dictionary<string, string> objMapping = new Dictionary<string, string>();
+        objMapping.Add("points", "5");
+        objMapping.Add("price", "6$");
+        JSONObject json = JSONHandler.EncodeJsonRequest("item", objMapping);
+        JSONObject decodedJson = (JSONObject)JSONHandler.DecodeJsonRequest(json.ToString());
+        JSONObject objDecoded = (JSONObject) JSONHandler.DecodeJsonRequest(decodedJson["parameters"].ToString());
+        Debug.Log(decodedJson["parameters"]);
+        Debug.Log(decodedJson["type"]);
+        Debug.Log(objDecoded["points"]);
+        Debug.Log(objDecoded["price"]);
+
+        ArrayList arrMapping = new ArrayList();
+        arrMapping.Add("5");
+        arrMapping.Add("6");
+        JSONArray json2 = JSONHandler.EncodeJsonRequest("item", arrMapping);
+        JSONArray decodedJson2 = (JSONArray)JSONHandler.DecodeJsonRequest(json2.ToString());
+        JSONArray arrDecoded = (JSONArray)JSONHandler.DecodeJsonRequest(decodedJson2[1].ToString());
+        Debug.Log(decodedJson2[0]);
+        Debug.Log(arrDecoded[0]);
+        Debug.Log(arrDecoded[1]);
+
+        Dictionary<string, string> objMapping1 = new Dictionary<string, string>();
+        Dictionary<string, string> objMapping2 = new Dictionary<string, string>();
+        ArrayList arrMapping2 = new ArrayList();
+
+        objMapping1.Add("points", "5");
+        objMapping1.Add("price", "6$");
+        objMapping2.Add("points", "8");
+        objMapping2.Add("price", "12$");
+        JSONObject jsonObj1 = JSONHandler.EncodeJsonRequest("item", objMapping1);
+        JSONObject jsonObj2 = JSONHandler.EncodeJsonRequest("item", objMapping2);
+
+        arrMapping2.Add(jsonObj1.ToString());
+        arrMapping2.Add(jsonObj2.ToString());
+        JSONArray jsonArr = JSONHandler.EncodeJsonRequest("inventory", arrMapping2);
+
+        JSONArray decodedArr = (JSONArray)JSONHandler.DecodeJsonRequest(jsonArr.ToString());
+        JSONArray arrElements = (JSONArray)JSONHandler.DecodeJsonRequest(decodedArr[1].ToString());
+        JSONObject obj1Decoded = (JSONObject)
+            JSONHandler.DecodeJsonRequest(arrElements[0].ToString());
+        JSONObject obj2Decoded = (JSONObject)
+            JSONHandler.DecodeJsonRequest(arrElements[1].ToString());
+        JSONObject obj1Params = (JSONObject)
+            JSONHandler.DecodeJsonRequest(obj1Decoded["parameters"].ToString());
+        JSONObject obj2Params = (JSONObject)
+            JSONHandler.DecodeJsonRequest(obj2Decoded["parameters"].ToString());
+
+        Debug.Log(decodedArr[0]);
+        Debug.Log(obj1Decoded["type"]);
+        Debug.Log(obj2Decoded["type"]);
+        Debug.Log(obj1Params["points"]);
+        Debug.Log(obj2Params["price"]);
+        */
+
         foreach (CardRow cr in allCards.cards) { //reset satchel values of all cards to 0, since scriptable objects remembers values between scenes, i.e. between games
             foreach (Card c in cr.deck.cards) {
                 c.satchels = 0;
@@ -111,12 +168,12 @@ public class PlayerControl : MonoBehaviour {
         }
     }
 
-    void UpdateDisplay() { //update display elements (might add things to this later)
+    void UpdateDisplay() { //update display elements (might Add things to this later)
         dashboard.UpdatePtsDisplay(player.GetPoints());
         dashboard.UpdateTokenDisplay(player.GetTokensAquired());
     }
 
-    public bool ReserveCard(Card card) { //add card to players reserve inventory
+    public bool ReserveCard(Card card) { //Add card to players reserve inventory
         if (player.ReserveCard(card)) {
             UpdateDisplay();
             allCards.RemoveCard(card);
@@ -126,12 +183,12 @@ public class PlayerControl : MonoBehaviour {
             return false;
     }
 
-    public void ReserveNoble(Noble noble) { //add noble to players reserve inventory
+    public void ReserveNoble(Noble noble) { //Add noble to players reserve inventory
         player.ReserveNoble(noble);
         allNobles.RemoveNoble(noble);
     }
 
-    public void AcquireCard(Card card) { //add card to players purchase inventory (does not pay for the card, if paying use PurchaseAction)
+    public void AcquireCard(Card card) { //Add card to players purchase inventory (does not pay for the card, if paying use PurchaseAction)
         player.AcquireCard(card);
         UpdateDisplay();
         allCards.RemoveCard(card);
