@@ -16,6 +16,14 @@ public class CardData {
   private int white;
 
   /**
+   * Sole constructor.  (For invocation by subclass constructors, typically
+   * implicit.)
+   */
+  public CardData() {
+    
+  }
+  
+  /**
    * Gets id.
    *
    * @return id to get
