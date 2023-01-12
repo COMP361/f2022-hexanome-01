@@ -6,6 +6,7 @@ using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using System.Collections.ObjectModel;
 
 /// <summary>
 /// Interacts with LobbyService to allow session management in the main menu.
@@ -37,25 +38,35 @@ public class SessionManager : MonoBehaviour
 
         if (request.result == UnityWebRequest.Result.Success)
         {
-            string json = request.downloadHandler.text; // formatting to match a list of SessionData
-            if (!json.Equals("{\"sessions\":{}}"))
-            {
-                json = json.Replace("{\"sessions\":{", "").Replace("}}}}", "}}").Replace(",\"playerLocations\":{}", "");
+            //string json = request.downloadHandler.text; // formatting to match a list of SessionData
+            JSONObject json2 = (JSONObject)JSONHandler.DecodeJsonRequest(request.downloadHandler.text);
+            UnityEngine.Debug.Log(json2);
+            if (!json2.Equals("{\"sessions\":{}}")) {
+                /*json = json.Replace("{\"sessions\":{", "").Replace("}}}}", "}}").Replace(",\"playerLocations\":{}", "");
                 json = json.Replace("{\"gameParameters\":", "").Replace("},\"creator", ",\"creator");
                 json = "\"id\":" + json.Replace(":{", ",").Replace("},", "},\"id\":") + ",";
-                string[] jsons = json.Replace("},", "}").Split('}');
-
+                string[] jsons = json.Replace("},", "}").Split('}');*/
                 List<Session> sessions = new List<Session>();
-                foreach (string session in jsons)
+                foreach (DictionaryEntry de in (IDictionary)json2["sessions"]) 
+                    sessions.Add(new Session(de.Key.ToString(), (IDictionary)de.Value));
+                
+                /*foreach (string session in jsons)
                 {
                     sessions.Add(FileManager.DecodeSession("{" + session + "}", false));
                 }
-
+                */
                 MainMenuManager mmm = GetComponent<MainMenuManager>();
                 mmm.determineAvailable(sessions);
             }
         }
     }
+
+    //explaination of JSONObject representing sessions:
+    //object is a Dictionary<string, IDictionary1> mapping "sessions" => IDictionary1<string, IDictionary2>
+    //Idictionary1 maps "idNumber" => Idictionary2<string, string>
+    //IDictionary2 maps "parameters" => "value" (i.e. "creator" => "maex")
+    //some values in Idictionary2 (players and gameParameters specifically) are themselves a string representing a JSONArray or JSONObject and must be decoded again
+
 
     //******************************** CREATE SESSION ********************************
 
@@ -124,6 +135,8 @@ public class SessionManager : MonoBehaviour
         if (request.result == UnityWebRequest.Result.Success)
         {
             string json = request.downloadHandler.text;
+            string json2 = ((JSONObject)JSONHandler.DecodeJsonRequest(request.downloadHandler.text)).ToString();
+            UnityEngine.Debug.Log(json2);
             json = json.Replace("{\"gameParameters\":", "").Replace("},\"creator", ",\"creator");
             Session session = FileManager.DecodeSession(json, false);
             session.id = id;

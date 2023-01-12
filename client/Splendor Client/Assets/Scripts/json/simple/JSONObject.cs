@@ -7,7 +7,7 @@ using System.Text;
 
 public class JSONObject : IDictionary, IJSONAware, IJSONStreamAware {
     private const long serialVersionUID = -503443796854799292L;
-    private IDictionary dictionary;
+    public IDictionary dictionary;
 
     public bool IsFixedSize => dictionary.IsFixedSize;
 
