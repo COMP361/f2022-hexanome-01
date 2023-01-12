@@ -11,7 +11,15 @@ public class NobleData {
   private int green;
   private int brown;
   private int white;
-
+  
+  /**
+   * Sole constructor.  (For invocation by subclass constructors, typically
+   * implicit.)
+   */
+  public NobleData() {
+    
+  }
+  
   /**
    * Setter for id.
    *

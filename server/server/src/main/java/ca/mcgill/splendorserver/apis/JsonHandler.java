@@ -13,6 +13,14 @@ import org.json.simple.parser.ParseException;
  */
 public class JsonHandler {
   private static JSONParser jsonParser = new JSONParser();
+  
+  /**
+   * Sole constructor.  (For invocation by subclass constructors, typically
+   * implicit.)
+   */
+  public JsonHandler() {
+    
+  }
 
   //JSONObject is essentially a hashmap. for encoding, you pass a hashmap 
   //'params' that encodes a parameter to a value, e.g parameter "points" => "5"

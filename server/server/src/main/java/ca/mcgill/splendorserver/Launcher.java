@@ -8,6 +8,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication(scanBasePackages = {"ca.mcgill.splendorserver"})
 public class Launcher {
+  
+  /**
+   * Sole constructor.  (For invocation by subclass constructors, typically
+   * implicit.)
+   */
+  public Launcher() {
+    
+  }
 
   /**
    * Spring launcher.

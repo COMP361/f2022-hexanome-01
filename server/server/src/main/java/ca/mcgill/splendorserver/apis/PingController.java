@@ -19,7 +19,15 @@ public class PingController {
    * Elapsed time.
    */
   public long elapsedTime = 0L;
-
+  
+  /**
+   * Sole constructor.  (For invocation by subclass constructors, typically
+   * implicit.)
+   */
+  public PingController() {
+    
+  }
+  
   /**
    * Tester method.
    *
