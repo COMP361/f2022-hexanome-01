@@ -1270,7 +1270,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2077443213}
         m_TargetAssemblyTypeName: SessionManager, Assembly-CSharp
-        m_MethodName: createSessionStart
+        m_MethodName: CreateSessionStart
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2056,7 +2056,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 2077443213}
         m_TargetAssemblyTypeName: SessionManager, Assembly-CSharp
-        m_MethodName: getAvailableSessionsStart
+        m_MethodName: GetAvailableSessionsStart
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7217,12 +7217,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e854da9ba279240d7813c319738d361b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sessionNameField: {fileID: 0}
   mainPlayer: {fileID: 11400000, guid: f0eaca2cb6e0e48a7b2fb69740473fb7, type: 2}
   splendorToggle: {fileID: 1661384216}
   citiesToggle: {fileID: 226980038}
   tradingPostsToggle: {fileID: 278111678}
-  createFail: {fileID: 0}
 --- !u!1 &2086210870
 GameObject:
   m_ObjectHideFlags: 0

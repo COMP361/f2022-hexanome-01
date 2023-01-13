@@ -6,6 +6,7 @@ using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using System.Collections.ObjectModel;
 
 /// <summary>
 /// Interacts with LobbyService to allow session management in the main menu.
@@ -21,8 +22,8 @@ public class SessionManager : MonoBehaviour
     /// <summary>
     /// Allows GET request to get the list of all sessions available to join in the LobbyService.
     /// </summary>
-    public void getAvailableSessionsStart() {
-        StartCoroutine(getAvailableSessions());
+    public void GetAvailableSessionsStart() {
+        StartCoroutine(GetAvailableSessions());
     }
 
     /// <summary>
@@ -30,41 +31,51 @@ public class SessionManager : MonoBehaviour
     /// to give to MainMenuManager's determineAvailable method.
     /// </summary>
     /// <returns>Allows GET request</returns>
-    public IEnumerator getAvailableSessions() {
+    public IEnumerator GetAvailableSessions() {
         string url = "http://127.0.0.1:4242/api/sessions"; //url for GET request
         UnityWebRequest request = UnityWebRequest.Get(url);
         yield return request.SendWebRequest();
 
         if (request.result == UnityWebRequest.Result.Success)
         {
-            string json = request.downloadHandler.text; // formatting to match a list of SessionData
-            if (!json.Equals("{\"sessions\":{}}"))
-            {
-                json = json.Replace("{\"sessions\":{", "").Replace("}}}}", "}}").Replace(",\"playerLocations\":{}", "");
+            //string json = request.downloadHandler.text; // formatting to match a list of SessionData
+            JSONObject json2 = (JSONObject)JSONHandler.DecodeJsonRequest(request.downloadHandler.text);
+            UnityEngine.Debug.Log(json2);
+            if (!json2.Equals("{\"sessions\":{}}")) {
+                /*json = json.Replace("{\"sessions\":{", "").Replace("}}}}", "}}").Replace(",\"playerLocations\":{}", "");
                 json = json.Replace("{\"gameParameters\":", "").Replace("},\"creator", ",\"creator");
                 json = "\"id\":" + json.Replace(":{", ",").Replace("},", "},\"id\":") + ",";
-                string[] jsons = json.Replace("},", "}").Split('}');
-
+                string[] jsons = json.Replace("},", "}").Split('}');*/
                 List<Session> sessions = new List<Session>();
-                foreach (string session in jsons)
+                foreach (DictionaryEntry de in (IDictionary)json2["sessions"]) 
+                    sessions.Add(new Session(de.Key.ToString(), (IDictionary)de.Value));
+                
+                /*foreach (string session in jsons)
                 {
                     sessions.Add(FileManager.DecodeSession("{" + session + "}", false));
                 }
-
+                */
                 MainMenuManager mmm = GetComponent<MainMenuManager>();
                 mmm.determineAvailable(sessions);
             }
         }
     }
 
+    //explaination of JSONObject representing sessions:
+    //object is a Dictionary<string, IDictionary1> mapping "sessions" => IDictionary1<string, IDictionary2>
+    //Idictionary1 maps "idNumber" => Idictionary2<string, string>
+    //IDictionary2 maps "parameters" => "value" (i.e. "creator" => "maex")
+    //some values in Idictionary2 (players and gameParameters specifically) are themselves a string representing a JSONArray or JSONObject and must be decoded again
+
+
     //******************************** CREATE SESSION ********************************
 
     /// <summary>
     /// Allows POST request to create a session in the LobbyService and get its id.
     /// </summary>
-    public void createSessionStart()
+    public void CreateSessionStart()
     {
-        StartCoroutine(createSession());
+        StartCoroutine(CreateSession());
     }
 
     /// <summary>
@@ -72,7 +83,7 @@ public class SessionManager : MonoBehaviour
     /// to give to getSessionStart method.
     /// </summary>
     /// <returns>Allows POST request</returns>
-    public IEnumerator createSession() {
+    public IEnumerator CreateSession() {
         string game = ""; //determine game version based on selected toggle
         if (splendorToggle.isOn) game = "splendor";
         else if (citiesToggle.isOn) game = "cities";
@@ -96,7 +107,7 @@ public class SessionManager : MonoBehaviour
 
         if (create.result == UnityWebRequest.Result.Success)
         {
-            getSessionStart(create.downloadHandler.text);
+            GetSessionStart(create.downloadHandler.text);
         }
     
     }
@@ -104,9 +115,9 @@ public class SessionManager : MonoBehaviour
     /// <summary>
     /// Allows GET request to get one session's information in the LobbyService.
     /// </summary>
-    public void getSessionStart(string id)
+    public void GetSessionStart(string id)
     {
-        StartCoroutine(getSession(id));
+        StartCoroutine(GetSession(id));
     }
 
     /// <summary>
@@ -115,7 +126,7 @@ public class SessionManager : MonoBehaviour
     /// </summary>
     /// <param name="id">String representing the id of the session whose information is being retrieved</param>
     /// <returns>Allows GET request</returns>
-    public IEnumerator getSession(string id)
+    public IEnumerator GetSession(string id)
     {
         string url = "http://127.0.0.1:4242/api/sessions/" + id; //url for GET request
         UnityWebRequest request = UnityWebRequest.Get(url);
@@ -124,6 +135,8 @@ public class SessionManager : MonoBehaviour
         if (request.result == UnityWebRequest.Result.Success)
         {
             string json = request.downloadHandler.text;
+            string json2 = ((JSONObject)JSONHandler.DecodeJsonRequest(request.downloadHandler.text)).ToString();
+            UnityEngine.Debug.Log(json2);
             json = json.Replace("{\"gameParameters\":", "").Replace("},\"creator", ",\"creator");
             Session session = FileManager.DecodeSession(json, false);
             session.id = id;

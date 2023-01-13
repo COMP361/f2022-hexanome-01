@@ -15,7 +15,6 @@ public class SessionData {
     public string savegameid;
 
     public SessionData() { }
-
     
     public SessionData(Session session) {
         id = session.id;

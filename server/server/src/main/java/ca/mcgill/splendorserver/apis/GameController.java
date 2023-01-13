@@ -23,7 +23,15 @@ public class GameController {
   
   private HashMap<String, Game> gameRegistry = 
       new HashMap<String, Game>(Map.of("test", new Game()));
-
+  
+  /**
+   * Sole constructor.  (For invocation by subclass constructors, typically
+   * implicit.)
+   */
+  public GameController() {
+    
+  }
+  
   /**
    * Getter for the game.
    *

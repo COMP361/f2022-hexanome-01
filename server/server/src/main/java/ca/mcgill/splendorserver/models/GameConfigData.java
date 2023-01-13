@@ -21,6 +21,14 @@ public class GameConfigData {
   private NobleData[] allNobles;
   
   /**
+   * Sole constructor.  (For invocation by subclass constructors, typically
+   * implicit.)
+   */
+  public GameConfigData() {
+    
+  }
+  
+  /**
    * Gets game name.
    *
    * @return gameName

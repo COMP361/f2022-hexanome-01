@@ -21,6 +21,22 @@ public class Session {
         players = new List<string>();
     }
 
+    public Session(string id, IDictionary values) {
+        this.id = id;
+        creator = values["creator"].ToString();
+        launched = bool.Parse(values["launched"].ToString());
+        savegameid = values["savegameid"].ToString();
+        JSONObject gameParameters = (JSONObject)JSONHandler.DecodeJsonRequest(values["gameParameters"].ToString());
+        JSONArray players = (JSONArray)JSONHandler.DecodeJsonRequest(values["players"].ToString());
+        this.players = new List<string>();
+        foreach (string player in players)
+            this.players.Add(player);
+        maxSessionPlayers = int.Parse(gameParameters["maxSessionPlayers"].ToString());
+        minSessionPlayers = int.Parse(gameParameters["minSessionPlayers"].ToString());
+        location = gameParameters["location"].ToString();
+        Enum.TryParse<GameVersion>(gameParameters["name"].ToString(), out name);
+    }
+
     public Session(SessionData data) {
         id = data.id;
         creator = data.creator;
