@@ -19,7 +19,7 @@ public class SessionSlot : MonoBehaviour {
     }
 
     public void SetText() {
-        nameBox.text = thisSession.creator + " - " + thisSession.getName();
+        nameBox.text = thisSession.creator + "'s " + thisSession.GetVariant() + " with " + thisSession.PlayersToString();
     }
 
     public void OnClick() { //passes selected session to manager script

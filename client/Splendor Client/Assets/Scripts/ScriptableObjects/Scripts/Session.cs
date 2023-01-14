@@ -10,17 +10,23 @@ public class Session {
     public string location;
     public int maxSessionPlayers;
     public int minSessionPlayers;
-    public GameVersion name;
+    public string name;
     public bool launched;
     public List<string> players;
     public string savegameid;
+    public GameVariant variant;
 
-    public enum GameVersion { splendor, cities, tradingposts };
+    public enum GameVariant { none, splendor, cities, tradingposts };
 
     public Session() {
         players = new List<string>();
     }
 
+    /// <summary>
+    /// Used when decoding from JSON.
+    /// </summary>
+    /// <param name="id">the LobbyService's id for the session</param>
+    /// <param name="values">all other key-values stored in the LobbyServcie for this session</param>
     public Session(string id, IDictionary values) {
         this.id = id;
         creator = values["creator"].ToString();
@@ -34,24 +40,11 @@ public class Session {
         maxSessionPlayers = int.Parse(gameParameters["maxSessionPlayers"].ToString());
         minSessionPlayers = int.Parse(gameParameters["minSessionPlayers"].ToString());
         location = gameParameters["location"].ToString();
-        Enum.TryParse<GameVersion>(gameParameters["name"].ToString(), out name);
+        name = gameParameters["name"].ToString();
     }
 
-    public Session(SessionData data) {
-        id = data.id;
-        creator = data.creator;
-        location = data.location;
-        maxSessionPlayers = data.maxSessionPlayers;
-        minSessionPlayers = data.minSessionPlayers;
-        Enum.TryParse<GameVersion>(data.name, out name);
-        launched = data.launched;
-        if (data.players == null) players = new List<string>();
-        else players = new List<string>(data.players);
-        savegameid = data.savegameid;
-    }
-
-    public Session(string name, int maxSessionPlayers, List<LobbyPlayer> playerList) {
-        Enum.TryParse<GameVersion>(name, out this.name);
+    public Session(string variant, int maxSessionPlayers, List<LobbyPlayer> playerList) {
+        this.SetVariant(variant);
         this.maxSessionPlayers = maxSessionPlayers;
 
         this.players = new List<string>();
@@ -60,12 +53,25 @@ public class Session {
         }
     }
 
-    public string getName(){
-        switch (name) {
-            case GameVersion.splendor: return "splendor with orient";
-            case GameVersion.cities: return "splendor with orient and cities";
-            case GameVersion.tradingposts: return "splendor with orient and trading posts";
-            default: return name.ToString();
+    public string GetVariant(){
+        switch (variant) {
+            case GameVariant.splendor: return "splendor with orient";
+            case GameVariant.cities: return "splendor with orient and cities";
+            case GameVariant.tradingposts: return "splendor with orient and trading posts";
+            case GameVariant.none: return "default (splendor)";
+            default: return variant.ToString();
         }
+    }
+
+    public void SetVariant(string variant){
+        Enum.TryParse<GameVariant>(variant, out this.variant);
+    }
+
+    public string PlayersToString(){
+        string result = "";
+        foreach (string player in players) {
+            result += player + ", ";
+        }
+        return result.Trim().TrimEnd(',');
     }
 }
