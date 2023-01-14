@@ -26,31 +26,12 @@ public class MainMenuManager : MonoBehaviour {
     public Save DEFAULTSAVE; //temp var until saves work properly.
     public NetworkManager networkManager;
     public Authentication authentication;
-    private SessionData[] sessions;
 
     public AllCards allCards;
     public NobleRow allNobles;
 
     public GlobalGameClient globalGameClient;
-    //TODO
-    //      
-    //      player colours in lobby?
-
-    //EMPTY START METHOD BEFORE DEMO, creates 2 hardcoded players
-    private void Start() {
-        List<LobbyPlayer> temp1 = new List<LobbyPlayer>();
-        temp1.Add(new LobbyPlayer("Yang", "TEMP", "TEMP_REFRESH", DateTime.Now.ToString()));
-        temp1.Add(new LobbyPlayer("Joshua", "TEMP", "TEMP_REFRESH", DateTime.Now.ToString()));
-        sessionList.sessions.Add(new Session("splendor", 4, temp1));
-    }
-
-    public void TempCreateSessionJson() {
-        FileManager.EncodeSession(sessionList.sessions[0], true);
-    }
-    public void TempLoadSessionJson() {
-        sessionList.sessions.Add(FileManager.DecodeSession("SessionData-Joshua", true));
-    }
-
+   
     public void LoadLastMenu() {
         if (previousMenu == LastMenuVisited.MAIN)
             exitToMain.Invoke();
@@ -72,7 +53,7 @@ public class MainMenuManager : MonoBehaviour {
     /// <summary>
     /// Determines if a session from a given list of sessions is available to join and displays it if so.
     /// </summary>
-    /// <param name="sessions">SessionListData of all sessions currently stored in the LobbyService</param>
+    /// <param name="allSessions">Session List of all sessions currently stored in the LobbyService</param>
     public void determineAvailable(List<Session> allSessions)
     {
         List<Session> availableSessions = new List<Session>();
@@ -126,7 +107,7 @@ public class MainMenuManager : MonoBehaviour {
         else {
             playerText.text = playerCount + " players of " + currentSession.maxSessionPlayers + " total players";
         }
-        sessionNameText.text = currentSession.getName();
+        sessionNameText.text = currentSession.GetVariant();
     }
 
     public void SetSession(Session newSession) { //set currently selected session
@@ -137,29 +118,12 @@ public class MainMenuManager : MonoBehaviour {
         currentSave = newSave;
     }
 
-    /**
-     * Displays sessions in "join" menu.
-     */
+    /// <summary>
+    /// Displays sessions in "join" menu.
+    /// </summary>
+    /// <param name="sessions">Session List of all available sessions which must be displayed</param>
     public void MakeSessions(List<Session> sessions) { //displays sessions in menu
         currentSession = null;
-        //I think these next three lines are trying to do the session management instead of the LobbyService?
-        //foreach (SessionData s in sessions)
-        //{
-        //    sessionList.sessions.Add(new Session(s));
-        //}
-
-        // HARDCODE FOR DEMO
-        //Session demo = new Session();
-        //demo.name = "test";
-        //demo.maxSessionPlayers = 2;
-        //LobbyPlayer demoHost = new LobbyPlayer();
-        //demoHost.username = "maex";
-        //demo.players.Add("maex");
-        //LobbyPlayer demoPlayer = new LobbyPlayer();
-        //demoPlayer.username = "linus";
-        //demo.players.Add("linus");
-        //sessionList.sessions.Add(demo);
-        //
 
         ClearChildren(sessionContent);
         foreach (Session session in sessions) {
@@ -202,15 +166,12 @@ public class MainMenuManager : MonoBehaviour {
         else  //else, leave session
             LoadLastMenu();
     }
-    public void ContinueGame() {
-        //final implementation will load last-used save (i.e. autosave) into a new session, currently just starts a regular session through the create session button
-    }
 
     public void StartGame() { //available to host in game lobby
         LobbyPlayer demoPlayer = new LobbyPlayer();
         demoPlayer.username = "linus";
         currentSession.players.Add(demoPlayer.username);
-        networkManager.registerGame(new GameConfigData(authentication, new SessionData(currentSession), allCards, allNobles));
+        networkManager.registerGame(new GameConfigData(authentication, currentSession, allCards, allNobles));
         globalGameClient.id = authentication.username + "-" + currentSession.name;
         SceneManager.LoadScene(2);
     }
