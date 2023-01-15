@@ -5,7 +5,10 @@ import ca.mcgill.splendorserver.models.GameConfigData;
 import ca.mcgill.splendorserver.models.GameData;
 import ca.mcgill.splendorserver.models.TurnData;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,8 +28,8 @@ public class GameController {
       new HashMap<String, Game>(Map.of("test", new Game()));
   
   /**
-   * Sole constructor.  (For invocation by subclass constructors, typically
-   * implicit.)
+   * Sole constructor.  
+   * (For invocation by subclass constructors, typically implicit.)
    */
   public GameController() {
     
@@ -96,6 +99,29 @@ public class GameController {
     return true;
   }
   
-  
+  /**
+   * Getter for the saved games.
+   *
+   * @return the saved games data
+   */
+  @GetMapping(path = {"/saves"}, produces = "application/json; charset=UTF-8")
+  @ResponseBody
+  public HashMap<String, Game> getSaves() {
+
+    try {
+      // if we decide to all use java version 11 or later,
+      // replace lines below with the commented out line
+      List<String> savesLines = Files.readAllLines(FileSystems.getDefault().getPath("saves.json"));
+      String saves = "";
+      for (String line : savesLines) {
+        saves += line;
+      }
+      //String saves = Files.readString(FileSystems.getDefault().getPath("saves.json"));
+      return (HashMap<String, Game>) JsonHandler.decodeJsonRequest(saves);
+    } catch (Exception e) {
+      return null;
+    }
+
+  }
 
 }
