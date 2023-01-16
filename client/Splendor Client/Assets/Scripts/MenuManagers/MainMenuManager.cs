@@ -13,17 +13,14 @@ public enum LastMenuVisited {
     JOIN
 }
 public class MainMenuManager : MonoBehaviour {
+
     public GameObject blankSessionSlot, sessionContent, blankSaveSlot, saveContent, blankPlayerSlot, playerContent;
     private Session createdSession = new Session();
-    public SaveList saveList;
-    public SessionList sessionList;
     public UnityEvent leaveSession, promptEndSession, joinSession, loadSave, createSession, exitToMain, exitToSession, exitToSave;
-    public Text playerText, sessionNameText, nameField;
+    public Text playerText, sessionNameText;
     [SerializeField] private Save currentSave;
-    private Session currentSession;
-    private bool sessionCreated;
+    public Session currentSession;
     private LastMenuVisited previousMenu = LastMenuVisited.MAIN;
-    public Save DEFAULTSAVE; //temp var until saves work properly.
     public NetworkManager networkManager;
     public Authentication authentication;
 
@@ -41,10 +38,13 @@ public class MainMenuManager : MonoBehaviour {
             exitToSession.Invoke();
     }
 
+    /// <summary>
+    /// On create button click from "create" menu, sets the current session to the created session and opens the lobby.
+    /// </summary>
+    /// <param name="session">the session that was created</param>
     public void CreateSession(Session session) {
         previousMenu = LastMenuVisited.MAIN;
         currentSession = session;
-        sessionCreated = true;
 
         createSession.Invoke(); // location of this event may change in the future
         MakePlayers(); // displays the players in the current session
@@ -69,27 +69,45 @@ public class MainMenuManager : MonoBehaviour {
 
             MakeSessions(availableSessions); //displays the available sessions
         }
-        else { //if there are no sessions available
+        else { //if there are no available sessions 
             ClearChildren(sessionContent); 
         }
     }
 
-    public void LoadSave(bool mostRecent) {
-        if (mostRecent)
-            currentSave = DEFAULTSAVE;
-        if (currentSave) {
-            previousMenu = mostRecent ? LastMenuVisited.MAIN : LastMenuVisited.LOAD;
-            createdSession.maxSessionPlayers = currentSave.maxPlayers;
-            sessionCreated = true;
-            currentSession = createdSession;
-            loadSave.Invoke();
-            MakePlayers();
+    /// <summary>
+    /// Determines if a save from a given list of saves is relevant to the main player and displays it if so.
+    /// </summary>
+    /// <param name="allSaves">Save List of all saves having a savegame id in the LobbyService</param>
+    public void determineRelevant(List<Save> allSaves)
+    {
+        List<Save> relevantSaves = new List<Save>();
+
+        if (allSaves != null)
+        {
+            foreach (Save save in allSaves)
+            {
+                if (save.players.Contains(authentication.username)) relevantSaves.Add(save);
+            }
+
+            MakeSaves(relevantSaves); //displays the relevant saves
+        }
+        else { //if there are no relevant saves
+            ClearChildren(saveContent);
         }
     }
 
-    public void JoinSession() {
-        sessionCreated = false;
-        if (currentSession != null) {
+    public void OnStartSaveClick()
+    {
+        previousMenu = LastMenuVisited.LOAD;
+        currentSession = createdSession;
+        loadSave.Invoke();
+        MakePlayers();
+    }
+
+    public void OnJoinSessionClick()
+    {
+        if (currentSession != null)
+        {
             previousMenu = LastMenuVisited.JOIN;
             globalGameClient.id = currentSession.players[0] + "-" + currentSession.name;
             currentSession.players.Add(authentication.username);
@@ -98,6 +116,9 @@ public class MainMenuManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Displays the lobby according to the current session.
+    /// </summary>
     public void SetupLobby() {
         int playerCount = currentSession.players.Count();
         if (playerCount == 1)
@@ -122,8 +143,8 @@ public class MainMenuManager : MonoBehaviour {
     /// Displays sessions in "join" menu.
     /// </summary>
     /// <param name="sessions">Session List of all available sessions which must be displayed</param>
-    public void MakeSessions(List<Session> sessions) { //displays sessions in menu
-        currentSession = null;
+    public void MakeSessions(List<Session> sessions) { 
+        //currentSession = null;
 
         ClearChildren(sessionContent);
         foreach (Session session in sessions) {
@@ -134,10 +155,15 @@ public class MainMenuManager : MonoBehaviour {
         }
     }
 
-    public void MakeSaves() { //displays saves in menu
+    /// <summary>
+    /// Displays saves in "load save" menu.
+    /// </summary>
+    /// <param name="saves">Save List of all saves relevant to the main player which must be displayed</param>
+    public void MakeSaves(List<Save> saves) { 
         currentSave = null;
+
         ClearChildren(saveContent);
-        foreach (Save save in saveList.saves) {
+        foreach (Save save in saves) {
             GameObject temp = Instantiate(blankSaveSlot, saveContent.transform.position, Quaternion.identity);
             temp.transform.SetParent(saveContent.transform);
             temp.transform.localScale = new Vector3(1, 1, 1);
@@ -145,7 +171,10 @@ public class MainMenuManager : MonoBehaviour {
         }
     }
 
-    public void MakePlayers() { //displays players in lobby
+    /// <summary>
+    /// Displays players in the lobby.
+    /// </summary>
+    public void MakePlayers() {
         ClearChildren(playerContent);
         foreach (string player in currentSession.players) {
             GameObject temp = Instantiate(blankPlayerSlot, playerContent.transform.position, Quaternion.identity);
@@ -155,16 +184,21 @@ public class MainMenuManager : MonoBehaviour {
         }
     }
 
-    void ClearChildren(GameObject content) { //clears players in lobby
+    /// <summary>
+    /// Clears content children in a parent GameObject.
+    /// See MakePlayers, MakeSaves, MakeSessions for examples
+    /// </summary>
+    /// <param name="content">the parent game object that holds the content children</param>
+    void ClearChildren(GameObject content) { 
         foreach (Transform child in content.transform)
             Destroy(child.gameObject);
     }
 
+    /// <summary>
+    /// Prompts the player to confirm that they want to leave the lobby.
+    /// </summary>
     public void ExitSession() {
-        if (sessionCreated)  //if host, show prompt
-            promptEndSession.Invoke();
-        else  //else, leave session
-            LoadLastMenu();
+        promptEndSession.Invoke();
     }
 
     public void StartGame() { //available to host in game lobby

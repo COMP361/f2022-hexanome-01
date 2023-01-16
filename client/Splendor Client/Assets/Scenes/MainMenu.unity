@@ -800,8 +800,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2077443211}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: LoadSave
-        m_Mode: 6
+        m_MethodName: OnStartSaveClick
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -2934,7 +2934,7 @@ RectTransform:
   m_AnchorMin: {x: 0.024811888, y: 0}
   m_AnchorMax: {x: 0.9845061, y: 1}
   m_AnchoredPosition: {x: -0.00006484985, y: 0.00012207031}
-  m_SizeDelta: {x: 0, y: -557.7682}
+  m_SizeDelta: {x: 0, y: -556.66064}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &829107803
 MonoBehaviour:
@@ -3644,9 +3644,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2077443211}
-        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: MakeSaves
+      - m_Target: {fileID: 2077443213}
+        m_TargetAssemblyTypeName: SessionManager, Assembly-CSharp
+        m_MethodName: GetSavesStart
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4631,7 +4631,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2077443211}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: JoinSession
+        m_MethodName: OnJoinSessionClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6821,8 +6821,6 @@ MonoBehaviour:
   saveContent: {fileID: 1634183612}
   blankPlayerSlot: {fileID: 3067114813929543824, guid: a1e3b02cabf6c82429c59f454ae416fe, type: 3}
   playerContent: {fileID: 1883028667}
-  saveList: {fileID: 11400000, guid: 5eea3d3eb6dc0f0419a04f4dafffb386, type: 2}
-  sessionList: {fileID: 11400000, guid: f9f6b38df6dc2964db74231885ebd8bf, type: 2}
   leaveSession:
     m_PersistentCalls:
       m_Calls:
@@ -6852,7 +6850,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 2077443213}
         m_TargetAssemblyTypeName: SessionManager, Assembly-CSharp
-        m_MethodName: getAvailableSessionsStart
+        m_MethodName: GetAvailableSessionsStart
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7110,7 +7108,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 2077443213}
         m_TargetAssemblyTypeName: SessionManager, Assembly-CSharp
-        m_MethodName: getAvailableSessionsStart
+        m_MethodName: GetAvailableSessionsStart
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7159,9 +7157,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2077443211}
-        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: MakeSaves
+      - m_Target: {fileID: 2077443213}
+        m_TargetAssemblyTypeName: SessionManager, Assembly-CSharp
+        m_MethodName: GetSavesStart
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7185,9 +7183,6 @@ MonoBehaviour:
         m_CallState: 2
   playerText: {fileID: 2089150647}
   sessionNameText: {fileID: 165226677}
-  nameField: {fileID: 0}
-  currentSave: {fileID: 0}
-  DEFAULTSAVE: {fileID: 11400000, guid: 1981883a5a43e174a8125a6a0dcf0b3d, type: 2}
   networkManager: {fileID: 2077443212}
   authentication: {fileID: 11400000, guid: f0eaca2cb6e0e48a7b2fb69740473fb7, type: 2}
   allCards: {fileID: 2495688007317858119, guid: c7a231073fd9b0e479884062ae26a9e7, type: 3}

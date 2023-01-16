@@ -19,7 +19,7 @@ public class SaveSlot : MonoBehaviour {
     }
 
     public void SetText() {
-        nameBox.text = thisSave.saveName;
+        nameBox.text = "splendor with " + thisSave.PlayersToString();
     }
 
     public void OnClick() { //passes selected save to manager script

@@ -82,10 +82,6 @@ public class SessionManager : MonoBehaviour
         else if (tradingPostsToggle.isOn) variant = "tradingposts";
 
         string url = "http://" + HOST + ":4242/api/sessions"; //url for POST request
-        WWWForm form = new WWWForm();
-        form.AddField("creator", mainPlayer.username);
-        form.AddField("game", "splendor");
-        form.AddField("savegame", "");
         //LobbyService requires UTF8 encoded json NOT UnityWebRequest's default of URL encoded
         UnityWebRequest create = new UnityWebRequest(url);
         create.method = "POST";
@@ -101,12 +97,13 @@ public class SessionManager : MonoBehaviour
         {
             GetSessionStart(create.downloadHandler.text, variant);
         }
-    
     }
 
     /// <summary>
     /// Allows GET request to get one session's information in the LobbyService.
     /// </summary>
+    /// <param name="id">String representing the id of the session whose information is being retrieved</param>
+    /// <param name="variant">String representing the variant of the session whose information is being retrieved</param>
     public void GetSessionStart(string id, string variant)
     {
         StartCoroutine(GetSession(id, variant));
@@ -127,12 +124,81 @@ public class SessionManager : MonoBehaviour
 
         if (request.result == UnityWebRequest.Result.Success)
         {
+
             JSONObject json = (JSONObject) JSONHandler.DecodeJsonRequest(request.downloadHandler.text);
             Session session = new Session(id, json.dictionary);
             session.SetVariant(variant);
 
             MainMenuManager mmm = GetComponent<MainMenuManager>();
             mmm.CreateSession(session);
+        }
+    }
+
+    //******************************** LOAD SAVE ********************************
+
+    /// <summary>
+    /// Allows GET request to get one session's information in the LobbyService.
+    /// </summary>
+    public void GetSavesStart()
+    {
+        StartCoroutine(GetSaves());
+    }
+
+
+    public IEnumerator GetSaves()
+    {
+        string url = "http://" + HOST + ":4242/api/gameservices/splendor/savegames"; //url for GET request
+        UnityWebRequest request = UnityWebRequest.Get(url);
+        request.SetRequestHeader("Authorization", "Bearer " + mainPlayer.access_token);
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.Success)
+        {
+            JSONArray json = (JSONArray)JSONHandler.DecodeJsonRequest(request.downloadHandler.text);
+            IEnumerator enumerator = json.GetEnumerator();
+            List<Save> allSaves = new List<Save>();
+            while (enumerator.MoveNext())
+            {
+                allSaves.Add(new Save((JSONObject)enumerator.Current));
+            }
+
+            MainMenuManager mmm = GetComponent<MainMenuManager>();
+            mmm.determineRelevant(allSaves);
+        }
+    }
+
+    /// <summary>
+    /// Allows PUT request to create a savegame in the LobbyService.
+    /// </summary>
+    public void CreateSaveStart()
+    {
+        StartCoroutine(CreateSave());
+    }
+
+    /// <summary>
+    /// Creates a savegame in the LobbyService.
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerator CreateSave()
+    {
+        MainMenuManager mmm = GetComponent<MainMenuManager>();
+        Session session = mmm.currentSession;
+        string savegameid = session.creator + "0" + session.variant; //must be changed eventually when we have a better system for creating savegameids
+        string url = "http://" + HOST + ":4242/api/gameservices/splendor/savegames/" + savegameid ; //url for PUT request
+        //LobbyService requires UTF8 encoded json NOT UnityWebRequest's default of URL encoded
+        UnityWebRequest create = new UnityWebRequest(url);
+        create.method = "PUT";
+        create.SetRequestHeader("Authorization", "Bearer " + mainPlayer.access_token);
+        create.SetRequestHeader("Content-Type", "application/json");
+        string body = "{\"gamename\":\"splendor\", \"players\":" + session.PlayersToJSONString() + ", \"savegameid\":\"" + savegameid + "\"}";
+        create.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(body));
+        create.downloadHandler = new DownloadHandlerBuffer();
+
+        yield return create.SendWebRequest();
+
+        if (create.result != UnityWebRequest.Result.Success)
+        {
+            UnityEngine.Debug.Log("ERROR: SAVE NOT CREATED");
         }
     }
 }
