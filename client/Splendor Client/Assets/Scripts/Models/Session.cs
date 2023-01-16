@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Session {
-    //insert session information, maybe wont stay as a ScriptableObject
+
     public string id;
     public string creator;
     public string location;
@@ -67,11 +67,35 @@ public class Session {
         Enum.TryParse<GameVariant>(variant, out this.variant);
     }
 
+    /// <summary>
+    /// Used for displaying session info in "join" menu.
+    /// </summary>
+    /// <returns>string of players to display for the session</returns>
     public string PlayersToString(){
         string result = "";
-        foreach (string player in players) {
-            result += player + ", ";
+        if (players.Count > 0)
+        {
+            foreach (string player in players)
+            {
+                result += player + ", ";
+            }
+            result = result.Trim().TrimEnd(',');
         }
-        return result.Trim().TrimEnd(',');
+        return result;
+    }
+
+    /// <summary>
+    /// For SessionManager to be able to create request bodies including player info.
+    /// </summary>
+    /// <returns>string representation of JSON of the session's players</returns>
+    public string PlayersToJSONString() {
+        string result = "[";
+        if (players.Count > 0) {
+            foreach (string player in players) {
+                result += "\"" + player + "\", ";
+            }
+            result = result.Trim().TrimEnd(',');
+        }
+        return result + "]";
     }
 }
