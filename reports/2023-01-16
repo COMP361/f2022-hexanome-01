@@ -38,9 +38,9 @@
    * Task 2
    * Task 3
  * Cadin Londono
-   * Task 1
-   * Task 2
-   * Task 3
+   * Reroute Server calls to lobby service
+   * Implement server missing functionality
+   * Start looking over at M6
  * Joshua Morency
    * begin work on M6
    * start implementing new features
@@ -69,9 +69,9 @@
    * Task 2
    * Task 3
  * Cadin Londono
-   * Task 1
-   * Task 2
-   * Task 3
+   * Caught up on M5 code base
+   * Fixed local java issues
+   * Reviewed M5 related screen cast
  * Joshua Morency
    * implemented generic JSON serialization in the backend
    * implemented generic JSON serialization in the frontend
