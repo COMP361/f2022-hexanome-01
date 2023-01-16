@@ -83,15 +83,15 @@
 
 ### Tasks missed, scheduled for this report
 
- * task 1
- * task 2
- * task 3
+ * Clean up server code
+ * Finish up API design implementation (documentation)
+ * Clean up and do unit tests
 
 ### Top 3 unexpected challenges encountered since last report
 
  * server giving odd javadoc errors/warnings when attempting to build
- * challenge 2
- * challenge 3
+ * fixing buggy code
+ * fiding time to meet to work on M5
 
 ### Top 3 lessons learned since last report
 
