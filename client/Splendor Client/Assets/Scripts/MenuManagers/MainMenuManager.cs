@@ -14,11 +14,11 @@ public enum LastMenuVisited {
 }
 public class MainMenuManager : MonoBehaviour {
 
-    public GameObject blankSessionSlot, sessionContent, blankSaveSlot, saveContent, blankPlayerSlot, playerContent;
-    private Session createdSession = new Session();
+    public GameObject blankSessionSlot, sessionContent, blankSaveSlot, saveContent, blankPlayerSlot, playerContent, joinButton, startButton;
+    public Toggle splendorToggle, citiesToggle, tradingPostsToggle;
     public UnityEvent leaveSession, promptEndSession, joinSession, loadSave, createSession, exitToMain, exitToSession, exitToSave;
     public Text playerText, sessionNameText;
-    [SerializeField] private Save currentSave;
+    public Save currentSave;
     public Session currentSession;
     private LastMenuVisited previousMenu = LastMenuVisited.MAIN;
     public NetworkManager networkManager;
@@ -28,7 +28,9 @@ public class MainMenuManager : MonoBehaviour {
     public NobleRow allNobles;
 
     public GlobalGameClient globalGameClient;
-   
+
+    private string HOST = "127.0.0.1";
+
     public void LoadLastMenu() {
         if (previousMenu == LastMenuVisited.MAIN)
             exitToMain.Invoke();
@@ -39,81 +41,175 @@ public class MainMenuManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// On create button click from "create" menu, sets the current session to the created session and opens the lobby.
+    /// Sends the GET request to the LobbyService for data on all sessions
+    /// and sends the data to "BaseJoin".
+    /// </summary>
+    public void OnBaseJoinClick() {
+
+        StartCoroutine(SessionManager.GetSessions(HOST, BaseJoin));
+
+    }
+
+    /// <summary>
+    /// Displays the available sessions if any.
+    /// </summary>
+    /// <param name="sessions">Session List of all sessions from the LobbyService</param>
+    private void BaseJoin(List<Session> sessions) {
+
+        if (sessions != null && sessions.Count > 0)
+        {
+
+            List<Session> available = determineAvailable(sessions); //determine which sessions are available
+
+            if (available != null && available.Count > 0)
+                MakeSessions(available); //display available sessions
+            else
+                ClearChildren(sessionContent); //clear sessions display
+
+        }
+        else ClearChildren(sessionContent); //clear sessions display
+
+    }
+
+    /// <summary>
+    /// Sends the GET request to the LobbyService for data on all saved games
+    /// and sends the data to "BaseLoad".
+    /// </summary>
+    public void OnBaseLoadClick() {
+
+        StartCoroutine(SessionManager.GetSaves(HOST, authentication, BaseLoad));
+
+    }
+
+    /// <summary>
+    /// Displays the relevant saved games if any.
+    /// </summary>
+    /// <param name="saves">Save List of all saved games from the LobbyService</param>
+    private void BaseLoad(List<Save> saves) {
+
+        if (saves != null && saves.Count > 0)
+        {
+            List<Save> relevant = determineRelevant(saves);
+
+            if (relevant != null && relevant.Count > 0)
+                MakeSaves(relevant); //displays relevant saved games
+            else
+                ClearChildren(saveContent); //clear saved games display
+        }
+        else ClearChildren(saveContent); //clear saved games display
+
+    }
+
+    /// <summary>
+    /// Sends the POST request to the LobbyService that creates a new session
+    /// and sends the id to "SessionCreate".
+    /// </summary>
+    public void OnSessionCreateClick() {
+
+        StartCoroutine(SessionManager.CreateSession(HOST, authentication, SessionCreate));
+
+    }
+
+    /// <summary>
+    /// Sends the GET request to the LobbyService for the created session's data
+    /// and sends the session to "SessionCreate2".
+    /// </summary>
+    /// <param name="id">the id of the created session</param>
+    private void SessionCreate(string id) {
+
+        string variant = ""; //determine game version based on selected toggle
+        if (splendorToggle.isOn) variant = "splendor";
+        else if (citiesToggle.isOn) variant = "cities";
+        else if (tradingPostsToggle.isOn) variant = "tradingposts";
+
+        StartCoroutine(SessionManager.GetSession(HOST, id, variant, SessionCreate2));
+
+    }
+
+    /// <summary>
+    /// Sets the current session to the created session and opens the lobby.
     /// </summary>
     /// <param name="session">the session that was created</param>
-    public void CreateSession(Session session) {
+    private void SessionCreate2(Session session) {
+
         previousMenu = LastMenuVisited.MAIN;
         currentSession = session;
 
         createSession.Invoke(); // location of this event may change in the future
         MakePlayers(); // displays the players in the current session
+
     }
 
     /// <summary>
-    /// Determines if a session from a given list of sessions is available to join and displays it if so.
+    /// Sends the PUT request to the LobbyService that adds a player to a session.
+    /// Once the player is added to the session in the LobbyService, bring player to Lobby
+    /// and poll for session updates.
     /// </summary>
-    /// <param name="allSessions">Session List of all sessions currently stored in the LobbyService</param>
-    public void determineAvailable(List<Session> allSessions)
+    public void OnSessionJoinClick() {
+
+        if (currentSession != null)
+        {
+            StartCoroutine(SessionManager.Join(HOST, authentication, currentSession));
+
+            previousMenu = LastMenuVisited.JOIN;
+            //globalGameClient.id = currentSession.players[0] + "-" + currentSession.name;
+            globalGameClient.id = currentSession.id;
+            networkManager.joinPolling(globalGameClient.id, this);
+
+            StartCoroutine(SessionManager.GetSession(HOST, currentSession.id, currentSession.variant.ToString(), SessionJoin));
+        }
+    }
+
+    /// <summary>
+    /// Update the current session following the addition of the player.
+    /// </summary>
+    /// <param name="session">Session being updated</param>
+    private void SessionJoin(Session session) {
+
+        currentSession = session;
+        joinSession.Invoke();
+    }
+
+    public void OnSaveStartClick() { }
+
+    public void OnLobbyBackClick() { }
+
+    public void OnLobbyStartClick() { }
+
+    
+
+    /// <summary>
+    /// Determines if a session from the list of sessions is available to join and displays it if so.
+    /// <param name="sessions">Session List of all sessions to check the availability of</param>
+    /// </summary>
+    public List<Session> determineAvailable(List<Session> sessions)
     {
         List<Session> availableSessions = new List<Session>();
 
-        if (allSessions != null)
+        foreach (Session session in sessions)
         {
-            foreach (Session session in allSessions)
-            {
-                if (session.launched == true) continue; //a launched session is not available
-                else if (session.players.Count == session.maxSessionPlayers) continue; //a full session is not available
-                else availableSessions.Add(session);
-            }
+            if (session.launched == true) continue; //a launched session is not available
+            else if (session.players.Count == session.maxSessionPlayers) continue; //a full session is not available
+            else availableSessions.Add(session);
+        }
 
-            MakeSessions(availableSessions); //displays the available sessions
-        }
-        else { //if there are no available sessions 
-            ClearChildren(sessionContent); 
-        }
+        return availableSessions; //to display the available sessions
     }
 
     /// <summary>
     /// Determines if a save from a given list of saves is relevant to the main player and displays it if so.
     /// </summary>
     /// <param name="allSaves">Save List of all saves having a savegame id in the LobbyService</param>
-    public void determineRelevant(List<Save> allSaves)
+    public List<Save> determineRelevant(List<Save> saves)
     {
         List<Save> relevantSaves = new List<Save>();
 
-        if (allSaves != null)
+        foreach (Save save in saves)
         {
-            foreach (Save save in allSaves)
-            {
-                if (save.players.Contains(authentication.username)) relevantSaves.Add(save);
-            }
-
-            MakeSaves(relevantSaves); //displays the relevant saves
+            if (save.players.Contains(authentication.username)) relevantSaves.Add(save);
         }
-        else { //if there are no relevant saves
-            ClearChildren(saveContent);
-        }
-    }
 
-    public void OnStartSaveClick()
-    {
-        previousMenu = LastMenuVisited.LOAD;
-        currentSession = createdSession;
-        loadSave.Invoke();
-        MakePlayers();
-    }
-
-    public void OnJoinSessionClick()
-    {
-        if (currentSession != null)
-        {
-            previousMenu = LastMenuVisited.JOIN;
-            globalGameClient.id = currentSession.players[0] + "-" + currentSession.name;
-            currentSession.players.Add(authentication.username);
-            networkManager.joinPolling(globalGameClient.id, this);
-            joinSession.Invoke();
-        }
+        return relevantSaves; 
     }
 
     /// <summary>
@@ -144,14 +240,14 @@ public class MainMenuManager : MonoBehaviour {
     /// </summary>
     /// <param name="sessions">Session List of all available sessions which must be displayed</param>
     public void MakeSessions(List<Session> sessions) { 
-        //currentSession = null;
+        currentSession = null;
 
         ClearChildren(sessionContent);
         foreach (Session session in sessions) {
             GameObject temp = Instantiate(blankSessionSlot, sessionContent.transform.position, Quaternion.identity);
             temp.transform.SetParent(sessionContent.transform);
             temp.transform.localScale = new Vector3(1, 1, 1);
-            temp.GetComponent<SessionSlot>().Setup(this, session);
+            temp.GetComponent<SessionSlot>().Setup(this, session, joinButton);
         }
     }
 
@@ -167,7 +263,7 @@ public class MainMenuManager : MonoBehaviour {
             GameObject temp = Instantiate(blankSaveSlot, saveContent.transform.position, Quaternion.identity);
             temp.transform.SetParent(saveContent.transform);
             temp.transform.localScale = new Vector3(1, 1, 1);
-            temp.GetComponent<SaveSlot>().Setup(this, save);
+            temp.GetComponent<SaveSlot>().Setup(this, save, startButton);
         }
     }
 

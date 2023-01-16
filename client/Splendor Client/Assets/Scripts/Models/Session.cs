@@ -43,15 +43,15 @@ public class Session {
         name = gameParameters["name"].ToString();
     }
 
-    public Session(string variant, int maxSessionPlayers, List<LobbyPlayer> playerList) {
-        this.SetVariant(variant);
-        this.maxSessionPlayers = maxSessionPlayers;
+    //public Session(string variant, int maxSessionPlayers, List<LobbyPlayer> playerList) {
+    //    this.SetVariant(variant);
+    //    this.maxSessionPlayers = maxSessionPlayers;
 
-        this.players = new List<string>();
-        foreach (LobbyPlayer player in playerList) {
-            players.Add(player.username);
-        }
-    }
+    //    this.players = new List<string>();
+    //    foreach (LobbyPlayer player in playerList) {
+    //        players.Add(player.username);
+    //    }
+    //}
 
     public string GetVariant(){
         switch (variant) {
