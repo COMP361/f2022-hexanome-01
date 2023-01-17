@@ -2590,7 +2590,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 2077443211}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: LoadLastMenu
+        m_MethodName: OnConfirmEndClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2673,7 +2673,7 @@ RectTransform:
   m_AnchorMin: {x: 0.024811888, y: 0}
   m_AnchorMax: {x: 0.9845061, y: 1}
   m_AnchoredPosition: {x: -0.00006484985, y: 0.00012207031}
-  m_SizeDelta: {x: 0, y: -557.34735}
+  m_SizeDelta: {x: 0, y: -557.2297}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &829107803
 MonoBehaviour:
@@ -4527,7 +4527,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2077443211}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
-        m_MethodName: ExitSession
+        m_MethodName: OnLobbyBackClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6577,45 +6577,6 @@ MonoBehaviour:
   splendorToggle: {fileID: 1661384216}
   citiesToggle: {fileID: 226980038}
   tradingPostsToggle: {fileID: 278111678}
-  leaveSession:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2105833432}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 1813862441}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 2077443213}
-        m_TargetAssemblyTypeName: SessionManager, Assembly-CSharp
-        m_MethodName: GetAvailableSessionsStart
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   promptEndSession:
     m_PersistentCalls:
       m_Calls:
@@ -6862,9 +6823,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2077443213}
-        m_TargetAssemblyTypeName: SessionManager, Assembly-CSharp
-        m_MethodName: GetAvailableSessionsStart
+      - m_Target: {fileID: 2077443211}
+        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+        m_MethodName: OnBaseJoinClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6913,9 +6874,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 2077443213}
-        m_TargetAssemblyTypeName: SessionManager, Assembly-CSharp
-        m_MethodName: GetSavesStart
+      - m_Target: {fileID: 2077443211}
+        m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
+        m_MethodName: OnBaseLoadClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

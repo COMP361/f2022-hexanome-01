@@ -16,7 +16,7 @@ public class MainMenuManager : MonoBehaviour {
 
     public GameObject blankSessionSlot, sessionContent, blankSaveSlot, saveContent, blankPlayerSlot, playerContent, joinButton, startButton;
     public Toggle splendorToggle, citiesToggle, tradingPostsToggle;
-    public UnityEvent leaveSession, promptEndSession, joinSession, loadSave, createSession, exitToMain, exitToSession, exitToSave;
+    public UnityEvent promptEndSession, joinSession, loadSave, createSession, exitToMain, exitToSession, exitToSave;
     public Text playerText, sessionNameText;
     public Save currentSave;
     public Session currentSession;
@@ -209,7 +209,24 @@ public class MainMenuManager : MonoBehaviour {
 
     }
 
-    public void OnLobbyBackClick() { }
+    /// <summary>
+    /// Prompts the player to confirm that they want to leave the lobby.
+    /// </summary>
+    public void OnLobbyBackClick() {
+
+        promptEndSession.Invoke();
+
+    }
+
+    /// <summary>
+    /// Removes the player from the (unlaunched) current session in the LobbyService.
+    /// </summary>
+    public void OnConfirmEndClick() {
+
+        StartCoroutine(SessionManager.Leave(HOST, authentication, currentSession));
+        LoadLastMenu();
+
+    }
 
     public void OnLobbyStartClick() { }
 
@@ -262,11 +279,19 @@ public class MainMenuManager : MonoBehaviour {
         sessionNameText.text = currentSession.GetVariant();
     }
 
-    public void SetSession(Session newSession) { //set currently selected session
+    /// <summary>
+    /// Setter for currently selected session.
+    /// </summary>
+    /// <param name="newSession">currently selected Session</param>
+    public void SetSession(Session newSession) {
         currentSession = newSession;
     }
 
-    public void SetSave(Save newSave) { //set currently selected save
+    /// <summary>
+    /// Setter for currently selected saved game.
+    /// </summary>
+    /// <param name="newSave">currently selected Save</param>
+    public void SetSave(Save newSave) {
         currentSave = newSave;
     }
 
@@ -323,13 +348,6 @@ public class MainMenuManager : MonoBehaviour {
     void ClearChildren(GameObject content) { 
         foreach (Transform child in content.transform)
             Destroy(child.gameObject);
-    }
-
-    /// <summary>
-    /// Prompts the player to confirm that they want to leave the lobby.
-    /// </summary>
-    public void ExitSession() {
-        promptEndSession.Invoke();
     }
 
     public void StartGame() { //available to host in game lobby
