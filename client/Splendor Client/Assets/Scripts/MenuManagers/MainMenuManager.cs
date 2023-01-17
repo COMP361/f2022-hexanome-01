@@ -32,12 +32,14 @@ public class MainMenuManager : MonoBehaviour {
     private string HOST = "127.0.0.1";
 
     public void LoadLastMenu() {
+
         if (previousMenu == LastMenuVisited.MAIN)
             exitToMain.Invoke();
         else if (previousMenu == LastMenuVisited.LOAD)
             exitToSave.Invoke();
         else if (previousMenu == LastMenuVisited.JOIN)
             exitToSession.Invoke();
+
     }
 
     /// <summary>
@@ -158,6 +160,7 @@ public class MainMenuManager : MonoBehaviour {
 
             StartCoroutine(SessionManager.GetSession(HOST, currentSession.id, currentSession.variant.ToString(), SessionJoin));
         }
+
     }
 
     /// <summary>
@@ -170,13 +173,45 @@ public class MainMenuManager : MonoBehaviour {
         joinSession.Invoke();
     }
 
-    public void OnSaveStartClick() { }
+    /// <summary>
+    /// Sends the POST request to the LobbyService that creates a new session from a savegameid
+    /// and sends the id of the new session to "SaveStart".
+    /// </summary>
+    public void OnSaveStartClick() {
+
+        StartCoroutine(SessionManager.CreateSavedSession(HOST, currentSave, authentication, SaveStart));
+
+    }
+
+    /// <summary>
+    /// Sends the GET request to the LobbyService for the created session's data
+    /// and sends the session to "SaveStart2".
+    /// </summary>
+    /// <param name="id">the id of the created session</param>
+    private void SaveStart(string id) {
+
+        //get variant from server first?
+        StartCoroutine(SessionManager.GetSession(HOST, id, "none", SaveStart2));
+
+    }
+
+    /// <summary>
+    /// Sets the current session to the created session and opens the lobby.
+    /// </summary>
+    /// <param name="session">the created session</param>
+    private void SaveStart2(Session session) {
+
+        previousMenu = LastMenuVisited.LOAD;
+        currentSession = session;
+
+        loadSave.Invoke(); // location of this event may change in the future
+        MakePlayers(); // displays the players in the current session
+
+    }
 
     public void OnLobbyBackClick() { }
 
     public void OnLobbyStartClick() { }
-
-    
 
     /// <summary>
     /// Determines if a session from the list of sessions is available to join and displays it if so.

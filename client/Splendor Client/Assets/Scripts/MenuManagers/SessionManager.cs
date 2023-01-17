@@ -214,50 +214,30 @@ public class SessionManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Allows POST request to create a session in the LobbyService from a saved game and get its id.
-    /// </summary>
-    public void CreateSavedSessionStart()
-    {
-        StartCoroutine(CreateSavedSession());
-    }
+    */
 
     /// <summary>
     /// Creates a session in the LobbyService from a saved game and gets back its id,
     /// to give to getSessionStart method.
     /// </summary>
     /// <returns>Allows POST request</returns>
-    public IEnumerator CreateSavedSession()
+    public static IEnumerator CreateSavedSession(string HOST, Save save, Authentication mainPlayer, Action<string> result)
     {
-        Save save = mmm.currentSave;
+        string url = "http://" + HOST + ":4242/api/sessions"; //url for POST request
+        //LobbyService requires UTF8 encoded json NOT UnityWebRequest's default of URL encoded
+        UnityWebRequest create = new UnityWebRequest(url);
+        create.method = "POST";
+        create.SetRequestHeader("Authorization", "Bearer " + mainPlayer.access_token);
+        create.SetRequestHeader("Content-Type", "application/json");
+        string body = "{\"game\":\"splendor\", \"creator\":\"" + mainPlayer.username + "\", \"savegame\":\"" + save.savegameid + "\"}";
+        create.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(body));
+        create.downloadHandler = new DownloadHandlerBuffer();
 
-        if (save != null)
+        yield return create.SendWebRequest();
+
+        if (create.result == UnityWebRequest.Result.Success)
         {
-            string variant = ""; //determine game version based on selected toggle
-            if (splendorToggle.isOn) variant = "splendor";
-            else if (citiesToggle.isOn) variant = "cities";
-            else if (tradingPostsToggle.isOn) variant = "tradingposts";
-
-            string url = "http://" + HOST + ":4242/api/sessions"; //url for POST request
-                                                                  //LobbyService requires UTF8 encoded json NOT UnityWebRequest's default of URL encoded
-            UnityWebRequest create = new UnityWebRequest(url);
-            create.method = "POST";
-            create.SetRequestHeader("Authorization", "Bearer " + mainPlayer.access_token);
-            create.SetRequestHeader("Content-Type", "application/json");
-            string body = "{\"game\":\"splendor\", \"creator\":\"" + mainPlayer.username + "\", \"savegame\":\"" + save.savegameid + "\"}";
-            create.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(body));
-            create.downloadHandler = new DownloadHandlerBuffer();
-
-            yield return create.SendWebRequest();
-
-            if (create.result == UnityWebRequest.Result.Success)
-            {
-                GetSessionStart(create.downloadHandler.text, variant, true);
-            }
-        }
-        else {
-            UnityEngine.Debug.Log("No selected saved game");
+            result(create.downloadHandler.text);
         }
     }
-    */
 }
