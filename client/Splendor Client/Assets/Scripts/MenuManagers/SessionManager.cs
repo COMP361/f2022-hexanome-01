@@ -9,7 +9,7 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 
 /// <summary>
-/// Interacts with LobbyService to allow session management in the main menu.
+/// Sends web requests to the LobbyService to allow session management in the main menu.
 /// </summary>
 public class SessionManager : MonoBehaviour
 {
@@ -61,41 +61,12 @@ public class SessionManager : MonoBehaviour
 
         yield return add.SendWebRequest();
 
+        //TO BE WARNED IF THE REQUEST WAS NOT SUCCESSFUL, UNCOMMENT THE FOLLOWING LINES
         if (add.result != UnityWebRequest.Result.Success)
         {
-            UnityEngine.Debug.Log(add.result);
             UnityEngine.Debug.Log("ERROR: PLAYER NOT ADDED TO SESSION");
         }
     }
-
-    /*
-    /// <summary>
-    /// Allows DELETE request to remove a player from a session in the LobbyService.
-    /// </summary>
-    public void LeaveStart()
-    {
-        StartCoroutine(Leave());
-    }
-
-    /// <summary>
-    /// Removes a player from a session in the LobbyService.
-    /// </summary>
-    /// <returns>Allows DELETE request</returns>
-    public IEnumerator Leave()
-    {
-        Session session = mmm.currentSession;
-        string url = "http://" + HOST + ":4242/api/sessions/" + session.id + "/players/" + mainPlayer.username; //url for DELETE request
-        UnityWebRequest remove = UnityWebRequest.Delete(url);
-        remove.SetRequestHeader("Authorization", "Bearer " + mainPlayer.access_token);
-
-        yield return remove.SendWebRequest();
-
-        if (remove.result != UnityWebRequest.Result.Success)
-        {
-            UnityEngine.Debug.Log("ERROR: PLAYER NOT REMOVED FROM SESSION");
-        }
-    }
-    */
 
     //******************************** CREATE SESSION ********************************
 
@@ -238,6 +209,28 @@ public class SessionManager : MonoBehaviour
         if (create.result == UnityWebRequest.Result.Success)
         {
             result(create.downloadHandler.text);
+        }
+    }
+
+    //******************************** LOBBY ********************************
+
+    /// <summary>
+    /// Removes a player from a session in the LobbyService.
+    /// </summary>
+    /// <returns>Allows DELETE request</returns>
+    public static IEnumerator Leave(string HOST, Authentication mainPlayer, Session session)
+    {
+        string url = "http://" + HOST + ":4242/api/sessions/" + session.id + "/players/" + mainPlayer.username; //url for DELETE request
+        UnityWebRequest remove = UnityWebRequest.Delete(url);
+        remove.SetRequestHeader("Authorization", "Bearer " + mainPlayer.access_token);
+
+        yield return remove.SendWebRequest();
+
+        //TO BE WARNED IF THE REQUEST WAS NOT SUCCESSFUL, UNCOMMENT THE FOLLOWING LINES
+        if (remove.result != UnityWebRequest.Result.Success)
+        {
+            UnityEngine.Debug.Log(remove.result);
+            UnityEngine.Debug.Log("ERROR: PLAYER NOT REMOVED FROM SESSION");
         }
     }
 }
