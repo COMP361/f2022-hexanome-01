@@ -195,7 +195,7 @@ public class MainMenuManager : MonoBehaviour {
         //    MakePlayers();
         //}
 
-        SceneManager.LoadScene(2);
+        //SceneManager.LoadScene(2);
 
     }
 
