@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.Networking;
 using System.Linq;
 
 public enum LastMenuVisited {
@@ -14,7 +15,7 @@ public enum LastMenuVisited {
 }
 public class MainMenuManager : MonoBehaviour {
 
-    public GameObject blankSessionSlot, sessionContent, blankSaveSlot, saveContent, blankPlayerSlot, playerContent, joinButton, startButton;
+    public GameObject blankSessionSlot, sessionContent, blankSaveSlot, saveContent, blankPlayerSlot, playerContent, joinButton, startButton, startSessionButton;
     public Toggle splendorToggle, citiesToggle, tradingPostsToggle;
     public UnityEvent promptEndSession, joinSession, loadSave, createSession, exitToMain, exitToSession, exitToSave;
     public Text playerText, sessionNameText;
@@ -28,6 +29,7 @@ public class MainMenuManager : MonoBehaviour {
     public NobleRow allNobles;
 
     public GlobalGameClient globalGameClient;
+    public GameData game;
 
     private string HOST = "127.0.0.1";
 
@@ -48,6 +50,7 @@ public class MainMenuManager : MonoBehaviour {
     /// </summary>
     public void OnBaseJoinClick() {
 
+        game = null;
         StartCoroutine(SessionManager.GetSessions(HOST, BaseJoin));
 
     }
@@ -79,6 +82,7 @@ public class MainMenuManager : MonoBehaviour {
     /// </summary>
     public void OnBaseLoadClick() {
 
+        game = null;
         StartCoroutine(SessionManager.GetSaves(HOST, authentication, BaseLoad));
 
     }
@@ -108,6 +112,7 @@ public class MainMenuManager : MonoBehaviour {
     /// </summary>
     public void OnSessionCreateClick() {
 
+        game = null;
         StartCoroutine(SessionManager.CreateSession(HOST, authentication, SessionCreate));
 
     }
@@ -140,6 +145,20 @@ public class MainMenuManager : MonoBehaviour {
         createSession.Invoke(); // location of this event may change in the future
         MakePlayers(); // displays the players in the current session
 
+        while (currentSession.players.Count < currentSession.minSessionPlayers) { // check whether the session can be launched
+            Invoke("PollSession", 3); // calls poll session after 3 seconds
+            MakePlayers();
+        }
+
+        startSessionButton.SetActive(true); // allow the host to start the session
+
+    }
+
+    /// <summary>
+    /// GET request for session data.
+    /// </summary>
+    private void PollSession() {
+        StartCoroutine(SessionManager.GetSession(HOST, currentSession.id, currentSession.variant.ToString(), (Session result) => currentSession = result));
     }
 
     /// <summary>
@@ -154,7 +173,6 @@ public class MainMenuManager : MonoBehaviour {
             StartCoroutine(SessionManager.Join(HOST, authentication, currentSession));
 
             previousMenu = LastMenuVisited.JOIN;
-            //globalGameClient.id = currentSession.players[0] + "-" + currentSession.name;
             globalGameClient.id = currentSession.id;
             networkManager.joinPolling(globalGameClient.id, this);
 
@@ -171,6 +189,14 @@ public class MainMenuManager : MonoBehaviour {
 
         currentSession = session;
         joinSession.Invoke();
+
+        while (game == null) { // check whether the session has been launched
+            Invoke("PollSession", 3); // calls poll session after 3 seconds
+            MakePlayers();
+        }
+
+        SceneManager.LoadScene(2);
+
     }
 
     /// <summary>
@@ -228,19 +254,35 @@ public class MainMenuManager : MonoBehaviour {
 
     }
 
+    /// <summary>
+    /// Launches the game with the LobbyService
+    /// </summary>
     public void OnLobbyStartClick() {
 
         StartCoroutine(SessionManager.Launch(HOST, authentication, currentSession, LobbyStart));
 
     }
 
+    /// <summary>
+    /// Gets the game data from the server.
+    /// </summary>
+    /// <param name="successfulLaunch">whether the launch was successful</param>
     private void LobbyStart(bool successfulLaunch) {
 
         if (successfulLaunch) {
-
-
-
+            StartCoroutine(GameNetworkManager.GetGame(HOST, currentSession.id, Launch));//get game data from server
         }
+
+    }
+
+    /// <summary>
+    /// Starts the game on the client.
+    /// </summary>
+    /// <param name="game">the GameData for the game obtained from the server</param>
+    private void Launch(GameData game) {
+
+        this.game = game;
+        SceneManager.LoadScene(2);
 
     }
 
@@ -364,14 +406,14 @@ public class MainMenuManager : MonoBehaviour {
             Destroy(child.gameObject);
     }
 
-    public void StartGame() { //available to host in game lobby
-        LobbyPlayer demoPlayer = new LobbyPlayer();
-        demoPlayer.username = "linus";
-        currentSession.players.Add(demoPlayer.username);
-        networkManager.registerGame(new GameConfigData(authentication, currentSession, allCards, allNobles));
-        globalGameClient.id = authentication.username + "-" + currentSession.name;
-        SceneManager.LoadScene(2);
-    }
+    //public void StartGame() { //available to host in game lobby
+    //    LobbyPlayer demoPlayer = new LobbyPlayer();
+    //    demoPlayer.username = "linus";
+    //    currentSession.players.Add(demoPlayer.username);
+    //    networkManager.registerGame(new GameConfigData(authentication, currentSession, allCards, allNobles));
+    //    globalGameClient.id = currentSession.id;
+    //    SceneManager.LoadScene(2);
+    //}
 
     public void StartJoinedGame() {
         SceneManager.LoadScene(2);
