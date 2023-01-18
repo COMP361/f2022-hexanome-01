@@ -3,16 +3,16 @@ package ca.mcgill.splendorserver.apis;
 import ca.mcgill.splendorserver.models.Game;
 import ca.mcgill.splendorserver.models.GameConfigData;
 import ca.mcgill.splendorserver.models.GameData;
+import ca.mcgill.splendorserver.models.PlayerData;
+import ca.mcgill.splendorserver.models.SessionData;
 import ca.mcgill.splendorserver.models.TurnData;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,6 +26,7 @@ public class GameController {
   
   private HashMap<String, Game> gameRegistry = 
       new HashMap<String, Game>(Map.of("test", new Game()));
+  private HashMap<String, Game> saves = new HashMap<>();
   
   /**
    * Sole constructor.  
@@ -75,7 +76,6 @@ public class GameController {
     return true;
   }
 
-
   /**
    * Ends turn.
    *
@@ -98,30 +98,51 @@ public class GameController {
     
     return true;
   }
-  
+
   /**
-   * Getter for the saved games.
+   * Launches game.
    *
-   * @return the saved games data
+   * @param gameId the id of the game
+   * @param session the session data for the game to create
+   * @throws JsonProcessingException when JSON processing error occurs
    */
-  @GetMapping(path = {"/saves"}, produces = "application/json; charset=UTF-8")
-  @ResponseBody
-  public HashMap<String, Game> getSaves() {
+  @PutMapping("/api/games/{gameId}")
+  public void launchGame(@PathVariable(required = true, name = "gameId") String gameId,
+                            @RequestBody SessionData session) throws JsonProcessingException {
 
-    try {
-      // if we decide to all use java version 11 or later,
-      // replace lines below with the commented out line
-      List<String> savesLines = Files.readAllLines(FileSystems.getDefault().getPath("saves.json"));
-      String saves = "";
-      for (String line : savesLines) {
-        saves += line;
+    if (session != null) {
+      if (saves.containsKey(session.getSavegame())) { //starting from saved game
+        String oldId = saves.get(session.getSavegame()).getId();
+        gameRegistry.put(gameId, gameRegistry.remove(oldId));
+        if (gameRegistry.get(gameId) == null) { //backup in case the former didn't work
+          addNewGame(gameId, saves.get(session.getSavegame()).getPlayers());
+        }
+      } else { //starting new game
+        addNewGame(gameId, session.getPlayers());
       }
-      //String saves = Files.readString(FileSystems.getDefault().getPath("saves.json"));
-      return (HashMap<String, Game>) JsonHandler.decodeJsonRequest(saves);
-    } catch (Exception e) {
-      return null;
-    }
 
+      if (gameRegistry.get(gameId) != null) {
+        System.out.println("Launched game with id: " + gameId);
+      } else {
+        System.out.println("Could not launch game with id: " + gameId);
+      }
+    } else {
+      System.out.println("Could not launch game with id: " + gameId
+          + " because no session data was received");
+    }
   }
 
+  /**
+   * Adds a game to the game registry.
+   *
+   * @param gameId the id of the game as per its session id in the LobbyService
+   * @param players array of four PlayerData slots representing the players currently
+   *                registered in the session in the LobbyService
+   */
+  private void addNewGame(String gameId, PlayerData[] players) {
+    gameRegistry.put(gameId, new Game());
+    gameRegistry.get(gameId).setPlayers(players);
+  }
 }
+
+

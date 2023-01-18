@@ -162,4 +162,17 @@ public class Game {
     return nobles;
   }
 
+  /**
+   * Setter for players.
+   *
+   * @param players the PlayerData array to which to set players
+   */
+  public void setPlayers(PlayerData[] players) {
+    this.players = players;
+    for (int i = 0; i < players.length; i++) {
+      if (players[i] == null) {
+        numOfPlayers = i;
+      }
+    }
+  }
 }
