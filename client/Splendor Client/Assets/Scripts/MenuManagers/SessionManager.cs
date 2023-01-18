@@ -56,16 +56,16 @@ public class SessionManager : MonoBehaviour
     public static IEnumerator Join(string HOST, Authentication mainPlayer, Session session)
     {
         string url = "http://" + HOST + ":4242/api/sessions/" + session.id + "/players/" + mainPlayer.username; //url for PUT request
-        UnityWebRequest add = UnityWebRequest.Put(url, "body");
+        UnityWebRequest add = UnityWebRequest.Put(url, "body"); //body of PUT cannot be empty
         add.SetRequestHeader("Authorization", "Bearer " + mainPlayer.access_token);
 
         yield return add.SendWebRequest();
 
         //TO BE WARNED IF THE REQUEST WAS NOT SUCCESSFUL, UNCOMMENT THE FOLLOWING LINES
-        if (add.result != UnityWebRequest.Result.Success)
-        {
-            UnityEngine.Debug.Log("ERROR: PLAYER NOT ADDED TO SESSION");
-        }
+        //if (add.result != UnityWebRequest.Result.Success)
+        //{
+        //    UnityEngine.Debug.Log("ERROR: PLAYER NOT ADDED TO SESSION");
+        //}
     }
 
     //******************************** CREATE SESSION ********************************
@@ -227,10 +227,21 @@ public class SessionManager : MonoBehaviour
         yield return remove.SendWebRequest();
 
         //TO BE WARNED IF THE REQUEST WAS NOT SUCCESSFUL, UNCOMMENT THE FOLLOWING LINES
-        if (remove.result != UnityWebRequest.Result.Success)
-        {
-            UnityEngine.Debug.Log(remove.result);
-            UnityEngine.Debug.Log("ERROR: PLAYER NOT REMOVED FROM SESSION");
-        }
+        //if (remove.result != UnityWebRequest.Result.Success)
+        //{
+        //    UnityEngine.Debug.Log(remove.result);
+        //    UnityEngine.Debug.Log("ERROR: PLAYER NOT REMOVED FROM SESSION");
+        //}
+    }
+
+    public static IEnumerator Launch(string HOST, Authentication mainPlayer, Session session, Action<bool> result) {
+
+        string url = "http://" + HOST + "4242/api/sessions/" + session.id; //url for POST request
+        UnityWebRequest launch = UnityWebRequest.Post(url, "body"); //body of POST cannot be empty
+        launch.SetRequestHeader("Authorization", "Bearer " + mainPlayer.access_token);
+
+        yield return launch.SendWebRequest();
+
+        result(launch.result == UnityWebRequest.Result.Success);
     }
 }

@@ -228,7 +228,21 @@ public class MainMenuManager : MonoBehaviour {
 
     }
 
-    public void OnLobbyStartClick() { }
+    public void OnLobbyStartClick() {
+
+        StartCoroutine(SessionManager.Launch(HOST, authentication, currentSession, LobbyStart));
+
+    }
+
+    private void LobbyStart(bool successfulLaunch) {
+
+        if (successfulLaunch) {
+
+
+
+        }
+
+    }
 
     /// <summary>
     /// Determines if a session from the list of sessions is available to join and displays it if so.
