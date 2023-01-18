@@ -145,10 +145,10 @@ public class MainMenuManager : MonoBehaviour {
         createSession.Invoke(); // location of this event may change in the future
         MakePlayers(); // displays the players in the current session
 
-        while (currentSession.players.Count < currentSession.minSessionPlayers) { // check whether the session can be launched
-            Invoke("PollSession", 3); // calls poll session after 3 seconds
-            MakePlayers();
-        }
+        //while (currentSession.players.Count < currentSession.minSessionPlayers) { // check whether the session can be launched
+        //    Invoke("PollSession", 3); // calls poll session after 3 seconds
+        //    MakePlayers();
+        //}
 
         startSessionButton.SetActive(true); // allow the host to start the session
 
@@ -190,10 +190,10 @@ public class MainMenuManager : MonoBehaviour {
         currentSession = session;
         joinSession.Invoke();
 
-        while (game == null) { // check whether the session has been launched
-            Invoke("PollSession", 3); // calls poll session after 3 seconds
-            MakePlayers();
-        }
+        //while (game == null) { // check whether the session has been launched
+        //    Invoke("PollSession", 3); // calls poll session after 3 seconds
+        //    MakePlayers();
+        //}
 
         SceneManager.LoadScene(2);
 
@@ -270,7 +270,7 @@ public class MainMenuManager : MonoBehaviour {
     private void LobbyStart(bool successfulLaunch) {
 
         if (successfulLaunch) {
-            StartCoroutine(GameNetworkManager.GetGame(HOST, currentSession.id, Launch));//get game data from server
+            //StartCoroutine(GameNetworkManager.GetGame(HOST, currentSession.id, Launch));//get game data from server
         }
 
     }
@@ -281,7 +281,7 @@ public class MainMenuManager : MonoBehaviour {
     /// <param name="game">the GameData for the game obtained from the server</param>
     private void Launch(GameData game) {
 
-        this.game = game;
+        //this.game = game;
         SceneManager.LoadScene(2);
 
     }
