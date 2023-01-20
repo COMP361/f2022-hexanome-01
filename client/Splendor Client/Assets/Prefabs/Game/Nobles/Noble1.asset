@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 1
   points: 3
-  white: 0
-  brown: 0
+  red: 3
   blue: 3
   green: 3
-  red: 3
-  sprite: {fileID: 5730917634005838715, guid: 45d2ad82ed2c4184f83ae28b78a51df4, type: 3}
+  brown: 0
+  white: 0
+  sprite: {fileID: 5436476875171235028, guid: 5dec4d864d40f3241a5ef3b4ba24e5e5, type: 3}
