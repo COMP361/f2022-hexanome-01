@@ -10,13 +10,14 @@ public class Player : MonoBehaviour
     public List<Noble> noblesVisited = new List<Noble>(), nobleReserves = new List<Noble>();
     public CardGemValue bonusesAquired = new CardGemValue();
     public CardGemValue tokensAquired = new CardGemValue();
-
+    public UnlockableList unlockables;
     public Authentication mainPlayer;
 
     public TurnData turnData = new TurnData();
 
     void Start()
     {
+        unlockables.Init();
         tokensAquired.blue = 50; // Hardcode for demo only; REMOVE FOR PROD
         tokensAquired.green = 50;
         tokensAquired.brown = 50;
