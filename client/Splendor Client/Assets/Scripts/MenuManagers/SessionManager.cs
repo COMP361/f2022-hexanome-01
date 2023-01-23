@@ -77,7 +77,7 @@ public class SessionManager : MonoBehaviour
     /// <param name="HOST">IP address to send the request to</param>
     /// <param name="result">method that will receive the created session id as a parameter</param>
     /// <returns>Allows POST request</returns>
-    public static IEnumerator CreateSession(string HOST, Authentication mainPlayer, Action<string> result) {
+    public static IEnumerator CreateSession(string HOST, string variant, Authentication mainPlayer, Action<string> result) {
 
         string url = "http://" + HOST + ":4242/api/sessions"; //url for POST request
         //LobbyService requires UTF8 encoded json NOT UnityWebRequest's default of URL encoded
@@ -85,7 +85,7 @@ public class SessionManager : MonoBehaviour
         create.method = "POST";
         create.SetRequestHeader("Authorization", "Bearer " + mainPlayer.access_token);
         create.SetRequestHeader("Content-Type", "application/json");
-        string body = "{\"game\":\"splendor\", \"creator\":\"" + mainPlayer.username + "\", \"savegame\":\"\"}";
+        string body = "{\"game\":\"" + variant + "\", \"creator\":\"" + mainPlayer.username + "\", \"savegame\":\"\"}";
         create.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(body));
         create.downloadHandler = new DownloadHandlerBuffer();
 
@@ -103,7 +103,7 @@ public class SessionManager : MonoBehaviour
     /// <param name="id">String representing the id of the session whose information is being retrieved</param>
     /// <param name="variant">String representing the variant of the session whose information is being retrieved</param>
     /// <returns>Allows GET request</returns>
-    public static IEnumerator GetSession(string HOST, string id, string variant, Action<Session> result)
+    public static IEnumerator GetSession(string HOST, string id, Action<Session> result)
     {
         string url = "http://" + HOST + ":4242/api/sessions/" + id; //url for GET request
         UnityWebRequest request = UnityWebRequest.Get(url);
@@ -114,7 +114,6 @@ public class SessionManager : MonoBehaviour
 
             JSONObject json = (JSONObject) JSONHandler.DecodeJsonRequest(request.downloadHandler.text);
             Session session = new Session(id, json.dictionary);
-            session.SetVariant(variant);
 
             result(session);
         }
@@ -142,9 +141,7 @@ public class SessionManager : MonoBehaviour
             IEnumerator enumerator = json.GetEnumerator();
             List<Save> allSaves = new List<Save>();
             while (enumerator.MoveNext())
-            {
                 allSaves.Add(new Save((JSONObject)enumerator.Current));
-            }
 
             result(allSaves);
         }
@@ -200,16 +197,13 @@ public class SessionManager : MonoBehaviour
         create.method = "POST";
         create.SetRequestHeader("Authorization", "Bearer " + mainPlayer.access_token);
         create.SetRequestHeader("Content-Type", "application/json");
-        string body = "{\"game\":\"splendor\", \"creator\":\"" + mainPlayer.username + "\", \"savegame\":\"" + save.savegameid + "\"}";
+        string body = "{\"game\":\"" + save.gamename + "\", \"creator\":\"" + mainPlayer.username + "\", \"savegame\":\"" + save.savegameid + "\"}";
         create.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(body));
         create.downloadHandler = new DownloadHandlerBuffer();
 
         yield return create.SendWebRequest();
 
-        if (create.result == UnityWebRequest.Result.Success)
-        {
-            result(create.downloadHandler.text);
-        }
+        if (create.result == UnityWebRequest.Result.Success) result(create.downloadHandler.text);
     }
 
     //******************************** LOBBY ********************************
