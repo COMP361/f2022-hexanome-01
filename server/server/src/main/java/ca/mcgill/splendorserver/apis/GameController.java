@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -105,7 +106,7 @@ public class GameController {
   /**
    * End point for the lobby service to tell the server that the game has started.
    *
-   * @param gameId the game that has been started
+   * @param gameId        the game that has been started
    * @param startGameData data provided by lobby service about the game
    *                      (name, list of players and saved game(optional))
    */
@@ -123,7 +124,16 @@ public class GameController {
     } catch (IllegalArgumentException e) {
       logger.error("Game id provided by lobby service is invalid");
     }
+  }
 
+  /**
+   * Removes a game from the server upon lobby service request.
+   *
+   * @param gameId the id of the game we want to delete
+   */
+  @DeleteMapping(path = "/api/games/{gameId}")
+  public void deleteGame(@PathVariable(required = true, name = "gameId") long gameId) {
+    gameRegistry.remove("" + gameId);
   }
 
 
