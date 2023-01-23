@@ -177,6 +177,14 @@ public class MainMenuManager : MonoBehaviour {
     }
 
     /// <summary>
+    /// Removes the creator from the (unlaunched) current session in the LobbyService, removing the session altogether.
+    /// </summary>
+    public void OnConfirmDeleteClick() {
+        //DELETE request to /api/sessions/{session} ? see answer to Ed question
+        LoadLastMenu();
+    }
+
+    /// <summary>
     /// Launches the game with the LobbyService
     /// </summary>
     public void OnLobbyStartClick() {
