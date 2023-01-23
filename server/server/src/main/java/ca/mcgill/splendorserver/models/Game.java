@@ -6,26 +6,24 @@ import java.util.Collections;
 
 /**
  * Models one game.
- * 
  */
 public class Game {
 
   private Deck[] decks = new Deck[6];
-  
-  private CardData [][] cardsOnBoard = new CardData [6][];
+
+  private CardData[][] cardsOnBoard = new CardData[6][];
   private NobleData[] nobles = new NobleData[5];
-  
+
   private String id;
   private String name;
-  
+
   private PlayerData[] players = new PlayerData[4];
   private int numOfPlayers;
-  
+
   private int turnIndex = 0;
-  
+
   /**
    * Constructs game for debugging.
-   *
    */
   public Game() {
     this.id = "test";
@@ -43,11 +41,11 @@ public class Game {
       deck.shuffle();
     }
   }
-  
+
   /**
    * Constructs game.
    *
-   * @param id id of game
+   * @param id     id of game
    * @param config game config data
    */
   public Game(String id, GameConfigData config) {
@@ -66,23 +64,23 @@ public class Game {
     decks[3] = new Deck(2, config.getExDeck1());
     decks[4] = new Deck(2, config.getExDeck2());
     decks[5] = new Deck(2, config.getExDeck3());
-    
+
     ArrayList<NobleData> tmp = new ArrayList<>(Arrays.asList(config.getAllNobles()));
     Collections.shuffle(tmp);
     for (int i = 0; i < numOfPlayers + 1; i++) {
       nobles[i] = tmp.get(i);
     }
-    
+
     for (Deck deck : decks) {
       if (deck != null) {
         deck.shuffle();
       }
     }
-    
+
     for (int i = 0; i < 3; i++) {
       cardsOnBoard[i] = new CardData[4];
     }
-    
+
     for (int i = 3; i < 6; i++) {
       cardsOnBoard[i] = new CardData[2];
     }
@@ -91,7 +89,35 @@ public class Game {
       cardsOnBoard[i] = decks[i].initialDraw();
     }
   }
-  
+
+  /**
+   * Constructor to construct a game from the information provided by the lobby service
+   * to start a game (See startGame in GameController).
+   *
+   * @param id            the id of the game
+   * @param startGameData the data provided by the lobby service
+   */
+  public Game(String id, StartGameData startGameData) {
+    this.id = id;
+    name = startGameData.getGameServer();
+    numOfPlayers = Math.min(4, startGameData.getPlayers().length);
+    for (int i = 0; i < numOfPlayers; i++) {
+      players[i] = new PlayerData(startGameData.getPlayers()[i].getName());
+      if (players[i].getId().equals(startGameData.getCreator())) {
+        turnIndex = i;
+      }
+    }
+    for (int i = 0; i < 3; i++) {
+      decks[i] = new Deck(4);
+    }
+    for (int i = 3; i < 6; i++) {
+      decks[i] = new Deck(2);
+    }
+    for (Deck deck : decks) {
+      deck.shuffle();
+    }
+  }
+
   /**
    * Updates game.
    *
@@ -116,7 +142,7 @@ public class Game {
     }
     turnIndex = (turnIndex + 1) % numOfPlayers;
   }
-  
+
   /**
    * Gets game id.
    *
@@ -125,7 +151,7 @@ public class Game {
   public String getId() {
     return this.id;
   }
-  
+
   /**
    * Gets all players.
    *
@@ -134,7 +160,7 @@ public class Game {
   public PlayerData[] getPlayers() {
     return this.players;
   }
-  
+
   /**
    * Gets current player.
    *
@@ -143,7 +169,7 @@ public class Game {
   public PlayerData getCurrentPlayer() {
     return this.players[this.turnIndex];
   }
-  
+
   /**
    * Gets cards on board.
    *
@@ -152,7 +178,7 @@ public class Game {
   public CardData[][] getCardsOnBoard() {
     return cardsOnBoard;
   }
-  
+
   /**
    * Gets nobles.
    *
