@@ -18,14 +18,6 @@ public class GameNetworkManager : MonoBehaviour
         yield return request.SendWebRequest();
 
         if (request.result == UnityWebRequest.Result.Success)
-        {
-
-            JSONObject json = (JSONObject)JSONHandler.DecodeJsonRequest(request.downloadHandler.text);
-            //eventually should decode the json then uncomment the line below to replace the one after it
-            //GameData game = new GameData(json.dictionary);
-            GameData game = new GameData();
-
-            result(game);
-        }
+            result(FileManager.DecodeGameState(request.downloadHandler.text, false));
     }
 }

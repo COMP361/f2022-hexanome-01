@@ -14,9 +14,6 @@ public class Session {
     public bool launched;
     public List<string> players;
     public string savegameid;
-    public GameVariant variant;
-
-    public enum GameVariant { none, splendor, cities, tradingposts };
 
     public Session() {
         players = new List<string>();
@@ -54,17 +51,12 @@ public class Session {
     //}
 
     public string GetVariant(){
-        switch (variant) {
-            case GameVariant.splendor: return "splendor with orient";
-            case GameVariant.cities: return "splendor with orient and cities";
-            case GameVariant.tradingposts: return "splendor with orient and trading posts";
-            case GameVariant.none: return "default (splendor)";
-            default: return variant.ToString();
+        switch (name) {
+            case "splendor": return "splendor with orient";
+            case "cities": return "splendor with orient and cities";
+            case "tradingposts": return "splendor with orient and trading posts";
+            default: return name;
         }
-    }
-
-    public void SetVariant(string variant){
-        Enum.TryParse<GameVariant>(variant, out this.variant);
     }
 
     /// <summary>

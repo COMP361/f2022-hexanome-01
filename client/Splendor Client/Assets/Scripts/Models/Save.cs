@@ -26,6 +26,16 @@ public class Save {
         savegameid = save["savegameid"].ToString();
     }
 
+    public string GetVariant()
+    {
+        switch (gamename){
+            case "splendor": return "splendor with orient";
+            case "cities": return "splendor with orient and cities";
+            case "tradingposts": return "splendor with orient and trading posts";
+            default: return gamename;
+        }
+    }
+
     /// <summary>
     /// Used for displaying saved game info in "load save" menu.
     /// </summary>
