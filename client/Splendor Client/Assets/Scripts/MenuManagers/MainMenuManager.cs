@@ -30,6 +30,7 @@ public class MainMenuManager : MonoBehaviour {
 
     public GlobalGameClient globalGameClient;
     public GameData game;
+    private string sessionsHash = "";
 
     private string HOST = "127.0.0.1";
 
@@ -43,18 +44,28 @@ public class MainMenuManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Sends the GET request to the LobbyService for data on all sessions
-    /// and sends the data to "BaseJoin".
+    /// Implements long polling for the GET request to the LobbyService for data on all sessions.
     /// </summary>
     public void OnBaseJoinClick() {
         game = null;
-        StartCoroutine(SessionManager.GetSessions(HOST, (List<Session> sessions) => { 
-            if (sessions != null && sessions.Count > 0) {
-                List<Session> available = determineAvailable(sessions); //determine which sessions are available
+        StartCoroutine(SessionManager.GetSessions(HOST, sessionsHash, (string hash, long code, List<Session> sessions) => {
+            if (code == 200)
+            {
+                if (sessions != null && sessions.Count > 0)
+                {
+                    List<Session> available = determineAvailable(sessions); //determine which sessions are available
 
-                if (available != null && available.Count > 0) MakeSessions(available); //display available sessions
+                    if (available != null && available.Count > 0) MakeSessions(available); //display available sessions
+                    else ClearChildren(sessionContent); //clear sessions display
+                }
                 else ClearChildren(sessionContent); //clear sessions display
-            } else ClearChildren(sessionContent); //clear sessions display
+
+                sessionsHash = hash;
+                if (sessionContent.activeInHierarchy) OnBaseJoinClick();
+            }
+            else if (code == 408) {
+                if (sessionContent.activeInHierarchy) OnBaseJoinClick();
+            }
         }));
     }
 

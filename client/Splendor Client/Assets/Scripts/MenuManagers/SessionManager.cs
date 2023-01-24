@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
@@ -29,22 +30,33 @@ public class SessionManager : MonoBehaviour
     /// <param name="HOST">IP address to send the request to</param>
     /// <param name="result">method that will receive the list of sessions as a parameter</param>
     /// <returns>Allows GET request</returns>
-    public static IEnumerator GetSessions(string HOST, Action<List<Session>> result) {
-        string url = "http://" + HOST + ":4242/api/sessions"; //url for GET request
+    public static IEnumerator GetSessions(string HOST, string hash, Action<string, long, List<Session>> result){
+        string url = "http://" + HOST + ":4242/api/sessions";
+        if (hash != null) url += ("?hash=" + hash); //url for GET request
         UnityWebRequest request = UnityWebRequest.Get(url);
         yield return request.SendWebRequest();
 
-        if (request.result == UnityWebRequest.Result.Success)
-        {
-            //string json = request.downloadHandler.text; // formatting to match a list of SessionData
-            JSONObject json = (JSONObject) JSONHandler.DecodeJsonRequest(request.downloadHandler.text);
-            if (!json.Equals("{\"sessions\":{}}")) {
-                List<Session> sessions = new List<Session>();
-                foreach (DictionaryEntry de in (IDictionary)json["sessions"]) 
-                    sessions.Add(new Session(de.Key.ToString(), (IDictionary)de.Value));
+        if (request.result == UnityWebRequest.Result.Success) {
+            //get hash of result
+            byte[] newHashBytes = MD5.Create().ComputeHash(request.downloadHandler.data);
+            var sBuilder = new StringBuilder();
+            foreach (byte b in newHashBytes) sBuilder.Append(b.ToString("x2"));
+            string newHash = sBuilder.ToString();
+            UnityEngine.Debug.Log(newHash);
 
-                result(sessions); //to imitate returning the session list
+            if (request.responseCode == 200)
+            {
+                JSONObject json = (JSONObject)JSONHandler.DecodeJsonRequest(request.downloadHandler.text);
+                if (!json.Equals("{\"sessions\":{}}"))
+                {
+                    List<Session> sessions = new List<Session>();
+                    foreach (DictionaryEntry de in (IDictionary)json["sessions"])
+                        sessions.Add(new Session(de.Key.ToString(), (IDictionary)de.Value));
+
+                    result(newHash, 200, sessions); //to imitate returning the session list
+                }
             }
+            else result(null, request.responseCode, null);
         }
     }
 
