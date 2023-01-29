@@ -1,14 +1,19 @@
 package ca.mcgill.splendorserver.apis;
 
+import ca.mcgill.splendorserver.Registrator;
 import ca.mcgill.splendorserver.models.Game;
 import ca.mcgill.splendorserver.models.GameConfigData;
 import ca.mcgill.splendorserver.models.GameData;
 import ca.mcgill.splendorserver.models.PlayerData;
 import ca.mcgill.splendorserver.models.SessionData;
+import ca.mcgill.splendorserver.models.StartGameData;
 import ca.mcgill.splendorserver.models.TurnData;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.HashMap;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,19 +28,21 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class GameController {
-  
-  private HashMap<String, Game> gameRegistry = 
+  private final Logger logger;
+
+  private HashMap<String, Game> gameRegistry =
       new HashMap<String, Game>(Map.of("test", new Game()));
+
   private HashMap<String, Game> saves = new HashMap<>();
-  
+
   /**
    * Sole constructor.  
    * (For invocation by subclass constructors, typically implicit.)
    */
   public GameController() {
-    
+    logger = LoggerFactory.getLogger(GameController.class);
   }
-  
+
   /**
    * Getter for the game.
    *
@@ -50,7 +57,7 @@ public class GameController {
       return null;
     }
     System.out.println("Polled game with ID: " + gameId);
-    
+
     return new GameData(gameRegistry.get(gameId));
   }
 
@@ -69,10 +76,10 @@ public class GameController {
     }
 
     String id = config.getHostId() + "-" + config.getGameName();
-    
+
     gameRegistry.put(id, new Game(id, config));
     System.out.println("Registered game with ID: " + id);
-    
+
     return true;
   }
 
@@ -80,13 +87,13 @@ public class GameController {
    * Ends turn.
    *
    * @param gameId the id of the game
-   * @param turn the game data for the game to create
+   * @param turn   the game data for the game to create
    * @return success flag
    * @throws JsonProcessingException when JSON processing error occurs
    */
   @PostMapping("/endturn/{gameId}")
   public boolean updateGame(@PathVariable String gameId,
-      @RequestBody TurnData turn) throws JsonProcessingException {
+                            @RequestBody TurnData turn) throws JsonProcessingException {
 
     if (turn == null) {
       return false;
@@ -95,9 +102,21 @@ public class GameController {
     gameRegistry.get(gameId).updateGame(turn);
     System.out.println(gameRegistry.get(gameId).getCurrentPlayer().getId());
     System.out.println("Ended turn on game with ID: " + gameId);
-    
+
     return true;
   }
+
+
+  /**
+   * Removes a game from the server upon lobby service request.
+   *
+   * @param gameId the id of the game we want to delete
+   */
+  @DeleteMapping(path = "/api/games/{gameId}")
+  public void deleteGame(@PathVariable(required = true, name = "gameId") long gameId) {
+    gameRegistry.remove("" + gameId);
+  }
+
 
   /**
    * Launches game.
