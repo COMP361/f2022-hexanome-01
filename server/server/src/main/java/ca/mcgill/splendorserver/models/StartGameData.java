@@ -4,7 +4,6 @@ package ca.mcgill.splendorserver.models;
  * Model of the data received from the lobby service to start a game.
  *
  * @author Cadin Londono
- * @date January 2023
  */
 public class StartGameData {
   private String creator;

@@ -4,7 +4,6 @@ package ca.mcgill.splendorserver.models;
  * Holds the data for a player in the lobby service format.
  *
  * @author cadin
- * @date January 2023
  */
 public class LobbyServicePlayerData {
   private String name;
