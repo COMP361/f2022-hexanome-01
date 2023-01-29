@@ -22,7 +22,7 @@ public class NetworkManager : MonoBehaviour
     //FileManager fileManager = new FileManager();
 
     // InputField outputArea;
-    private string HOST = "10.122.184.196";
+    private string HOST = "127.0.0.1";
 
     // Start is called before the first frame update
     void Start()

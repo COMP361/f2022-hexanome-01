@@ -9,9 +9,15 @@ public class PlayerData {
     public int points;
 
     public PlayerData() { }
+
     public PlayerData(LobbyPlayer lobbyPlayer) { 
         id = lobbyPlayer.username;
         points = 0;
+    }
+
+    public PlayerData(string id, int points) {
+        this.id = id;
+        this.points = points;
     }
     
 }
