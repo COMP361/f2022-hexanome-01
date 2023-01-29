@@ -22,7 +22,7 @@ public class NetworkManager : MonoBehaviour
     //FileManager fileManager = new FileManager();
 
     // InputField outputArea;
-    private string HOST = "127.0.0.1";
+    private string HOST = Environment.GetEnvironmentVariable("SPLENDOR_HOST_IP");
 
     // Start is called before the first frame update
     void Start()

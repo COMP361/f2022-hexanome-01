@@ -32,7 +32,7 @@ public class MainMenuManager : MonoBehaviour {
     public GameData game;
     private string sessionsHash = "";
 
-    private string HOST = "127.0.0.1";
+    private string HOST = Environment.GetEnvironmentVariable("SPLENDOR_HOST_IP");
 
     public void LoadLastMenu() {
         if (previousMenu == LastMenuVisited.MAIN)
