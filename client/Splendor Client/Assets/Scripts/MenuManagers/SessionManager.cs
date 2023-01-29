@@ -4,34 +4,22 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
 /// <summary>
-/// Interacts with LobbyService to allow session management in the main menu.
+/// Sends web requests to the LobbyService to allow session management in the main menu.
 /// </summary>
 public class SessionManager : MonoBehaviour
 {
-    private string HOST = "127.0.0.1";
-    //for create session
-    public Authentication mainPlayer;
-    public Toggle splendorToggle, citiesToggle, tradingPostsToggle;
-
     //******************************** JOIN SESSION ********************************
 
     /// <summary>
-    /// Allows GET request to get the list of all sessions available to join in the LobbyService.
-    /// </summary>
-    public void GetAvailableSessionsStart() {
-        StartCoroutine(GetAvailableSessions());
-    }
-
-    /// <summary>
-    /// Gets a list of all sessions currently stored in the LobbyService,
-    /// to give to MainMenuManager's determineAvailable method.
+    /// Gets a list of all sessions currently stored in the LobbyService.
     ///
-    /// Explaination of JSONObject representing sessions:
+    /// Explanation of JSONObject representing sessions:
     /// object is a Dictionary<string, IDictionary1> mapping "sessions" => IDictionary1<string, IDictionary2>
     /// Idictionary1 maps "idNumber" => Idictionary2<string, string>
     /// IDictionary2 maps "parameters" => "value" (i.e. "creator" => "maex")
@@ -39,77 +27,85 @@ public class SessionManager : MonoBehaviour
     /// a string representing a JSONArray or JSONObject and must be decoded again
     /// 
     /// </summary>
+    /// <param name="HOST">IP address to send the request to</param>
+    /// <param name="result">method that will receive the list of sessions as a parameter</param>
     /// <returns>Allows GET request</returns>
-    public IEnumerator GetAvailableSessions() {
-        string url = "http://" + HOST + ":4242/api/sessions"; //url for GET request
+    public static IEnumerator GetSessions(string HOST, string hash, Action<string, long, List<Session>> result){
+        string url = "http://" + HOST + ":4242/api/sessions";
+        if (hash != null) url += ("?hash=" + hash); //url for GET request
         UnityWebRequest request = UnityWebRequest.Get(url);
         yield return request.SendWebRequest();
 
-        if (request.result == UnityWebRequest.Result.Success)
-        {
-            //string json = request.downloadHandler.text; // formatting to match a list of SessionData
-            JSONObject json = (JSONObject) JSONHandler.DecodeJsonRequest(request.downloadHandler.text);
-            if (!json.Equals("{\"sessions\":{}}")) {
-                List<Session> sessions = new List<Session>();
-                foreach (DictionaryEntry de in (IDictionary)json["sessions"]) 
-                    sessions.Add(new Session(de.Key.ToString(), (IDictionary)de.Value));
-                
-                MainMenuManager mmm = GetComponent<MainMenuManager>();
-                mmm.determineAvailable(sessions);
+        if (request.result == UnityWebRequest.Result.Success) {
+            //get hash of result
+            byte[] newHashBytes = MD5.Create().ComputeHash(request.downloadHandler.data);
+            var sBuilder = new StringBuilder();
+            foreach (byte b in newHashBytes) sBuilder.Append(b.ToString("x2"));
+            string newHash = sBuilder.ToString();
+            UnityEngine.Debug.Log(newHash);
+
+            if (request.responseCode == 200)
+            {
+                JSONObject json = (JSONObject)JSONHandler.DecodeJsonRequest(request.downloadHandler.text);
+                if (!json.Equals("{\"sessions\":{}}"))
+                {
+                    List<Session> sessions = new List<Session>();
+                    foreach (DictionaryEntry de in (IDictionary)json["sessions"])
+                        sessions.Add(new Session(de.Key.ToString(), (IDictionary)de.Value));
+
+                    result(newHash, 200, sessions); //to imitate returning the session list
+                }
             }
+            else result(null, request.responseCode, null);
         }
+    }
+
+    /// <summary>
+    /// Adds a player to the session in the LobbyService.
+    /// </summary>
+    /// <param name="HOST">IP address to send the request to</param>
+    /// <returns>Allows PUT request</returns>
+    public static IEnumerator Join(string HOST, Authentication mainPlayer, Session session)
+    {
+        string url = "http://" + HOST + ":4242/api/sessions/" + session.id + "/players/" + mainPlayer.username; //url for PUT request
+        UnityWebRequest add = UnityWebRequest.Put(url, "body"); //body of PUT cannot be empty
+        add.SetRequestHeader("Authorization", "Bearer " + mainPlayer.access_token);
+
+        yield return add.SendWebRequest();
+
+        //TO BE WARNED IF THE REQUEST WAS NOT SUCCESSFUL, UNCOMMENT THE FOLLOWING LINES
+        //if (add.result != UnityWebRequest.Result.Success)
+        //{
+        //    UnityEngine.Debug.Log("ERROR: PLAYER NOT ADDED TO SESSION");
+        //}
     }
 
     //******************************** CREATE SESSION ********************************
 
     /// <summary>
-    /// Allows POST request to create a session in the LobbyService and get its id.
-    /// </summary>
-    public void CreateSessionStart()
-    {
-        StartCoroutine(CreateSession());
-    }
-
-    /// <summary>
     /// Creates a session in the LobbyService and gets back its id,
     /// to give to getSessionStart method.
     /// </summary>
+    /// <param name="HOST">IP address to send the request to</param>
+    /// <param name="result">method that will receive the created session id as a parameter</param>
     /// <returns>Allows POST request</returns>
-    public IEnumerator CreateSession() {
-        string variant = ""; //determine game version based on selected toggle
-        if (splendorToggle.isOn) variant = "splendor";
-        else if (citiesToggle.isOn) variant = "cities";
-        else if (tradingPostsToggle.isOn) variant = "tradingposts";
+    public static IEnumerator CreateSession(string HOST, string variant, Authentication mainPlayer, Action<string> result) {
 
         string url = "http://" + HOST + ":4242/api/sessions"; //url for POST request
-        WWWForm form = new WWWForm();
-        form.AddField("creator", mainPlayer.username);
-        form.AddField("game", "splendor");
-        form.AddField("savegame", "");
         //LobbyService requires UTF8 encoded json NOT UnityWebRequest's default of URL encoded
         UnityWebRequest create = new UnityWebRequest(url);
         create.method = "POST";
         create.SetRequestHeader("Authorization", "Bearer " + mainPlayer.access_token);
         create.SetRequestHeader("Content-Type", "application/json");
-        string body = "{\"game\":\"splendor\", \"creator\":\"" + mainPlayer.username + "\", \"savegame\":\"\"}";
+        string body = "{\"game\":\"" + variant + "\", \"creator\":\"" + mainPlayer.username + "\", \"savegame\":\"\"}";
         create.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(body));
         create.downloadHandler = new DownloadHandlerBuffer();
 
         yield return create.SendWebRequest();
 
         if (create.result == UnityWebRequest.Result.Success)
-        {
-            GetSessionStart(create.downloadHandler.text, variant);
-        }
-    
-    }
-
-    /// <summary>
-    /// Allows GET request to get one session's information in the LobbyService.
-    /// </summary>
-    public void GetSessionStart(string id, string variant)
-    {
-        StartCoroutine(GetSession(id, variant));
+            result(create.downloadHandler.text);
+            //GetSessionStart(create.downloadHandler.text, variant, false);
     }
 
     /// <summary>
@@ -119,7 +115,7 @@ public class SessionManager : MonoBehaviour
     /// <param name="id">String representing the id of the session whose information is being retrieved</param>
     /// <param name="variant">String representing the variant of the session whose information is being retrieved</param>
     /// <returns>Allows GET request</returns>
-    public IEnumerator GetSession(string id, string variant)
+    public static IEnumerator GetSession(string HOST, string id, Action<Session> result)
     {
         string url = "http://" + HOST + ":4242/api/sessions/" + id; //url for GET request
         UnityWebRequest request = UnityWebRequest.Get(url);
@@ -127,12 +123,131 @@ public class SessionManager : MonoBehaviour
 
         if (request.result == UnityWebRequest.Result.Success)
         {
+
             JSONObject json = (JSONObject) JSONHandler.DecodeJsonRequest(request.downloadHandler.text);
             Session session = new Session(id, json.dictionary);
-            session.SetVariant(variant);
 
-            MainMenuManager mmm = GetComponent<MainMenuManager>();
-            mmm.CreateSession(session);
+            result(session);
         }
+    }
+
+    //******************************** LOAD SAVE ********************************
+
+    
+    /// <summary>
+    /// Gets a list of all saved games stored in the LobbyService.
+    /// </summary>
+    /// <param name="HOST">IP address to send the request to</param>
+    /// <param name="result">method that will receive the list of saved games as a parameter</param>
+    /// <returns></returns>
+    public static IEnumerator GetSaves(string HOST, Authentication mainPlayer, Action<List<Save>> result)
+    {
+        string url = "http://" + HOST + ":4242/api/gameservices/splendor/savegames"; //url for GET request
+        UnityWebRequest request = UnityWebRequest.Get(url);
+        request.SetRequestHeader("Authorization", "Bearer " + mainPlayer.access_token);
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.Success)
+        {
+            JSONArray json = (JSONArray)JSONHandler.DecodeJsonRequest(request.downloadHandler.text);
+            IEnumerator enumerator = json.GetEnumerator();
+            List<Save> allSaves = new List<Save>();
+            while (enumerator.MoveNext())
+                allSaves.Add(new Save((JSONObject)enumerator.Current));
+
+            result(allSaves);
+        }
+    }
+
+    /*
+    /// <summary>
+    /// Allows PUT request to create a savegame in the LobbyService.
+    /// </summary>
+    public void CreateSaveStart()
+    {
+        StartCoroutine(CreateSave());
+    }
+
+    /// <summary>
+    /// Creates a savegame in the LobbyService.
+    /// </summary>
+    /// <returns>Allows PUT request</returns>
+    public IEnumerator CreateSave()
+    {
+        Session session = mmm.currentSession;
+        string savegameid = session.creator + "0" + session.variant; //must be changed eventually when we have a better system for creating savegameids
+        string url = "http://" + HOST + ":4242/api/gameservices/splendor/savegames/" + savegameid ; //url for PUT request
+        //LobbyService requires UTF8 encoded json NOT UnityWebRequest's default of URL encoded
+        UnityWebRequest create = new UnityWebRequest(url);
+        create.method = "PUT";
+        create.SetRequestHeader("Authorization", "Bearer " + mainPlayer.access_token);
+        create.SetRequestHeader("Content-Type", "application/json");
+        string body = "{\"gamename\":\"splendor\", \"players\":" + session.PlayersToJSONString() + ", \"savegameid\":\"" + savegameid + "\"}";
+        create.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(body));
+        create.downloadHandler = new DownloadHandlerBuffer();
+
+        yield return create.SendWebRequest();
+
+        if (create.result != UnityWebRequest.Result.Success)
+        {
+            UnityEngine.Debug.Log("ERROR: SAVE NOT CREATED");
+        }
+    }
+
+    */
+
+    /// <summary>
+    /// Creates a session in the LobbyService from a saved game and gets back its id,
+    /// to give to getSessionStart method.
+    /// </summary>
+    /// <returns>Allows POST request</returns>
+    public static IEnumerator CreateSavedSession(string HOST, Save save, Authentication mainPlayer, Action<string> result)
+    {
+        string url = "http://" + HOST + ":4242/api/sessions"; //url for POST request
+        //LobbyService requires UTF8 encoded json NOT UnityWebRequest's default of URL encoded
+        UnityWebRequest create = new UnityWebRequest(url);
+        create.method = "POST";
+        create.SetRequestHeader("Authorization", "Bearer " + mainPlayer.access_token);
+        create.SetRequestHeader("Content-Type", "application/json");
+        string body = "{\"game\":\"" + save.gamename + "\", \"creator\":\"" + mainPlayer.username + "\", \"savegame\":\"" + save.savegameid + "\"}";
+        create.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(body));
+        create.downloadHandler = new DownloadHandlerBuffer();
+
+        yield return create.SendWebRequest();
+
+        if (create.result == UnityWebRequest.Result.Success) result(create.downloadHandler.text);
+    }
+
+    //******************************** LOBBY ********************************
+
+    /// <summary>
+    /// Removes a player from a session in the LobbyService.
+    /// </summary>
+    /// <returns>Allows DELETE request</returns>
+    public static IEnumerator Leave(string HOST, Authentication mainPlayer, Session session)
+    {
+        string url = "http://" + HOST + ":4242/api/sessions/" + session.id + "/players/" + mainPlayer.username; //url for DELETE request
+        UnityWebRequest remove = UnityWebRequest.Delete(url);
+        remove.SetRequestHeader("Authorization", "Bearer " + mainPlayer.access_token);
+
+        yield return remove.SendWebRequest();
+
+        //TO BE WARNED IF THE REQUEST WAS NOT SUCCESSFUL, UNCOMMENT THE FOLLOWING LINES
+        //if (remove.result != UnityWebRequest.Result.Success)
+        //{
+        //    UnityEngine.Debug.Log(remove.result);
+        //    UnityEngine.Debug.Log("ERROR: PLAYER NOT REMOVED FROM SESSION");
+        //}
+    }
+
+    public static IEnumerator Launch(string HOST, Authentication mainPlayer, Session session, Action<bool> result) {
+
+        string url = "http://" + HOST + "4242/api/sessions/" + session.id; //url for POST request
+        UnityWebRequest launch = UnityWebRequest.Post(url, "body"); //body of POST cannot be empty
+        launch.SetRequestHeader("Authorization", "Bearer " + mainPlayer.access_token);
+
+        yield return launch.SendWebRequest();
+
+        result(launch.result == UnityWebRequest.Result.Success);
     }
 }

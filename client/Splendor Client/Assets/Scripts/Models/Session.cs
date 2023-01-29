@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Session {
-    //insert session information, maybe wont stay as a ScriptableObject
+
     public string id;
     public string creator;
     public string location;
@@ -14,9 +14,6 @@ public class Session {
     public bool launched;
     public List<string> players;
     public string savegameid;
-    public GameVariant variant;
-
-    public enum GameVariant { none, splendor, cities, tradingposts };
 
     public Session() {
         players = new List<string>();
@@ -43,35 +40,54 @@ public class Session {
         name = gameParameters["name"].ToString();
     }
 
-    public Session(string variant, int maxSessionPlayers, List<LobbyPlayer> playerList) {
-        this.SetVariant(variant);
-        this.maxSessionPlayers = maxSessionPlayers;
+    //public Session(string variant, int maxSessionPlayers, List<LobbyPlayer> playerList) {
+    //    this.SetVariant(variant);
+    //    this.maxSessionPlayers = maxSessionPlayers;
 
-        this.players = new List<string>();
-        foreach (LobbyPlayer player in playerList) {
-            players.Add(player.username);
-        }
-    }
+    //    this.players = new List<string>();
+    //    foreach (LobbyPlayer player in playerList) {
+    //        players.Add(player.username);
+    //    }
+    //}
 
     public string GetVariant(){
-        switch (variant) {
-            case GameVariant.splendor: return "splendor with orient";
-            case GameVariant.cities: return "splendor with orient and cities";
-            case GameVariant.tradingposts: return "splendor with orient and trading posts";
-            case GameVariant.none: return "default (splendor)";
-            default: return variant.ToString();
+        switch (name) {
+            case "splendor": return "splendor with orient";
+            case "cities": return "splendor with orient and cities";
+            case "tradingposts": return "splendor with orient and trading posts";
+            default: return name;
         }
     }
 
-    public void SetVariant(string variant){
-        Enum.TryParse<GameVariant>(variant, out this.variant);
-    }
-
+    /// <summary>
+    /// Used for displaying session info in "join" menu.
+    /// </summary>
+    /// <returns>string of players to display for the session</returns>
     public string PlayersToString(){
         string result = "";
-        foreach (string player in players) {
-            result += player + ", ";
+        if (players.Count > 0)
+        {
+            foreach (string player in players)
+            {
+                result += player + ", ";
+            }
+            result = result.Trim().TrimEnd(',');
         }
-        return result.Trim().TrimEnd(',');
+        return result;
+    }
+
+    /// <summary>
+    /// For SessionManager to be able to create request bodies including player info.
+    /// </summary>
+    /// <returns>string representation of JSON of the session's players</returns>
+    public string PlayersToJSONString() {
+        string result = "[";
+        if (players.Count > 0) {
+            foreach (string player in players) {
+                result += "\"" + player + "\", ";
+            }
+            result = result.Trim().TrimEnd(',');
+        }
+        return result + "]";
     }
 }
