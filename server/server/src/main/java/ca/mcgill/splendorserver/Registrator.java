@@ -34,7 +34,7 @@ public class Registrator {
   @Value("${oauth2.password}")
   private String serviceOauthPassword;
   private final String[] expansionsServiceName =
-        {"splendorOrient", "splendorOrientCities", "splendorOrientTradePosts"};
+        {"cities", "tradingposts"};
 
   /**
    * This is the constructor that will get its value provided by spring from the
