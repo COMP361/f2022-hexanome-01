@@ -206,6 +206,7 @@ public class MainMenuManager : MonoBehaviour {
     public void OnConfirmEndClick() {
         StartCoroutine(SessionManager.Leave(HOST, authentication, currentSession));
         LoadLastMenu();
+        sessionHash = "";
     }
 
     /// <summary>
@@ -214,6 +215,7 @@ public class MainMenuManager : MonoBehaviour {
     public void OnConfirmDeleteClick() {
         //DELETE request to /api/sessions/{session} ? see answer to Ed question
         LoadLastMenu();
+        sessionHash = "";
     }
 
     /// <summary>
