@@ -251,7 +251,7 @@ public class SessionManager : MonoBehaviour
 
     public static IEnumerator Launch(string HOST, Authentication mainPlayer, Session session, Action<bool> result) {
 
-        string url = "http://" + HOST + "4242/api/sessions/" + session.id; //url for POST request
+        string url = "http://" + HOST + ":4242/api/sessions/" + session.id; //url for POST request
         UnityWebRequest launch = UnityWebRequest.Post(url, "body"); //body of POST cannot be empty
         launch.SetRequestHeader("Authorization", "Bearer " + mainPlayer.access_token);
 
