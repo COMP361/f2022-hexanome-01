@@ -99,32 +99,10 @@ public class MainMenuManager : MonoBehaviour {
         else if (citiesToggle.isOn) variant = "cities";
         else if (tradingPostsToggle.isOn) variant = "tradingposts";
 
-        StartCoroutine(SessionManager.CreateSession(HOST, variant, authentication, PostCreatedSession));
-    }
+        StartCoroutine(SessionManager.CreateSession(HOST, variant, authentication, LobbyPolling));
 
-    public void PostCreatedSession(string id) {
-        StartCoroutine(SessionManager.GetSession(HOST, id, sessionHash, (string hash, long code, Session session) => {
-            if (code == 200)
-            {
-                if (session != null)
-                {
-                    previousMenu = LastMenuVisited.MAIN;
-                    currentSession = session;
-                    createSession.Invoke(); // location of this event may change in the future
-                    MakePlayers(); // displays the players in the current session
-
-                    if (currentSession.players.Count > 2 && currentSession.creator.Equals(authentication.username))
-                        startSessionButton.SetActive(true); // allow the host to start the session
-                }
-
-                sessionHash = hash;
-                if (lobbyView.activeInHierarchy) PostCreatedSession(currentSession.id);
-            }
-            else if (code == 408)
-            {
-                if (lobbyView.activeInHierarchy) PostCreatedSession(currentSession.id);
-            }
-        }));
+        previousMenu = LastMenuVisited.MAIN;
+        createSession.Invoke(); // location of this event may change in the future
     }
 
     /// <summary>
@@ -140,24 +118,8 @@ public class MainMenuManager : MonoBehaviour {
             globalGameClient.id = currentSession.id;
             networkManager.joinPolling(globalGameClient.id, this);
 
-            StartCoroutine(SessionManager.GetSession(HOST, currentSession.id, sessionHash, (string hash, long code, Session session) => {
-                if (code == 200)
-                {
-                    if (session != null)
-                    {
-                        currentSession = session;
-                        joinSession.Invoke();
-                        MakePlayers(); // displays the players in the current session
-                    }
-                    
-                    sessionHash = hash;
-                    if (lobbyView.activeInHierarchy) OnSessionJoinClick();
-                }
-                else if (code == 408)
-                {
-                    if (lobbyView.activeInHierarchy) OnSessionJoinClick();
-                }
-            }));
+            LobbyPolling(currentSession.id);
+            joinSession.Invoke();
         }
     }
 
@@ -182,11 +144,11 @@ public class MainMenuManager : MonoBehaviour {
                     }
 
                     sessionHash = hash;
-                    if (lobbyView.activeInHierarchy) OnSaveStartClick();
+                    if (lobbyView.activeInHierarchy) LobbyPolling(currentSession.id);
                 }
                 else if (code == 408)
                 {
-                    if (lobbyView.activeInHierarchy) OnSaveStartClick();
+                    if (lobbyView.activeInHierarchy) LobbyPolling(currentSession.id);
                 }
             }));
         }));
@@ -231,6 +193,45 @@ public class MainMenuManager : MonoBehaviour {
                     SceneManager.LoadScene(2);
                 }));//get game data from server
             }
+        }));
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="id"></param>
+    public void LobbyPolling(string id)
+    {
+        StartCoroutine(SessionManager.GetSession(HOST, id, sessionHash, (string hash, long code, Session session) => {
+            if (code == 200)
+            {
+                if (session != null)
+                {
+                    currentSession = session;
+                    MakePlayers(); // displays the players in the current session
+
+                    if (currentSession.players.Count > 2 && currentSession.creator.Equals(authentication.username))
+                        startSessionButton.SetActive(true); // allow the host to start the session
+                }
+
+                sessionHash = hash;
+                UnityEngine.Debug.Log(lobbyView.activeInHierarchy);
+                if (lobbyView.activeInHierarchy)
+                {
+                    UnityEngine.Debug.Log("Session creator: " + currentSession.creator);
+                    LobbyPolling(currentSession.id);
+                }
+            }
+            else if (code == 408)
+            {
+                UnityEngine.Debug.Log(lobbyView.activeInHierarchy);
+                if (lobbyView.activeInHierarchy)
+                {
+                    UnityEngine.Debug.Log("Session creator: " + currentSession.creator);
+                    LobbyPolling(currentSession.id);
+                }
+            }
+            else UnityEngine.Debug.Log("UH OH");
         }));
     }
 
