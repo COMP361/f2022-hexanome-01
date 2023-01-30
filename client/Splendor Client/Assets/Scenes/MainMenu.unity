@@ -6376,7 +6376,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: -0.000015259, y: 0}
-  m_SizeDelta: {x: 0.000015259, y: -294.03098}
+  m_SizeDelta: {x: 0.000015259, y: -294.02072}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1883028669
 MonoBehaviour:
@@ -7174,6 +7174,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blankSessionSlot: {fileID: 5936137226747782538, guid: 07070f819fdbe8b4ea1f3bd6748f9090, type: 3}
   sessionContent: {fileID: 829107801}
+  lobbyView: {fileID: 1813862441}
   blankSaveSlot: {fileID: 3726259565788923331, guid: 87de0460ad467174e88cbc1cc3681d2a, type: 3}
   saveContent: {fileID: 1634183612}
   blankPlayerSlot: {fileID: 3067114813929543824, guid: a1e3b02cabf6c82429c59f454ae416fe, type: 3}

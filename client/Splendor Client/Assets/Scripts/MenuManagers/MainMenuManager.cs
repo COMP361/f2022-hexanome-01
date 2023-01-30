@@ -15,7 +15,7 @@ public enum LastMenuVisited {
 }
 public class MainMenuManager : MonoBehaviour {
 
-    public GameObject blankSessionSlot, sessionContent, blankSaveSlot, saveContent, blankPlayerSlot, playerContent, joinButton, startButton, startSessionButton;
+    public GameObject blankSessionSlot, sessionContent, lobbyView, blankSaveSlot, saveContent, blankPlayerSlot, playerContent, joinButton, startButton, startSessionButton;
     public Toggle splendorToggle, citiesToggle, tradingPostsToggle;
     public UnityEvent promptEndSession, promptDeleteSession, joinSession, loadSave, createSession, exitToMain, exitToSession, exitToSave;
     public Text playerText, sessionNameText;
@@ -31,6 +31,7 @@ public class MainMenuManager : MonoBehaviour {
     public GlobalGameClient globalGameClient;
     public GameData game;
     private string sessionsHash = "";
+    private string sessionHash = "";
 
     private string HOST = Environment.GetEnvironmentVariable("SPLENDOR_HOST_IP");
 
@@ -98,29 +99,32 @@ public class MainMenuManager : MonoBehaviour {
         else if (citiesToggle.isOn) variant = "cities";
         else if (tradingPostsToggle.isOn) variant = "tradingposts";
 
-        StartCoroutine(SessionManager.CreateSession(HOST, variant, authentication, (string id) => {
-            StartCoroutine(SessionManager.GetSession(HOST, id, (Session session) => {
-                previousMenu = LastMenuVisited.MAIN;
-                currentSession = session;
-                createSession.Invoke(); // location of this event may change in the future
-                MakePlayers(); // displays the players in the current session
-
-                //BROKEN POLLING
-                //while (currentSession.players.Count < currentSession.minSessionPlayers) { // check whether the session can be launched
-                //    Invoke("PollSession", 3); // calls poll session after 3 seconds
-                //    MakePlayers();
-                //}
-
-                startSessionButton.SetActive(true); // allow the host to start the session
-            }));
-        }));
+        StartCoroutine(SessionManager.CreateSession(HOST, variant, authentication, PostCreatedSession));
     }
 
-    /// <summary>
-    /// GET request for session data.
-    /// </summary>
-    private void PollSession() {
-        StartCoroutine(SessionManager.GetSession(HOST, currentSession.id, (Session result) => currentSession = result));
+    public void PostCreatedSession(string id) {
+        StartCoroutine(SessionManager.GetSession(HOST, id, sessionHash, (string hash, long code, Session session) => {
+            if (code == 200)
+            {
+                if (session != null)
+                {
+                    previousMenu = LastMenuVisited.MAIN;
+                    currentSession = session;
+                    createSession.Invoke(); // location of this event may change in the future
+                    MakePlayers(); // displays the players in the current session
+
+                    if (currentSession.players.Count > 2 && currentSession.creator.Equals(authentication.username))
+                        startSessionButton.SetActive(true); // allow the host to start the session
+                }
+
+                sessionHash = hash;
+                if (lobbyView.activeInHierarchy) PostCreatedSession(currentSession.id);
+            }
+            else if (code == 408)
+            {
+                if (lobbyView.activeInHierarchy) PostCreatedSession(currentSession.id);
+            }
+        }));
     }
 
     /// <summary>
@@ -136,17 +140,23 @@ public class MainMenuManager : MonoBehaviour {
             globalGameClient.id = currentSession.id;
             networkManager.joinPolling(globalGameClient.id, this);
 
-            StartCoroutine(SessionManager.GetSession(HOST, currentSession.id, (Session session) => {
-                currentSession = session;
-                joinSession.Invoke();
-
-                //BROKEN POLLING
-                //while (game == null) { // check whether the session has been launched
-                //    Invoke("PollSession", 3); // calls poll session after 3 seconds
-                //    MakePlayers();
-                //}
-                //UNCOMMENT WHEN POLLING WORKS
-                //SceneManager.LoadScene(2);
+            StartCoroutine(SessionManager.GetSession(HOST, currentSession.id, sessionHash, (string hash, long code, Session session) => {
+                if (code == 200)
+                {
+                    if (session != null)
+                    {
+                        currentSession = session;
+                        joinSession.Invoke();
+                        MakePlayers(); // displays the players in the current session
+                    }
+                    
+                    sessionHash = hash;
+                    if (lobbyView.activeInHierarchy) OnSessionJoinClick();
+                }
+                else if (code == 408)
+                {
+                    if (lobbyView.activeInHierarchy) OnSessionJoinClick();
+                }
             }));
         }
     }
@@ -157,14 +167,27 @@ public class MainMenuManager : MonoBehaviour {
     /// </summary>
     public void OnSaveStartClick() {
         StartCoroutine(SessionManager.CreateSavedSession(HOST, currentSave, authentication, (string id) => {
-            StartCoroutine(SessionManager.GetSession(HOST, id, (Session session) => {
-                previousMenu = LastMenuVisited.LOAD;
-                currentSession = session;
+            StartCoroutine(SessionManager.GetSession(HOST, id, sessionHash, (string hash, long code, Session session) => {
+                if (code == 200)
+                {
+                    if (session != null)
+                    {
+                        previousMenu = LastMenuVisited.LOAD;
+                        currentSession = session;
+                        loadSave.Invoke(); // location of this event may change in the future
+                        MakePlayers(); // displays the players in the current session
 
-                //UPDATE WITH POLLING
+                        if (currentSession.players.Count > 2 && currentSession.creator.Equals(authentication.username))
+                            startSessionButton.SetActive(true); // allow the host to start the session
+                    }
 
-                loadSave.Invoke(); // location of this event may change in the future
-                MakePlayers(); // displays the players in the current session
+                    sessionHash = hash;
+                    if (lobbyView.activeInHierarchy) OnSaveStartClick();
+                }
+                else if (code == 408)
+                {
+                    if (lobbyView.activeInHierarchy) OnSaveStartClick();
+                }
             }));
         }));
     }
@@ -173,10 +196,8 @@ public class MainMenuManager : MonoBehaviour {
     /// Prompts the player to confirm that they want to leave the lobby.
     /// </summary>
     public void OnLobbyBackClick() {
-        if (authentication.username.Equals(currentSession.creator)) {
-            promptDeleteSession.Invoke();
-        }
-        promptEndSession.Invoke();
+        if (authentication.username.Equals(currentSession.creator)) promptDeleteSession.Invoke();
+        else promptEndSession.Invoke();
     }
 
     /// <summary>

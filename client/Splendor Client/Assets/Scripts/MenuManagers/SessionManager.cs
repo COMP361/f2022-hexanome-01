@@ -42,7 +42,6 @@ public class SessionManager : MonoBehaviour
             var sBuilder = new StringBuilder();
             foreach (byte b in newHashBytes) sBuilder.Append(b.ToString("x2"));
             string newHash = sBuilder.ToString();
-            UnityEngine.Debug.Log(newHash);
 
             if (request.responseCode == 200)
             {
@@ -115,19 +114,29 @@ public class SessionManager : MonoBehaviour
     /// <param name="id">String representing the id of the session whose information is being retrieved</param>
     /// <param name="variant">String representing the variant of the session whose information is being retrieved</param>
     /// <returns>Allows GET request</returns>
-    public static IEnumerator GetSession(string HOST, string id, Action<Session> result)
+    public static IEnumerator GetSession(string HOST, string id, string hash, Action<string, long, Session> result)
     {
         string url = "http://" + HOST + ":4242/api/sessions/" + id; //url for GET request
+        if (hash != null) url += ("?hash=" + hash); //url for GET request
         UnityWebRequest request = UnityWebRequest.Get(url);
         yield return request.SendWebRequest();
 
         if (request.result == UnityWebRequest.Result.Success)
         {
+            if (request.responseCode == 200)
+            {
+                //get hash of result
+                byte[] newHashBytes = MD5.Create().ComputeHash(request.downloadHandler.data);
+                var sBuilder = new StringBuilder();
+                foreach (byte b in newHashBytes) sBuilder.Append(b.ToString("x2"));
+                string newHash = sBuilder.ToString();
 
-            JSONObject json = (JSONObject) JSONHandler.DecodeJsonRequest(request.downloadHandler.text);
-            Session session = new Session(id, json.dictionary);
+                JSONObject json = (JSONObject)JSONHandler.DecodeJsonRequest(request.downloadHandler.text);
+                Session session = new Session(id, json.dictionary);
 
-            result(session);
+                result(newHash, 200, session);
+            }
+            else result(null, request.responseCode, null);
         }
     }
 
