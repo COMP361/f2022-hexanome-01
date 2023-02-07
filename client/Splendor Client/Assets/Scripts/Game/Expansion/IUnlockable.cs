@@ -47,6 +47,6 @@ public struct Condition {
 }
 public interface IUnlockable {
     public void Observe(Player player);
-    public void PerformAbility();
+    public void PerformAbility(Player player);
     public bool Active { get; set; }
 }

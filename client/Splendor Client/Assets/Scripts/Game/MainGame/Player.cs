@@ -31,6 +31,10 @@ public class Player : MonoBehaviour
         return pointsTotal;
     }
 
+    public void AddPoints(int extra) {
+        pointsTotal += extra;
+    }
+
     public bool ReserveCard(Card card) { //TODO: keep track of total gold tokens - if none left in bank, dont get a gold token when reserving. also, can only have more than 3 reserves
         if (cardReserves.Count <= 3) {
             cardReserves.Add(card);
