@@ -15,21 +15,7 @@ MonoBehaviour:
   sprite: {fileID: 21300000, guid: 5f9b7602495b41a4cacd689fa03ab72e, type: 3}
   effectType: 1
   active: 0
-  ability:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  ability: {fileID: 7657589715850839755, guid: b477f6f11391d804c88d65afc127737d, type: 3}
   condition:
     red: 0
     blue: 0

@@ -8,7 +8,7 @@ public class TradingPost : ScriptableObject, IUnlockable {
     [SerializeField] private Sprite sprite;
     [SerializeField] private EffectType effectType;
     [SerializeField] private bool active;
-    [SerializeField] private IAbility ability;
+    [SerializeField] private GameObject ability;
     [SerializeField] private Condition condition;
 
     public bool Active { get { return active; } set { active = value; } }
@@ -18,8 +18,8 @@ public class TradingPost : ScriptableObject, IUnlockable {
     public EffectType EffectType { get { return effectType; } }
 
     public void PerformAbility(Player player) {
-        ability.Setup(player);
-        ability.Activate();
+        ability.GetComponent<IAbility>().Setup(player);
+        ability.GetComponent<IAbility>().Activate();
     }
 
     public void Observe(Player player) {
@@ -27,12 +27,12 @@ public class TradingPost : ScriptableObject, IUnlockable {
             bool temp = condition.CheckCondition(player);
             if (temp && !active) {
                 active = true;
-                ability.Setup(player);
-                ability.Activate();
+                ability.GetComponent<IAbility>().Setup(player);
+                ability.GetComponent<IAbility>().Activate();
             }
             else if (!temp && active) {
-                ability.Setup(player);
-                ability.Deactivate();
+                ability.GetComponent<IAbility>().Setup(player);
+                ability.GetComponent<IAbility>().Deactivate();
                 active = false;
             }
             else
