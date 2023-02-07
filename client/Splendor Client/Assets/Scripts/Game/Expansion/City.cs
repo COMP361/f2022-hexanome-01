@@ -15,7 +15,7 @@ public class City : ScriptableObject, IUnlockable {
 
     public EffectType EffectType { get { return effectType; } }
 
-    public void PerformAbility() {
+    public void PerformAbility(Player player) {
         //start endgame
     }
 

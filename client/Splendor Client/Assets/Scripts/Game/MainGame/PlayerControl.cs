@@ -11,7 +11,6 @@ public class PlayerControl : MonoBehaviour {
     [SerializeField] private Player player; //this client/player
     [SerializeField] public List<PlayerData> gamePlayersData; //can change this to a different type later, playerData is combined from LobbyPlayer and Player class
     [SerializeField] private OrientMenuManager omm;
-
     public Player client {
         get { return player; }
     }
