@@ -124,7 +124,7 @@ public class NetworkManager : MonoBehaviour
                     Debug.Log(request.error);
                 }
                 else {
-                    Debug.Log(request.downloadHandler.text);
+                    //Debug.Log(request.downloadHandler.text);
 
                     string gameString = request.downloadHandler.text;
 
