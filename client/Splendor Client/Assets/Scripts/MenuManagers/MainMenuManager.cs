@@ -44,29 +44,25 @@ public class MainMenuManager : MonoBehaviour {
             exitToSession.Invoke();
     }
 
+    //******************************** MAIN MENU ********************************
+
     /// <summary>
     /// Implements long polling for the GET request to the LobbyService for data on all sessions.
     /// </summary>
     public void OnBaseJoinClick() {
         game = null;
-        StartCoroutine(SessionManager.GetSessions(HOST, sessionsHash, (string hash, long code, List<Session> sessions) => {
-            if (code == 200)
-            {
-                if (sessions != null && sessions.Count > 0)
-                {
+        StartCoroutine(SessionManager.GetSessions(HOST, sessionsHash, (string hash, List<Session> sessions) => {
+            if (hash != null) {
+                if (sessions != null && sessions.Count > 0) {
                     List<Session> available = determineAvailable(sessions); //determine which sessions are available
 
                     if (available != null && available.Count > 0) MakeSessions(available); //display available sessions
                     else ClearChildren(sessionContent); //clear sessions display
-                }
-                else ClearChildren(sessionContent); //clear sessions display
+                } else ClearChildren(sessionContent); //clear sessions display
 
                 sessionsHash = hash;
                 if (sessionContent.activeInHierarchy) OnBaseJoinClick();
-            }
-            else if (code == 408) {
-                if (sessionContent.activeInHierarchy) OnBaseJoinClick();
-            }
+            } else if (sessionContent.activeInHierarchy) OnBaseJoinClick();
         }));
     }
 
@@ -99,33 +95,13 @@ public class MainMenuManager : MonoBehaviour {
         else if (citiesToggle.isOn) variant = "cities";
         else if (tradingPostsToggle.isOn) variant = "tradingposts";
 
-        StartCoroutine(SessionManager.CreateSession(HOST, variant, authentication, PostCreatedSession));
+        StartCoroutine(SessionManager.CreateSession(HOST, variant, authentication, LobbyPolling));
+
+        previousMenu = LastMenuVisited.MAIN;
+        createSession.Invoke();
     }
 
-    public void PostCreatedSession(string id) {
-        StartCoroutine(SessionManager.GetSession(HOST, id, sessionHash, (string hash, long code, Session session) => {
-            if (code == 200)
-            {
-                if (session != null)
-                {
-                    previousMenu = LastMenuVisited.MAIN;
-                    currentSession = session;
-                    createSession.Invoke(); // location of this event may change in the future
-                    MakePlayers(); // displays the players in the current session
-
-                    if (currentSession.players.Count > 2 && currentSession.creator.Equals(authentication.username))
-                        startSessionButton.SetActive(true); // allow the host to start the session
-                }
-
-                sessionHash = hash;
-                if (lobbyView.activeInHierarchy) PostCreatedSession(currentSession.id);
-            }
-            else if (code == 408)
-            {
-                if (lobbyView.activeInHierarchy) PostCreatedSession(currentSession.id);
-            }
-        }));
-    }
+    //******************************** JOIN MENU ********************************
 
     /// <summary>
     /// Sends the PUT request to the LobbyService that adds a player to a session.
@@ -140,26 +116,12 @@ public class MainMenuManager : MonoBehaviour {
             globalGameClient.id = currentSession.id;
             networkManager.joinPolling(globalGameClient.id, this);
 
-            StartCoroutine(SessionManager.GetSession(HOST, currentSession.id, sessionHash, (string hash, long code, Session session) => {
-                if (code == 200)
-                {
-                    if (session != null)
-                    {
-                        currentSession = session;
-                        joinSession.Invoke();
-                        MakePlayers(); // displays the players in the current session
-                    }
-                    
-                    sessionHash = hash;
-                    if (lobbyView.activeInHierarchy) OnSessionJoinClick();
-                }
-                else if (code == 408)
-                {
-                    if (lobbyView.activeInHierarchy) OnSessionJoinClick();
-                }
-            }));
+            LobbyPolling(currentSession.id);
+            joinSession.Invoke();
         }
     }
+
+    //******************************** SAVE MENU ********************************
 
     /// <summary>
     /// Sends the POST request to the LobbyService that creates a new session from a savegameid
@@ -167,11 +129,9 @@ public class MainMenuManager : MonoBehaviour {
     /// </summary>
     public void OnSaveStartClick() {
         StartCoroutine(SessionManager.CreateSavedSession(HOST, currentSave, authentication, (string id) => {
-            StartCoroutine(SessionManager.GetSession(HOST, id, sessionHash, (string hash, long code, Session session) => {
-                if (code == 200)
-                {
-                    if (session != null)
-                    {
+            StartCoroutine(SessionManager.GetSession(HOST, id, sessionHash, (string hash, Session session) => {
+                if (hash != null) {
+                    if (session != null) {
                         previousMenu = LastMenuVisited.LOAD;
                         currentSession = session;
                         loadSave.Invoke(); // location of this event may change in the future
@@ -182,15 +142,13 @@ public class MainMenuManager : MonoBehaviour {
                     }
 
                     sessionHash = hash;
-                    if (lobbyView.activeInHierarchy) OnSaveStartClick();
-                }
-                else if (code == 408)
-                {
-                    if (lobbyView.activeInHierarchy) OnSaveStartClick();
-                }
+                    if (lobbyView.activeInHierarchy) LobbyPolling(currentSession.id);
+                } else if (lobbyView.activeInHierarchy) LobbyPolling(currentSession.id);
             }));
         }));
     }
+
+    //******************************** LOBBY ********************************
 
     /// <summary>
     /// Prompts the player to confirm that they want to leave the lobby.
@@ -224,13 +182,38 @@ public class MainMenuManager : MonoBehaviour {
     public void OnLobbyStartClick() {
 
         StartCoroutine(SessionManager.Launch(HOST, authentication, currentSession, (bool successfulLaunch) => {
-            if (successfulLaunch){
+            if (successfulLaunch) {
                 StartCoroutine(GameNetworkManager.GetGame(HOST, currentSession.id, (GameData game) =>
                 {
                     this.game = game;
                     SceneManager.LoadScene(2);
                 }));//get game data from server
             }
+        }));
+    }
+
+    //******************************** HELPERS ********************************
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="id"></param>
+    public void LobbyPolling(string id)
+    {
+        StartCoroutine(SessionManager.GetSession(HOST, id, sessionHash, (string hash, Session session) => {
+            if (hash != null) {
+                if (session != null) {
+                    currentSession = session;
+                    SetupLobby();
+                    MakePlayers(); // displays the players in the current session
+
+                    if (currentSession.players.Count > 2 && currentSession.creator.Equals(authentication.username))
+                        startSessionButton.SetActive(true); // allow the host to start the session
+                }
+
+                sessionHash = hash;
+                if (lobbyView.activeInHierarchy) LobbyPolling(currentSession.id);
+            } else if (lobbyView.activeInHierarchy) LobbyPolling(currentSession.id);
         }));
     }
 
@@ -288,7 +271,7 @@ public class MainMenuManager : MonoBehaviour {
     /// </summary>
     /// <param name="newSession">currently selected Session</param>
     public void SetSession(Session newSession) {
-        currentSession = newSession;
+        if (newSession != null) currentSession = newSession;
     }
 
     /// <summary>
@@ -296,7 +279,7 @@ public class MainMenuManager : MonoBehaviour {
     /// </summary>
     /// <param name="newSave">currently selected Save</param>
     public void SetSave(Save newSave) {
-        currentSave = newSave;
+        if (newSave != null) currentSave = newSave;
     }
 
     /// <summary>
@@ -304,7 +287,7 @@ public class MainMenuManager : MonoBehaviour {
     /// </summary>
     /// <param name="sessions">Session List of all available sessions which must be displayed</param>
     public void MakeSessions(List<Session> sessions) { 
-        currentSession = null;
+        //currentSession = null;
 
         ClearChildren(sessionContent);
         foreach (Session session in sessions) {
@@ -320,7 +303,7 @@ public class MainMenuManager : MonoBehaviour {
     /// </summary>
     /// <param name="saves">Save List of all saves relevant to the main player which must be displayed</param>
     public void MakeSaves(List<Save> saves) { 
-        currentSave = null;
+        //currentSave = null;
 
         ClearChildren(saveContent);
         foreach (Save save in saves) {

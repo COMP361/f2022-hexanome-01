@@ -30,33 +30,31 @@ public class SessionManager : MonoBehaviour
     /// <param name="HOST">IP address to send the request to</param>
     /// <param name="result">method that will receive the list of sessions as a parameter</param>
     /// <returns>Allows GET request</returns>
-    public static IEnumerator GetSessions(string HOST, string hash, Action<string, long, List<Session>> result){
+    public static IEnumerator GetSessions(string HOST, string hash, Action<string, List<Session>> result){
         string url = "http://" + HOST + ":4242/api/sessions";
         if (hash != null) url += ("?hash=" + hash); //url for GET request
         UnityWebRequest request = UnityWebRequest.Get(url);
         yield return request.SendWebRequest();
 
-        if (request.result == UnityWebRequest.Result.Success) {
+        if (request.responseCode == 200)
+        {
             //get hash of result
             byte[] newHashBytes = MD5.Create().ComputeHash(request.downloadHandler.data);
             var sBuilder = new StringBuilder();
             foreach (byte b in newHashBytes) sBuilder.Append(b.ToString("x2"));
             string newHash = sBuilder.ToString();
 
-            if (request.responseCode == 200)
+            JSONObject json = (JSONObject)JSONHandler.DecodeJsonRequest(request.downloadHandler.text);
+            if (!json.Equals("{\"sessions\":{}}"))
             {
-                JSONObject json = (JSONObject)JSONHandler.DecodeJsonRequest(request.downloadHandler.text);
-                if (!json.Equals("{\"sessions\":{}}"))
-                {
-                    List<Session> sessions = new List<Session>();
-                    foreach (DictionaryEntry de in (IDictionary)json["sessions"])
-                        sessions.Add(new Session(de.Key.ToString(), (IDictionary)de.Value));
+                List<Session> sessions = new List<Session>();
+                foreach (DictionaryEntry de in (IDictionary)json["sessions"])
+                    sessions.Add(new Session(de.Key.ToString(), (IDictionary)de.Value));
 
-                    result(newHash, 200, sessions); //to imitate returning the session list
-                }
+                result(newHash, sessions); //to imitate returning the session list
             }
-            else result(null, request.responseCode, null);
         }
+        else if (request.responseCode == 408) result(null, null);
     }
 
     /// <summary>
@@ -104,7 +102,6 @@ public class SessionManager : MonoBehaviour
 
         if (create.result == UnityWebRequest.Result.Success)
             result(create.downloadHandler.text);
-            //GetSessionStart(create.downloadHandler.text, variant, false);
     }
 
     /// <summary>
@@ -114,30 +111,25 @@ public class SessionManager : MonoBehaviour
     /// <param name="id">String representing the id of the session whose information is being retrieved</param>
     /// <param name="variant">String representing the variant of the session whose information is being retrieved</param>
     /// <returns>Allows GET request</returns>
-    public static IEnumerator GetSession(string HOST, string id, string hash, Action<string, long, Session> result)
+    public static IEnumerator GetSession(string HOST, string id, string hash, Action<string, Session> result)
     {
         string url = "http://" + HOST + ":4242/api/sessions/" + id; //url for GET request
         if (hash != null) url += ("?hash=" + hash); //url for GET request
         UnityWebRequest request = UnityWebRequest.Get(url);
         yield return request.SendWebRequest();
 
-        if (request.result == UnityWebRequest.Result.Success)
-        {
-            if (request.responseCode == 200)
-            {
-                //get hash of result
-                byte[] newHashBytes = MD5.Create().ComputeHash(request.downloadHandler.data);
-                var sBuilder = new StringBuilder();
-                foreach (byte b in newHashBytes) sBuilder.Append(b.ToString("x2"));
-                string newHash = sBuilder.ToString();
+        if (request.responseCode == 200) {
+            //get hash of result
+            byte[] newHashBytes = MD5.Create().ComputeHash(request.downloadHandler.data);
+            var sBuilder = new StringBuilder();
+            foreach (byte b in newHashBytes) sBuilder.Append(b.ToString("x2"));
+            string newHash = sBuilder.ToString();
 
-                JSONObject json = (JSONObject)JSONHandler.DecodeJsonRequest(request.downloadHandler.text);
-                Session session = new Session(id, json.dictionary);
+            JSONObject json = (JSONObject)JSONHandler.DecodeJsonRequest(request.downloadHandler.text);
+            Session session = new Session(id, json.dictionary);
 
-                result(newHash, 200, session);
-            }
-            else result(null, request.responseCode, null);
-        }
+            result(newHash, session);
+        } else if (request.responseCode == 408) result(null, null);
     }
 
     //******************************** LOAD SAVE ********************************

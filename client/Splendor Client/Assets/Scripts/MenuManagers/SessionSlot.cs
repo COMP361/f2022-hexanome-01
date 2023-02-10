@@ -8,10 +8,6 @@ public class SessionSlot : MonoBehaviour {
     public GameObject joinButton;
     [SerializeField] private MainMenuManager thisManager;
     [SerializeField] private Session thisSession;
-    //for now clicking join on a session will just put user into a test session
-    public void JoinSession() {
-        //empty for now, may not even be necessary
-    }
 
     public void Setup(MainMenuManager newManager, Session newSession, GameObject joinButton) {
         thisSession = newSession;
