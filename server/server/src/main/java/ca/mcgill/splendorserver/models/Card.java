@@ -2,7 +2,7 @@ package ca.mcgill.splendorserver.models;
 
 import java.util.HashMap;
 
-public class Card implements Comparable{
+public class Card {
 	
 	private int id;
 	private CardType type;

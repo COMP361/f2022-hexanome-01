@@ -12,6 +12,12 @@ public class TokenBank {
 			quantities.put(t, 0);
 	}
 	
+	public TokenBank(int number) {
+		quantities = new HashMap<Token, Integer>();
+		for (Token t : Token.values())
+			quantities.put(t, number);
+	}
+	
 	public boolean addAll(String[] tokens) {
 		for (String s : tokens) {
 			if (!addOne(s)) return false;
