@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,12 @@ public class Polling : MonoBehaviour
         StartCoroutine(MakeRequests());
     }
     private IEnumerator MakeRequests(){
-       string url = "http://localhost:4244/splendor/pingPolling/";
+
+       string host = Environment.GetEnvironmentVariable("SPLENDOR_HOST_IP");
+       if (String.IsNullOrEmpty(host))
+           host = "localhost";
+
+       string url = "http://" + host + ":4244/splendor/pingPolling/";
        bool ready = false;
        while(!ready)
         using(UnityWebRequest request = UnityWebRequest.Get(url)){

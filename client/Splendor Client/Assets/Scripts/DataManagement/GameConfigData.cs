@@ -18,11 +18,11 @@ public class GameConfigData {
     public NobleData[] allNobles;
 
     public GameConfigData() { }
-    public GameConfigData(Authentication mainPlayer, SessionData session, AllCards allCards, NobleRow allNobles) {
-        gameName = session.name;
+    public GameConfigData(Authentication mainPlayer, Session session, AllCards allCards, NobleRow allNobles) {
+        gameName = session.GetVariant();
         hostId = mainPlayer.username;
         playerIds = new string[4];
-        for(int i = 0;i < session.players.Length; i++) {
+        for(int i = 0;i < session.players.Count; i++) {
             playerIds[i] = session.players[i];
         }
         deck1 = allCards.cards[0].deck.ToArray();

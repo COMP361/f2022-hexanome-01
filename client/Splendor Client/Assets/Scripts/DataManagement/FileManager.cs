@@ -6,6 +6,7 @@ using JetBrains.Annotations;
 using System.Text;
 
 public static class FileManager {
+
     //basic file management classes
     private static void WriteToFile(string fileName, string json) {
         FileStream stream = new FileStream(Application.persistentDataPath + "/" + fileName + ".json", FileMode.Create);
@@ -31,20 +32,6 @@ public static class FileManager {
     //we only need to use them as strings, so pass a false to second parameter, but having the file option is useful for debugging purposes
     //location of these files on your machine may vary, for windows its in C:/Users/{profile name}/AppData/LocalLow/Comp 361 2022 Hexanome01/Splendor Client
     //(AppData is a hidden folder, so either enable viewing of hidden folders or in search bar put %appdata% to find the folder
-    public static byte[] EncodeSession(Session session, bool desireFileCreation) {
-        SessionData data = new SessionData(session);
-        string json = JsonUtility.ToJson(data);
-        if (desireFileCreation)
-            WriteToFile("SessionData-" + session.players[0], json);
-        return Encoding.UTF8.GetBytes(json);
-    }
-
-    public static Session DecodeSession(string source, bool isAFile) { //if not a file, pass the json string. if a file, pass filename (same logic applies for all decode methods)
-        string json = isAFile ? ReadFromFile(source) : source;
-        SessionData data = new SessionData();
-        JsonUtility.FromJsonOverwrite(json, data);
-        return new Session(data);
-    }
 
     public static byte[] EncodeGameState(GameData data, bool desireFileCreation) { //maybe instead of passing the data, pass the parameters and create the payload in this method
         //SessionData data = new SessionData(session);
@@ -70,48 +57,10 @@ public static class FileManager {
         return Encoding.UTF8.GetBytes(json);
     }
 
-
-
     public static GameData DecodeGameState(string source, bool isAFile) {
         string json = isAFile ? ReadFromFile(source) : source;
         GameData data = new GameData();
         JsonUtility.FromJsonOverwrite(json, data);
         return data;
     }
-
-    public static void LoadSave() {
-
-    }
-
-    public static void CreateSave() {
-
-    }
-
-    public static byte[] EncodeSessionList(SessionListData data, bool desireFileCreation) {
-        string json = JsonUtility.ToJson(data);
-        if (desireFileCreation)
-            WriteToFile("SessionList", json);
-        return Encoding.UTF8.GetBytes(json);
-    }
-
-    public static SessionListData DecodeSessionListData(string source, bool isAFile) {
-        string json = isAFile ? ReadFromFile(source) : source;
-        SessionListData data = new SessionListData();
-        JsonUtility.FromJsonOverwrite(json, data);
-        return data;
-    }
-
-    // public static byte[] EncodePlayerData(PlayerData data, bool desireFileCreation) {
-    //     string json = JsonUtility.ToJson(data);
-    //     if (desireFileCreation)
-    //         WriteToFile("PlayerData-" + data.access_token, json);
-    //     return Encoding.UTF8.GetBytes(json);
-    // }
-
-    // public static PlayerData DecodePlayerData(string source, bool isAFile) {
-    //     string json = isAFile ? ReadFromFIle(source) : source;
-    //     PlayerData data = new PlayerData();
-    //     JsonUtility.FromJsonOverwrite(json, data);
-    //     return data;
-    // }
 }

@@ -76,7 +76,7 @@ public class JsonHandler {
   }
 
   /**
-   * Dencodes a hashmap to a JSON-type field.
+   * Decodes a hashmap to a JSON-type field.
    *
    * @param message JSON string.
    * @return object (either a JSONObject, JSONArray, or JSONValue).
