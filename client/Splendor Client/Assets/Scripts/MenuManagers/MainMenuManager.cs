@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.Networking;
 using System.Linq;
 
 public enum LastMenuVisited {
@@ -13,43 +14,26 @@ public enum LastMenuVisited {
     JOIN
 }
 public class MainMenuManager : MonoBehaviour {
-    public GameObject blankSessionSlot, sessionContent, blankSaveSlot, saveContent, blankPlayerSlot, playerContent;
-    private Session createdSession = new Session();
-    public SaveList saveList;
-    public SessionList sessionList;
-    public UnityEvent leaveSession, promptEndSession, joinSession, loadSave, createSession, exitToMain, exitToSession, exitToSave;
-    public Text playerText, sessionNameText, nameField;
-    [SerializeField] private Save currentSave;
-    private Session currentSession;
-    private bool sessionCreated;
+
+    public GameObject blankSessionSlot, sessionContent, lobbyView, blankSaveSlot, saveContent, blankPlayerSlot, playerContent, joinButton, startButton, startSessionButton;
+    public Toggle splendorToggle, citiesToggle, tradingPostsToggle;
+    public UnityEvent promptEndSession, promptDeleteSession, joinSession, loadSave, createSession, exitToMain, exitToSession, exitToSave;
+    public Text playerText, sessionNameText;
+    public Save currentSave;
+    public Session currentSession;
     private LastMenuVisited previousMenu = LastMenuVisited.MAIN;
-    public Save DEFAULTSAVE; //temp var until saves work properly.
     public NetworkManager networkManager;
     public Authentication authentication;
-    private SessionData[] sessions;
 
     public AllCards allCards;
     public NobleRow allNobles;
 
     public GlobalGameClient globalGameClient;
-    //TODO
-    //      
-    //      player colours in lobby?
+    public GameData game;
+    private string sessionsHash = "";
+    private string sessionHash = "";
 
-    //EMPTY START METHOD BEFORE DEMO, creates 2 hardcoded players
-    private void Start() {
-        List<LobbyPlayer> temp1 = new List<LobbyPlayer>();
-        temp1.Add(new LobbyPlayer("Yang", "TEMP", "TEMP_REFRESH", DateTime.Now.ToString()));
-        temp1.Add(new LobbyPlayer("Joshua", "TEMP", "TEMP_REFRESH", DateTime.Now.ToString()));
-        sessionList.sessions.Add(new Session("splendor", 4, temp1));
-    }
-
-    public void TempCreateSessionJson() {
-        FileManager.EncodeSession(sessionList.sessions[0], true);
-    }
-    public void TempLoadSessionJson() {
-        sessionList.sessions.Add(FileManager.DecodeSession("SessionData-Joshua", true));
-    }
+    private string HOST = Environment.GetEnvironmentVariable("SPLENDOR_HOST_IP");
 
     public void LoadLastMenu() {
         if (previousMenu == LastMenuVisited.MAIN)
@@ -60,63 +44,216 @@ public class MainMenuManager : MonoBehaviour {
             exitToSession.Invoke();
     }
 
-    public void CreateSession(Session session) {
-        previousMenu = LastMenuVisited.MAIN;
-        currentSession = session;
-        sessionCreated = true;
+    //******************************** MAIN MENU ********************************
 
-        createSession.Invoke(); // location of this event may change in the future
-        MakePlayers(); // displays the players in the current session
+    /// <summary>
+    /// Implements long polling for the GET request to the LobbyService for data on all sessions.
+    /// </summary>
+    public void OnBaseJoinClick() {
+        game = null;
+        StartCoroutine(SessionManager.GetSessions(HOST, sessionsHash, (string hash, List<Session> sessions) => {
+            if (hash != null) {
+                if (sessions != null && sessions.Count > 0) {
+                    List<Session> available = determineAvailable(sessions); //determine which sessions are available
+
+                    if (available != null && available.Count > 0) MakeSessions(available); //display available sessions
+                    else ClearChildren(sessionContent); //clear sessions display
+                } else ClearChildren(sessionContent); //clear sessions display
+
+                sessionsHash = hash;
+                if (sessionContent.activeInHierarchy) OnBaseJoinClick();
+            } else if (sessionContent.activeInHierarchy) OnBaseJoinClick();
+        }));
     }
 
     /// <summary>
-    /// Determines if a session from a given list of sessions is available to join and displays it if so.
+    /// Sends the GET request to the LobbyService for data on all saved games
+    /// and sends the data to "BaseLoad".
     /// </summary>
-    /// <param name="sessions">SessionListData of all sessions currently stored in the LobbyService</param>
-    public void determineAvailable(List<Session> allSessions)
-    {
-        List<Session> availableSessions = new List<Session>();
+    public void OnBaseLoadClick() {
+        game = null;
+        StartCoroutine(SessionManager.GetSaves(HOST, authentication, (List<Save> saves) => {
+            if (saves != null && saves.Count > 0){
+                List<Save> relevant = determineRelevant(saves);
 
-        if (allSessions != null)
-        {
-            foreach (Session session in allSessions)
-            {
-                if (session.launched == true) continue; //a launched session is not available
-                else if (session.players.Count == session.maxSessionPlayers) continue; //a full session is not available
-                else availableSessions.Add(session);
-            }
-
-            MakeSessions(availableSessions); //displays the available sessions
-        }
-        else { //if there are no sessions available
-            ClearChildren(sessionContent); 
-        }
+                if (relevant != null && relevant.Count > 0) MakeSaves(relevant); //displays relevant saved games
+                else ClearChildren(saveContent); //clear saved games display
+            } else ClearChildren(saveContent); //clear saved games display
+        }));
     }
 
-    public void LoadSave(bool mostRecent) {
-        if (mostRecent)
-            currentSave = DEFAULTSAVE;
-        if (currentSave) {
-            previousMenu = mostRecent ? LastMenuVisited.MAIN : LastMenuVisited.LOAD;
-            createdSession.maxSessionPlayers = currentSave.maxPlayers;
-            sessionCreated = true;
-            currentSession = createdSession;
-            loadSave.Invoke();
-            MakePlayers();
-        }
+    /// <summary>
+    /// Sends the POST request to the LobbyService that creates a new session
+    /// and sends the id to "SessionCreate".
+    /// </summary>
+    public void OnSessionCreateClick() {
+
+        game = null;
+
+        string variant = ""; //determine game version based on selected toggle
+        if (splendorToggle.isOn) variant = "splendor";
+        else if (citiesToggle.isOn) variant = "cities";
+        else if (tradingPostsToggle.isOn) variant = "tradingposts";
+
+        StartCoroutine(SessionManager.CreateSession(HOST, variant, authentication, LobbyPolling));
+
+        previousMenu = LastMenuVisited.MAIN;
+        createSession.Invoke();
     }
 
-    public void JoinSession() {
-        sessionCreated = false;
-        if (currentSession != null) {
+    //******************************** JOIN MENU ********************************
+
+    /// <summary>
+    /// Sends the PUT request to the LobbyService that adds a player to a session.
+    /// Once the player is added to the session in the LobbyService, bring player to Lobby
+    /// and poll for session updates.
+    /// </summary>
+    public void OnSessionJoinClick() {
+        if (currentSession != null){
+            StartCoroutine(SessionManager.Join(HOST, authentication, currentSession));
+
             previousMenu = LastMenuVisited.JOIN;
-            globalGameClient.id = currentSession.players[0] + "-" + currentSession.name;
-            currentSession.players.Add(authentication.username);
+            globalGameClient.id = currentSession.id;
             networkManager.joinPolling(globalGameClient.id, this);
+
+            LobbyPolling(currentSession.id);
             joinSession.Invoke();
         }
     }
 
+    //******************************** SAVE MENU ********************************
+
+    /// <summary>
+    /// Sends the POST request to the LobbyService that creates a new session from a savegameid
+    /// and sends the id of the new session to "SaveStart".
+    /// </summary>
+    public void OnSaveStartClick() {
+        StartCoroutine(SessionManager.CreateSavedSession(HOST, currentSave, authentication, (string id) => {
+            StartCoroutine(SessionManager.GetSession(HOST, id, sessionHash, (string hash, Session session) => {
+                if (hash != null) {
+                    if (session != null) {
+                        previousMenu = LastMenuVisited.LOAD;
+                        currentSession = session;
+                        loadSave.Invoke(); // location of this event may change in the future
+                        MakePlayers(); // displays the players in the current session
+
+                        if (currentSession.players.Count > 2 && currentSession.creator.Equals(authentication.username))
+                            startSessionButton.SetActive(true); // allow the host to start the session
+                    }
+
+                    sessionHash = hash;
+                    if (lobbyView.activeInHierarchy) LobbyPolling(currentSession.id);
+                } else if (lobbyView.activeInHierarchy) LobbyPolling(currentSession.id);
+            }));
+        }));
+    }
+
+    //******************************** LOBBY ********************************
+
+    /// <summary>
+    /// Prompts the player to confirm that they want to leave the lobby.
+    /// </summary>
+    public void OnLobbyBackClick() {
+        if (authentication.username.Equals(currentSession.creator)) promptDeleteSession.Invoke();
+        else promptEndSession.Invoke();
+    }
+
+    /// <summary>
+    /// Removes the player from the (unlaunched) current session in the LobbyService.
+    /// </summary>
+    public void OnConfirmEndClick() {
+        StartCoroutine(SessionManager.Leave(HOST, authentication, currentSession));
+        LoadLastMenu();
+        sessionHash = "";
+    }
+
+    /// <summary>
+    /// Removes the creator from the (unlaunched) current session in the LobbyService, removing the session altogether.
+    /// </summary>
+    public void OnConfirmDeleteClick() {
+        //DELETE request to /api/sessions/{session} ? see answer to Ed question
+        LoadLastMenu();
+        sessionHash = "";
+    }
+
+    /// <summary>
+    /// Launches the game with the LobbyService
+    /// </summary>
+    public void OnLobbyStartClick() {
+
+        StartCoroutine(SessionManager.Launch(HOST, authentication, currentSession, (bool successfulLaunch) => {
+            if (successfulLaunch) {
+                StartCoroutine(GameNetworkManager.GetGame(HOST, currentSession.id, (GameData game) =>
+                {
+                    this.game = game;
+                    SceneManager.LoadScene(2);
+                }));//get game data from server
+            }
+        }));
+    }
+
+    //******************************** HELPERS ********************************
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="id"></param>
+    public void LobbyPolling(string id)
+    {
+        StartCoroutine(SessionManager.GetSession(HOST, id, sessionHash, (string hash, Session session) => {
+            if (hash != null) {
+                if (session != null) {
+                    currentSession = session;
+                    SetupLobby();
+                    MakePlayers(); // displays the players in the current session
+
+                    if (currentSession.players.Count > 2 && currentSession.creator.Equals(authentication.username))
+                        startSessionButton.SetActive(true); // allow the host to start the session
+                }
+
+                sessionHash = hash;
+                if (lobbyView.activeInHierarchy) LobbyPolling(currentSession.id);
+            } else if (lobbyView.activeInHierarchy) LobbyPolling(currentSession.id);
+        }));
+    }
+
+    /// <summary>
+    /// Determines if a session from the list of sessions is available to join and displays it if so.
+    /// <param name="sessions">Session List of all sessions to check the availability of</param>
+    /// </summary>
+    public List<Session> determineAvailable(List<Session> sessions)
+    {
+        List<Session> availableSessions = new List<Session>();
+
+        foreach (Session session in sessions)
+        {
+            if (session.launched == true) continue; //a launched session is not available
+            else if (session.players.Count == session.maxSessionPlayers) continue; //a full session is not available
+            else availableSessions.Add(session);
+        }
+
+        return availableSessions; //to display the available sessions
+    }
+
+    /// <summary>
+    /// Determines if a save from a given list of saves is relevant to the main player and displays it if so.
+    /// </summary>
+    /// <param name="allSaves">Save List of all saves having a savegame id in the LobbyService</param>
+    public List<Save> determineRelevant(List<Save> saves)
+    {
+        List<Save> relevantSaves = new List<Save>();
+
+        foreach (Save save in saves)
+        {
+            if (save.players.Contains(authentication.username)) relevantSaves.Add(save);
+        }
+
+        return relevantSaves; 
+    }
+
+    /// <summary>
+    /// Displays the lobby according to the current session.
+    /// </summary>
     public void SetupLobby() {
         int playerCount = currentSession.players.Count();
         if (playerCount == 1)
@@ -126,62 +263,61 @@ public class MainMenuManager : MonoBehaviour {
         else {
             playerText.text = playerCount + " players of " + currentSession.maxSessionPlayers + " total players";
         }
-        sessionNameText.text = currentSession.getName();
+        sessionNameText.text = currentSession.GetVariant();
     }
 
-    public void SetSession(Session newSession) { //set currently selected session
-        currentSession = newSession;
+    /// <summary>
+    /// Setter for currently selected session.
+    /// </summary>
+    /// <param name="newSession">currently selected Session</param>
+    public void SetSession(Session newSession) {
+        if (newSession != null) currentSession = newSession;
     }
 
-    public void SetSave(Save newSave) { //set currently selected save
-        currentSave = newSave;
+    /// <summary>
+    /// Setter for currently selected saved game.
+    /// </summary>
+    /// <param name="newSave">currently selected Save</param>
+    public void SetSave(Save newSave) {
+        if (newSave != null) currentSave = newSave;
     }
 
-    /**
-     * Displays sessions in "join" menu.
-     */
-    public void MakeSessions(List<Session> sessions) { //displays sessions in menu
-        currentSession = null;
-        //I think these next three lines are trying to do the session management instead of the LobbyService?
-        //foreach (SessionData s in sessions)
-        //{
-        //    sessionList.sessions.Add(new Session(s));
-        //}
-
-        // HARDCODE FOR DEMO
-        //Session demo = new Session();
-        //demo.name = "test";
-        //demo.maxSessionPlayers = 2;
-        //LobbyPlayer demoHost = new LobbyPlayer();
-        //demoHost.username = "maex";
-        //demo.players.Add("maex");
-        //LobbyPlayer demoPlayer = new LobbyPlayer();
-        //demoPlayer.username = "linus";
-        //demo.players.Add("linus");
-        //sessionList.sessions.Add(demo);
-        //
+    /// <summary>
+    /// Displays sessions in "join" menu.
+    /// </summary>
+    /// <param name="sessions">Session List of all available sessions which must be displayed</param>
+    public void MakeSessions(List<Session> sessions) { 
+        //currentSession = null;
 
         ClearChildren(sessionContent);
         foreach (Session session in sessions) {
             GameObject temp = Instantiate(blankSessionSlot, sessionContent.transform.position, Quaternion.identity);
             temp.transform.SetParent(sessionContent.transform);
             temp.transform.localScale = new Vector3(1, 1, 1);
-            temp.GetComponent<SessionSlot>().Setup(this, session);
+            temp.GetComponent<SessionSlot>().Setup(this, session, joinButton);
         }
     }
 
-    public void MakeSaves() { //displays saves in menu
-        currentSave = null;
+    /// <summary>
+    /// Displays saves in "load save" menu.
+    /// </summary>
+    /// <param name="saves">Save List of all saves relevant to the main player which must be displayed</param>
+    public void MakeSaves(List<Save> saves) { 
+        //currentSave = null;
+
         ClearChildren(saveContent);
-        foreach (Save save in saveList.saves) {
+        foreach (Save save in saves) {
             GameObject temp = Instantiate(blankSaveSlot, saveContent.transform.position, Quaternion.identity);
             temp.transform.SetParent(saveContent.transform);
             temp.transform.localScale = new Vector3(1, 1, 1);
-            temp.GetComponent<SaveSlot>().Setup(this, save);
+            temp.GetComponent<SaveSlot>().Setup(this, save, startButton);
         }
     }
 
-    public void MakePlayers() { //displays players in lobby
+    /// <summary>
+    /// Displays players in the lobby.
+    /// </summary>
+    public void MakePlayers() {
         ClearChildren(playerContent);
         foreach (string player in currentSession.players) {
             GameObject temp = Instantiate(blankPlayerSlot, playerContent.transform.position, Quaternion.identity);
@@ -191,28 +327,14 @@ public class MainMenuManager : MonoBehaviour {
         }
     }
 
-    void ClearChildren(GameObject content) { //clears players in lobby
+    /// <summary>
+    /// Clears content children in a parent GameObject.
+    /// See MakePlayers, MakeSaves, MakeSessions for examples
+    /// </summary>
+    /// <param name="content">the parent game object that holds the content children</param>
+    void ClearChildren(GameObject content) { 
         foreach (Transform child in content.transform)
             Destroy(child.gameObject);
-    }
-
-    public void ExitSession() {
-        if (sessionCreated)  //if host, show prompt
-            promptEndSession.Invoke();
-        else  //else, leave session
-            LoadLastMenu();
-    }
-    public void ContinueGame() {
-        //final implementation will load last-used save (i.e. autosave) into a new session, currently just starts a regular session through the create session button
-    }
-
-    public void StartGame() { //available to host in game lobby
-        LobbyPlayer demoPlayer = new LobbyPlayer();
-        demoPlayer.username = "linus";
-        currentSession.players.Add(demoPlayer.username);
-        networkManager.registerGame(new GameConfigData(authentication, new SessionData(currentSession), allCards, allNobles));
-        globalGameClient.id = authentication.username + "-" + currentSession.name;
-        SceneManager.LoadScene(2);
     }
 
     public void StartJoinedGame() {

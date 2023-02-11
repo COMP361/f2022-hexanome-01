@@ -18,7 +18,11 @@ public class LoginManager : MonoBehaviour {
 
     public IEnumerator VerifyLogin() { //verifyCredentials. atm checks with the LobbyService
 
-        string url = "http://127.0.0.1:4242/oauth/token"; //url for POST request
+        string host = Environment.GetEnvironmentVariable("SPLENDOR_HOST_IP");
+        if (String.IsNullOrEmpty(host))
+            host = "localhost";
+
+        string url = "http://" + host + ":4242/oauth/token"; //url for POST request
         username = usernameField.text; //keep the submitted username even if it is changed after login button clicked
 
         WWWForm form = new WWWForm();
