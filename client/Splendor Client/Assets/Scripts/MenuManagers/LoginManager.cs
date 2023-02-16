@@ -19,8 +19,6 @@ public class LoginManager : MonoBehaviour {
     public IEnumerator VerifyLogin() { //verifyCredentials. atm checks with the LobbyService
 
         string host = Environment.GetEnvironmentVariable("SPLENDOR_HOST_IP");
-        if (String.IsNullOrEmpty(host))
-            host = "localhost";
 
         string url = "http://" + host + ":4242/oauth/token"; //url for POST request
         username = usernameField.text; //keep the submitted username even if it is changed after login button clicked
@@ -76,9 +74,9 @@ public class LoginManager : MonoBehaviour {
 
         //parse POST JSON response into mainPlayer
         JsonUtility.FromJsonOverwrite(response, mainPlayer);
-        Invoke("refreshStart", (float.Parse(mainPlayer.expires_in) - 5.0f) * 60); //refresh automatically when token is about to expire
+        Invoke("refreshStart", float.Parse(mainPlayer.expires_in) - 5.0f); //refresh automatically when token is about to expire
 
-        mainPlayer.expires_in = time.AddMinutes(Double.Parse(mainPlayer.expires_in)).ToString(); //set the expiry time
+        mainPlayer.expires_in = time.AddSeconds(Double.Parse(mainPlayer.expires_in)).ToString(); //set the expiry time
         mainPlayer.username = username; //add the player's username
     }
 }
