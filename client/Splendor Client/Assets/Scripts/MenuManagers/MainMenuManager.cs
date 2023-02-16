@@ -171,7 +171,7 @@ public class MainMenuManager : MonoBehaviour {
     /// Removes the creator from the (unlaunched) current session in the LobbyService, removing the session altogether.
     /// </summary>
     public void OnConfirmDeleteClick() {
-        //DELETE request to /api/sessions/{session} ? see answer to Ed question
+        //DELETE request to /api/sessions/{session}
         LoadLastMenu();
         sessionHash = "";
     }
@@ -181,15 +181,11 @@ public class MainMenuManager : MonoBehaviour {
     /// </summary>
     public void OnLobbyStartClick() {
 
-        StartCoroutine(SessionManager.Launch(HOST, authentication, currentSession, (bool successfulLaunch) => {
-            if (successfulLaunch) {
-                StartCoroutine(GameNetworkManager.GetGame(HOST, currentSession.id, (GameData game) =>
-                {
-                    this.game = game;
-                    SceneManager.LoadScene(2);
-                }));//get game data from server
-            }
-        }));
+        StartCoroutine(SessionManager.Launch(HOST, authentication, currentSession, (GameData game) =>
+            {
+                this.game = game;
+                SceneManager.LoadScene(2);
+            }));
     }
 
     //******************************** HELPERS ********************************
@@ -207,7 +203,7 @@ public class MainMenuManager : MonoBehaviour {
                     SetupLobby();
                     MakePlayers(); // displays the players in the current session
 
-                    if (currentSession.players.Count > 2 && currentSession.creator.Equals(authentication.username))
+                    if (session.players.Count >= 2 && session.creator.Equals(authentication.username))
                         startSessionButton.SetActive(true); // allow the host to start the session
                 }
 
