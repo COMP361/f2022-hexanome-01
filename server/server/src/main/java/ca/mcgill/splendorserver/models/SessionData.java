@@ -8,7 +8,7 @@ public class SessionData {
 
   private String creator;
   private String gameServer;
-  private LobbyServicePlayerData[] players;
+  private LobbyServicePlayerData[] playersLobbyService;
   private String savegame;
 
   private class LobbyServicePlayerData {
@@ -29,12 +29,12 @@ public class SessionData {
    *
    * @return an array of four PlayerData
    */
-  public PlayerData[] getPlayers() {
-    PlayerData[] playerData = new PlayerData[4];
-    for (int i = 0; i < players.length; i++) {
-      playerData[i] = new PlayerData(players[i].name);
+  public String[] getPlayers() {
+    String[] players = new String[4];
+    for (int i = 0; i < playersLobbyService.length; i++) {
+      players[i] = playersLobbyService[i].name;
     }
-    return playerData;
+    return players;
   }
 
   /**
