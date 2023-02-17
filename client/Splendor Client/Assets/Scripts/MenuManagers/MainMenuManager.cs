@@ -30,12 +30,18 @@ public class MainMenuManager : MonoBehaviour {
 
     public GlobalGameClient globalGameClient;
     public GameData game;
-    private string sessionsHash = "";
-    private string sessionHash = "";
+    private string sessionsHash = null;
+    private string sessionHash = null;
 
     private string HOST = Environment.GetEnvironmentVariable("SPLENDOR_HOST_IP");
 
     public void LoadLastMenu() {
+        //reset all data
+        currentSession = null;
+        sessionsHash = null;
+        sessionHash = null;
+
+        //switch menus
         if (previousMenu == LastMenuVisited.MAIN)
             exitToMain.Invoke();
         else if (previousMenu == LastMenuVisited.LOAD)
@@ -164,16 +170,14 @@ public class MainMenuManager : MonoBehaviour {
     public void OnConfirmEndClick() {
         StartCoroutine(SessionManager.Leave(HOST, authentication, currentSession));
         LoadLastMenu();
-        sessionHash = "";
     }
 
     /// <summary>
     /// Removes the creator from the (unlaunched) current session in the LobbyService, removing the session altogether.
     /// </summary>
     public void OnConfirmDeleteClick() {
-        //DELETE request to /api/sessions/{session} ? see answer to Ed question
+        StartCoroutine(SessionManager.DeleteSession(HOST, currentSession.id, authentication));
         LoadLastMenu();
-        sessionHash = "";
     }
 
     /// <summary>
@@ -181,15 +185,11 @@ public class MainMenuManager : MonoBehaviour {
     /// </summary>
     public void OnLobbyStartClick() {
 
-        StartCoroutine(SessionManager.Launch(HOST, authentication, currentSession, (bool successfulLaunch) => {
-            if (successfulLaunch) {
-                StartCoroutine(GameNetworkManager.GetGame(HOST, currentSession.id, (GameData game) =>
-                {
-                    this.game = game;
-                    SceneManager.LoadScene(2);
-                }));//get game data from server
-            }
-        }));
+        StartCoroutine(SessionManager.Launch(HOST, authentication, currentSession, (GameData game) =>
+            {
+                this.game = game;
+                SceneManager.LoadScene(2);
+            }));
     }
 
     //******************************** HELPERS ********************************
@@ -207,7 +207,7 @@ public class MainMenuManager : MonoBehaviour {
                     SetupLobby();
                     MakePlayers(); // displays the players in the current session
 
-                    if (currentSession.players.Count > 2 && currentSession.creator.Equals(authentication.username))
+                    if (session.players.Count >= 2 && session.creator.Equals(authentication.username))
                         startSessionButton.SetActive(true); // allow the host to start the session
                 }
 
@@ -286,15 +286,20 @@ public class MainMenuManager : MonoBehaviour {
     /// Displays sessions in "join" menu.
     /// </summary>
     /// <param name="sessions">Session List of all available sessions which must be displayed</param>
-    public void MakeSessions(List<Session> sessions) { 
-        //currentSession = null;
+    public void MakeSessions(List<Session> sessions) {
+        if (sessionContent.activeInHierarchy)
+        {
+            currentSession = null;
+            sessionHash = null;
 
-        ClearChildren(sessionContent);
-        foreach (Session session in sessions) {
-            GameObject temp = Instantiate(blankSessionSlot, sessionContent.transform.position, Quaternion.identity);
-            temp.transform.SetParent(sessionContent.transform);
-            temp.transform.localScale = new Vector3(1, 1, 1);
-            temp.GetComponent<SessionSlot>().Setup(this, session, joinButton);
+            ClearChildren(sessionContent);
+            foreach (Session session in sessions)
+            {
+                GameObject temp = Instantiate(blankSessionSlot, sessionContent.transform.position, Quaternion.identity);
+                temp.transform.SetParent(sessionContent.transform);
+                temp.transform.localScale = new Vector3(1, 1, 1);
+                temp.GetComponent<SessionSlot>().Setup(this, session, joinButton);
+            }
         }
     }
 
