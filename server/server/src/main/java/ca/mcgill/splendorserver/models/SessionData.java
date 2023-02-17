@@ -46,4 +46,21 @@ public class SessionData {
     return savegame;
   }
 
+  /**
+   * Getter for the game variant.
+   *
+   * @return the game variant
+   */
+  public String getVariant() {
+    return gameServer;
+  }
+
+  /**
+   * Getter for the session creator.
+   *
+   * @return the session creator
+   */
+  public String getCreator() {
+    return creator;
+  }
 }
