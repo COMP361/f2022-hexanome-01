@@ -26,13 +26,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class GameController {
   private final Logger logger;
 
-  private HashMap<String, Game> gameRegistry =
-      new HashMap<String, Game>(Map.of("test", new Game("testId", new String[]{"testPlayer1"})));
-
+  private HashMap<String, Game> gameRegistry = new HashMap<String, Game>();
   private HashMap<String, Game> saves = new HashMap<>();
   
-  private HashMap<String, Card> cardRegistry = new HashMap<>();
-  private HashMap<String, Noble> nobleRegistry = new HashMap<>();
+  private static HashMap<String, Card> cardRegistry = new HashMap<>();
+  private static HashMap<String, Noble> nobleRegistry = new HashMap<>();
 
   /**
    * Sole constructor.  
@@ -142,36 +140,32 @@ public class GameController {
    */
   @PutMapping("/api/splendor/{gameId}")
   public void launchGame(@PathVariable(required = true, name = "gameId") String gameId,
-                            @RequestBody SessionData session) throws JsonProcessingException {
+                            @RequestBody SessionData session) {
 
-    if (session != null) {
-      if (saves.containsKey(session.getSavegame())) { //starting from saved game
-        String oldId = saves.get(session.getSavegame()).getId();
-        gameRegistry.put(gameId, gameRegistry.remove(oldId));
-      } else { //starting new game
-        addNewGame(gameId, session.getPlayers());
-      }
+    String saveId = session.getSavegame();
+    String[] playerList = session.getPlayers();
+    String variant = session.getVariant();
+    String creator = session.getCreator();
 
-      if (gameRegistry.get(gameId) != null) {
-        System.out.println("Launched game with id: " + gameId);
-      } else {
-        System.out.println("Could not launch game with id: " + gameId);
-      }
-    } else {
-      System.out.println("Could not launch game with id: " + gameId
-          + " because no session data was received");
+    Game save = saves.get(saveId);
+
+    if (save != null) {
+      gameRegistry.put(saveId, save);
+      save.setLaunched();
+      Game game = save;
+    }
+    else {
+      Game game = new Game(saveId, variant, playerList, creator);
     }
   }
 
   /**
-   * Adds a game to the game registry.
+   * Getter for the noble registry.
    *
-   * @param gameId the id of the game as per its session id in the LobbyService
-   * @param players array of four PlayerData slots representing the players currently
-   *                registered in the session in the LobbyService
+   * @return all noble tiles
    */
-  private void addNewGame(String gameId, String[] players) {
-    gameRegistry.put(gameId, new Game(gameId, players));
+  public static HashMap<String, Noble> getAllNobles() {
+    return nobleRegistry;
   }
 }
 
