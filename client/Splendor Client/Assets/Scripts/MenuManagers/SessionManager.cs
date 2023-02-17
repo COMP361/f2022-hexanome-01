@@ -111,8 +111,7 @@ public class SessionManager : MonoBehaviour
     /// <param name="id">String representing the id of the session whose information is being retrieved</param>
     /// <param name="variant">String representing the variant of the session whose information is being retrieved</param>
     /// <returns>Allows GET request</returns>
-    public static IEnumerator GetSession(string HOST, string id, string hash, Action<string, Session> result)
-    {
+    public static IEnumerator GetSession(string HOST, string id, string hash, Action<string, Session> result) {
         string url = "http://" + HOST + ":4242/api/sessions/" + id; //url for GET request
         if (hash != null) url += ("?hash=" + hash); //url for GET request
         UnityWebRequest request = UnityWebRequest.Get(url);
@@ -120,21 +119,45 @@ public class SessionManager : MonoBehaviour
 
         if (request.responseCode == 200) {
             //get hash of result
-            byte[] newHashBytes = MD5.Create().ComputeHash(request.downloadHandler.data);
-            var sBuilder = new StringBuilder();
-            foreach (byte b in newHashBytes) sBuilder.Append(b.ToString("x2"));
-            string newHash = sBuilder.ToString();
+            using (MD5 hasher = MD5.Create())
+            {
+                byte[] newHashBytes = hasher.ComputeHash(request.downloadHandler.data);
+                var sBuilder = new StringBuilder();
+                foreach (byte b in newHashBytes) sBuilder.Append(b.ToString("x2"));
+                string newHash = sBuilder.ToString();
 
-            JSONObject json = (JSONObject)JSONHandler.DecodeJsonRequest(request.downloadHandler.text);
-            Session session = new Session(id, json.dictionary);
+                JSONObject json = (JSONObject)JSONHandler.DecodeJsonRequest(request.downloadHandler.text);
+                Session session = new Session(id, json.dictionary);
 
-            result(newHash, session);
+                result(newHash, session);
+            }
         } else if (request.responseCode == 408) result(null, null);
+    }
+
+    /// <summary>
+    /// Deletes a session from the LobbyService.
+    /// </summary>
+    /// <param name="HOST">IP of LobbyService</param>
+    /// <param name="id">session id</param>
+    /// <param name="mainPlayer">must be an admin or the creator of the session</param>
+    /// <returns>allows Delete request</returns>
+    public static IEnumerator DeleteSession(string HOST, string id, Authentication mainPlayer) {
+        string url = "http://" + HOST + ":4242/api/sessions/" + id; //url for DELETE request
+        UnityWebRequest delete = UnityWebRequest.Delete(url);
+        delete.SetRequestHeader("Authorization", "Bearer " + mainPlayer.access_token);
+
+        yield return delete.SendWebRequest();
+
+        //TO BE WARNED IF THE REQUEST WAS NOT SUCCESSFUL, UNCOMMENT THE FOLLOWING LINES
+        //if (delete.result != UnityWebRequest.Result.Success)
+        //{
+        //    UnityEngine.Debug.Log("ERROR (" + delete.result + "): SESSION NOT DELETED");
+        //}
     }
 
     //******************************** LOAD SAVE ********************************
 
-    
+
     /// <summary>
     /// Gets a list of all saved games stored in the LobbyService.
     /// </summary>
