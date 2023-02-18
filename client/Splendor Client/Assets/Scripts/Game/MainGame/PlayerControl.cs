@@ -11,6 +11,8 @@ public class PlayerControl : MonoBehaviour {
     [SerializeField] private Player player; //this client/player
     [SerializeField] public List<PlayerData> gamePlayersData; //can change this to a different type later, playerData is combined from LobbyPlayer and Player class
     [SerializeField] private OrientMenuManager omm;
+    [SerializeField] private NobleSelectManager nsm;
+    
 
     public Player client {
         get { return player; }
@@ -35,7 +37,7 @@ public class PlayerControl : MonoBehaviour {
     public Authentication mainPlayer;
 
     [SerializeField] private bool waiting;
-    public bool inOrientMenu, inInventory, sacrificeMade;
+    public bool inOrientMenu, inInventory, sacrificeMade, inNobleMenu;
 
     void Start() {
         //the following was a test i made to make sure JSONHandler was working. ive left it here incase we find some uknown error with it
@@ -237,6 +239,10 @@ public class PlayerControl : MonoBehaviour {
             }
         }
         // For each noble in the row check if they are impressed (will also need to check player reserves)
+
+        List<Noble> noblesImpressed = new List<Noble>();
+        
+
         foreach (NobleSlot noble in allNobles.nobles) {
             if (noble) {
                 if (player.hasImpressed(noble.GetNoble())) {
@@ -248,6 +254,8 @@ public class PlayerControl : MonoBehaviour {
                 }
             }
         }
+
+
 
         dashboard.DisplayWaiting();
         //allCards.GreyOut();
@@ -266,6 +274,8 @@ public class PlayerControl : MonoBehaviour {
 
         // StartTurn(); // Player's turn temporarily restarts immediately after end turn
     }
+
+    
 
     // public void SetGameData(GameData data) {
     //     gameId = data.gameId;

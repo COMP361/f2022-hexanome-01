@@ -8,6 +8,7 @@ public class NobleSlot : MonoBehaviour {
 
     [SerializeField] private Noble noble;
     [SerializeField] private OrientMenuManager omm;
+    [SerializeField] private NobleSelectManager nsm;
     [SerializeField] private Image image;
 
     private SpriteRenderer m_SpriteRenderer;
@@ -25,6 +26,12 @@ public class NobleSlot : MonoBehaviour {
 
     public void SetupOrient(OrientMenuManager omm, Noble noble) { //sets orient specific info + regular inventory info, used when filling orient menu with options
         this.omm = omm;
+        image.color = Color.gray;
+        SetupInventory(noble);
+    }
+
+    public void SetupNobleSelect(NobleSelectManager nsm, Noble noble) { //sets orient specific info + regular inventory info, used when filling orient menu with options
+        this.nsm = nsm;
         image.color = Color.gray;
         SetupInventory(noble);
     }
