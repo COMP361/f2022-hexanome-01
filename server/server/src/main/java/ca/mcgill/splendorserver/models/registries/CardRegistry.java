@@ -9,7 +9,7 @@ public class CardRegistry implements Registry<Card> {
 	
 	@SuppressWarnings("serial")
 	HashMap<Integer, Card> data = new HashMap<Integer, Card>() {{
-		put(0, new Card(0, null, 0, 0, 0, 0, 0, 0, null, null));
+		put(0, new Card(0, 0, null, 0, 0, 0, 0, 0, 0, null, null));
 	}};
 
 	@Override
