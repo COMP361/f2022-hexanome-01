@@ -13,4 +13,22 @@ MonoBehaviour:
   m_Name: Unlockables
   m_EditorClassIdentifier: 
   input:
+  - {fileID: 11400000, guid: 72c388cda1609f547814a55b7182bd0a, type: 2}
+  - {fileID: 11400000, guid: 57b270fe82aacda4882fc1b60de5027e, type: 2}
+  - {fileID: 11400000, guid: 09f853968b5ecd54f9acabdbdf54a405, type: 2}
+  - {fileID: 11400000, guid: 91176cc3c163f7c45b5d4809545930e3, type: 2}
+  - {fileID: 11400000, guid: 4863ac1bc849cd84891302f84ac2cf53, type: 2}
+  - {fileID: 11400000, guid: c9df00e60bfbf5d49ac9937adb34aef1, type: 2}
+  - {fileID: 11400000, guid: 1fa662b965a713640ad11df79ae1b927, type: 2}
+  - {fileID: 11400000, guid: cbdbd3cbf270912499a650ab2f5fd47c, type: 2}
+  - {fileID: 11400000, guid: 1cc2c301dbfd73c44ba5e2f95041fbc3, type: 2}
+  - {fileID: 11400000, guid: 360e63ee79e6d1b4390e05b3a6d29356, type: 2}
+  - {fileID: 11400000, guid: 85e37aee87786e744a3837493068363d, type: 2}
+  - {fileID: 11400000, guid: 8e78a4034e19ade4982c38a35698a55e, type: 2}
+  - {fileID: 11400000, guid: f3e45ad011409a4448ead9c3790ba195, type: 2}
+  - {fileID: 11400000, guid: af65c53cfc323c84088221d955e67142, type: 2}
   - {fileID: 11400000, guid: acdbc4a9b071d494e8e872bcc9873e31, type: 2}
+  - {fileID: 11400000, guid: 2a8af7e6e63ee174da24a8bf7107606a, type: 2}
+  - {fileID: 11400000, guid: 0f5852ce76a7e7442bcf404f2fb99cc9, type: 2}
+  - {fileID: 11400000, guid: 7732b1f3e323d204b92bfdde5d2d3429, type: 2}
+  - {fileID: 11400000, guid: ffeb796fd2c57664f85240fc8289d103, type: 2}
