@@ -34,10 +34,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class GameController {
 	
-//	public static void main(String [ ] args) {
-//		GameController gc = new GameController();
-//		System.out.println(gc.cardRegistry.of(0).getId());
-//	}
   private final Logger logger;
 
   private HashMap<String, Game> gameRegistry =
