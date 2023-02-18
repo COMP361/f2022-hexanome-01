@@ -264,7 +264,7 @@ public class SessionManager : MonoBehaviour
         //}
     }
 
-    public static IEnumerator Launch(string HOST, Authentication mainPlayer, Session session, Action<GameData> result) {
+    public static IEnumerator Launch(string HOST, Authentication mainPlayer, Session session, Action<JSONObject> result) {
 
         string url = "http://" + HOST + ":4242/api/sessions/" + session.id; //url for POST request
         UnityWebRequest launch = UnityWebRequest.Post(url, "body"); //body of POST cannot be empty
@@ -273,6 +273,6 @@ public class SessionManager : MonoBehaviour
         yield return launch.SendWebRequest();
 
         if (launch.result == UnityWebRequest.Result.Success)
-            result(FileManager.DecodeGameState(launch.downloadHandler.text, false));
+            result((JSONObject)JSONHandler.DecodeJsonRequest(launch.downloadHandler.text));
     }
 }
