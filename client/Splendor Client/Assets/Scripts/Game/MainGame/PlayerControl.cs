@@ -50,10 +50,7 @@ public class PlayerControl : MonoBehaviour {
                 cards.Add(c.Convert().ToString());
             }
             foreach (CardSlot c in allCards.cards[i].cards) {
-                Card card = c.GetCard();
-                if (i > 2)
-                    card.id += 104;
-                cards.Add(card.Convert().ToString());
+                cards.Add(c.GetCard().Convert().ToString());
             }
             Debug.Log("Deck: " + (new JSONArray(cards)).ToString());
         }
