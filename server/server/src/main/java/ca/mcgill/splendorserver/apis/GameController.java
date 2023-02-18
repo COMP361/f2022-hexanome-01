@@ -1,23 +1,27 @@
 package ca.mcgill.splendorserver.apis;
 
-import ca.mcgill.splendorserver.models.Card;
-import ca.mcgill.splendorserver.models.Game;
-import ca.mcgill.splendorserver.models.Noble;
-import ca.mcgill.splendorserver.models.SessionData;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+
+import ca.mcgill.splendorserver.models.Game;
+import ca.mcgill.splendorserver.models.Noble;
+import ca.mcgill.splendorserver.models.SessionData;
+import ca.mcgill.splendorserver.models.cards.Card;
 
 /**
  * Game controller class for the server.
@@ -27,7 +31,7 @@ public class GameController {
   private final Logger logger;
 
   private HashMap<String, Game> gameRegistry =
-      new HashMap<String, Game>(Map.of("test", new Game("testId", new String[]{"testPlayer1"}, "splendor")));
+      new HashMap<String, Game>(Map.of("test", new Game("testId", "testPlayer1", new String[]{"testPlayer1"}, "splendor")));
 
   private HashMap<String, Game> saves = new HashMap<>();
   
@@ -40,6 +44,19 @@ public class GameController {
    */
   public GameController() {
     logger = LoggerFactory.getLogger(GameController.class);
+  }
+
+  /**
+   * Takes token.
+   *
+   * @param gameId the id of the game
+   * @param data   the game data of the take tokens action
+   * @return success flag
+   * @throws JsonProcessingException when JSON processing error occurs
+   */
+  @GetMapping("/api/games/{gameId}")
+  public ResponseEntity<String> getGames(@PathVariable String gameId) throws JsonProcessingException {
+    return ResponseEntity.ok(gameRegistry.get(gameId).getBoardJSON());
   }
 
   /**
@@ -149,7 +166,7 @@ public class GameController {
         String oldId = saves.get(session.getSavegame()).getId();
         gameRegistry.put(gameId, gameRegistry.remove(oldId));
       } else { //starting new game
-    	  gameRegistry.put(gameId, new Game(gameId, session.getPlayers(), session.getVariant()));
+    	  gameRegistry.put(gameId, new Game(gameId, session.getCreator(), session.getPlayers(), session.getVariant()));
       }
 
       if (gameRegistry.get(gameId) != null) {

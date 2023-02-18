@@ -1,13 +1,17 @@
 package ca.mcgill.splendorserver.models.board;
 
-import ca.mcgill.splendorserver.models.Noble;
+import java.util.Arrays;
+
+import org.json.simple.JSONArray;
+
+import ca.mcgill.splendorserver.models.JSONStringafiable;
 
 /**
  * Model class holding all Splendor noble tiles on the board.
  */
-public class NobleBank {
+public class NobleBank implements JSONStringafiable {
 
-  private Noble[] nobles;
+  private int[] nobles;
   private int size;
 
   /**
@@ -16,7 +20,7 @@ public class NobleBank {
    * @param size the number of nobles to set for the game
    */
   public NobleBank(int size) {
-    this.nobles = new Noble[size];
+    this.nobles = new int[size];
     this.size = size;
   }
 
@@ -26,10 +30,10 @@ public class NobleBank {
    * @param noble the noble to add
    * @return whether the noble was added successfully
    */
-  public boolean add(Noble noble) {
+  public boolean add(int nobleId) {
     for (int i = 0; i < size; i++) {
-      if (nobles[i] == null) {
-        nobles[i] = noble;
+      if (nobles[i] == -1) {
+        nobles[i] = nobleId;
         return true;
       }
     }
@@ -42,14 +46,10 @@ public class NobleBank {
    * @param noble the noble to remove
    * @return whether the noble was removed successfully
    */
-  public boolean remove(Noble noble) {
-    for (int i = 0; i < size; i++) {
-      if (noble.getId() == nobles[i].getId()) {
-        nobles[i] = null;
-        return true;
-      }
-    }
-    return false;
+  public boolean remove(int index) {
+	  if (index >= size || nobles[index] == -1) return false;
+	  nobles[index] = -1;
+	  return true;
   }
 
   /**
@@ -57,7 +57,12 @@ public class NobleBank {
    *
    * @return an array of all the nobles on the baord
    */
-  public Noble[] getNobles() {
+  public int[] getNobles() {
     return nobles;
+  }
+
+  @Override
+  public String toJSONString() {
+	  return JSONArray.toJSONString(Arrays.asList(nobles));
   }
 }

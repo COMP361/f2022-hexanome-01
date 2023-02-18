@@ -2,13 +2,16 @@ package ca.mcgill.splendorserver.models;
 
 import java.util.ArrayList;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import ca.mcgill.splendorserver.models.board.TokenBank;
 import ca.mcgill.splendorserver.models.cards.Card;
 
 /**
  * Model class for a Splendor player's inventory i.e. everything they've acquired.
  */
-public class Inventory {
+public class Inventory implements JSONStringafiable {
 
   private TokenBank tokens;
   private TokenBank bonus;
@@ -104,5 +107,18 @@ public class Inventory {
    */
   public TokenBank getBonuses() {
     return bonus;
+  }
+
+  @Override
+  @SuppressWarnings("unchecked")
+  public String toJSONString() {
+	  JSONObject data = new JSONObject();
+	  data.put("acquiredCards", JSONArray.toJSONString(cards));
+	  data.put("acquiredNobles", JSONArray.toJSONString(nobles));
+	  data.put("reservedCards", JSONArray.toJSONString(reservedCards));
+	  data.put("reservedNobles", JSONArray.toJSONString(reservedNobles));
+	  data.put("tokens", tokens.toJSONString());
+	  
+	  return data.toJSONString();
   }
 }
