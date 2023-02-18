@@ -45,10 +45,6 @@ public class SessionData {
   public String getSavegame() {
     return savegame;
   }
-  
-  public String getVariant() {
-	  return gameServer;
-  }
 
   /**
    * Getter for the game variant.

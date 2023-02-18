@@ -11,7 +11,6 @@ public class Game {
   private String variant;
   private String creator;
   private String[] players;
-  private String variant;
   
   private Board board;
   
@@ -25,13 +24,14 @@ public class Game {
    * @param players player usernames
    * @param creator the creator of the session
    */
-  public Game(String id, String[] players, String variant) {
+  public Game(String id, String creator, String[] players, String variant) {
     this.id = id;
     this.variant = variant;
+    this.creator = creator;
     this.players = players;
-    this.variant = variant;
     
     launched = false;
+    setLaunched();
   }
 
   /**
@@ -44,8 +44,12 @@ public class Game {
   }
   
   public void setLaunched() {
-	  board = new Board(players.length, variant);
+	  board = new Board(creator, players, variant);
 	  
 	  launched = true;
+  }
+  
+  public String getBoardJSON() {
+	  return board.toJSONString();
   }
 }

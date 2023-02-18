@@ -2,13 +2,16 @@ package ca.mcgill.splendorserver.models.board;
 
 import java.util.HashMap;
 
+import org.json.simple.JSONObject;
+
+import ca.mcgill.splendorserver.models.JSONStringafiable;
 import ca.mcgill.splendorserver.models.Token;
 import ca.mcgill.splendorserver.models.cards.Card;
 
 /**
  * Model class for a bank of Splendor tokens.
  */
-public class TokenBank {
+public class TokenBank implements JSONStringafiable {
 
   private HashMap<Token, Integer> quantities;
 
@@ -130,5 +133,10 @@ public class TokenBank {
       }
     }
     return true;
+  }
+
+  @Override
+  public String toJSONString() {
+	  return JSONObject.toJSONString(quantities);
   }
 }
