@@ -1,12 +1,21 @@
 package ca.mcgill.splendorserver.apis;
 
-import ca.mcgill.splendorserver.models.Card;
+import ca.mcgill.splendorserver.models.cards.Card;
+import ca.mcgill.splendorserver.models.registries.CardRegistry;
+import ca.mcgill.splendorserver.models.registries.NobleRegistry;
 import ca.mcgill.splendorserver.models.Game;
 import ca.mcgill.splendorserver.models.Noble;
 import ca.mcgill.splendorserver.models.SessionData;
 import com.fasterxml.jackson.core.JsonProcessingException;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +33,11 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class GameController {
+	
+//	public static void main(String [ ] args) {
+//		GameController gc = new GameController();
+//		System.out.println(gc.cardRegistry.of(0).getId());
+//	}
   private final Logger logger;
 
   private HashMap<String, Game> gameRegistry =
@@ -31,8 +45,8 @@ public class GameController {
 
   private HashMap<String, Game> saves = new HashMap<>();
   
-  private HashMap<String, Card> cardRegistry = new HashMap<>();
-  private HashMap<String, Noble> nobleRegistry = new HashMap<>();
+  private CardRegistry cardRegistry = new CardRegistry();
+  private NobleRegistry nobleRegistry = new NobleRegistry();
 
   /**
    * Sole constructor.  

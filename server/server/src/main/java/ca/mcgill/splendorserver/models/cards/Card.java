@@ -2,6 +2,8 @@ package ca.mcgill.splendorserver.models.cards;
 
 import java.util.HashMap;
 
+import org.json.simple.JSONObject;
+
 import ca.mcgill.splendorserver.models.Token;
 
 /**
@@ -11,11 +13,11 @@ public class Card {
 
   private int id; //uniquely identify a card
   private int pts;
-  private CardBonus bonus;
+  private CardBonus bonus = new CardBonus();
   private CardType type; //special abilities of the card
   private CardLevel level; //base game or extension and level
   private int satchelCount; //number of associations with a satchel card
-  private HashMap<Token, Integer> cost;
+  private HashMap<Token, Integer> cost = new HashMap<Token, Integer>();
 
   /**
    * Constructor.
@@ -43,7 +45,34 @@ public class Card {
     this.level = CardLevel.valueOf(level);
   }
 
-  /**
+  public Card(JSONObject obj, CardLevel level) {
+	  id = Integer.parseInt((String)obj.get("id"));
+	  pts = Integer.parseInt((String)obj.get("points"));
+	  cost.put(Token.BLUE, Integer.parseInt((String)obj.get("blue")));
+	  cost.put(Token.GREEN, Integer.parseInt((String)obj.get("green")));
+	  cost.put(Token.RED, Integer.parseInt((String)obj.get("red")));
+	  cost.put(Token.WHITE, Integer.parseInt((String)obj.get("white")));
+	  cost.put(Token.BLACK, Integer.parseInt((String)obj.get("brown")));
+	  satchelCount = 0;
+	  bonus.amount = Integer.parseInt((String)obj.get("bonusAmount"));
+	  String typeChar = (String)obj.get("bonus");
+	  
+	  //bonus type
+	  switch(typeChar) {
+	    case "X": bonus.type = null; break;
+	    case "J": bonus.type = Token.GOLD; break;
+	    case "R": bonus.type = Token.RED; break;
+	    case "W": bonus.type = Token.WHITE; break;
+	    case "G": bonus.type = Token.GREEN; break;
+	    case "B": bonus.type = Token.BLUE; break;
+	    case "K": bonus.type = Token.BLACK; break;
+	  }
+	  
+	  type = CardType.valueOf((String)obj.get("action"));
+	  this.level = level;
+  }
+
+/**
    * Getter for the card's special abilities.
    *
    * @return refer to CardType enum
@@ -101,4 +130,9 @@ public class Card {
   public boolean equals(Card other) {
     return id == other.id;
   }
+
+public Integer getId() {
+	// TODO Auto-generated method stub
+	return id;
+}
 }
