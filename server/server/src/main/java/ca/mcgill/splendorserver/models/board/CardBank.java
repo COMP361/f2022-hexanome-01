@@ -1,7 +1,9 @@
-package ca.mcgill.splendorserver.models;
+package ca.mcgill.splendorserver.models.board;
 
 import java.util.Collections;
 import java.util.Stack;
+
+import ca.mcgill.splendorserver.models.cards.Card;
 
 /**
  * Model class holding all Splendor development card decks.

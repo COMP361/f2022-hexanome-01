@@ -14,7 +14,7 @@ public class Noble {
   /**
    * Sole constructor (for invocation by subclass constructors, typically implicit.)
    */
-  public Noble() {
+  public Noble(int id, int pts, int blue, int green, int red, int white, int black) {
 
   }
 

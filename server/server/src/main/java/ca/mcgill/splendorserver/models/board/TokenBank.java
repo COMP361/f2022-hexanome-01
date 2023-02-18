@@ -1,4 +1,4 @@
-package ca.mcgill.splendorserver.models;
+package ca.mcgill.splendorserver.models.board;
 
 import java.util.HashMap;
 
