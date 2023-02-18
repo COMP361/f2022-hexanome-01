@@ -26,7 +26,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class GameController {
   private final Logger logger;
 
-  private HashMap<String, Game> gameRegistry = new HashMap<String, Game>();
+  private HashMap<String, Game> gameRegistry =
+      new HashMap<String, Game>(Map.of("test", new Game("testId", new String[]{"testPlayer1"}, "splendor")));
+
   private HashMap<String, Game> saves = new HashMap<>();
   
   private static HashMap<String, Card> cardRegistry = new HashMap<>();
@@ -140,33 +142,27 @@ public class GameController {
    */
   @PutMapping("/api/splendor/{gameId}")
   public void launchGame(@PathVariable(required = true, name = "gameId") String gameId,
-                            @RequestBody SessionData session) {
+                            @RequestBody SessionData session) throws JsonProcessingException {
 
-    String saveId = session.getSavegame();
-    String[] playerList = session.getPlayers();
-    String variant = session.getVariant();
-    String creator = session.getCreator();
+    if (session != null) {
+      if (saves.containsKey(session.getSavegame())) { //starting from saved game
+        String oldId = saves.get(session.getSavegame()).getId();
+        gameRegistry.put(gameId, gameRegistry.remove(oldId));
+      } else { //starting new game
+    	  gameRegistry.put(gameId, new Game(gameId, session.getPlayers(), session.getVariant()));
+      }
 
-    Game save = saves.get(saveId);
-
-    if (save != null) {
-      gameRegistry.put(saveId, save);
-      save.setLaunched();
-      Game game = save;
-    }
-    else {
-      Game game = new Game(saveId, variant, playerList, creator);
+      if (gameRegistry.get(gameId) != null) {
+        System.out.println("Launched game with id: " + gameId);
+      } else {
+        System.out.println("Could not launch game with id: " + gameId);
+      }
+    } else {
+      System.out.println("Could not launch game with id: " + gameId
+          + " because no session data was received");
     }
   }
-
-  /**
-   * Getter for the noble registry.
-   *
-   * @return all noble tiles
-   */
-  public static HashMap<String, Noble> getAllNobles() {
-    return nobleRegistry;
-  }
+  
 }
 
 
