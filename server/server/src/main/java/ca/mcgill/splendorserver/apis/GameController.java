@@ -27,7 +27,7 @@ public class GameController {
   private final Logger logger;
 
   private HashMap<String, Game> gameRegistry =
-      new HashMap<String, Game>(Map.of("test", new Game("testId", new String[]{"testPlayer1"})));
+      new HashMap<String, Game>(Map.of("test", new Game("testId", new String[]{"testPlayer1"}, "splendor")));
 
   private HashMap<String, Game> saves = new HashMap<>();
   
@@ -149,7 +149,7 @@ public class GameController {
         String oldId = saves.get(session.getSavegame()).getId();
         gameRegistry.put(gameId, gameRegistry.remove(oldId));
       } else { //starting new game
-        addNewGame(gameId, session.getPlayers());
+    	  gameRegistry.put(gameId, new Game(gameId, session.getPlayers(), session.getVariant()));
       }
 
       if (gameRegistry.get(gameId) != null) {
@@ -162,17 +162,7 @@ public class GameController {
           + " because no session data was received");
     }
   }
-
-  /**
-   * Adds a game to the game registry.
-   *
-   * @param gameId the id of the game as per its session id in the LobbyService
-   * @param players array of four PlayerData slots representing the players currently
-   *                registered in the session in the LobbyService
-   */
-  private void addNewGame(String gameId, String[] players) {
-    gameRegistry.put(gameId, new Game(gameId, players));
-  }
+  
 }
 
 

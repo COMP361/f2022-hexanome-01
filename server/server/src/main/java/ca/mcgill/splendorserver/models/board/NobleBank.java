@@ -1,4 +1,6 @@
-package ca.mcgill.splendorserver.models;
+package ca.mcgill.splendorserver.models.board;
+
+import ca.mcgill.splendorserver.models.Noble;
 
 /**
  * Model class holding all Splendor noble tiles on the board.

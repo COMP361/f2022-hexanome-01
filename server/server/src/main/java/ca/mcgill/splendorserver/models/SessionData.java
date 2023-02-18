@@ -45,5 +45,9 @@ public class SessionData {
   public String getSavegame() {
     return savegame;
   }
+  
+  public String getVariant() {
+	  return gameServer;
+  }
 
 }

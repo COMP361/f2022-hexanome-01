@@ -2,6 +2,8 @@ package ca.mcgill.splendorserver.models;
 
 import java.util.ArrayList;
 
+import ca.mcgill.splendorserver.models.cards.Card;
+
 /**
  * Model class for a Splendor player.
  */
