@@ -29,7 +29,6 @@ public class MainMenuManager : MonoBehaviour {
     public NobleRow allNobles;
 
     public GlobalGameClient globalGameClient;
-    public GameData game;
     private string sessionsHash = null;
     private string sessionHash = null;
 
@@ -56,7 +55,6 @@ public class MainMenuManager : MonoBehaviour {
     /// Implements long polling for the GET request to the LobbyService for data on all sessions.
     /// </summary>
     public void OnBaseJoinClick() {
-        game = null;
         StartCoroutine(SessionManager.GetSessions(HOST, sessionsHash, (string hash, List<Session> sessions) => {
             if (hash != null) {
                 if (sessions != null && sessions.Count > 0) {
@@ -77,7 +75,6 @@ public class MainMenuManager : MonoBehaviour {
     /// and sends the data to "BaseLoad".
     /// </summary>
     public void OnBaseLoadClick() {
-        game = null;
         StartCoroutine(SessionManager.GetSaves(HOST, authentication, (List<Save> saves) => {
             if (saves != null && saves.Count > 0){
                 List<Save> relevant = determineRelevant(saves);
@@ -93,9 +90,6 @@ public class MainMenuManager : MonoBehaviour {
     /// and sends the id to "SessionCreate".
     /// </summary>
     public void OnSessionCreateClick() {
-
-        game = null;
-
         string variant = ""; //determine game version based on selected toggle
         if (splendorToggle.isOn) variant = "splendor";
         else if (citiesToggle.isOn) variant = "cities";
@@ -185,9 +179,9 @@ public class MainMenuManager : MonoBehaviour {
     /// </summary>
     public void OnLobbyStartClick() {
 
-        StartCoroutine(SessionManager.Launch(HOST, authentication, currentSession, (GameData game) =>
+        StartCoroutine(SessionManager.Launch(HOST, authentication, currentSession, (JSONObject board) =>
             {
-                this.game = game;
+                //TO DO: receive the game board and pass it to something to set up the display correctly
                 SceneManager.LoadScene(2);
             }));
     }
@@ -200,20 +194,29 @@ public class MainMenuManager : MonoBehaviour {
     /// <param name="id"></param>
     public void LobbyPolling(string id)
     {
-        StartCoroutine(SessionManager.GetSession(HOST, id, sessionHash, (string hash, Session session) => {
-            if (hash != null) {
-                if (session != null) {
-                    currentSession = session;
+        StartCoroutine(SessionManager.GetSession(HOST, id, sessionHash, (string hash, Session session) =>
+        {
+            if (session != null && hash != null)
+            {
+                currentSession = session;
+                sessionHash = hash;
+                if (session.launched)
+                {
+                    //TO DO: get the game board and pass it to something to set up the display correctly
+                    SceneManager.LoadScene(2);
+                }
+                else
+                {
                     SetupLobby();
                     MakePlayers(); // displays the players in the current session
 
                     if (session.players.Count >= 2 && session.creator.Equals(authentication.username))
                         startSessionButton.SetActive(true); // allow the host to start the session
-                }
 
-                sessionHash = hash;
-                if (lobbyView.activeInHierarchy) LobbyPolling(currentSession.id);
-            } else if (lobbyView.activeInHierarchy) LobbyPolling(currentSession.id);
+                    else if (lobbyView.activeInHierarchy) LobbyPolling(currentSession.id);
+                }
+            }
+            else if (lobbyView.activeInHierarchy) LobbyPolling(currentSession.id);
         }));
     }
 
