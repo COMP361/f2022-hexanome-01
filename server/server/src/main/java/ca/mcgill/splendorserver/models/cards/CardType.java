@@ -7,5 +7,7 @@ public enum CardType {
   SACRIFICE,
   SATCHEL,
   RESERVE,
-  OTHER
+  DOMINO1,
+  DOMINO2,
+  NONE
 }

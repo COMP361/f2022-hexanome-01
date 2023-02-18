@@ -2,6 +2,8 @@ package ca.mcgill.splendorserver.models;
 
 import java.util.HashMap;
 
+import org.json.simple.JSONObject;
+
 /**
  * Model class for Splendor noble tiles.
  */
@@ -9,7 +11,7 @@ public class Noble {
 
   private int id;
   private int pts;
-  private HashMap<String, Integer> cost;
+  private HashMap<String, Integer> cost = new HashMap<String, Integer>();
 
   /**
    * Sole constructor (for invocation by subclass constructors, typically implicit.)
@@ -18,7 +20,17 @@ public class Noble {
 
   }
 
-  /**
+  public Noble(JSONObject obj) {
+	  id = Integer.parseInt((String)obj.get("id"));
+	  pts = Integer.parseInt((String)obj.get("points"));
+	  cost.put("blue", Integer.parseInt((String)obj.get("blue")));
+	  cost.put("green", Integer.parseInt((String)obj.get("green")));
+	  cost.put("red", Integer.parseInt((String)obj.get("red")));
+	  cost.put("white", Integer.parseInt((String)obj.get("white")));
+	  cost.put("black", Integer.parseInt((String)obj.get("brown")));
+}
+
+/**
    * Getter for the noble's id.
    *
    * @return the unique identifier for the noble

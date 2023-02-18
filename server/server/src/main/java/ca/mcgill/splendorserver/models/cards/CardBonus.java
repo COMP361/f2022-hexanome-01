@@ -10,4 +10,8 @@ public class CardBonus {
 		this.type = type;
 		this.amount = amount;
 	}
+
+	public CardBonus() {
+		// TODO Auto-generated constructor stub
+	}
 }
