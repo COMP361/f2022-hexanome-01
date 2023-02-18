@@ -44,10 +44,16 @@ public class PlayerControl : MonoBehaviour {
         string noble = "nobles: ";
         string unlockable = "unlockables: ";*/
         //Debug.Log("start");
-        foreach(CardRow cr in allCards.cards) {
+        for(int i = 0; i < 6; i++) {
             List<string> cards = new List<string>();
-            foreach(Card c in cr.deck.cards) {
+            foreach (Card c in allCards.cards[i].deck.cards) {
                 cards.Add(c.Convert().ToString());
+            }
+            foreach (CardSlot c in allCards.cards[i].cards) {
+                Card card = c.GetCard();
+                if (i > 2)
+                    card.id += 104;
+                cards.Add(card.Convert().ToString());
             }
             Debug.Log("Deck: " + (new JSONArray(cards)).ToString());
         }
@@ -56,6 +62,9 @@ public class PlayerControl : MonoBehaviour {
         foreach (Noble n in allNobles.deck.nobles) {
             nobles.Add(n.Convert().ToString());
         }
+        /*foreach (NobleSlot n in allNobles.nobles) {
+            nobles.Add(n.GetNoble().Convert().ToString());
+        }*/
         Debug.Log("nobles: " + (new JSONArray(nobles)).ToString());
 
         List<string> unlockables = new List<string>();
@@ -86,7 +95,7 @@ public class PlayerControl : MonoBehaviour {
         JSONArray arrDecoded = (JSONArray)JSONHandler.DecodeJsonRequest(decodedJson2[1].ToString());
         Debug.Log(decodedJson2[0]);
         Debug.Log(arrDecoded[0]);
-        Debug.Log(arrDecoded[1]);
+        Debug.Log(arrDecoded[1~]);
 
         Dictionary<string, string> objMapping1 = new Dictionary<string, string>();
         Dictionary<string, string> objMapping2 = new Dictionary<string, string>();
