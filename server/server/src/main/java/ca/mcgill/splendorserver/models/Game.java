@@ -29,6 +29,7 @@ public class Game {
     launched = false;
     currentPlayer = creator;
     board = new Board(variant, players);
+    //TO DO: create player inventories?
   }
 
   /**

@@ -26,7 +26,7 @@ public class Board {
   public Board(String variant, String[] playerList) {
     this.variant = variant;
     boardTokens = new TokenBank(playerList.length + (playerList.length == 4 ? 3 : 2));
-    cards = new CardBank();
+    cards = new CardBank(); //and shuffles decks and places cards on board
 
     //initialize nobles
     nobles = new Noble[playerList.length + 1];
@@ -37,8 +37,6 @@ public class Board {
     for (int i = 0; i < nobles.length; i++) {
       nobles[i] = nobleIterator.next();
     }
-
-    //initialize card decks
-
+    //TO DO: select cities
   }
 }
