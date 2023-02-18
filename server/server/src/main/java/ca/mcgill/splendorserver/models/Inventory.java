@@ -2,6 +2,9 @@ package ca.mcgill.splendorserver.models;
 
 import java.util.ArrayList;
 
+import ca.mcgill.splendorserver.models.board.TokenBank;
+import ca.mcgill.splendorserver.models.cards.Card;
+
 /**
  * Model class for a Splendor player's inventory i.e. everything they've acquired.
  */

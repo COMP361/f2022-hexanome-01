@@ -1,5 +1,7 @@
 package ca.mcgill.splendorserver.models;
 
+import ca.mcgill.splendorserver.models.board.Board;
+
 /**
  * Models one game.
  */
@@ -9,10 +11,12 @@ public class Game {
   private String variant;
   private String creator;
   private String[] players;
-  private boolean launched;
-  private String currentPlayer;
+  private String variant;
+  
   private Board board;
-
+  
+  private boolean launched;
+  
   /**
    * Constructor.
    *
@@ -21,15 +25,13 @@ public class Game {
    * @param players player usernames
    * @param creator the creator of the session
    */
-  public Game(String id, String variant, String[] players, String creator) {
+  public Game(String id, String[] players, String variant) {
     this.id = id;
     this.variant = variant;
     this.players = players;
-    this.creator = creator;
+    this.variant = variant;
+    
     launched = false;
-    currentPlayer = creator;
-    board = new Board(variant, players);
-    //TO DO: create player inventories?
   }
 
   /**
@@ -40,11 +42,10 @@ public class Game {
   public String getId() {
     return id;
   }
-
-  /**
-   * Marks the game as launched.
-   */
+  
   public void setLaunched() {
-    launched = true;
+	  board = new Board(players.length, variant);
+	  
+	  launched = true;
   }
 }

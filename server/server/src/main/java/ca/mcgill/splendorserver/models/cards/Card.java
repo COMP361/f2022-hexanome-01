@@ -1,6 +1,8 @@
-package ca.mcgill.splendorserver.models;
+package ca.mcgill.splendorserver.models.cards;
 
 import java.util.HashMap;
+
+import ca.mcgill.splendorserver.models.Token;
 
 /**
  * Model class for a Splendor development card.
@@ -8,6 +10,8 @@ import java.util.HashMap;
 public class Card {
 
   private int id; //uniquely identify a card
+  private int pts;
+  private CardBonus bonus;
   private CardType type; //special abilities of the card
   private CardLevel level; //base game or extension and level
   private int satchelCount; //number of associations with a satchel card
@@ -25,9 +29,11 @@ public class Card {
    * @param type special abilities of card
    * @param level base game or expansion plus the level of the card (relevant to the card's deck)
    */
-  public Card(int id, int blue, int green, int red, int white, int black,
+  public Card(int id, int pts, String bonusType, int bonusAmount, int blue, int green, int red, int white, int black,
               String type, String level) {
     this.id = id;
+    this.pts = pts;
+    bonus = new CardBonus(Token.valueOf(bonusType), bonusAmount);
     cost.put(Token.BLUE, blue);
     cost.put(Token.GREEN, green);
     cost.put(Token.RED, red);

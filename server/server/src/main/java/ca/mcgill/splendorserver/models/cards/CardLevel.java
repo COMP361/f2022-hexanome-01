@@ -1,4 +1,4 @@
-package ca.mcgill.splendorserver.models;
+package ca.mcgill.splendorserver.models.cards;
 
 /**
  * Enumeration of Splendor development card levels for base and expansion packs.

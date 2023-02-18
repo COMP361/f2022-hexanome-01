@@ -1,14 +1,16 @@
-package ca.mcgill.splendorserver.models;
+package ca.mcgill.splendorserver.models.board;
 
 import java.util.Collections;
 import java.util.Stack;
+
+import ca.mcgill.splendorserver.models.cards.Card;
 
 /**
  * Model class holding all Splendor development card decks.
  */
 public class CardBank {
 
-  private Card[][] cards = new Card[6][3];
+  private Card[][] cards = new Card[6][4];
 
   private Stack<Card> deck1; // TODO: Manually add all card data to these decks
   private Stack<Card> deck2;
@@ -30,7 +32,7 @@ public class CardBank {
     Collections.shuffle(orientDeck2);
     Collections.shuffle(orientDeck3);
 
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 4; i++) {
       cards[0][i] = deck1.pop();
       cards[1][i] = deck2.pop();
       cards[2][i] = deck3.pop();
@@ -48,8 +50,8 @@ public class CardBank {
    * @param card the card to add to the deck
    */
   public void add(Card card) {
-    for (int i = 0; i < 3; i++) {
-      for (int j = 0; j < 3; j++) {
+    for (int i = 0; i < 4; i++) {
+      for (int j = 0; j < 4; j++) {
         if (cards[j][i] == null) {
           cards[j][i] = card;
         }
@@ -71,8 +73,8 @@ public class CardBank {
    * @return whether the card was successfully removed (i.e. whether it was present)
    */
   public boolean remove(Card card) {
-    for (int i = 0; i < 3; i++) {
-      for (int j = 0; j < 3; j++) {
+    for (int i = 0; i < 4; i++) {
+      for (int j = 0; j < 4; j++) {
         if (cards[j][i].equals(card)) {
           cards[j][i] = null;
         }
