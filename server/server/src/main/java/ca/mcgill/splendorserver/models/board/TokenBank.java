@@ -2,6 +2,9 @@ package ca.mcgill.splendorserver.models.board;
 
 import java.util.HashMap;
 
+import ca.mcgill.splendorserver.models.Token;
+import ca.mcgill.splendorserver.models.cards.Card;
+
 /**
  * Model class for a bank of Splendor tokens.
  */
