@@ -11,6 +11,7 @@ public class PlayerControl : MonoBehaviour {
     [SerializeField] private Player player; //this client/player
     [SerializeField] public List<PlayerData> gamePlayersData; //can change this to a different type later, playerData is combined from LobbyPlayer and Player class
     [SerializeField] private OrientMenuManager omm;
+    public UnlockableList unlockableList;
     public Player client {
         get { return player; }
     }
@@ -37,6 +38,33 @@ public class PlayerControl : MonoBehaviour {
     public bool inOrientMenu, inInventory, sacrificeMade;
 
     void Start() {
+        //following is how i printed out card/noble/post/city info to transfer it over to server
+        /*string deck1 = "deck1: ", deck2 = "deck2: ", deck3 = "deck3: ",
+            deck4 = "deck4: ", deck5 = "deck5: ", deck6 = "deck6: ";
+        string noble = "nobles: ";
+        string unlockable = "unlockables: ";*/
+        //Debug.Log("start");
+        foreach(CardRow cr in allCards.cards) {
+            List<string> cards = new List<string>();
+            foreach(Card c in cr.deck.cards) {
+                cards.Add(c.Convert().ToString());
+            }
+            Debug.Log("Deck: " + (new JSONArray(cards)).ToString());
+        }
+
+        List<string> nobles = new List<string>();
+        foreach (Noble n in allNobles.deck.nobles) {
+            nobles.Add(n.Convert().ToString());
+        }
+        Debug.Log("nobles: " + (new JSONArray(nobles)).ToString());
+
+        List<string> unlockables = new List<string>();
+        unlockableList.Init();
+        foreach (IUnlockable u in unlockableList.List) {
+           unlockables.Add(u.Convert().ToString());
+        }
+        Debug.Log("unlockables: " + (new JSONArray(unlockables)).ToString());
+
         //the following was a test i made to make sure JSONHandler was working. ive left it here incase we find some uknown error with it
         /*
         Dictionary<string, string> objMapping = new Dictionary<string, string>();

@@ -20,6 +20,19 @@ public struct Condition {
     public int points;
     public bool nobleRequired;
 
+    public JSONObject Convert() {
+        Dictionary<string, string> pairs = new Dictionary<string, string>();
+        pairs.Add("points", points.ToString());
+        pairs.Add("red", red.ToString());
+        pairs.Add("blue", blue.ToString());
+        pairs.Add("green", green.ToString());
+        pairs.Add("brown", brown.ToString());
+        pairs.Add("white", white.ToString());
+        pairs.Add("generic", generic.ToString());
+        pairs.Add("nobleRequired", nobleRequired.ToString());
+        return new JSONObject(pairs);
+    }
+
     public bool CheckCondition(Player player) {
         return red <= player.bonusesAquired.red &&
             blue <= player.bonusesAquired.blue &&
@@ -49,4 +62,5 @@ public interface IUnlockable {
     public void Observe(Player player);
     public void PerformAbility(Player player);
     public bool Active { get; set; }
+    public JSONObject Convert();
 }

@@ -4798,6 +4798,7 @@ MonoBehaviour:
   player: {fileID: 691041389}
   gamePlayersData: []
   omm: {fileID: 960569995}
+  unlockableList: {fileID: 11400000, guid: e1967707d2e5dc849b4afe4999fc9beb, type: 2}
   globalGameClient: {fileID: 11400000, guid: e173fde9a6432464f8c29d8c55b1ffb0, type: 2}
   allCards: {fileID: 911230083}
   selectedCardToBuy: {fileID: 0}
