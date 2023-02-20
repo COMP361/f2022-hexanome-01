@@ -7,31 +7,17 @@ using UnityEngine.UI;
 public class NobleSlot : MonoBehaviour {
 
     [SerializeField] private Noble noble;
-    [SerializeField] private OrientMenuManager omm;
     [SerializeField] private Image image;
 
     private SpriteRenderer m_SpriteRenderer;
 
     private bool active = true;
 
-    public void SetupInventory(Noble noble) { //sets all the values for use in inventory/orient menu
+    public void SetupInventory(Noble noble) { //sets all the values for use in inventory
         this.noble = noble;
-        if (!omm) //if not part of orient menu, disable button component
-            gameObject.GetComponent<Button>().interactable = false;
         m_SpriteRenderer = GetComponent<SpriteRenderer>();
         m_SpriteRenderer.sprite = noble.sprite;
         image.sprite = noble.sprite;
-    }
-
-    public void SetupOrient(OrientMenuManager omm, Noble noble) { //sets orient specific info + regular inventory info, used when filling orient menu with options
-        this.omm = omm;
-        image.color = Color.gray;
-        SetupInventory(noble);
-    }
-
-    public void PassToOrient() { //passes noble to orient 
-        omm.Setup(noble);
-        omm.ResetHighlightedCard();
     }
 
     public void GreyOut() {

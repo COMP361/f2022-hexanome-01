@@ -128,29 +128,14 @@ public class Card : ScriptableObject {
 
     [SerializeField] public CardGemValue gemValue = new CardGemValue();
 
-    public int satchels = 0;
-    public ActionType action;
-
     private bool active = true;
 
     public Sprite sprite;
 
     private SpriteRenderer m_SpriteRenderer;
 
-    public void SetData(CardData data) {
-        id = data.id;
-        points = data.points;
-        bonus = data.bonus;
-        bonusAmount = data.bonusAmount;
-        red = data.red;
-        blue = data.blue;
-        green = data.green;
-        brown = data.brown;
-        white = data.white;
-    }
-
-    public void AddSatchel() {
-        satchels++;
+    public int GetId() {
+        return id;
     }
 
     public int GetPoints() {
@@ -187,4 +172,8 @@ public class Card : ScriptableObject {
         }
     }
 
+    public bool Equals(Card card) {
+        if (card.GetId() == this.GetId()) return true;
+        else return false;
+    }
 }
