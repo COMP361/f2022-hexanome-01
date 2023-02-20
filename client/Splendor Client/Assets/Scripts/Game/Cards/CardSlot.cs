@@ -9,38 +9,15 @@ the card object. (Make sure to call SetCard(Card card) before using functionalit
 */
 public class CardSlot : MonoBehaviour {
     [SerializeField] private Card card;
-    private OrientMenuManager omm;
-    [SerializeField] private Image image, satchelImage;
-    [SerializeField] private Text satchelCounter;
+    [SerializeField] private Image image;
     private SpriteRenderer m_SpriteRenderer;
 
     private bool active = true;
 
-    public void SetupInventory(Card card) { //sets regular display info for inventory/orient menu usage
-        this.card = card;
+    public void SetupInventory(Card card) { //sets regular display info for inventory
         m_SpriteRenderer = GetComponent<SpriteRenderer>();
         m_SpriteRenderer.sprite = card.sprite;
         image.sprite = card.sprite;
-        if (!omm) //if not part of orient menu, disable button component
-            gameObject.GetComponent<Button>().interactable = false;
-        if (card.satchels > 0) { //display satchel count on card
-            satchelImage.gameObject.SetActive(true);
-            satchelCounter.text = "X " + card.satchels;
-        }
-        else {
-            satchelImage.gameObject.SetActive(false);
-            satchelCounter.text = "";
-        }
-    }
-    public void SetupOrient(OrientMenuManager omm, Card card) { //sets orient-specific display info, used when displaying options in orient menu
-        this.omm = omm;
-        image.color = Color.gray;
-        SetupInventory(card);
-    }
-
-    public void PassToOrient() { //triggered by clicking on card, passes the card to orientMenuManager
-        omm.Setup(card);
-        omm.ResetHighlightedCard();
     }
 
     public void GreyOut() {
@@ -72,6 +49,16 @@ public class CardSlot : MonoBehaviour {
 
     public Card GetCard() {
         return card;
+    }
+
+    /// <summary>
+    /// Overrides Equals to determine if the card in the slot is the same as the card in the given card slot.
+    /// </summary>
+    /// <param name="card">the card solt with which to compare this card slot</param>
+    /// <returns>whether the card in the slot has the same id as the card in the given card slot</returns>
+    public bool Equals(CardSlot card) {
+        if (card.GetCard().GetId() == this.card.GetId()) return true;
+        else return false;
     }
 
 }

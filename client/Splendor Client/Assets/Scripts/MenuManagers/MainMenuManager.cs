@@ -22,13 +22,11 @@ public class MainMenuManager : MonoBehaviour {
     public Save currentSave;
     public Session currentSession;
     private LastMenuVisited previousMenu = LastMenuVisited.MAIN;
-    public NetworkManager networkManager;
     public Authentication authentication;
 
     public AllCards allCards;
     public NobleRow allNobles;
 
-    public GlobalGameClient globalGameClient;
     private string sessionsHash = null;
     private string sessionHash = null;
 
@@ -113,8 +111,6 @@ public class MainMenuManager : MonoBehaviour {
             StartCoroutine(SessionManager.Join(HOST, authentication, currentSession));
 
             previousMenu = LastMenuVisited.JOIN;
-            globalGameClient.id = currentSession.id;
-            networkManager.joinPolling(globalGameClient.id, this);
 
             LobbyPolling(currentSession.id);
             joinSession.Invoke();
