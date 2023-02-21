@@ -8,6 +8,11 @@ public class AllCards : MonoBehaviour
     [SerializeField] public CardSlot[][] baseCards = new CardSlot[3][];
     [SerializeField] public CardSlot[][] orientCards = new CardSlot[3][];
 
+    [SerializeField] private List<Card> cards = new List<Card>();
+    [SerializeField] private GameObject cardObject;
+    public float x;
+    public float y;
+
     void Start() {
         for (int level = 0; level < 3; level++)
         {
@@ -78,6 +83,29 @@ public class AllCards : MonoBehaviour
             {
                 orientCards[level][i].UnGreyOut();
             }
+        }
+    }
+
+    public void SetCard(bool orient, int level, int index, int id)
+    {
+        GameObject prefab = Instantiate(cardObject, new Vector3(x + index * 0.85F, y, 0), Quaternion.identity);
+        Card toSet = cards.Find(x => x.id.Equals(id)); //find card with given id
+
+        if (orient) {
+            orientCards[level][index] = prefab.GetComponent<CardSlot>();
+            
+            if (toSet == null)
+                orientCards[level][index].EmptySlot(); //still need to remove the last card sprite if we cant find the right card
+            else
+                orientCards[level][index].SetCard(toSet);
+        }
+        else {
+            baseCards[level][index] = prefab.GetComponent<CardSlot>();
+
+            if (toSet == null)
+                baseCards[level][index].EmptySlot(); //still need to remove the last card sprite if we cant find the right card
+            else
+                baseCards[level][index].SetCard(toSet);
         }
     }
 
