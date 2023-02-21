@@ -10,9 +10,9 @@ using UnityEngine.Networking;
 using UnityEngine.UI;
 
 /// <summary>
-/// Sends web requests to the LobbyService to allow session management in the main menu.
+/// Sends web requests to the LobbyService to allow LobbyService requests in the main menu.
 /// </summary>
-public class SessionManager : MonoBehaviour
+public class LSRequestManager : MonoBehaviour
 {
     //******************************** JOIN SESSION ********************************
 

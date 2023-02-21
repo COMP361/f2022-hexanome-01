@@ -120,78 +120,16 @@ public class PlayerControl : MonoBehaviour {
 
     void UpdateDisplay() { //update display elements (might Add things to this later)
         dashboard.UpdatePtsDisplay(player.GetPoints());
-        dashboard.UpdateTokenDisplay(player.GetTokensAquired());
-    }
-
-    public bool ReserveCard(Card card) { //Add card to players reserve inventory
-        if (player.ReserveCard(card)) {
-            UpdateDisplay();
-            allCards.RemoveCard(card);
-            return true;
-        }
-        else
-            return false;
-    }
-
-    public void ReserveNoble(Noble noble) { //Add noble to players reserve inventory
-        player.ReserveNoble(noble);
-        allNobles.RemoveNoble(noble);
-    }
-
-    public void AcquireCard(Card card) { //Add card to players purchase inventory (does not pay for the card, if paying use PurchaseAction)
-        player.AcquireCard(card);
-        UpdateDisplay();
-        allCards.RemoveCard(card);
-    }
-
-    public void RemoveCard(Card card) { //removes card from player inventory
-        player.RemoveCard(card);
-        UpdateDisplay();
+        //TO DO: update player tokens
     }
 
     public void EndTurn() // Player clicks "end turn"
-    {
-        // Upon turn end, selected card is bought and added to inventory (points increase by card points)
-        if (!PurchaseAction() || !sacrificeMade) //i vote for having a dedicated "purchase" button that either ends your turn outright (assuming your purchase goes through)
-            return;                             // or sets a flag making it so you cannot do another action except for ending turn
-
-        // For each noble in the players reserves, check if they are impressed
-        foreach (Noble noble in player.nobleReserves) {
-            if (player.hasImpressed(noble)) {
-                player.TriggerNobleAdd(noble);
-                UpdateDisplay();
-                //we need to be able to select a Noble when there are multiple impressed at once instead of just giving the first break;
-                break;
-            }
-        }
-        // For each noble in the row check if they are impressed (will also need to check player reserves)
-        foreach (NobleSlot noble in allNobles.nobles) {
-            if (noble) {
-                if (player.hasImpressed(noble.GetNoble())) {
-                    player.TriggerNobleAdd(noble.GetNoble());
-                    UpdateDisplay();
-                    allNobles.RemoveNoble(noble);
-                    //we need to be able to select a Noble when there are multiple impressed at once instead of just giving the first break;
-                    break;
-                }
-            }
-        }
-
-        dashboard.DisplayWaiting();
-        //allCards.GreyOut();
-
-        waiting = true;
-
-        // StartTurn(); // Player's turn temporarily restarts immediately after end turn
-    }
+    { }
 
     public void StartTurn() // Start of player's turn
     {
-        player.turnData = new TurnData();
         dashboard.ResetEndDisplay();
-        //allCards.UnGreyOut();
         waiting = false;
-        sacrificeMade = false;
         selectedCardToBuy = null;
     }
 

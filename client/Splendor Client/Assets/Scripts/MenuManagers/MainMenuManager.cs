@@ -53,7 +53,7 @@ public class MainMenuManager : MonoBehaviour {
     /// Implements long polling for the GET request to the LobbyService for data on all sessions.
     /// </summary>
     public void OnBaseJoinClick() {
-        StartCoroutine(SessionManager.GetSessions(HOST, sessionsHash, (string hash, List<Session> sessions) => {
+        StartCoroutine(LSRequestManager.GetSessions(HOST, sessionsHash, (string hash, List<Session> sessions) => {
             if (hash != null) {
                 if (sessions != null && sessions.Count > 0) {
                     List<Session> available = determineAvailable(sessions); //determine which sessions are available
@@ -73,7 +73,7 @@ public class MainMenuManager : MonoBehaviour {
     /// and sends the data to "BaseLoad".
     /// </summary>
     public void OnBaseLoadClick() {
-        StartCoroutine(SessionManager.GetSaves(HOST, authentication, (List<Save> saves) => {
+        StartCoroutine(LSRequestManager.GetSaves(HOST, authentication, (List<Save> saves) => {
             if (saves != null && saves.Count > 0){
                 List<Save> relevant = determineRelevant(saves);
 
@@ -93,7 +93,7 @@ public class MainMenuManager : MonoBehaviour {
         else if (citiesToggle.isOn) variant = "cities";
         else if (tradingPostsToggle.isOn) variant = "tradingposts";
 
-        StartCoroutine(SessionManager.CreateSession(HOST, variant, authentication, LobbyPolling));
+        StartCoroutine(LSRequestManager.CreateSession(HOST, variant, authentication, LobbyPolling));
 
         previousMenu = LastMenuVisited.MAIN;
         createSession.Invoke();
@@ -108,7 +108,7 @@ public class MainMenuManager : MonoBehaviour {
     /// </summary>
     public void OnSessionJoinClick() {
         if (currentSession != null){
-            StartCoroutine(SessionManager.Join(HOST, authentication, currentSession));
+            StartCoroutine(LSRequestManager.Join(HOST, authentication, currentSession));
 
             previousMenu = LastMenuVisited.JOIN;
 
@@ -124,8 +124,8 @@ public class MainMenuManager : MonoBehaviour {
     /// and sends the id of the new session to "SaveStart".
     /// </summary>
     public void OnSaveStartClick() {
-        StartCoroutine(SessionManager.CreateSavedSession(HOST, currentSave, authentication, (string id) => {
-            StartCoroutine(SessionManager.GetSession(HOST, id, sessionHash, (string hash, Session session) => {
+        StartCoroutine(LSRequestManager.CreateSavedSession(HOST, currentSave, authentication, (string id) => {
+            StartCoroutine(LSRequestManager.GetSession(HOST, id, sessionHash, (string hash, Session session) => {
                 if (hash != null) {
                     if (session != null) {
                         previousMenu = LastMenuVisited.LOAD;
@@ -158,7 +158,7 @@ public class MainMenuManager : MonoBehaviour {
     /// Removes the player from the (unlaunched) current session in the LobbyService.
     /// </summary>
     public void OnConfirmEndClick() {
-        StartCoroutine(SessionManager.Leave(HOST, authentication, currentSession));
+        StartCoroutine(LSRequestManager.Leave(HOST, authentication, currentSession));
         LoadLastMenu();
     }
 
@@ -166,7 +166,7 @@ public class MainMenuManager : MonoBehaviour {
     /// Removes the creator from the (unlaunched) current session in the LobbyService, removing the session altogether.
     /// </summary>
     public void OnConfirmDeleteClick() {
-        StartCoroutine(SessionManager.DeleteSession(HOST, currentSession.id, authentication));
+        StartCoroutine(LSRequestManager.DeleteSession(HOST, currentSession.id, authentication));
         LoadLastMenu();
     }
 
@@ -175,7 +175,7 @@ public class MainMenuManager : MonoBehaviour {
     /// </summary>
     public void OnLobbyStartClick() {
 
-        StartCoroutine(SessionManager.Launch(HOST, authentication, currentSession, (JSONObject board) =>
+        StartCoroutine(LSRequestManager.Launch(HOST, authentication, currentSession, (JSONObject board) =>
             {
                 //TO DO: receive the game board and pass it to something to set up the display correctly
                 SceneManager.LoadScene(2);
@@ -190,7 +190,7 @@ public class MainMenuManager : MonoBehaviour {
     /// <param name="id"></param>
     public void LobbyPolling(string id)
     {
-        StartCoroutine(SessionManager.GetSession(HOST, id, sessionHash, (string hash, Session session) =>
+        StartCoroutine(LSRequestManager.GetSession(HOST, id, sessionHash, (string hash, Session session) =>
         {
             if (session != null && hash != null)
             {

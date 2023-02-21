@@ -4,27 +4,24 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private int pointsTotal = 0;
+    private string username;
+    private int points = 0;
     //This will be a list of the ids of the purchased player cards
-    public List<Card> inventory = new List<Card>(), cardReserves = new List<Card>();
-    public List<Noble> noblesVisited = new List<Noble>(), nobleReserves = new List<Noble>();
-    public CardGemValue bonusesAquired = new CardGemValue();
-    public CardGemValue tokensAquired = new CardGemValue();
-
-    public Authentication mainPlayer;
-
-    void Start()
-    {
-        tokensAquired.blue = 50; // Hardcode for demo only; REMOVE FOR PROD
-        tokensAquired.green = 50;
-        tokensAquired.brown = 50;
-        tokensAquired.red = 50;
-        tokensAquired.white = 50;
-        tokensAquired.gold = 50;
-    }
+    private List<Card> cardsAcquired = new List<Card>(), cardsReserved = new List<Card>();
+    private List<Noble> noblesAcquired = new List<Noble>(), noblesReserved = new List<Noble>();
+    //TO DO: add tokens
+    //TO DO: add bonuses
 
     public int GetPoints()
     {
-        return pointsTotal;
+        return points;
+    }
+
+    public List<Card> GetCardsAcquired() {
+        return cardsAcquired;
+    }
+
+    public List<Noble> GetNoblesAcquired() {
+        return noblesAcquired;
     }
 }
