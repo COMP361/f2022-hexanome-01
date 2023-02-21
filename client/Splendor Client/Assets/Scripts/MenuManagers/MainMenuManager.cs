@@ -23,9 +23,7 @@ public class MainMenuManager : MonoBehaviour {
     public Session currentSession;
     private LastMenuVisited previousMenu = LastMenuVisited.MAIN;
     public Authentication authentication;
-
-    public AllCards allCards;
-    public NobleRow allNobles;
+    [SerializeField] private Board board;
 
     private string sessionsHash = null;
     private string sessionHash = null;
@@ -175,9 +173,9 @@ public class MainMenuManager : MonoBehaviour {
     /// </summary>
     public void OnLobbyStartClick() {
 
-        StartCoroutine(LSRequestManager.Launch(HOST, authentication, currentSession, (JSONObject board) =>
+        StartCoroutine(LSRequestManager.Launch(HOST, authentication, currentSession, (JSONObject boardData) =>
             {
-                //TO DO: receive the game board and pass it to something to set up the display correctly
+                board.SetBoard(boardData);
                 SceneManager.LoadScene(2);
             }));
     }
@@ -198,7 +196,7 @@ public class MainMenuManager : MonoBehaviour {
                 sessionHash = hash;
                 if (session.launched)
                 {
-                    //TO DO: get the game board and pass it to something to set up the display correctly
+                    board.launch(HOST, session.id);
                     SceneManager.LoadScene(2);
                 }
                 else

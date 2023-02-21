@@ -10,8 +10,11 @@ public class AllCards : MonoBehaviour
 
     [SerializeField] private List<Card> cards = new List<Card>();
     [SerializeField] private GameObject cardObject;
-    public float x;
-    public float y;
+    [SerializeField] private float xBase;
+    [SerializeField] private float xOrient;
+    [SerializeField] private float yLevel1;
+    [SerializeField] private float yLevel2;
+    [SerializeField] private float yLevel3;
 
     void Start() {
         for (int level = 0; level < 3; level++)
@@ -88,6 +91,13 @@ public class AllCards : MonoBehaviour
 
     public void SetCard(bool orient, int level, int index, int id)
     {
+        float x = xBase;
+        if (orient) x = xOrient;
+
+        float y = yLevel1;
+        if (level == 2) y = yLevel2;
+        else if (level == 3) y = yLevel3;
+
         GameObject prefab = Instantiate(cardObject, new Vector3(x + index * 0.85F, y, 0), Quaternion.identity);
         Card toSet = cards.Find(x => x.id.Equals(id)); //find card with given id
 
