@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10114dc0604ca4a479d343f91c7274c6, type: 3}
   m_Name: GreenToken
   m_EditorClassIdentifier: 
-  amount: 10
+  amount: 5
   colour: green
   sprite: {fileID: 5619258906214187582, guid: 3a4097a48cab1554b91aa8a17f002083, type: 3}

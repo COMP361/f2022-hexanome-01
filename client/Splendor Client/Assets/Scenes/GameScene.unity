@@ -11469,6 +11469,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86ef08bf3e025d240b8322bd12d81c50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tokens:
+  - {fileID: 11400000, guid: 852030c26c4525f4bad42d346b6839a7, type: 2}
+  - {fileID: 11400000, guid: 0285d6ee6d4e6a944bdba5becc951a63, type: 2}
+  - {fileID: 11400000, guid: 80b09c127d5e01a4f8082aff8f4683b8, type: 2}
+  - {fileID: 11400000, guid: 6f18cf4cc84152b4b8c753afa71b4b73, type: 2}
+  - {fileID: 11400000, guid: 86c2cd811b57479468119c4f43147c7f, type: 2}
+  - {fileID: 11400000, guid: ecc53243658ca3d4ba6d48c7173aa955, type: 2}
+  gold: 0
+  blue: 0
+  green: 0
+  black: 0
+  red: 0
+  white: 0
 --- !u!1 &1501839273
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,5 +10,17 @@ public class Gem : ScriptableObject{
     [SerializeField] public int amount;
     [SerializeField] public string colour;
     public Sprite sprite;
+
+    public void setAmount(int n){
+        amount = n;
+    }
+
+    public void decreaseAmount(int n){
+        amount -= n;
+    }
+
+    public void increaseAmount(int n){
+        amount += n;
+    }
     
 }

@@ -16,11 +16,5 @@ public class TokenSlot : MonoBehaviour
         amount.text = token.amount.ToString();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
 
 }
