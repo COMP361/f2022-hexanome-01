@@ -36,23 +36,31 @@ public class Board : ScriptableObject
         }
 
         //set nobles
+        JSONArray noblesData = (JSONArray)boardData["nobles"];
+        IEnumerator nobleEnumerator = noblesData.GetEnumerator();
+
+        nobles.SetNobleSize(noblesData.Count);
+        for (int i = 0;  nobleEnumerator.MoveNext(); i++)
+        {
+            nobles.SetNoble((int)nobleEnumerator.Current, i);
+        }
 
         //set tokens
 
         //set inventories
 
-        //set token counts
+            //set token counts
 
-        //set bonus counts
+            //set bonus counts
 
-        //set points
+            //set points
 
-        //set reserved cards
+            //set reserved cards
 
-        //set acquired cards
+            //set acquired cards
 
-        //set reserved nobles
+            //set reserved nobles
 
-        //set acquired nobles
+            //set acquired nobles
     }
 }

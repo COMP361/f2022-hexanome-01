@@ -42,6 +42,11 @@ public class NobleSlot : MonoBehaviour {
         image.color = Color.clear; //sets canvas image to clear, since this method is used by playerControl and not orientMenuManager (which uses the image for display purposes)
     }
 
+    public void EmptySlot() {
+        noble = null;
+        gameObject.SetActive(false);
+    }
+
     public Noble GetNoble() {
         return noble;
     }
