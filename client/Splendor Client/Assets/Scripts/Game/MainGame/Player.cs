@@ -36,47 +36,24 @@ public class Player : MonoBehaviour
         reservedNobles = new List<Noble>();
     }
 
-    //find the correct card by id and add it to the reserved cards
-    public void SetReservedCards(JSONArray ids)
+    public void AddReservedCard(Card card)
     {
-        IEnumerator idEnumerator = ids.GetEnumerator();
-
-        while (idEnumerator.MoveNext()) {
-            reservedCards.Add(AllCards.cards.Find(x => x.id.Equals((int)idEnumerator.Current))); 
-        }
+        reservedCards.Add(card);
     }
 
-    //find the correct card by id and add it to the acquired cards
-    public void SetAcquiredCards(JSONArray ids)
+    public void AddAcquiredCard(Card card)
     {
-        IEnumerator idEnumerator = ids.GetEnumerator();
-
-        while (idEnumerator.MoveNext())
-        {
-            acquiredCards.Add(AllCards.cards.Find(x => x.id.Equals((int)idEnumerator.Current)));
-        }
+        acquiredCards.Add(card);
     }
 
-    //find the correct noble by id and add it to the reserved nobles
-    public void SetReservedNobles(JSONArray ids)
+    public void AddReservedNoble(Noble noble)
     {
-        IEnumerator idEnumerator = ids.GetEnumerator();
-
-        while (idEnumerator.MoveNext())
-        {
-            reservedNobles.Add(NobleRow.allNobles.Find(x => x.id.Equals((int)idEnumerator.Current)));
-        }
+        reservedNobles.Add(noble);
     }
 
-    //find the correct noble by id and add it to the acquired nobles
-    public void SetAcquiredNobles(JSONArray ids)
+    public void AddAcquiredNoble(Noble noble)
     {
-        IEnumerator idEnumerator = ids.GetEnumerator();
-
-        while (idEnumerator.MoveNext())
-        {
-            acquiredNobles.Add(NobleRow.allNobles.Find(x => x.id.Equals((int)idEnumerator.Current)));
-        }
+        acquiredNobles.Add(noble);
     }
 
     public List<Card> GetAcquiredCards() {

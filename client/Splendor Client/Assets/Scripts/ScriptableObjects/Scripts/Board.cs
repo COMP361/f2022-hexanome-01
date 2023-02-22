@@ -80,16 +80,32 @@ public class Board : ScriptableObject
             players[i].SetPoints((int)inventory["points"]);
 
             //set reserved cards
-            players[i].SetReservedCards((JSONArray)inventory["reservedCards"]);
+            IEnumerator reservedCards = ((JSONArray)inventory["reservedCards"]).GetEnumerator();
+            while (reservedCards.MoveNext())
+            {
+                players[i].AddReservedCard(cards.cards.Find(x => x.id.Equals((int)reservedCards.Current)));
+            }
 
             //set acquired cards
-            players[i].SetAcquiredCards((JSONArray)inventory["acquiredCards"]);
+            IEnumerator acquiredCards = ((JSONArray)inventory["acquiredCards"]).GetEnumerator();
+            while (acquiredCards.MoveNext())
+            {
+                players[i].AddAcquiredCard(cards.cards.Find(x => x.id.Equals((int)acquiredCards.Current)));
+            }
 
             //set reserved nobles
-            players[i].SetReservedNobles((JSONArray)inventory["reservedNobles"]);
+            IEnumerator reservedNobles = ((JSONArray)inventory["reservedNobles"]).GetEnumerator();
+            while (reservedNobles.MoveNext())
+            {
+                players[i].AddReservedNoble(nobles.allNobles.Find(x => x.id.Equals((int)reservedNobles.Current)));
+            }
 
             //set acquired nobles
-            players[i].SetAcquiredNobles((JSONArray)inventory["acquiredNobles"]);
+            IEnumerator acquiredNobles = ((JSONArray)inventory["acquiredNobles"]).GetEnumerator();
+            while (acquiredNobles.MoveNext())
+            {
+                players[i].AddAcquiredNoble(nobles.allNobles.Find(x => x.id.Equals((int)acquiredNobles.Current)));
+            }
 
             //TO DO: set token counts
 

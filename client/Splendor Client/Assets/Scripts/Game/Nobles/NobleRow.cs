@@ -8,7 +8,7 @@ public class NobleRow : MonoBehaviour
     [SerializeField] private NobleSlot[] nobles = new NobleSlot[5];
     public int size;
 
-    public static List<Noble> allNobles = new List<Noble>();
+    public List<Noble> allNobles = new List<Noble>();
     [SerializeField] private GameObject nobleObject;
     [SerializeField] private float x;
     [SerializeField] private float y2Players;

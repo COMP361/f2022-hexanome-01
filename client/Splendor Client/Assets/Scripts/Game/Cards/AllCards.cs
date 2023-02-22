@@ -8,7 +8,7 @@ public class AllCards : MonoBehaviour
     [SerializeField] private CardSlot[][] baseCards = new CardSlot[3][];
     [SerializeField] private CardSlot[][] orientCards = new CardSlot[3][];
 
-    public static List<Card> cards = new List<Card>();
+    public List<Card> cards = new List<Card>();
     [SerializeField] private GameObject cardObject;
     [SerializeField] private float xBase;
     [SerializeField] private float xOrient;
