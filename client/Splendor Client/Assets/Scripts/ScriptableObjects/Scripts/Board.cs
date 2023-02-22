@@ -10,8 +10,11 @@ public class Board : ScriptableObject
 {
     [SerializeField] private NobleRow nobles;
     [SerializeField] private AllCards cards;
-    [SerializeField] private Player[] players = new Player[4];
+    private Player[] players = new Player[4];
+    private string currentPlayer;
+
     private int playerCount;
+    [SerializeField] private Authentication mainPlayer;
 
     public void launch(string host, string id) {
         //get board data & set it
@@ -19,7 +22,10 @@ public class Board : ScriptableObject
     }
 
     public void SetBoard(JSONObject boardData) {
-        //STEP 1: set cards
+        //STEP 1: set current player
+        currentPlayer = (string)boardData["currentPlayer"];
+
+        //STEP 2: set cards
         JSONArray cardsData = (JSONArray)boardData["cards"];
         //for each level
         IEnumerator cardLevelEnumerator = cardsData.GetEnumerator();
@@ -36,7 +42,7 @@ public class Board : ScriptableObject
             }
         }
 
-        //set nobles
+        //STEP 3: set nobles
         JSONArray noblesData = (JSONArray)boardData["nobles"];
         IEnumerator nobleEnumerator = noblesData.GetEnumerator();
 
@@ -46,17 +52,30 @@ public class Board : ScriptableObject
             nobles.SetNoble((int)nobleEnumerator.Current, i);
         }
 
-        //TO DO: set token bank
+        //TO DO: STEP 4: set token bank
 
-        //set players and their inventories
+        //STEP 5: set players and their inventories
         IDictionary inventories = (IDictionary)boardData["inventories"];
         playerCount = inventories.Count;
 
-        if (players[0].GetUsername().Equals("")) // if the players havent been set yet
+        //set players if they havent yet been set
+        if (players[0] == null)
         {
+            players[0] = GameObject.Find("Main Player").GetComponent<Player>();
+            players[0].SetUsername(mainPlayer.username);
+            players[1] = GameObject.Find("Player 2").GetComponent<Player>();
+            players[2] = GameObject.Find("Player 3").GetComponent<Player>();
+            players[3] = GameObject.Find("Player 4").GetComponent<Player>();
+
             IEnumerator usernames = ((ICollection)inventories.Keys).GetEnumerator();
-            for (int i = 0; usernames.MoveNext(); i++) {
-                players[i].SetUsername((string)usernames.Current);
+
+            for (int i = 1; usernames.MoveNext(); i++)
+            {
+                string username = (string)usernames.Current;
+                if (!username.Equals(mainPlayer.username))
+                {
+                    players[i].SetUsername(username);
+                }
             }
 
             //excess players should not be visible
@@ -65,11 +84,10 @@ public class Board : ScriptableObject
                 players[i].gameObject.SetActive(false);
             }
         }
-        else
-        {
-            for (int i = 0; i < playerCount; i++) {
-                players[i].ResetInventory();
-            }
+
+        //reset all inventories
+        for (int i = 0; i < playerCount; i++) {
+            players[i].ResetInventory();
         }
 
         //fill inventories
