@@ -29,7 +29,7 @@ public class InventoryPanel : MonoBehaviour {
             if (ownerName != null) ownerName.text = playerName.text;
 
             inventoryPanel.SetActive(true);
-            DisplayPlayerCards(playerControl.client.GetCardsAcquired(), playerControl.client.GetNoblesAcquired());
+            DisplayPlayerCards(playerControl.client.GetAcquiredCards(), playerControl.client.GetAcquiredNobles());
         }
         InventoryStatus();
     }

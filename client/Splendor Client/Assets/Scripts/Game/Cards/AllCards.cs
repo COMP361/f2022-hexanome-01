@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class AllCards : MonoBehaviour
 {
-    [SerializeField] public CardSlot[][] baseCards = new CardSlot[3][];
-    [SerializeField] public CardSlot[][] orientCards = new CardSlot[3][];
+    [SerializeField] private CardSlot[][] baseCards = new CardSlot[3][];
+    [SerializeField] private CardSlot[][] orientCards = new CardSlot[3][];
 
-    [SerializeField] private List<Card> cards = new List<Card>();
+    public static List<Card> cards = new List<Card>();
     [SerializeField] private GameObject cardObject;
     [SerializeField] private float xBase;
     [SerializeField] private float xOrient;
