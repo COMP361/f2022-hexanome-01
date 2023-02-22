@@ -13,6 +13,11 @@ public class Player : MonoBehaviour
 
     public void SetUsername(string username) {
         this.username = username;
+        //update display
+        MultiplayerInfoPanel infoPanel = this.GetComponent<MultiplayerInfoPanel>();
+        if (infoPanel != null) {
+            infoPanel.UpdatePlayerName(username);
+        }
     }
 
     public string GetUsername() {
@@ -21,6 +26,16 @@ public class Player : MonoBehaviour
 
     public void SetPoints(int points) {
         this.points = points;
+        //update display
+        MultiplayerInfoPanel infoPanel = this.GetComponent<MultiplayerInfoPanel>();
+        if (infoPanel != null)
+            infoPanel.UpdatePlayerPoints(points);
+        else
+        {
+            Dashboard dashboard = this.GetComponent<Dashboard>();
+            if (dashboard != null)
+                dashboard.UpdatePtsDisplay(points);
+        }
     }
 
     public int GetPoints()
@@ -30,6 +45,7 @@ public class Player : MonoBehaviour
 
     public void ResetInventory()
     {
+        points = 0;
         acquiredCards = new List<Card>();
         reservedCards = new List<Card>();
         acquiredNobles = new List<Noble>();

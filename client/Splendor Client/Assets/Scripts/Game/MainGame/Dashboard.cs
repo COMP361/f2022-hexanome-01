@@ -21,6 +21,8 @@ public class Dashboard : MonoBehaviour
     public Text rBonusDisplay;
     public Text wBonusDisplay;
 
+    public Image reserveCard1, reserveCard2, reserveCard3, reserveNoble1, reserveNoble2, reserveNoble3, reserveNoble4, reserveNoble5;
+
     public void UpdatePtsDisplay(int pts)
     {
         ptsDisplay.text = String.Format("{0}", pts);
@@ -61,4 +63,8 @@ public class Dashboard : MonoBehaviour
         wBonusDisplay.text = String.Format("{0}", inventory.white);
     }
     */
+
+    public void UpdateReserveCardDisplay() {
+
+    }
 }
