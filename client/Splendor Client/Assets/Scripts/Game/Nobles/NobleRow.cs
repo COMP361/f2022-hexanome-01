@@ -5,14 +5,37 @@ using UnityEngine;
 
 public class NobleRow : MonoBehaviour
 {
-    [SerializeField] private int size;
+    [SerializeField] private NobleSlot[] nobles;
 
-    public NobleSlot[] nobles = new NobleSlot[5];
-
-    public float x;
-    public float y;
-
+    [SerializeField] private List<Noble> allNobles = new List<Noble>();
     [SerializeField] private GameObject nobleObject;
+    [SerializeField] private float x;
+    [SerializeField] private float y2Players;
+    [SerializeField] private float y3Players;
+    [SerializeField] private float y4Players;
+
+    public void SetNobleSize(int size) {
+        nobles = new NobleSlot[size];
+    }
+
+    public void SetNoble(int id, int index) {
+        float y = y2Players;
+        if (nobles.Length == 4) y = y3Players;
+        if (nobles.Length == 5) y = y4Players;
+
+        GameObject prefab = Instantiate(nobleObject, new Vector3(x + index * 0.85F, y, 0), Quaternion.identity);
+        nobles[index] = prefab.GetComponent<NobleSlot>();
+
+        //check if noble has been taken and therefore should be empty
+        Noble toSet = null;
+        if (id != -1)
+            toSet = allNobles.Find(x => x.id.Equals(id)); //find noble with given id
+
+        if (toSet == null)
+            nobles[index].EmptySlot(); //still need to remove the noble sprite if we cant find the right noble or its meant to be empty
+        else
+            nobles[index].SetNoble(toSet);
+    }
 
     public bool IsEmpty() {
         foreach (NobleSlot ns in nobles)
@@ -22,7 +45,7 @@ public class NobleRow : MonoBehaviour
     }
     public void GreyOutExcept(NobleSlot _noble)
     {
-        for (int i=0; i<size; i++) {
+        for (int i = 0; i < nobles.Length; i++) {
             if (nobles[i] != _noble) nobles[i].GreyOut();
             else nobles[i].UnGreyOut();
         }
@@ -30,12 +53,12 @@ public class NobleRow : MonoBehaviour
 
     public void GreyOut()
     {
-        for (int i=0; i<size; i++) nobles[i].GreyOut();
+        for (int i = 0; i < nobles.Length; i++) nobles[i].GreyOut();
     }
 
     public void UnGreyOut()
     {
-        for (int i=0; i<size; i++) nobles[i].UnGreyOut();
+        for (int i = 0; i < nobles.Length; i++) nobles[i].UnGreyOut();
     }
 
     public NobleSlot GetNoble(int nobleIndex)
