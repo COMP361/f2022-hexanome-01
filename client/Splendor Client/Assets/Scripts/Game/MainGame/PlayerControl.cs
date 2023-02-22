@@ -223,6 +223,11 @@ public class PlayerControl : MonoBehaviour {
         else //fail purchase if 1) no card selected, 2) trying to buy a satchel card with an empty inventory, 3) trying to buy a domino1 card with empty inventory
             return false;
     }
+
+    bool TakeTokensAction() {
+        return true;
+    }
+
     public void EndTurn() // Player clicks "end turn"
     {
         // Upon turn end, selected card is bought and added to inventory (points increase by card points)

@@ -111,5 +111,17 @@ public class Player : MonoBehaviour
 
     }
 
+    public void TakeTokens(List<Gem> tokens){
+        char tempColour;
+        foreach (Gem token in tokens){
+            if (token.colour != "none"){
+                if (token.colour == "black"){
+                    tempColour = 'K';
+                }
+                else{tempColour = char.ToUpper(token.colour[0]);}
+                tokensAquired.ChangeGemAmount(tempColour, token.amount);
+            }
+        }
+    }
 
 }
