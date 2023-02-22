@@ -5,17 +5,22 @@ using UnityEngine;
 
 public class NobleRow : MonoBehaviour
 {
-    [SerializeField] private NobleSlot[] nobles;
+    [SerializeField] private NobleSlot[] nobles = new NobleSlot[5];
+    public int size;
 
-    [SerializeField] private List<Noble> allNobles = new List<Noble>();
+    public static List<Noble> allNobles = new List<Noble>();
     [SerializeField] private GameObject nobleObject;
     [SerializeField] private float x;
     [SerializeField] private float y2Players;
     [SerializeField] private float y3Players;
     [SerializeField] private float y4Players;
 
-    public void SetNobleSize(int size) {
-        nobles = new NobleSlot[size];
+    public void SetSize(int size) {
+        this.size = size;
+    }
+
+    public int GetSize() {
+        return size;
     }
 
     public void SetNoble(int id, int index) {

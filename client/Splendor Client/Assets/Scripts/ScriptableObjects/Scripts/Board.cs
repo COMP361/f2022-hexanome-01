@@ -8,9 +8,10 @@ using UnityEngine;
 [CreateAssetMenu]
 public class Board : ScriptableObject
 {
-    private NobleRow nobles;
-    private AllCards cards;
-    private List<Player> players;
+    [SerializeField] private NobleRow nobles;
+    [SerializeField] private AllCards cards;
+    [SerializeField] private Player[] players = new Player[4];
+    private int playerCount;
 
     public void launch(string host, string id) {
         //get board data & set it
@@ -39,28 +40,60 @@ public class Board : ScriptableObject
         JSONArray noblesData = (JSONArray)boardData["nobles"];
         IEnumerator nobleEnumerator = noblesData.GetEnumerator();
 
-        nobles.SetNobleSize(noblesData.Count);
+        nobles.SetSize(noblesData.Count);
         for (int i = 0;  nobleEnumerator.MoveNext(); i++)
         {
             nobles.SetNoble((int)nobleEnumerator.Current, i);
         }
 
-        //set tokens
+        //TO DO: set token bank
 
-        //set inventories
+        //set players and their inventories
+        IDictionary inventories = (IDictionary)boardData["inventories"];
+        playerCount = inventories.Count;
 
-            //set token counts
+        if (players[0].GetUsername().Equals("")) // if the players havent been set yet
+        {
+            IEnumerator usernames = ((ICollection)inventories.Keys).GetEnumerator();
+            for (int i = 0; usernames.MoveNext(); i++) {
+                players[i].SetUsername((string)usernames.Current);
+            }
 
-            //set bonus counts
+            //excess players should not be visible
+            for (int i = playerCount - 1; i < players.Length; i++)
+            {
+                players[i].gameObject.SetActive(false);
+            }
+        }
+        else
+        {
+            for (int i = 0; i < playerCount; i++) {
+                players[i].ResetInventory();
+            }
+        }
 
-            //set points
+        //fill inventories
+        for (int i = 0; i < playerCount; i++) {
+            IDictionary inventory = (IDictionary)inventories[players[i].GetUsername()];
+
+            //set points 
+            players[i].SetPoints((int)inventory["points"]);
 
             //set reserved cards
+            players[i].SetReservedCards((JSONArray)inventory["reservedCards"]);
 
             //set acquired cards
+            players[i].SetAcquiredCards((JSONArray)inventory["acquiredCards"]);
 
             //set reserved nobles
+            players[i].SetReservedNobles((JSONArray)inventory["reservedNobles"]);
 
             //set acquired nobles
+            players[i].SetAcquiredNobles((JSONArray)inventory["acquiredNobles"]);
+
+            //TO DO: set token counts
+
+            //TO DO: set bonus counts
+        }
     }
 }
