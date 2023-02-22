@@ -23,7 +23,7 @@ public class NobleRow : MonoBehaviour
         if (nobles.Length == 4) y = y3Players;
         if (nobles.Length == 5) y = y4Players;
 
-        GameObject prefab = Instantiate(nobleObject, new Vector3(x + index * 0.85F, y, 0), Quaternion.identity);
+        GameObject prefab = Instantiate(nobleObject, new Vector3(x, y + index * 0.98f, 0), Quaternion.identity);
         nobles[index] = prefab.GetComponent<NobleSlot>();
 
         //check if noble has been taken and therefore should be empty
