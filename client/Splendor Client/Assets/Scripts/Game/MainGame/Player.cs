@@ -55,6 +55,16 @@ public class Player : MonoBehaviour
     public void AddReservedCard(Card card)
     {
         reservedCards.Add(card);
+        //update display
+        Dashboard dashboard = this.GetComponent<Dashboard>();
+        if (dashboard != null)
+            dashboard.UpdateReserveCardDisplay(card.sprite, reservedCards.Count);
+        else
+        {
+            MultiplayerInfoPanel infoPanel = this.GetComponent<MultiplayerInfoPanel>();
+            if (infoPanel != null)
+                infoPanel.UpdateReservedCardsCount(reservedCards.Count);
+        }
     }
 
     public void AddAcquiredCard(Card card)
@@ -65,6 +75,16 @@ public class Player : MonoBehaviour
     public void AddReservedNoble(Noble noble)
     {
         reservedNobles.Add(noble);
+        //update display
+        Dashboard dashboard = this.GetComponent<Dashboard>();
+        if (dashboard != null)
+            dashboard.UpdateReserveNobleDisplay(noble.sprite, reservedNobles.Count);
+        else
+        {
+            MultiplayerInfoPanel infoPanel = this.GetComponent<MultiplayerInfoPanel>();
+            if (infoPanel != null)
+                infoPanel.UpdateReservedNoblesCount(reservedNobles.Count);
+        }
     }
 
     public void AddAcquiredNoble(Noble noble)

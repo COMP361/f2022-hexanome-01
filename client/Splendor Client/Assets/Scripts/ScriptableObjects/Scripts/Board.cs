@@ -54,15 +54,23 @@ public class Board : ScriptableObject
 
         //TO DO: STEP 4: set token bank
 
-        //STEP 5: set players and their inventories
+        //TO DO: STEP 5: display or remove the deck sprites if there are cards remaining in the decks
+
+        //STEP 6: set players and their inventories
         IDictionary inventories = (IDictionary)boardData["inventories"];
         playerCount = inventories.Count;
 
         //set players if they havent yet been set
         if (players[0] == null)
         {
+            //set main player data and display data
             players[0] = GameObject.Find("Main Player").GetComponent<Player>();
             players[0].SetUsername(mainPlayer.username);
+            Dashboard dashboard = players[0].GetComponent<Dashboard>();
+            if (dashboard != null)
+                dashboard.SetNobleReserveCount(noblesData.Count);
+
+            //set other players
             players[1] = GameObject.Find("Player 2").GetComponent<Player>();
             players[2] = GameObject.Find("Player 3").GetComponent<Player>();
             players[3] = GameObject.Find("Player 4").GetComponent<Player>();
