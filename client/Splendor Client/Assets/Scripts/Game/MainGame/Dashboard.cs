@@ -39,6 +39,10 @@ public class Dashboard : MonoBehaviour
         endDisplay.text = "waiting";
     }
 
+    public void DisplayTakeTokens(){
+        endDisplay.text = "take tokens";
+    }
+
     public void ResetEndDisplay()
     {
         endDisplay.text = "end turn";

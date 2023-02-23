@@ -42,6 +42,14 @@ public class NobleRow : MonoBehaviour
             nobles[index].SetNoble(toSet);
     }
 
+    public void RemoveNoble(Noble noble) {
+        foreach (NobleSlot nobleSlot in nobles) {
+            if (nobleSlot.GetNoble().Equals(noble)) {
+                nobleSlot.EmptySlot();
+            }
+        }
+    }
+
     public bool IsEmpty() {
         foreach (NobleSlot ns in nobles)
             if (ns) //if any noble exists, return false
