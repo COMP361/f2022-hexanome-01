@@ -15,3 +15,4 @@ MonoBehaviour:
   amount: 0
   colour: none
   sprite: {fileID: 0}
+  image: {fileID: 0}

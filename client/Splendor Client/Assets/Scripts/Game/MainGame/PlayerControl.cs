@@ -137,12 +137,12 @@ public class PlayerControl : MonoBehaviour {
                 allCards.GreyOutExcept(cardSlotObject);
             }
             // else if (go.CompareTag ...
-            else if (go.CompareTag("Token")){
-                Debug.Log("Token");
-                TokenSlot tokenSlotObject = go.GetComponent<TokenSlot>();
-                dashboard.DisplayTakeTokens();
-            }
-            else{Debug.Log(go.tag);}
+            //else if (go.CompareTag("Token")){
+                //Debug.Log("Token");
+                //TokenSlot tokenSlotObject = go.GetComponent<TokenSlot>();
+                //dashboard.DisplayTakeTokens();
+            //}
+            //else{Debug.Log(go.tag);}
         }
     }
 
@@ -265,7 +265,9 @@ public class PlayerControl : MonoBehaviour {
             }
         }
 
-        
+        player.TakeTokens(selectedTokens.sTokens);
+        UpdateDisplay();
+        selectedTokens.reset();
 
         dashboard.DisplayWaiting();
         //allCards.GreyOut();
