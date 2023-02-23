@@ -3,6 +3,7 @@ package ca.mcgill.splendorserver.apis;
 import ca.mcgill.splendorserver.models.cards.Card;
 import ca.mcgill.splendorserver.models.registries.CardRegistry;
 import ca.mcgill.splendorserver.models.registries.NobleRegistry;
+import ca.mcgill.splendorserver.models.registries.UnlockableRegistry;
 import ca.mcgill.splendorserver.models.Game;
 import ca.mcgill.splendorserver.models.Noble;
 import ca.mcgill.splendorserver.models.SessionData;
@@ -43,6 +44,7 @@ public class GameController {
   
   private CardRegistry cardRegistry = new CardRegistry();
   private NobleRegistry nobleRegistry = new NobleRegistry();
+  private UnlockableRegistry unlockRegistry = new UnlockableRegistry();
 
   /**
    * Sole constructor.  
