@@ -16,9 +16,9 @@ public class Board : ScriptableObject
     private int playerCount;
     [SerializeField] private Authentication mainPlayer;
 
-    public void launch(string host, string id) {
+    public void launch(string id) {
         //get board data & set it
-        GameRequestManager.instance.launch(host, id, SetBoard);
+        GameRequestManager.GetBoard(id, SetBoard);
     }
 
     public void SetBoard(JSONObject boardData) {
@@ -71,7 +71,7 @@ public class Board : ScriptableObject
         {
             //set main player data and display data
             players[0] = GameObject.Find("Main Player").GetComponent<Player>();
-            players[0].SetUsername(mainPlayer.username);
+            players[0].SetUsername(mainPlayer.GetUsername());
             Dashboard dashboard = players[0].GetComponent<Dashboard>();
             if (dashboard != null)
                 dashboard.SetNobleReserveCount(noblesData.Count);
@@ -86,7 +86,7 @@ public class Board : ScriptableObject
             for (int i = 1; usernames.MoveNext(); i++)
             {
                 string username = (string)usernames.Current;
-                if (!username.Equals(mainPlayer.username))
+                if (!username.Equals(mainPlayer.GetUsername()))
                 {
                     players[i].SetUsername(username);
                 }
