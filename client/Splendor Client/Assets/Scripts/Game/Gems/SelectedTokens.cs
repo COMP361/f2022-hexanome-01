@@ -7,8 +7,12 @@ public class SelectedTokens : MonoBehaviour
 {
     public List<Gem> sTokens = new List<Gem> ();
     private PlayerControl playerControl;
-    public List<Text> colours = new List<Text>();
+
+    //displayed selected tokens amount
     //Text colour1, colour2, colour3;
+    public List<Text> colours = new List<Text>();
+
+    //displayed selected tokens amount
     public List<Text> nums = new List<Text>();
 
     public int getTotalNum(){
