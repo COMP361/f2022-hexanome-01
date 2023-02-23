@@ -5,7 +5,9 @@ using UnityEngine.UI;
 
 public class TokenBank : MonoBehaviour{
     public List<Gem> tokens = new List<Gem>();
+    //displayed board token bank amount
     public Text goldAmount, blueAmount, greenAmount, blackAmount, redAmount, whiteAmount;
+    
     public int gold;
     public int blue;
     public int green;
