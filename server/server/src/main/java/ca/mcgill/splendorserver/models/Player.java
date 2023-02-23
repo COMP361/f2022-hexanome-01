@@ -3,6 +3,7 @@ package ca.mcgill.splendorserver.models;
 import java.util.ArrayList;
 
 import ca.mcgill.splendorserver.models.cards.Card;
+import ca.mcgill.splendorserver.models.expansion.Unlockable;
 
 /**
  * Model class for a Splendor player.
