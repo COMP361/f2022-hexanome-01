@@ -22,10 +22,7 @@ public class Board : ScriptableObject
     }
 
     public void SetBoard(JSONObject boardData) {
-        //STEP 1: set current player
-        currentPlayer = (string)boardData["currentPlayer"];
-
-        //STEP 2: set cards
+        //STEP 1: set cards
         JSONArray cardsData = (JSONArray)boardData["cards"];
         //for each level
         IEnumerator cardLevelEnumerator = cardsData.GetEnumerator();
@@ -42,7 +39,7 @@ public class Board : ScriptableObject
             }
         }
 
-        //STEP 3: set nobles
+        //STEP 2: set nobles
         JSONArray noblesData = (JSONArray)boardData["nobles"];
         IEnumerator nobleEnumerator = noblesData.GetEnumerator();
 
@@ -52,11 +49,11 @@ public class Board : ScriptableObject
             nobles.SetNoble((int)nobleEnumerator.Current, i);
         }
 
-        //TO DO: STEP 4: set token bank
+        //TO DO: STEP 3: set token bank
 
-        //TO DO: STEP 5: display or remove the deck sprites if there are cards remaining in the decks
+        //TO DO: STEP 4: display or remove the deck sprites if there are cards remaining in the decks
 
-        //STEP 6: set players and their inventories
+        //STEP 5: set players
         IDictionary inventories = (IDictionary)boardData["inventories"];
         playerCount = inventories.Count;
 
@@ -93,6 +90,17 @@ public class Board : ScriptableObject
             }
         }
 
+        //STEP 6: set current player
+        currentPlayer = (string)boardData["currentPlayer"];
+        //display the current player
+        foreach (Player player in players) { 
+            if (player.GetUsername().Equals(currentPlayer))
+                player.SetCurrentPlayer(true);
+            else
+                player.SetCurrentPlayer(false);
+        }
+
+        //STEP 7: set player inventories
         //reset all inventories
         for (int i = 0; i < playerCount; i++) {
             players[i].ResetInventory();
