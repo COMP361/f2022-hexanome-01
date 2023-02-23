@@ -10,7 +10,11 @@ public class PlayerControl : MonoBehaviour {
     [SerializeField] private GameObject cursor;
     [SerializeField] private Camera playerCamera;
     [SerializeField] private Player player; //this client/player
-    [SerializeField] public List<String> gamePlayers; 
+    [SerializeField] public List<string> gamePlayersData; //can change this to a different type later, playerData is combined from LobbyPlayer and Player class
+    [SerializeField] private TokenBank tokenBank;
+    [SerializeField] private SelectedTokens selectedTokens;
+    
+    public GlobalGameClient globalGameClient;
 
     public AllCards allCards;
     public CardSlot selectedCardToBuy;
@@ -23,7 +27,8 @@ public class PlayerControl : MonoBehaviour {
     private InputActionMap _inputActionMap;
 
     [SerializeField] private bool waiting;
-    public bool inInventory;
+
+    public bool inOrientMenu, inInventory, sacrificeMade, inNobleMenu;
 
     void Start() {
         //the following was a test i made to make sure JSONHandler was working. ive left it here incase we find some uknown error with it
@@ -104,17 +109,27 @@ public class PlayerControl : MonoBehaviour {
         Vector3 worldPos = playerCamera.ScreenToWorldPoint(mousePos);
         Vector2 worldPos2D = new Vector2(worldPos.x, worldPos.y);
 
+        //Debug.Log(worldPos2D);
+
         RaycastHit2D hit = Physics2D.Raycast(worldPos2D, Vector2.zero);
 
         if (hit.collider != null) { // Check what was clicked (excluding UI elements)
             GameObject go = hit.collider.gameObject;
             if (go.CompareTag("Card")) {
+
+                //Debug.Log("Card");
                 CardSlot cardSlotObject = go.GetComponent<CardSlot>();
                 selectedCardToBuy = cardSlotObject;
                 dashboard.DisplayPurchase();
                 allCards.GreyOutExcept(cardSlotObject);
             }
             // else if (go.CompareTag ...
+            // else if (go.CompareTag("Token")){
+            //     Debug.Log("Token");
+            //     TokenSlot tokenSlotObject = go.GetComponent<TokenSlot>();
+            //     dashboard.DisplayTakeTokens();
+            // }
+            //else{Debug.Log(go.tag);}
         }
     }
 
@@ -123,8 +138,56 @@ public class PlayerControl : MonoBehaviour {
         //TO DO: update player tokens
     }
 
+    public bool ReserveCard(Card card) { //Add card to players reserve inventory
+        if (player.ReserveCard(card)) {
+            UpdateDisplay();
+            allCards.RemoveCard(card);
+            return true;
+        }
+        else
+            return false;
+    }
+
+    public void ReserveNoble(Noble noble) { //Add noble to players reserve inventory
+        player.ReserveNoble(noble);
+        allNobles.RemoveNoble(noble);
+    }
+
+    public void AcquireCard(Card card) { //Add card to players purchase inventory (does not pay for the card, if paying use PurchaseAction)
+        player.AcquireCard(card);
+        UpdateDisplay();
+        allCards.RemoveCard(card);
+    }
+
+    public void RemoveCard(Card card) { //removes card from player inventory
+        player.RemoveCard(card);
+        UpdateDisplay();
+    }
+
+    bool PurchaseAction() { //attempt to purchase a card
+        return false;
+    }
+
+
     public void EndTurn() // Player clicks "end turn"
     { }
+
+    
+
+    // public void SetGameData(GameData data) {
+    //     gameId = data.gameId;
+
+    //     gamePlayersData = new List<PlayerData>(data.playersInGame);
+
+    //     for (int i = 0; i < data.noblesDisplayed.Length; i++)          
+    //         allNobles.nobles[i].GetNoble().SetData(data.noblesDisplayed[i]);
+
+    //     // noblesOnBoard[i].GetNoble().SetData(data.noblesDisplayed[i]);
+
+    //     for (int i = 0; i < allCards.cards.Length; i++) 
+    //         for (int j = 0; j < allCards.cards[i].deck.Count(); j++)
+    //             allCards.cards[i].deck.cards[j].SetData(data.cards[i][j]);
+    // }
 
     public void StartTurn() // Start of player's turn
     {

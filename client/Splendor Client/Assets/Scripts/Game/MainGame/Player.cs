@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     private int points = 0;
     private List<Card> acquiredCards = new List<Card>(), reservedCards = new List<Card>();
     private List<Noble> acquiredNobles = new List<Noble>(), reservedNobles = new List<Noble>();
-    //TO DO: add tokens
+    private CardGemValue tokensAcquired = new CardGemValue();
     //TO DO: add bonuses
 
     private bool currentPlayer; //flag for whether the player is the current player
@@ -117,7 +117,6 @@ public class Player : MonoBehaviour
             turnIndicator.SetActive(false);
             inventoryButton.GetComponent<Image>().color = new Color32(242, 236, 187, 255);
         }
-
     }
 
     public void Reset() {
@@ -127,5 +126,43 @@ public class Player : MonoBehaviour
         reservedCards = null;
         acquiredNobles = null;
         reservedNobles = null;
+    }
+
+    public void TakeTokens(List<Gem> tokens){
+        char tempColour;
+        foreach (Gem token in tokens){
+            if (token.colour != "none"){
+                if (token.colour == "black"){
+                    tempColour = 'K';
+                }
+                else{tempColour = char.ToUpper(token.colour[0]);}
+                tokensAcquired.ChangeGemAmount(tempColour, token.amount);
+            }
+        }
+    }
+
+    public bool ReserveCard(Card card)
+    {
+        reservedCards.Add(card);
+        return true;
+    }
+
+    public bool ReserveNoble(Noble noble) {
+        reservedNobles.Add(noble);
+        return true;
+    }
+
+    public bool AcquireCard(Card card) {
+        acquiredCards.Add(card);
+        return true;
+    }
+
+    public bool RemoveCard(Card card) {
+        acquiredCards.Remove(card);
+        return true;
+    }
+
+    public List<Noble> GetReservedNobles() {
+        return reservedNobles;
     }
 }
