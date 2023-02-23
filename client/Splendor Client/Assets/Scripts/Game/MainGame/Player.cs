@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class Player : MonoBehaviour
     private List<Noble> acquiredNobles = new List<Noble>(), reservedNobles = new List<Noble>();
     //TO DO: add tokens
     //TO DO: add bonuses
+
+    private bool currentPlayer; //flag for whether the player is the current player
+    [SerializeField] private GameObject turnIndicator, inventoryButton; //for displaying current player
 
     public void SetUsername(string username) {
         this.username = username;
@@ -98,6 +102,22 @@ public class Player : MonoBehaviour
 
     public List<Noble> GetAcquiredNobles() {
         return acquiredNobles;
+    }
+
+    public void SetCurrentPlayer(bool setCurrent) {
+        if (setCurrent && !currentPlayer) //set the player to the current player
+        {
+            currentPlayer = true;
+            turnIndicator.SetActive(true);
+            inventoryButton.GetComponent<Image>().color = new Color32(255, 253, 240, 255);
+        }
+        else if (!setCurrent && currentPlayer) //unset the player as the current player
+        {
+            currentPlayer = false;
+            turnIndicator.SetActive(false);
+            inventoryButton.GetComponent<Image>().color = new Color32(242, 236, 187, 255);
+        }
+
     }
 
     public void Reset() {
