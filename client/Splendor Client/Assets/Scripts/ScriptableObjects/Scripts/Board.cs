@@ -39,7 +39,16 @@ public class Board : ScriptableObject
             }
         }
 
-        //STEP 2: set nobles
+        //STEP 2: remove empty deck sprites
+        JSONArray decks = (JSONArray)boardData["decks"];
+        if (!decks.Contains("deck1")) GameObject.Find("CardBack1").SetActive(false);
+        if (!decks.Contains("deck2")) GameObject.Find("CardBack2").SetActive(false);
+        if (!decks.Contains("deck3")) GameObject.Find("CardBack3").SetActive(false);
+        if (!decks.Contains("orientDeck1")) GameObject.Find("ExpansionCardBack1").SetActive(false);
+        if (!decks.Contains("orientDeck2")) GameObject.Find("ExpansionCardBack2").SetActive(false);
+        if (!decks.Contains("orientDeck3")) GameObject.Find("ExpansionCardBack3").SetActive(false);
+
+        //STEP 3: set nobles
         JSONArray noblesData = (JSONArray)boardData["nobles"];
         IEnumerator nobleEnumerator = noblesData.GetEnumerator();
 
@@ -49,11 +58,11 @@ public class Board : ScriptableObject
             nobles.SetNoble((int)nobleEnumerator.Current, i);
         }
 
-        //TO DO: STEP 3: set token bank
+        //TO DO: STEP 4: set token bank
 
-        //TO DO: STEP 4: display or remove the deck sprites if there are cards remaining in the decks
+        //TO DO: STEP 5: display or remove the deck sprites if there are cards remaining in the decks
 
-        //STEP 5: set players
+        //STEP 6: set players
         IDictionary inventories = (IDictionary)boardData["inventories"];
         playerCount = inventories.Count;
 
@@ -90,7 +99,7 @@ public class Board : ScriptableObject
             }
         }
 
-        //STEP 6: set current player
+        //STEP 7: set current player
         currentPlayer = (string)boardData["currentPlayer"];
         //display the current player
         foreach (Player player in players) { 
@@ -100,7 +109,7 @@ public class Board : ScriptableObject
                 player.SetCurrentPlayer(false);
         }
 
-        //STEP 7: set player inventories
+        //STEP 8: set player inventories
         //reset all inventories
         for (int i = 0; i < playerCount; i++) {
             players[i].ResetInventory();
