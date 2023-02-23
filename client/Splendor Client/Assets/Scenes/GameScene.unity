@@ -15123,6 +15123,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: NobleRow
       objectReference: {fileID: 0}
+    - target: {fileID: 4740854163311486380, guid: 45a8a1acb3f37674aa6a05b1bd233a48, type: 3}
+      propertyPath: nobles.Array.size
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 4740854163311486380, guid: 45a8a1acb3f37674aa6a05b1bd233a48, type: 3}
+      propertyPath: nobles.Array.data[10]
+      value: 
+      objectReference: {fileID: 11400000, guid: 0f96dea3b32ea7747a0fdf069b47d9d5, type: 2}
     - target: {fileID: 4740854163311486381, guid: 45a8a1acb3f37674aa6a05b1bd233a48, type: 3}
       propertyPath: m_RootOrder
       value: 5

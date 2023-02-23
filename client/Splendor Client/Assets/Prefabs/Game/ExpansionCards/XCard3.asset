@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c3bc38af4fa4404c8a2f28f2feed2c5, type: 3}
   m_Name: XCard3
   m_EditorClassIdentifier: 
-  id: 3
+  id: 107
   points: 0
   bonus: 74
   bonusAmount: 2
