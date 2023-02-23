@@ -1244,10 +1244,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd5d83a75b099db469e000de30b790ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  usernameField: {fileID: 1845316537}
-  passwordField: {fileID: 429015468}
-  failureText: {fileID: 1068479509}
-  username: 
+  loginFail: {fileID: 1068479509}
+  username: {fileID: 1845316537}
+  password: {fileID: 429015468}
   mainPlayer: {fileID: 11400000, guid: f0eaca2cb6e0e48a7b2fb69740473fb7, type: 2}
 --- !u!1 &1462177017
 GameObject:
@@ -1638,7 +1637,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1431071404}
         m_TargetAssemblyTypeName: LoginManager, Assembly-CSharp
-        m_MethodName: loginStart
+        m_MethodName: Login
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

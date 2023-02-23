@@ -15,20 +15,21 @@ public enum LastMenuVisited {
 }
 public class MainMenuManager : MonoBehaviour {
 
-    public GameObject blankSessionSlot, sessionContent, lobbyView, blankSaveSlot, saveContent, blankPlayerSlot, playerContent, joinButton, startButton, startSessionButton;
-    public Toggle splendorToggle, citiesToggle, tradingPostsToggle;
-    public UnityEvent promptEndSession, promptDeleteSession, joinSession, loadSave, createSession, exitToMain, exitToSession, exitToSave;
-    public Text playerText, sessionNameText;
-    public Save currentSave;
-    public Session currentSession;
-    private LastMenuVisited previousMenu = LastMenuVisited.MAIN;
-    public Authentication authentication;
+    [SerializeField] private GameObject blankSessionSlot, sessionContent, lobbyView, blankSaveSlot, saveContent, blankPlayerSlot, playerContent, joinButton, startButton, startSessionButton;
+    [SerializeField] private Toggle splendorToggle, citiesToggle, tradingPostsToggle;
+    [SerializeField] private UnityEvent promptEndSession, promptDeleteSession, joinSession, loadSave, createSession, exitToMain, exitToSession, exitToSave;
+    [SerializeField] private Text playerText, sessionNameText;
+    [SerializeField] private Authentication authentication;
     [SerializeField] private Board board;
 
+    private LastMenuVisited previousMenu = LastMenuVisited.MAIN;
+
+    public Save currentSave;
+    public Session currentSession;
     private string sessionsHash = null;
     private string sessionHash = null;
 
-    private string HOST = Environment.GetEnvironmentVariable("SPLENDOR_HOST_IP");
+    //******************************** MAIN MENU ********************************
 
     public void LoadLastMenu() {
         //reset all data
@@ -45,13 +46,11 @@ public class MainMenuManager : MonoBehaviour {
             exitToSession.Invoke();
     }
 
-    //******************************** MAIN MENU ********************************
-
     /// <summary>
     /// Implements long polling for the GET request to the LobbyService for data on all sessions.
     /// </summary>
     public void OnBaseJoinClick() {
-        StartCoroutine(LSRequestManager.GetSessions(HOST, sessionsHash, (string hash, List<Session> sessions) => {
+        StartCoroutine(LSRequestManager.GetSessions(sessionsHash, (string hash, List<Session> sessions) => {
             if (hash != null) {
                 if (sessions != null && sessions.Count > 0) {
                     List<Session> available = determineAvailable(sessions); //determine which sessions are available
@@ -71,7 +70,7 @@ public class MainMenuManager : MonoBehaviour {
     /// and sends the data to "BaseLoad".
     /// </summary>
     public void OnBaseLoadClick() {
-        StartCoroutine(LSRequestManager.GetSaves(HOST, authentication, (List<Save> saves) => {
+        StartCoroutine(LSRequestManager.GetSaves((List<Save> saves) => {
             if (saves != null && saves.Count > 0){
                 List<Save> relevant = determineRelevant(saves);
 
@@ -91,7 +90,7 @@ public class MainMenuManager : MonoBehaviour {
         else if (citiesToggle.isOn) variant = "cities";
         else if (tradingPostsToggle.isOn) variant = "tradingposts";
 
-        StartCoroutine(LSRequestManager.CreateSession(HOST, variant, authentication, LobbyPolling));
+        StartCoroutine(LSRequestManager.CreateSession(variant, LobbyPolling));
 
         previousMenu = LastMenuVisited.MAIN;
         createSession.Invoke();
@@ -106,7 +105,7 @@ public class MainMenuManager : MonoBehaviour {
     /// </summary>
     public void OnSessionJoinClick() {
         if (currentSession != null){
-            StartCoroutine(LSRequestManager.Join(HOST, authentication, currentSession));
+            StartCoroutine(LSRequestManager.Join(currentSession));
 
             previousMenu = LastMenuVisited.JOIN;
 
@@ -122,8 +121,8 @@ public class MainMenuManager : MonoBehaviour {
     /// and sends the id of the new session to "SaveStart".
     /// </summary>
     public void OnSaveStartClick() {
-        StartCoroutine(LSRequestManager.CreateSavedSession(HOST, currentSave, authentication, (string id) => {
-            StartCoroutine(LSRequestManager.GetSession(HOST, id, sessionHash, (string hash, Session session) => {
+        StartCoroutine(LSRequestManager.CreateSavedSession(currentSave, (string id) => {
+            StartCoroutine(LSRequestManager.GetSession(id, sessionHash, (string hash, Session session) => {
                 if (hash != null) {
                     if (session != null) {
                         previousMenu = LastMenuVisited.LOAD;
@@ -131,7 +130,7 @@ public class MainMenuManager : MonoBehaviour {
                         loadSave.Invoke(); // location of this event may change in the future
                         MakePlayers(); // displays the players in the current session
 
-                        if (currentSession.players.Count > 2 && currentSession.creator.Equals(authentication.username))
+                        if (currentSession.players.Count > 2 && currentSession.creator.Equals(authentication.GetUsername()))
                             startSessionButton.SetActive(true); // allow the host to start the session
                     }
 
@@ -148,7 +147,7 @@ public class MainMenuManager : MonoBehaviour {
     /// Prompts the player to confirm that they want to leave the lobby.
     /// </summary>
     public void OnLobbyBackClick() {
-        if (authentication.username.Equals(currentSession.creator)) promptDeleteSession.Invoke();
+        if (authentication.GetUsername().Equals(currentSession.creator)) promptDeleteSession.Invoke();
         else promptEndSession.Invoke();
     }
 
@@ -156,7 +155,7 @@ public class MainMenuManager : MonoBehaviour {
     /// Removes the player from the (unlaunched) current session in the LobbyService.
     /// </summary>
     public void OnConfirmEndClick() {
-        StartCoroutine(LSRequestManager.Leave(HOST, authentication, currentSession));
+        StartCoroutine(LSRequestManager.Leave(currentSession));
         LoadLastMenu();
     }
 
@@ -164,7 +163,7 @@ public class MainMenuManager : MonoBehaviour {
     /// Removes the creator from the (unlaunched) current session in the LobbyService, removing the session altogether.
     /// </summary>
     public void OnConfirmDeleteClick() {
-        StartCoroutine(LSRequestManager.DeleteSession(HOST, currentSession.id, authentication));
+        StartCoroutine(LSRequestManager.DeleteSession(currentSession.id));
         LoadLastMenu();
     }
 
@@ -173,7 +172,7 @@ public class MainMenuManager : MonoBehaviour {
     /// </summary>
     public void OnLobbyStartClick() {
 
-        StartCoroutine(LSRequestManager.Launch(HOST, authentication, currentSession, (JSONObject boardData) =>
+        StartCoroutine(LSRequestManager.Launch(currentSession, (JSONObject boardData) =>
             {
                 board.SetBoard(boardData);
                 SceneManager.LoadScene(2);
@@ -188,7 +187,7 @@ public class MainMenuManager : MonoBehaviour {
     /// <param name="id"></param>
     public void LobbyPolling(string id)
     {
-        StartCoroutine(LSRequestManager.GetSession(HOST, id, sessionHash, (string hash, Session session) =>
+        StartCoroutine(LSRequestManager.GetSession(id, sessionHash, (string hash, Session session) =>
         {
             if (session != null && hash != null)
             {
@@ -196,7 +195,7 @@ public class MainMenuManager : MonoBehaviour {
                 sessionHash = hash;
                 if (session.launched)
                 {
-                    board.launch(HOST, session.id);
+                    board.launch(session.id);
                     SceneManager.LoadScene(2);
                 }
                 else
@@ -204,7 +203,7 @@ public class MainMenuManager : MonoBehaviour {
                     SetupLobby();
                     MakePlayers(); // displays the players in the current session
 
-                    if (session.players.Count >= 2 && session.creator.Equals(authentication.username))
+                    if (session.players.Count >= 2 && session.creator.Equals(authentication.GetUsername()))
                         startSessionButton.SetActive(true); // allow the host to start the session
 
                     else if (lobbyView.activeInHierarchy) LobbyPolling(currentSession.id);
@@ -242,7 +241,7 @@ public class MainMenuManager : MonoBehaviour {
 
         foreach (Save save in saves)
         {
-            if (save.players.Contains(authentication.username)) relevantSaves.Add(save);
+            if (save.players.Contains(authentication.GetUsername())) relevantSaves.Add(save);
         }
 
         return relevantSaves; 
