@@ -12,6 +12,8 @@ public class PlayerControl : MonoBehaviour {
     [SerializeField] public List<PlayerData> gamePlayersData; //can change this to a different type later, playerData is combined from LobbyPlayer and Player class
     [SerializeField] private OrientMenuManager omm;
     [SerializeField] private NobleSelectManager nsm;
+    [SerializeField] private TokenBank tokenBank;
+    [SerializeField] private SelectedTokens selectedTokens;
     
 
     public Player client {
@@ -121,20 +123,26 @@ public class PlayerControl : MonoBehaviour {
         Vector2 mousePos = Mouse.current.position.ReadValue();
         Vector3 worldPos = playerCamera.ScreenToWorldPoint(mousePos);
         Vector2 worldPos2D = new Vector2(worldPos.x, worldPos.y);
-        // Debug.Log(worldPos2D);
+        //Debug.Log(worldPos2D);
 
         RaycastHit2D hit = Physics2D.Raycast(worldPos2D, Vector2.zero);
 
         if (hit.collider != null) { // Check what was clicked (excluding UI elements)
             GameObject go = hit.collider.gameObject;
             if (go.CompareTag("Card")) {
-                // Debug.Log("Card");
+                //Debug.Log("Card");
                 CardSlot cardSlotObject = go.GetComponent<CardSlot>();
                 selectedCardToBuy = cardSlotObject;
                 dashboard.DisplayPurchase();
                 allCards.GreyOutExcept(cardSlotObject);
             }
             // else if (go.CompareTag ...
+            else if (go.CompareTag("Token")){
+                Debug.Log("Token");
+                TokenSlot tokenSlotObject = go.GetComponent<TokenSlot>();
+                dashboard.DisplayTakeTokens();
+            }
+            else{Debug.Log(go.tag);}
         }
     }
 
@@ -224,9 +232,6 @@ public class PlayerControl : MonoBehaviour {
             return false;
     }
 
-    bool TakeTokensAction() {
-        return true;
-    }
 
     public void EndTurn() // Player clicks "end turn"
     {
@@ -260,7 +265,7 @@ public class PlayerControl : MonoBehaviour {
             }
         }
 
-
+        
 
         dashboard.DisplayWaiting();
         //allCards.GreyOut();

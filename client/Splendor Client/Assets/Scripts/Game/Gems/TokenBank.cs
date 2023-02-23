@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TokenBank : MonoBehaviour{
     public List<Gem> tokens = new List<Gem>();
+    public GameObject goldSlot, blueSlot, greenSlot, blackSlot, redSlot, whiteSlot;
     public int gold;
     public int blue;
     public int green;
@@ -75,7 +76,7 @@ public class TokenBank : MonoBehaviour{
     void Start(){
         foreach (Gem gem in tokens){
             if (gem.colour != "gold"){
-                gem.amount = 6;
+                gem.amount = 7;
             }
             else{gem.amount = 5;}
         }
