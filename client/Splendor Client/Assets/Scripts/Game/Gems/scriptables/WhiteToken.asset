@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10114dc0604ca4a479d343f91c7274c6, type: 3}
   m_Name: WhiteToken
   m_EditorClassIdentifier: 
-  amount: 5
+  amount: 7
   colour: white
   sprite: {fileID: 794081854734556070, guid: 3a4097a48cab1554b91aa8a17f002083, type: 3}
+  image: {fileID: 0}

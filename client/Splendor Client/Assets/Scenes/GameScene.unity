@@ -1060,6 +1060,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1316023693}
+  - {fileID: 1574517358}
   m_Father: {fileID: 1076034187}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1111,7 +1112,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 179262151}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 179262153}
+        m_TargetAssemblyTypeName: TokenSlot, Assembly-CSharp
+        m_MethodName: passToBank
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &179262151
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1132,7 +1145,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a2c63949b40a77745b1c0c9c64daf76d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2a58331d7e7044818a4811d8325e0bb2, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1165,7 +1178,8 @@ MonoBehaviour:
   token: {fileID: 11400000, guid: 4864eff30b36c1242b8597dae971661e, type: 2}
   amount: {fileID: 1316023694}
   image: {fileID: 179262151}
-  selectedTokens: {fileID: 0}
+  selectedTokens: {fileID: 1076034191}
+  tokenBank: {fileID: 1493752223}
 --- !u!1 &211738813
 GameObject:
   m_ObjectHideFlags: 0
@@ -1198,6 +1212,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1567077599}
+  - {fileID: 1777086310}
   m_Father: {fileID: 1076034187}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1249,7 +1264,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 211738816}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 211738818}
+        m_TargetAssemblyTypeName: TokenSlot, Assembly-CSharp
+        m_MethodName: passToBank
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &211738816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1270,7 +1297,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9f6f07dc7b14cda4e8b27d8980aba8b7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2a58331d7e7044818a4811d8325e0bb2, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1303,7 +1330,8 @@ MonoBehaviour:
   token: {fileID: 11400000, guid: ca5f6ed0be034ae4bad8aa39856f63a9, type: 2}
   amount: {fileID: 1567077600}
   image: {fileID: 211738816}
-  selectedTokens: {fileID: 0}
+  selectedTokens: {fileID: 1076034191}
+  tokenBank: {fileID: 1493752223}
 --- !u!1 &219398976
 GameObject:
   m_ObjectHideFlags: 0
@@ -1473,7 +1501,8 @@ MonoBehaviour:
   token: {fileID: 11400000, guid: ecc53243658ca3d4ba6d48c7173aa955, type: 2}
   amount: {fileID: 1051660729}
   image: {fileID: 223610496}
-  selectedTokens: {fileID: 0}
+  selectedTokens: {fileID: 1076034191}
+  tokenBank: {fileID: 1493752223}
 --- !u!114 &223610499
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1517,7 +1546,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 223610496}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 223610498}
+        m_TargetAssemblyTypeName: TokenSlot, Assembly-CSharp
+        m_MethodName: passToSelected
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1076034186}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!61 &223610500
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4581,7 +4634,8 @@ MonoBehaviour:
   token: {fileID: 11400000, guid: 852030c26c4525f4bad42d346b6839a7, type: 2}
   amount: {fileID: 1310818842}
   image: {fileID: 620833224}
-  selectedTokens: {fileID: 0}
+  selectedTokens: {fileID: 1076034191}
+  tokenBank: {fileID: 1493752223}
 --- !u!61 &620833227
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -5276,7 +5330,7 @@ MonoBehaviour:
   omm: {fileID: 960569995}
   nsm: {fileID: 0}
   tokenBank: {fileID: 0}
-  selectedTokens: {fileID: 0}
+  selectedTokens: {fileID: 1076034191}
   globalGameClient: {fileID: 11400000, guid: e173fde9a6432464f8c29d8c55b1ffb0, type: 2}
   allCards: {fileID: 911230083}
   selectedCardToBuy: {fileID: 0}
@@ -7301,7 +7355,8 @@ MonoBehaviour:
   token: {fileID: 11400000, guid: 86c2cd811b57479468119c4f43147c7f, type: 2}
   amount: {fileID: 1397457322}
   image: {fileID: 973229743}
-  selectedTokens: {fileID: 0}
+  selectedTokens: {fileID: 1076034191}
+  tokenBank: {fileID: 1493752223}
 --- !u!114 &973229746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7345,7 +7400,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 973229743}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 973229745}
+        m_TargetAssemblyTypeName: TokenSlot, Assembly-CSharp
+        m_MethodName: passToSelected
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1076034186}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!61 &973229747
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7985,7 +8064,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1076034187
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8107,9 +8186,14 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b4bff6753f9f5bb4f8fab268cb62ebdb, type: 2}
   - {fileID: 11400000, guid: ca5f6ed0be034ae4bad8aa39856f63a9, type: 2}
   - {fileID: 11400000, guid: 4864eff30b36c1242b8597dae971661e, type: 2}
-  s1: {fileID: 0}
-  s2: {fileID: 0}
-  s3: {fileID: 0}
+  colours:
+  - {fileID: 1524274205}
+  - {fileID: 1777086311}
+  - {fileID: 1574517359}
+  nums:
+  - {fileID: 1764889266}
+  - {fileID: 1567077600}
+  - {fileID: 1316023694}
 --- !u!1 &1080065665
 GameObject:
   m_ObjectHideFlags: 0
@@ -8494,7 +8578,8 @@ MonoBehaviour:
   token: {fileID: 11400000, guid: 80b09c127d5e01a4f8082aff8f4683b8, type: 2}
   amount: {fileID: 1869528332}
   image: {fileID: 1120664521}
-  selectedTokens: {fileID: 0}
+  selectedTokens: {fileID: 1076034191}
+  tokenBank: {fileID: 1493752223}
 --- !u!114 &1120664524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8538,7 +8623,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1120664521}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1120664523}
+        m_TargetAssemblyTypeName: TokenSlot, Assembly-CSharp
+        m_MethodName: passToSelected
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1076034186}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!61 &1120664525
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -10153,7 +10262,8 @@ MonoBehaviour:
   token: {fileID: 11400000, guid: 0285d6ee6d4e6a944bdba5becc951a63, type: 2}
   amount: {fileID: 233896001}
   image: {fileID: 1229423503}
-  selectedTokens: {fileID: 0}
+  selectedTokens: {fileID: 1076034191}
+  tokenBank: {fileID: 1493752223}
 --- !u!114 &1229423506
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10197,7 +10307,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1229423503}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1229423505}
+        m_TargetAssemblyTypeName: TokenSlot, Assembly-CSharp
+        m_MethodName: passToSelected
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1076034186}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!61 &1229423507
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -10624,7 +10758,8 @@ MonoBehaviour:
   token: {fileID: 11400000, guid: 6f18cf4cc84152b4b8c753afa71b4b73, type: 2}
   amount: {fileID: 113148374}
   image: {fileID: 1279809575}
-  selectedTokens: {fileID: 0}
+  selectedTokens: {fileID: 1076034191}
+  tokenBank: {fileID: 1493752223}
 --- !u!114 &1279809578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10668,7 +10803,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1279809575}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1279809577}
+        m_TargetAssemblyTypeName: TokenSlot, Assembly-CSharp
+        m_MethodName: passToSelected
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1076034186}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!61 &1279809579
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -11092,7 +11251,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 1
+  m_Text: 
 --- !u!222 &1316023695
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12017,6 +12176,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1764889265}
+  - {fileID: 1524274204}
   m_Father: {fileID: 1076034187}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -12068,7 +12228,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1407239825}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1407239827}
+        m_TargetAssemblyTypeName: TokenSlot, Assembly-CSharp
+        m_MethodName: passToBank
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1407239825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12089,7 +12261,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: b387da5b0a621544389646bda2e13921, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2a58331d7e7044818a4811d8325e0bb2, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -12122,7 +12294,8 @@ MonoBehaviour:
   token: {fileID: 11400000, guid: b4bff6753f9f5bb4f8fab268cb62ebdb, type: 2}
   amount: {fileID: 1764889266}
   image: {fileID: 1407239825}
-  selectedTokens: {fileID: 0}
+  selectedTokens: {fileID: 1076034191}
+  tokenBank: {fileID: 1493752223}
 --- !u!1 &1431148821
 GameObject:
   m_ObjectHideFlags: 0
@@ -12727,12 +12900,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6f18cf4cc84152b4b8c753afa71b4b73, type: 2}
   - {fileID: 11400000, guid: 86c2cd811b57479468119c4f43147c7f, type: 2}
   - {fileID: 11400000, guid: ecc53243658ca3d4ba6d48c7173aa955, type: 2}
-  goldSlot: {fileID: 0}
-  blueSlot: {fileID: 0}
-  greenSlot: {fileID: 0}
-  blackSlot: {fileID: 0}
-  redSlot: {fileID: 0}
-  whiteSlot: {fileID: 0}
+  goldAmount: {fileID: 1310818842}
+  blueAmount: {fileID: 233896001}
+  greenAmount: {fileID: 1869528332}
+  blackAmount: {fileID: 113148374}
+  redAmount: {fileID: 1397457322}
+  whiteAmount: {fileID: 1051660729}
   gold: 0
   blue: 0
   green: 4
@@ -13045,6 +13218,85 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1513737212}
   m_CullTransparentMesh: 1
+--- !u!1 &1524274203
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1524274204}
+  - component: {fileID: 1524274206}
+  - component: {fileID: 1524274205}
+  m_Layer: 5
+  m_Name: colour
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1524274204
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1524274203}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1407239823}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 6, y: -0.0000015497}
+  m_SizeDelta: {x: 31.9332, y: 18.7417}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1524274205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1524274203}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 10
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 1
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: New
+--- !u!222 &1524274206
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1524274203}
+  m_CullTransparentMesh: 1
 --- !u!1 &1542033097
 GameObject:
   m_ObjectHideFlags: 0
@@ -13312,7 +13564,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 1
+  m_Text: 
 --- !u!222 &1567077601
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -13320,6 +13572,85 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1567077598}
+  m_CullTransparentMesh: 1
+--- !u!1 &1574517357
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1574517358}
+  - component: {fileID: 1574517360}
+  - component: {fileID: 1574517359}
+  m_Layer: 5
+  m_Name: colour
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1574517358
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1574517357}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 179262149}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 5.6, y: -0.0000033379}
+  m_SizeDelta: {x: 31.4424, y: 20.9784}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1574517359
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1574517357}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 10
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 1
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: New
+--- !u!222 &1574517360
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1574517357}
   m_CullTransparentMesh: 1
 --- !u!1 &1595071684
 GameObject:
@@ -14541,7 +14872,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 1
+  m_Text: 
 --- !u!222 &1764889267
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -14626,6 +14957,85 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1775838077}
+  m_CullTransparentMesh: 1
+--- !u!1 &1777086309
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1777086310}
+  - component: {fileID: 1777086312}
+  - component: {fileID: 1777086311}
+  m_Layer: 5
+  m_Name: colour
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1777086310
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1777086309}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 211738814}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 3.4205, y: 0.7518}
+  m_SizeDelta: {x: 26.9315, y: 17.9712}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1777086311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1777086309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 10
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 1
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: New
+--- !u!222 &1777086312
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1777086309}
   m_CullTransparentMesh: 1
 --- !u!1 &1777828492
 GameObject:
