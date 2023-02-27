@@ -1,7 +1,10 @@
 package ca.mcgill.splendorserver.models.board;
 
 import ca.mcgill.splendorserver.models.JsonStringafiable;
+import ca.mcgill.splendorserver.models.registries.NobleRegistry;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Stack;
 import org.json.simple.JSONArray;
 
 /**
@@ -18,8 +21,14 @@ public class NobleBank implements JsonStringafiable {
    * @param size the number of nobles to set for the game
    */
   public NobleBank(int size) {
-    this.nobles = new int[size];
     this.size = size;
+    nobles = new int[size];
+
+    Stack<Integer> nobleIds = NobleRegistry.getIds();
+    Collections.shuffle(nobleIds);
+    for (int i = 0; i < size; i++) {
+      nobles[i] = nobleIds.pop();
+    }
   }
 
   /**

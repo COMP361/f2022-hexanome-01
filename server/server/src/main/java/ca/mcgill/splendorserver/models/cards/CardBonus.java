@@ -13,4 +13,9 @@ public class CardBonus {
     this.type = type;
     this.amount = amount;
   }
+
+  public CardBonus() {
+    type = null;
+    amount = 0;
+  }
 }

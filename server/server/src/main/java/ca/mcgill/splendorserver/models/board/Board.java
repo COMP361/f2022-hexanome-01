@@ -29,6 +29,7 @@ public class Board implements JsonStringafiable {
     tokens = new TokenBank(playerNum + (playerNum == 4 ? 3 : 2));
     cards = new CardBank();
     nobles = new NobleBank(playerNum + 1);
+    inventories = new HashMap<String, Inventory>();
     for (String playerId : players) {
       inventories.put(playerId, new Inventory());
     }

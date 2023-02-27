@@ -1,9 +1,10 @@
 package ca.mcgill.splendorserver.apis;
 
 import ca.mcgill.splendorserver.models.Game;
-import ca.mcgill.splendorserver.models.Noble;
 import ca.mcgill.splendorserver.models.SessionData;
-import ca.mcgill.splendorserver.models.cards.Card;
+import ca.mcgill.splendorserver.models.registries.CardRegistry;
+import ca.mcgill.splendorserver.models.registries.NobleRegistry;
+import ca.mcgill.splendorserver.models.registries.UnlockableRegistry;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class GameController {
+
   private final Logger logger;
 
   private HashMap<String, Game> gameRegistry =
@@ -32,9 +34,10 @@ public class GameController {
           new Game("testId", "testPlayer1", new String[] {"testPlayer1"}, "splendor")));
 
   private HashMap<String, Game> saves = new HashMap<>();
-
-  private static HashMap<String, Card> cardRegistry = new HashMap<>();
-  private static HashMap<String, Noble> nobleRegistry = new HashMap<>();
+  //registries might be unnecessary
+  private CardRegistry cardRegistry = new CardRegistry();
+  private NobleRegistry nobleRegistry = new NobleRegistry();
+  private UnlockableRegistry unlockRegistry = new UnlockableRegistry();
 
   /**
    * Sole constructor.
