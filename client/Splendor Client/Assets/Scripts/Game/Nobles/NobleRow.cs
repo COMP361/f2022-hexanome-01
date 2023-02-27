@@ -23,23 +23,27 @@ public class NobleRow : MonoBehaviour
         return size;
     }
 
-    public void SetNoble(int id, int index) {
+    public void SetNoble(long id, int index)
+    {
         float y = y2Players;
         if (nobles.Length == 4) y = y3Players;
         if (nobles.Length == 5) y = y4Players;
 
         GameObject prefab = Instantiate(nobleObject, new Vector3(x, y + index * 0.98f, 0), Quaternion.identity);
-        nobles[index] = prefab.GetComponent<NobleSlot>();
+        if (index < size)
+        {
+            nobles[index] = prefab.GetComponent<NobleSlot>();
+            
+            //check if noble has been taken and therefore should be empty
+            Noble toSet = null;
+            if (id != -1)
+                toSet = allNobles.Find(x => x.id.Equals(id)); //find noble with given id
 
-        //check if noble has been taken and therefore should be empty
-        Noble toSet = null;
-        if (id != -1)
-            toSet = allNobles.Find(x => x.id.Equals(id)); //find noble with given id
-
-        if (toSet == null)
-            nobles[index].EmptySlot(); //still need to remove the noble sprite if we cant find the right noble or its meant to be empty
-        else
-            nobles[index].SetNoble(toSet);
+            if (toSet == null)
+                nobles[index].EmptySlot(); //still need to remove the noble sprite if we cant find the right noble or its meant to be empty
+            else
+                nobles[index].SetNoble(toSet);
+        }
     }
 
     public void RemoveNoble(Noble noble) {

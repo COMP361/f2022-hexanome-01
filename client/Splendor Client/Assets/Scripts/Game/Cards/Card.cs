@@ -115,7 +115,7 @@ public class CardGemValue {
 
 [CreateAssetMenu]
 public class Card : ScriptableObject {
-    [SerializeField] public int id;
+    [SerializeField] public long id;
     [SerializeField] private int points;
     [SerializeField] private char bonus;
     [SerializeField] private int bonusAmount = 1;
@@ -134,7 +134,7 @@ public class Card : ScriptableObject {
 
     private SpriteRenderer m_SpriteRenderer;
 
-    public int GetId() {
+    public long GetId() {
         return id;
     }
 
