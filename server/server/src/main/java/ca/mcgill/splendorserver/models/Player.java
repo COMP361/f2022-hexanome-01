@@ -9,6 +9,7 @@ import java.util.ArrayList;
  */
 public class Player {
 
+  private String username;
   private Inventory inventory;
   private ArrayList<Unlockable> unlockables;
   private Card lastAcquired;

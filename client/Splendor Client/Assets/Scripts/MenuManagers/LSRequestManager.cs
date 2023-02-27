@@ -171,10 +171,7 @@ public class LSRequestManager : MonoBehaviour
         yield return create.SendWebRequest();
 
         if (create.result == UnityWebRequest.Result.Success)
-        {
             result(create.downloadHandler.text);
-            UnityEngine.Debug.Log(create.downloadHandler.text);
-        }
     }
 
     /// <summary>
@@ -339,7 +336,7 @@ public class LSRequestManager : MonoBehaviour
         //}
     }
 
-    public static IEnumerator Launch(Session session, Action<JSONObject> result)
+    public static IEnumerator Launch(Session session, Action<bool> result)
     {
 
         string url = "http://" + HOST + ":4242/api/sessions/" + session.id; //url for POST request
@@ -348,7 +345,6 @@ public class LSRequestManager : MonoBehaviour
 
         yield return launch.SendWebRequest();
 
-        if (launch.result == UnityWebRequest.Result.Success)
-            result((JSONObject)JSONHandler.DecodeJsonRequest(launch.downloadHandler.text));
+        result(launch.result == UnityWebRequest.Result.Success);
     }
 }

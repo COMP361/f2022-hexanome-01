@@ -172,10 +172,14 @@ public class MainMenuManager : MonoBehaviour {
     /// </summary>
     public void OnLobbyStartClick() {
 
-        StartCoroutine(LSRequestManager.Launch(currentSession, (JSONObject boardData) =>
+        StartCoroutine(LSRequestManager.Launch(currentSession, (bool success) =>
             {
-                board.SetBoard(boardData);
-                SceneManager.LoadScene(2);
+                if (success)
+                {
+                    board.launch(currentSession.id);
+                    SceneManager.LoadScene(2);
+                }
+                
             }));
     }
 

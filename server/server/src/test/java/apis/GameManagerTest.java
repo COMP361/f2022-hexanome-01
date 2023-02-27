@@ -1,6 +1,7 @@
 package apis;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import ca.mcgill.splendorserver.apis.GameController;
 import ca.mcgill.splendorserver.apis.JsonHandler;
@@ -23,8 +24,17 @@ public class GameManagerTest extends APITestUtils {
     public void launchGameTest(){
         SessionData dummy = createDummySessionData();
         GameManager gameManager = new GameManager();
-        Game test = gameManager.launchGame("TestGame", dummy);
-        Game output = gameManager.getGame("TestGame");
-        assertEquals(test.getId(), test.getId());
+        gameManager.launchGame("TestGame", dummy);
+        HashMap<String, Game> gameRegistry= gameManager.getGameRegistry();
+        assertTrue(gameRegistry.containsKey("TestGame"));
+    }
+
+    @Test
+    public void getGameTest(){
+        SessionData dummy = createDummySessionData();
+        GameManager gameManager = new GameManager();
+        gameManager.launchGame("TestGame", dummy);
+        Game game = gameManager.getGame("TestGame");
+        assertEquals("TestGame", game.getId());
     }
 }
