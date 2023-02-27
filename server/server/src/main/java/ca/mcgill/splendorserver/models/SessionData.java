@@ -30,7 +30,7 @@ public class SessionData {
    * @return an array of four PlayerData
    */
   public String[] getPlayers() {
-    String[] players = new String[4];
+    String[] players = new String[playersLobbyService.length];
     for (int i = 0; i < playersLobbyService.length; i++) {
       players[i] = playersLobbyService[i].name;
     }

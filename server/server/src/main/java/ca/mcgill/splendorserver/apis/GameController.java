@@ -6,8 +6,10 @@ import ca.mcgill.splendorserver.models.registries.CardRegistry;
 import ca.mcgill.splendorserver.models.registries.NobleRegistry;
 import ca.mcgill.splendorserver.models.registries.UnlockableRegistry;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,10 +56,14 @@ public class GameController {
    * @return success flag
    * @throws JsonProcessingException when JSON processing error occurs
    */
-  @GetMapping("/api/games/{gameId}")
-  public ResponseEntity<String> getGames(@PathVariable String gameId)
+  @GetMapping("/api/games/{gameId}/board")
+  public ResponseEntity<String> getBoard(@PathVariable String gameId)
       throws JsonProcessingException {
-    return ResponseEntity.ok(gameRegistry.get(gameId).getBoardJson());
+    if (gameRegistry.containsKey(gameId)) {
+      return ResponseEntity.ok(gameRegistry.get(gameId).getBoardJson());
+    } else {
+      return ResponseEntity.ok("");
+    }
   }
 
   /**
@@ -159,28 +165,35 @@ public class GameController {
    * Launches game.
    *
    * @param gameId  the id of the game
-   * @param session the session data for the game to create
-   * @return JSON of the game (board data) that was launched
+   * @param sessionString the session data for the game to create
    * @throws JsonProcessingException when JSON processing error occurs
    */
-  @PutMapping("/api/splendor/{gameId}")
-  public ResponseEntity<Game> launchGame(
+  @PutMapping("/api/games/{gameId}")
+  public void launchGame(
       @PathVariable(required = true, name = "gameId") String gameId,
-      @RequestBody SessionData session) throws JsonProcessingException {
+      @RequestBody String sessionString) throws JsonProcessingException {
 
-    String saveId = session.getSavegame();
-    String[] playerList = session.getPlayers();
-    String variant = session.getVariant();
-    String creator = session.getCreator();
+    JSONObject session = (JSONObject) JsonHandler.decodeJsonRequest(sessionString);
+    String saveId = (String) session.get("savegame");
 
-    Game save = saves.get(saveId);
-
-    if (save != null) {
-      gameRegistry.put(saveId, save);
+    if (!saveId.isEmpty()) {
+      Game save = saves.get(saveId);
+      gameRegistry.put(gameId, save);
       save.setLaunched();
-      return ResponseEntity.ok(save);
     } else {
-      return ResponseEntity.ok(new Game(saveId, variant, playerList, creator));
+      //players
+      JSONArray players = (JSONArray) session.get("players");
+      ArrayList<String> usernamesList = new ArrayList<>();
+      for (Object player : players) {
+        usernamesList.add((String) ((JSONObject) player).get("name"));
+      }
+      String[] usernames = usernamesList.toArray(new String[0]);
+      //variant
+      String variant = (String) session.get("gameServer");
+      //creator
+      String creator = (String) session.get("creator");
+      //create new game
+      gameRegistry.put(gameId, new Game(gameId, variant, usernames, creator));
     }
   }
 }
