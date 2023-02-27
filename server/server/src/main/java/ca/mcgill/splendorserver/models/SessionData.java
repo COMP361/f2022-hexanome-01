@@ -1,5 +1,7 @@
 package ca.mcgill.splendorserver.models;
 
+import java.util.Optional;
+
 /**
  * Stores and manages LobbyService session data.
  * Mainly used upon launching a session or otherwise communicating with LS.
@@ -11,17 +13,44 @@ public class SessionData {
   private LobbyServicePlayerData[] playersLobbyService;
   private String savegame;
 
-  private class LobbyServicePlayerData {
+
+  /**
+   * Used to match lobby service model of providing
+   * info about players in this session.
+   */
+  public static class LobbyServicePlayerData {
 
     private String name;
     private String preferredColour;
+
+    /**
+     * Constructor for creating a lobbyServicePlayerData object.
+     *
+     * @param name            name of player
+     * @param preferredColour prefered colour
+     */
+    public LobbyServicePlayerData(String name, String preferredColour) {
+      this.name = name;
+      this.preferredColour = preferredColour;
+    }
   }
 
-  /**
-   * Essentially unused constructor for SessionData.
-   */
-  public SessionData() {
 
+  /**
+   * Constructor used to create a new session data.
+   * Used to create session data provided by Lobby Service
+   *
+   * @param creator             creator of the session
+   * @param gameServer          variant of the game
+   * @param playersLobbyService players in this session
+   * @param savegame            this is the optional savegame if the game launches from save
+   */
+  public SessionData(String creator, String gameServer,
+                     LobbyServicePlayerData[] playersLobbyService, String savegame) {
+    this.creator = creator;
+    this.gameServer = gameServer;
+    this.playersLobbyService = playersLobbyService;
+    this.savegame = savegame;
   }
 
   /**
@@ -38,7 +67,7 @@ public class SessionData {
   }
 
   /**
-   * Getter for the savegame.
+   * Getter for the savegame. (Optional)
    *
    * @return the savegame id string
    */
@@ -63,4 +92,5 @@ public class SessionData {
   public String getCreator() {
     return creator;
   }
+
 }

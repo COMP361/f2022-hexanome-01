@@ -1,5 +1,6 @@
 package ca.mcgill.splendorserver.apis;
 
+import ca.mcgill.splendorserver.controllers.GameManager;
 import ca.mcgill.splendorserver.models.Game;
 import ca.mcgill.splendorserver.models.SessionData;
 import ca.mcgill.splendorserver.models.registries.CardRegistry;
@@ -11,6 +12,7 @@ import java.util.Map;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -39,6 +41,8 @@ public class GameController {
   private NobleRegistry nobleRegistry = new NobleRegistry();
   private UnlockableRegistry unlockRegistry = new UnlockableRegistry();
 
+  @Autowired
+  private GameManager gameManager;
   /**
    * Sole constructor.
    * (For invocation by subclass constructors, typically implicit.)
@@ -168,20 +172,9 @@ public class GameController {
       @PathVariable(required = true, name = "gameId") String gameId,
       @RequestBody SessionData session) throws JsonProcessingException {
 
-    String saveId = session.getSavegame();
-    String[] playerList = session.getPlayers();
-    String variant = session.getVariant();
-    String creator = session.getCreator();
-
-    Game save = saves.get(saveId);
-
-    if (save != null) {
-      gameRegistry.put(saveId, save);
-      save.setLaunched();
-      return ResponseEntity.ok(save);
-    } else {
-      return ResponseEntity.ok(new Game(saveId, variant, playerList, creator));
+      return ResponseEntity.ok(gameManager.launchGame(gameId, session));
     }
+
   }
 }
 
