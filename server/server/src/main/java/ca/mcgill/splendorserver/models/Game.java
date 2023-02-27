@@ -52,6 +52,11 @@ public class Game {
     launched = true;
   }
 
+  /**
+   * Getter for the board as a JSON string.
+   *
+   * @return the game board as a JSON string
+   */
   public String getBoardJson() {
     return board.toJsonString();
   }

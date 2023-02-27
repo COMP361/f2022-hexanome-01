@@ -18,12 +18,13 @@ public class Board : ScriptableObject
 
     public void launch(string id) {
         //get board data & set it
-        GameRequestManager.GetBoard(id, SetBoard);
+        GameRequestManager.instance.StartCoroutine(GameRequestManager.GetBoard(this, id));
     }
 
     public void SetBoard(JSONObject boardData) {
         //STEP 1: set cards
-        JSONArray cardsData = (JSONArray)boardData["cards"];
+        UnityEngine.Debug.Log(boardData.ToJSONString());
+        JSONArray[] cardsData = (JSONArray[]) boardData["cards"];
         //for each level
         IEnumerator cardLevelEnumerator = cardsData.GetEnumerator();
         for (int level = 0; cardLevelEnumerator.MoveNext(); level++)
