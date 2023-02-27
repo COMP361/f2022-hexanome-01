@@ -22,6 +22,10 @@ public class Inventory implements JsonStringafiable {
    * Constructor.
    */
   public Inventory() {
+    cards = new ArrayList<>();
+    nobles = new ArrayList<>();
+    reservedCards = new ArrayList<>();
+    reservedNobles = new ArrayList<>();
     tokens = new TokenBank();
     bonus = new TokenBank();
   }
@@ -118,5 +122,43 @@ public class Inventory implements JsonStringafiable {
     data.put("tokens", tokens.toJsonString());
 
     return data.toJSONString();
+  }
+
+  /**
+   * Getter for the inventory as a JSONObject.
+   *
+   * @return the inventory as a JSONObject
+   */
+  public JSONObject toJson() {
+    JSONObject json = new JSONObject();
+    //cards
+    JSONArray cardsJson = new JSONArray();
+    for (Card card : cards) {
+      cardsJson.add(card.getId());
+    }
+    json.put("acquiredCards", cardsJson);
+    //nobles
+    JSONArray noblesJson = new JSONArray();
+    for (Noble noble : nobles) {
+      noblesJson.add(noble.getId());
+    }
+    json.put("acquiredNobles", noblesJson);
+    //reserved cards
+    JSONArray reservedCardsJson = new JSONArray();
+    for (Card card : reservedCards) {
+      cardsJson.add(card.getId());
+    }
+    json.put("reservedCards", reservedCardsJson);
+    //reserved nobles
+    JSONArray reservedNoblesJson = new JSONArray();
+    for (Noble noble : reservedNobles) {
+      noblesJson.add(noble.getId());
+    }
+    json.put("reservedNobles", reservedNoblesJson);
+    //tokens
+    json.put("tokens", tokens.toJson());
+    //bonuses
+    json.put("bonuses", bonus.toJson());
+    return json;
   }
 }

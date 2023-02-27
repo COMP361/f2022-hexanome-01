@@ -62,7 +62,7 @@ public class GameController {
     if (gameRegistry.containsKey(gameId)) {
       return ResponseEntity.ok(gameRegistry.get(gameId).getBoardJson());
     } else {
-      return ResponseEntity.ok("");
+      return ResponseEntity.ok("{}");
     }
   }
 

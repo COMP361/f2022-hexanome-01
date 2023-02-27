@@ -58,6 +58,6 @@ public class Game {
    * @return the game board as a JSON string
    */
   public String getBoardJson() {
-    return board.toJsonString();
+    return board.toJson().toJSONString();
   }
 }
