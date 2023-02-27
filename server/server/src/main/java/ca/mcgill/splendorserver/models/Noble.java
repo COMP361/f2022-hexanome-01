@@ -13,6 +13,14 @@ public class Noble {
 
   /**
    * Sole constructor (for invocation by subclass constructors, typically implicit.)
+   *
+   * @param id    unique id of noble
+   * @param pts   points awarded upon noble visit
+   * @param blue  blue bonuses required
+   * @param green green bonuses required
+   * @param red   red bonuses required
+   * @param white white bonuses required
+   * @param black black bonuses required
    */
   public Noble(int id, int pts, int blue, int green, int red, int white, int black) {
 
