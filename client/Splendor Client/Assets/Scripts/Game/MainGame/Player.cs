@@ -1,115 +1,168 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    private int pointsTotal = 0;
-    //This will be a list of the ids of the purchased player cards
-    public List<Card> inventory = new List<Card>(), cardReserves = new List<Card>();
-    public List<Noble> noblesVisited = new List<Noble>(), nobleReserves = new List<Noble>();
-    public CardGemValue bonusesAquired = new CardGemValue();
-    public CardGemValue tokensAquired = new CardGemValue();
+    private string username;
+    private int points = 0;
+    private List<Card> acquiredCards = new List<Card>(), reservedCards = new List<Card>();
+    private List<Noble> acquiredNobles = new List<Noble>(), reservedNobles = new List<Noble>();
+    private CardGemValue tokensAcquired = new CardGemValue();
+    //TO DO: add bonuses
 
-    public Authentication mainPlayer;
+    private bool currentPlayer; //flag for whether the player is the current player
+    [SerializeField] private GameObject turnIndicator, inventoryButton; //for displaying current player
 
-    public TurnData turnData = new TurnData();
+    public void SetUsername(string username) {
+        this.username = username;
+        //update display
+        MultiplayerInfoPanel infoPanel = this.GetComponent<MultiplayerInfoPanel>();
+        if (infoPanel != null) {
+            infoPanel.UpdatePlayerName(username);
+        }
+    }
 
-    void Start()
-    {
-        tokensAquired.blue = 50; // Hardcode for demo only; REMOVE FOR PROD
-        tokensAquired.green = 50;
-        tokensAquired.brown = 50;
-        tokensAquired.red = 50;
-        tokensAquired.white = 50;
-        tokensAquired.gold = 50;
+    public string GetUsername() {
+        return username;
+    }
+
+    public void SetPoints(int points) {
+        this.points = points;
+        //update display
+        MultiplayerInfoPanel infoPanel = this.GetComponent<MultiplayerInfoPanel>();
+        if (infoPanel != null)
+            infoPanel.UpdatePlayerPoints(points);
+        else
+        {
+            Dashboard dashboard = this.GetComponent<Dashboard>();
+            if (dashboard != null)
+                dashboard.UpdatePtsDisplay(points);
+        }
     }
 
     public int GetPoints()
     {
-        return pointsTotal;
+        return points;
     }
 
-    public bool ReserveCard(Card card) { //TODO: keep track of total gold tokens - if none left in bank, dont get a gold token when reserving. also, can only have more than 3 reserves
-        if (cardReserves.Count <= 3) {
-            cardReserves.Add(card);
-            tokensAquired.gold++; //*******change******//
-            for (int i = 0; i < turnData.cardTaken.Length; i++) {
-                if (turnData.cardTaken[i] != null) {
-                    turnData.cardTaken[i] = new CardData(card);
-                    break;
-                }
-            }
-            return true;
-        }
-        else
-            return false;
-    }
-
-    public void ReserveNoble(Noble noble) {
-        nobleReserves.Add(noble);
-        for (int i = 0; i < turnData.nobleTaken.Length; i++) {
-            if (turnData.nobleTaken[i] != null) {
-                turnData.nobleTaken[i] = new NobleData(noble);
-                break;
-            }
-        }
-    }
-
-    public void AcquireCard(Card card) { //add a card (for free) to player inventory
-        pointsTotal += card.GetPoints(); //increase player point total
-        bonusesAquired.AddGemsToInventory(card); //add gem discount to player info
-        if (card.action != ActionType.SATCHEL && card.action != ActionType.DOMINO1) //dont add satchel cards to inventory, just to save space and less info overload
-            inventory.Add(card); //add card to inventory
-        for (int i = 0; i < turnData.cardTaken.Length; i++) {
-            if (turnData.cardTaken[i] != null) {
-                turnData.cardTaken[i] = new CardData(card);
-                break;
-            }
-        }
-    }
-
-    public void RemoveCard(Card card) {
-        pointsTotal -= card.GetPoints(); //increase player point total
-        bonusesAquired.RemoveGemsFromInventory(card); //remove normal bonus
-        bonusesAquired.ChangeGemAmount(card.GetBonus(), -card.satchels); //remove satchel-induced bonus
-        inventory.Remove(card); //add card to inventory
-    }
-
-    public bool TriggerCardAdd(Card cardObject) {//need to account for gold tokens/gold discounts. also maybe include an error message somewhere to indicate you tried to buy a card but didnt have enough $$$
-        if (cardObject && CardGemValue.combine(bonusesAquired, tokensAquired).CheckSufficientPay(cardObject)) { //if card exists and player has enough gems to purchase, purchase it
-            tokensAquired.PayFor(cardObject); //pay for card
-            AcquireCard(cardObject);
-            return true;
-        }
-        else
-            return false;
-    }
-
-    public void TriggerNobleAdd(Noble nobleObject)
+    public void ResetInventory()
     {
-        pointsTotal += nobleObject.GetPoints();
-        noblesVisited.Add(nobleObject);
-        for (int i = 0; i < turnData.cardTaken.Length; i++) {
-            if (turnData.nobleTaken[i] != null) {
-                turnData.nobleTaken[i] = new NobleData(nobleObject);
-                break;
+        points = 0;
+        acquiredCards = new List<Card>();
+        reservedCards = new List<Card>();
+        acquiredNobles = new List<Noble>();
+        reservedNobles = new List<Noble>();
+    }
+
+    public void AddReservedCard(Card card)
+    {
+        reservedCards.Add(card);
+        //update display
+        Dashboard dashboard = this.GetComponent<Dashboard>();
+        if (dashboard != null)
+            dashboard.UpdateReserveCardDisplay(card.sprite, reservedCards.Count);
+        else
+        {
+            MultiplayerInfoPanel infoPanel = this.GetComponent<MultiplayerInfoPanel>();
+            if (infoPanel != null)
+                infoPanel.UpdateReservedCardsCount(reservedCards.Count);
+        }
+    }
+
+    public void AddAcquiredCard(Card card)
+    {
+        acquiredCards.Add(card);
+    }
+
+    public void AddReservedNoble(Noble noble)
+    {
+        reservedNobles.Add(noble);
+        //update display
+        Dashboard dashboard = this.GetComponent<Dashboard>();
+        if (dashboard != null)
+            dashboard.UpdateReserveNobleDisplay(noble.sprite, reservedNobles.Count);
+        else
+        {
+            MultiplayerInfoPanel infoPanel = this.GetComponent<MultiplayerInfoPanel>();
+            if (infoPanel != null)
+                infoPanel.UpdateReservedNoblesCount(reservedNobles.Count);
+        }
+    }
+
+    public void AddAcquiredNoble(Noble noble)
+    {
+        acquiredNobles.Add(noble);
+    }
+
+    public List<Card> GetAcquiredCards() {
+        return acquiredCards;
+    }
+
+    public List<Noble> GetAcquiredNobles() {
+        return acquiredNobles;
+    }
+
+    public void SetCurrentPlayer(bool setCurrent) {
+        if (setCurrent && !currentPlayer) //set the player to the current player
+        {
+            currentPlayer = true;
+            turnIndicator.SetActive(true);
+            inventoryButton.GetComponent<Image>().color = new Color32(255, 253, 240, 255);
+        }
+        else if (!setCurrent && currentPlayer) //unset the player as the current player
+        {
+            currentPlayer = false;
+            turnIndicator.SetActive(false);
+            inventoryButton.GetComponent<Image>().color = new Color32(242, 236, 187, 255);
+        }
+    }
+
+    public void Reset() {
+        username = "";
+        points = 0;
+        acquiredCards = null;
+        reservedCards = null;
+        acquiredNobles = null;
+        reservedNobles = null;
+    }
+
+    public void TakeTokens(List<Gem> tokens){
+        char tempColour;
+        foreach (Gem token in tokens){
+            if (token.colour != "none"){
+                if (token.colour == "black"){
+                    tempColour = 'K';
+                }
+                else{tempColour = char.ToUpper(token.colour[0]);}
+                tokensAcquired.ChangeGemAmount(tempColour, token.amount);
             }
         }
     }
 
-    public CardGemValue GetTokensAquired(){
-        return tokensAquired;
+    public bool ReserveCard(Card card)
+    {
+        reservedCards.Add(card);
+        return true;
     }
 
-    public bool hasImpressed(Noble nobleToImpress){ //take into account satchels
-       return (bonusesAquired.red >= nobleToImpress.nobleValue.red 
-       && bonusesAquired.green >= nobleToImpress.nobleValue.green 
-       && bonusesAquired.blue >= nobleToImpress.nobleValue.blue 
-       && bonusesAquired.brown >= nobleToImpress.nobleValue.brown 
-       && bonusesAquired.white >= nobleToImpress.nobleValue.white);
-
+    public bool ReserveNoble(Noble noble) {
+        reservedNobles.Add(noble);
+        return true;
     }
 
+    public bool AcquireCard(Card card) {
+        acquiredCards.Add(card);
+        return true;
+    }
 
+    public bool RemoveCard(Card card) {
+        acquiredCards.Remove(card);
+        return true;
+    }
+
+    public List<Noble> GetReservedNobles() {
+        return reservedNobles;
+    }
 }
