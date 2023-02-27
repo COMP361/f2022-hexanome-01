@@ -31,15 +31,16 @@ public class GameController {
   private final Logger logger;
 
   private HashMap<String, Game> gameRegistry =
-      new HashMap<String, Game>(Map.of("test", new Game("testId", "testPlayer1", new String[]{"testPlayer1"}, "splendor")));
+      new HashMap<String, Game>(Map.of("test",
+          new Game("testId", "testPlayer1", new String[] {"testPlayer1"}, "splendor")));
 
   private HashMap<String, Game> saves = new HashMap<>();
-  
+
   private static HashMap<String, Card> cardRegistry = new HashMap<>();
   private static HashMap<String, Noble> nobleRegistry = new HashMap<>();
 
   /**
-   * Sole constructor.  
+   * Sole constructor.
    * (For invocation by subclass constructors, typically implicit.)
    */
   public GameController() {
@@ -50,12 +51,12 @@ public class GameController {
    * Takes token.
    *
    * @param gameId the id of the game
-   * @param data   the game data of the take tokens action
    * @return success flag
    * @throws JsonProcessingException when JSON processing error occurs
    */
   @GetMapping("/api/games/{gameId}")
-  public ResponseEntity<String> getGames(@PathVariable String gameId) throws JsonProcessingException {
+  public ResponseEntity<String> getGames(@PathVariable String gameId)
+      throws JsonProcessingException {
     return ResponseEntity.ok(gameRegistry.get(gameId).getBoardJSON());
   }
 
@@ -69,7 +70,8 @@ public class GameController {
    */
   @PostMapping("/api/action/takeTokens/{gameId}")
   public ResponseEntity<HttpStatus> takeTokensAction(@PathVariable String gameId,
-                            @RequestBody JSONObject data) throws JsonProcessingException {
+                                                     @RequestBody JSONObject data)
+      throws JsonProcessingException {
     String playerId = (String) data.get("playerId");
 
     return ResponseEntity.ok(HttpStatus.OK);
@@ -85,7 +87,8 @@ public class GameController {
    */
   @PostMapping("/api/action/performPurchaseRegularCard/{gameId}")
   public ResponseEntity<HttpStatus> performPurchaseRegularCard(@PathVariable String gameId,
-                            @RequestBody JSONObject data) throws JsonProcessingException {
+                                                               @RequestBody JSONObject data)
+      throws JsonProcessingException {
     String playerId = (String) data.get("playerId");
 
     return ResponseEntity.ok(HttpStatus.OK);
@@ -117,7 +120,8 @@ public class GameController {
    */
   @PostMapping("/api/action/reserveCard/{gameId}")
   public ResponseEntity<HttpStatus> reserveCardAction(@PathVariable String gameId,
-                            @RequestBody JSONObject data) throws JsonProcessingException {
+                                                      @RequestBody JSONObject data)
+      throws JsonProcessingException {
     String playerId = (String) data.get("playerId");
 
     return ResponseEntity.ok(HttpStatus.OK);
@@ -133,7 +137,8 @@ public class GameController {
    */
   @PostMapping("/api/action/claimNoble/{gameId}")
   public ResponseEntity<HttpStatus> claimNobleAction(@PathVariable String gameId,
-                            @RequestBody JSONObject data) throws JsonProcessingException {
+                                                     @RequestBody JSONObject data)
+      throws JsonProcessingException {
     String playerId = (String) data.get("playerId");
 
     return ResponseEntity.ok(HttpStatus.OK);
@@ -153,33 +158,30 @@ public class GameController {
   /**
    * Launches game.
    *
-   * @param gameId the id of the game
+   * @param gameId  the id of the game
    * @param session the session data for the game to create
    * @throws JsonProcessingException when JSON processing error occurs
    */
   @PutMapping("/api/splendor/{gameId}")
-  public void launchGame(@PathVariable(required = true, name = "gameId") String gameId,
-                            @RequestBody SessionData session) throws JsonProcessingException {
+  public ResponseEntity<Game> launchGame(
+      @PathVariable(required = true, name = "gameId") String gameId,
+      @RequestBody SessionData session) {
 
-    if (session != null) {
-      if (saves.containsKey(session.getSavegame())) { //starting from saved game
-        String oldId = saves.get(session.getSavegame()).getId();
-        gameRegistry.put(gameId, gameRegistry.remove(oldId));
-      } else { //starting new game
-    	  gameRegistry.put(gameId, new Game(gameId, session.getCreator(), session.getPlayers(), session.getVariant()));
-      }
+    String saveId = session.getSavegame();
+    String[] playerList = session.getPlayers();
+    String variant = session.getVariant();
+    String creator = session.getCreator();
 
-      if (gameRegistry.get(gameId) != null) {
-        System.out.println("Launched game with id: " + gameId);
-      } else {
-        System.out.println("Could not launch game with id: " + gameId);
-      }
+    Game save = saves.get(saveId);
+
+    if (save != null) {
+      gameRegistry.put(saveId, save);
+      save.setLaunched();
+      return ResponseEntity.ok(save);
     } else {
-      System.out.println("Could not launch game with id: " + gameId
-          + " because no session data was received");
+      return ResponseEntity.ok(new Game(saveId, variant, playerList, creator));
     }
   }
-  
 }
 
 
