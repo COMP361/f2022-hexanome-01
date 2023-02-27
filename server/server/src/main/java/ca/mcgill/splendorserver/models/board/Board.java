@@ -3,6 +3,7 @@ package ca.mcgill.splendorserver.models.board;
 import ca.mcgill.splendorserver.models.Inventory;
 import ca.mcgill.splendorserver.models.JsonStringafiable;
 import java.util.HashMap;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 /**
@@ -64,7 +65,9 @@ public class Board implements JsonStringafiable {
   public JSONObject toJson() {
     JSONObject json = new JSONObject();
     json.put("currentPlayer", currentPlayer);
-    json.put("cards", cards.toJson());
+    JSONArray[] cardsAndDecks = cards.toJson();
+    json.put("cards", cardsAndDecks[0]);
+    json.put("decks", cardsAndDecks[1]);
     json.put("nobles", nobles.toJson());
     json.put("tokens", tokens.toJson());
 

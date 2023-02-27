@@ -82,8 +82,8 @@ public class NobleBank implements JsonStringafiable {
    */
   public JSONArray toJson() {
     JSONArray json = new JSONArray();
-    for (int noble : nobles) {
-      json.add(noble);
+    for (int i = 0; i < size; i++) {
+      json.add(nobles[i]);
     }
     return json;
   }
