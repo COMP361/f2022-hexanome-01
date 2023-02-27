@@ -171,10 +171,7 @@ public class LSRequestManager : MonoBehaviour
         yield return create.SendWebRequest();
 
         if (create.result == UnityWebRequest.Result.Success)
-        {
             result(create.downloadHandler.text);
-            UnityEngine.Debug.Log(create.downloadHandler.text);
-        }
     }
 
     /// <summary>
