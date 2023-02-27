@@ -79,6 +79,9 @@ public class SelectedTokens : MonoBehaviour
         foreach (Text colour in colours){
             colour.text = "none";
         }
+        foreach (Text amount in nums){
+            amount.text = "0";
+        }
     }
     // Start is called before the first frame update
     /*void Start()

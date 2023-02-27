@@ -12361,6 +12361,7 @@ MonoBehaviour:
   blackAmount: {fileID: 113148374}
   redAmount: {fileID: 1397457322}
   whiteAmount: {fileID: 1051660729}
+  selectedTokens: {fileID: 1191895568}
   gold: 0
   blue: 0
   green: 0

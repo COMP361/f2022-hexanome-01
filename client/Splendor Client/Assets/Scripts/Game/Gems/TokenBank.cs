@@ -7,6 +7,7 @@ public class TokenBank : MonoBehaviour{
     public List<Gem> tokens = new List<Gem>();
     //displayed board token bank amount
     public Text goldAmount, blueAmount, greenAmount, blackAmount, redAmount, whiteAmount;
+    [SerializeField] private SelectedTokens selectedTokens;
     
     public int gold;
     public int blue;
@@ -22,6 +23,12 @@ public class TokenBank : MonoBehaviour{
         black = n;
         red = n;
         white = n;
+        goldAmount.text = "5";
+        blueAmount.text = n.ToString();
+        greenAmount.text = n.ToString();
+        blackAmount.text = n.ToString();
+        redAmount.text = n.ToString();
+        whiteAmount.text = n.ToString();
         foreach (Gem gem in tokens){
             if (gem.colour != "gold"){
                 gem.amount = n;
@@ -37,6 +44,12 @@ public class TokenBank : MonoBehaviour{
         black = n;
         red = n;
         white = n;
+        goldAmount.text = n.ToString();
+        blueAmount.text = n.ToString();
+        greenAmount.text = n.ToString();
+        blackAmount.text = n.ToString();
+        redAmount.text = n.ToString();
+        whiteAmount.text = n.ToString();
         foreach (Gem gem in tokens){
             gem.amount = n;
         }
@@ -78,6 +91,7 @@ public class TokenBank : MonoBehaviour{
     //gold token is always 5 regardless of number of players
     void Start(){
         setExceptGold(7);
+        selectedTokens.reset();
         /*goldSlot.amount.text = goldSlot.token.amount.ToString();
         blueSlot.amount.text = blueSlot.token.amount.ToString();
         greenSlot.amount.text = greenSlot.token.amount.ToString();
