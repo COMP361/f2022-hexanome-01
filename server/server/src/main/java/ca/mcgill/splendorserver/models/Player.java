@@ -1,6 +1,7 @@
 package ca.mcgill.splendorserver.models;
 
 import ca.mcgill.splendorserver.models.cards.Card;
+import ca.mcgill.splendorserver.models.expansion.Unlockable;
 import java.util.ArrayList;
 
 /**

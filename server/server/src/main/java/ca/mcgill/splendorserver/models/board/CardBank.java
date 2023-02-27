@@ -1,7 +1,9 @@
 package ca.mcgill.splendorserver.models.board;
 
 import ca.mcgill.splendorserver.models.JsonStringafiable;
+import ca.mcgill.splendorserver.models.cards.Card;
 import ca.mcgill.splendorserver.models.cards.CardLevel;
+import ca.mcgill.splendorserver.models.registries.CardRegistry;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Stack;
@@ -31,8 +33,14 @@ public class CardBank implements JsonStringafiable {
   public CardBank() {
 
     for (CardLevel level : CardLevel.values()) {
-      decks.put(level, new Stack<Integer>());
-      Collections.shuffle(decks.get(level));
+      Stack<Integer> deck = new Stack<Integer>();
+      for (Card card : CardRegistry.getCards()) {
+        if (card.getLevel().equals(level)) {
+          deck.push(card.getId());
+        }
+      }
+      Collections.shuffle(deck);
+      decks.put(level, deck);
     }
 
     for (CardLevel level : regularLevels) {
