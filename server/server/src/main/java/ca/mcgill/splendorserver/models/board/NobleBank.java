@@ -1,15 +1,13 @@
 package ca.mcgill.splendorserver.models.board;
 
+import ca.mcgill.splendorserver.models.JsonStringafiable;
 import java.util.Arrays;
-
 import org.json.simple.JSONArray;
-
-import ca.mcgill.splendorserver.models.JSONStringafiable;
 
 /**
  * Model class holding all Splendor noble tiles on the board.
  */
-public class NobleBank implements JSONStringafiable {
+public class NobleBank implements JsonStringafiable {
 
   private int[] nobles;
   private int size;
@@ -27,7 +25,7 @@ public class NobleBank implements JSONStringafiable {
   /**
    * Add a noble to the bank of nobles.
    *
-   * @param noble the noble to add
+   * @param nobleId the id of the noble to add
    * @return whether the noble was added successfully
    */
   public boolean add(int nobleId) {
@@ -43,13 +41,15 @@ public class NobleBank implements JSONStringafiable {
   /**
    * Remove a noble from the bank of nobles.
    *
-   * @param noble the noble to remove
+   * @param index the index of the noble to remove
    * @return whether the noble was removed successfully
    */
   public boolean remove(int index) {
-	  if (index >= size || nobles[index] == -1) return false;
-	  nobles[index] = -1;
-	  return true;
+    if (index >= size || nobles[index] == -1) {
+      return false;
+    }
+    nobles[index] = -1;
+    return true;
   }
 
   /**
@@ -62,7 +62,7 @@ public class NobleBank implements JSONStringafiable {
   }
 
   @Override
-  public String toJSONString() {
-	  return JSONArray.toJSONString(Arrays.asList(nobles));
+  public String toJsonString() {
+    return JSONArray.toJSONString(Arrays.asList(nobles));
   }
 }

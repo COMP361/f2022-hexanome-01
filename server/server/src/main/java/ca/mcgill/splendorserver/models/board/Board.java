@@ -1,17 +1,15 @@
 package ca.mcgill.splendorserver.models.board;
 
-import java.util.HashMap;
-
-import org.json.simple.JSONObject;
-
 import ca.mcgill.splendorserver.models.Inventory;
-import ca.mcgill.splendorserver.models.JSONStringafiable;
+import ca.mcgill.splendorserver.models.JsonStringafiable;
+import java.util.HashMap;
+import org.json.simple.JSONObject;
 
 /**
  * Model class for the Splendor board.
  */
-public class Board implements JSONStringafiable {
-	
+public class Board implements JsonStringafiable {
+
   private String currentPlayer;
 
   private HashMap<String, Inventory> inventories;
@@ -22,36 +20,38 @@ public class Board implements JSONStringafiable {
   /**
    * Constructor.
    *
+   * @param creator the creator of the game
    * @param variant the game variant
-   * @param playerList String array of player usernames
+   * @param players String array of player usernames
    */
   public Board(String creator, String[] players, String variant) {
-	int player_num = players.length;
-	tokens = new TokenBank(player_num + (player_num == 4 ? 3 : 2));
+    int playerNum = players.length;
+    tokens = new TokenBank(playerNum + (playerNum == 4 ? 3 : 2));
     cards = new CardBank();
-    nobles = new NobleBank(player_num + 1);
+    nobles = new NobleBank(playerNum + 1);
     for (String playerId : players) {
-    	inventories.put(playerId, new Inventory());
+      inventories.put(playerId, new Inventory());
     }
     this.currentPlayer = creator;
   }
 
   @SuppressWarnings("unchecked")
   @Override
-  public String toJSONString() {
-	  JSONObject data = new JSONObject();
-	  data.put("currentPlayer", currentPlayer);
-	  
-	  data.put("cards", cards.toJSONString());
-	  data.put("nobles", nobles.toJSONString());
-	  data.put("tokens", tokens.toJSONString());
-	  
-	  JSONObject inventoryJSON = new JSONObject();
-	  for (String playerId : inventories.keySet())
-		  inventoryJSON.put(playerId, inventories.get(playerId).toJSONString());
-	  
-	  data.put("inventories", inventoryJSON.toJSONString());
-	  
-	  return data.toJSONString();
+  public String toJsonString() {
+    JSONObject data = new JSONObject();
+    data.put("currentPlayer", currentPlayer);
+
+    data.put("cards", cards.toJsonString());
+    data.put("nobles", nobles.toJsonString());
+    data.put("tokens", tokens.toJsonString());
+
+    JSONObject inventoryJson = new JSONObject();
+    for (String playerId : inventories.keySet()) {
+      inventoryJson.put(playerId, inventories.get(playerId).toJsonString());
+    }
+
+    data.put("inventories", inventoryJson.toJSONString());
+
+    return data.toJSONString();
   }
 }

@@ -1,17 +1,15 @@
 package ca.mcgill.splendorserver.models;
 
-import java.util.ArrayList;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-
 import ca.mcgill.splendorserver.models.board.TokenBank;
 import ca.mcgill.splendorserver.models.cards.Card;
+import java.util.ArrayList;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  * Model class for a Splendor player's inventory i.e. everything they've acquired.
  */
-public class Inventory implements JSONStringafiable {
+public class Inventory implements JsonStringafiable {
 
   private TokenBank tokens;
   private TokenBank bonus;
@@ -111,14 +109,14 @@ public class Inventory implements JSONStringafiable {
 
   @Override
   @SuppressWarnings("unchecked")
-  public String toJSONString() {
-	  JSONObject data = new JSONObject();
-	  data.put("acquiredCards", JSONArray.toJSONString(cards));
-	  data.put("acquiredNobles", JSONArray.toJSONString(nobles));
-	  data.put("reservedCards", JSONArray.toJSONString(reservedCards));
-	  data.put("reservedNobles", JSONArray.toJSONString(reservedNobles));
-	  data.put("tokens", tokens.toJSONString());
-	  
-	  return data.toJSONString();
+  public String toJsonString() {
+    JSONObject data = new JSONObject();
+    data.put("acquiredCards", JSONArray.toJSONString(cards));
+    data.put("acquiredNobles", JSONArray.toJSONString(nobles));
+    data.put("reservedCards", JSONArray.toJSONString(reservedCards));
+    data.put("reservedNobles", JSONArray.toJSONString(reservedNobles));
+    data.put("tokens", tokens.toJsonString());
+
+    return data.toJSONString();
   }
 }

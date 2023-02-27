@@ -11,15 +11,15 @@ public class Game {
   private String variant;
   private String creator;
   private String[] players;
-  
+
   private Board board;
-  
+
   private boolean launched;
-  
+
   /**
    * Constructor.
    *
-   * @param id String representing the game id (same as session id from LobbyService)
+   * @param id      String representing the game id (same as session id from LobbyService)
    * @param variant the variant of the game
    * @param players player usernames
    * @param creator the creator of the session
@@ -29,7 +29,7 @@ public class Game {
     this.variant = variant;
     this.creator = creator;
     this.players = players;
-    
+
     launched = false;
     setLaunched();
   }
@@ -42,14 +42,17 @@ public class Game {
   public String getId() {
     return id;
   }
-  
+
+  /**
+   * Flags the game as launched.
+   */
   public void setLaunched() {
-	  board = new Board(creator, players, variant);
-	  
-	  launched = true;
+    board = new Board(creator, players, variant);
+
+    launched = true;
   }
-  
-  public String getBoardJSON() {
-	  return board.toJSONString();
+
+  public String getBoardJson() {
+    return board.toJsonString();
   }
 }
