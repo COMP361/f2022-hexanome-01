@@ -74,4 +74,17 @@ public class NobleBank implements JsonStringafiable {
   public String toJsonString() {
     return JSONArray.toJSONString(Arrays.asList(nobles));
   }
+
+  /**
+   * Getter for the nobles on the board as a JSONArray.
+   *
+   * @return the nobles on the board as a JSONArray
+   */
+  public JSONArray toJson() {
+    JSONArray json = new JSONArray();
+    for (int noble : nobles) {
+      json.add(noble);
+    }
+    return json;
+  }
 }

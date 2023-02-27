@@ -55,4 +55,25 @@ public class Board implements JsonStringafiable {
 
     return data.toJSONString();
   }
+
+  /**
+   * Getter for the board as a JSONObject.
+   *
+   * @return the board as a JSONObject
+   */
+  public JSONObject toJson() {
+    JSONObject json = new JSONObject();
+    json.put("currentPlayer", currentPlayer);
+    json.put("cards", cards.toJson());
+    json.put("nobles", nobles.toJson());
+    json.put("tokens", tokens.toJson());
+
+    JSONObject inventoriesJson = new JSONObject();
+    for (String playerId : inventories.keySet()) {
+      inventoriesJson.put(playerId, inventories.get(playerId).toJson());
+    }
+    json.put("inventories", inventoriesJson);
+
+    return json;
+  }
 }

@@ -1,6 +1,6 @@
 package ca.mcgill.splendorserver.models;
 
-import java.util.Optional;
+import java.util.LinkedList;
 
 /**
  * Stores and manages LobbyService session data.
@@ -10,46 +10,24 @@ public class SessionData {
 
   private String creator;
   private String gameServer;
-  private LobbyServicePlayerData[] playersLobbyService;
+  private LinkedList<LobbyServicePlayerData> players;
   private String savegame;
-
-
-  /**
-   * Used to match lobby service model of providing
-   * info about players in this session.
-   */
-  public static class LobbyServicePlayerData {
-
-    private String name;
-    private String preferredColour;
-
-    /**
-     * Constructor for creating a lobbyServicePlayerData object.
-     *
-     * @param name            name of player
-     * @param preferredColour prefered colour
-     */
-    public LobbyServicePlayerData(String name, String preferredColour) {
-      this.name = name;
-      this.preferredColour = preferredColour;
-    }
-  }
 
 
   /**
    * Constructor used to create a new session data.
    * Used to create session data provided by Lobby Service
    *
-   * @param creator             creator of the session
-   * @param gameServer          variant of the game
-   * @param playersLobbyService players in this session
-   * @param savegame            this is the optional savegame if the game launches from save
+   * @param creator    creator of the session
+   * @param gameServer variant of the game
+   * @param players    players in this session
+   * @param savegame   this is the optional savegame if the game launches from save
    */
   public SessionData(String creator, String gameServer,
-                     LobbyServicePlayerData[] playersLobbyService, String savegame) {
+                     LinkedList<LobbyServicePlayerData> players, String savegame) {
     this.creator = creator;
     this.gameServer = gameServer;
-    this.playersLobbyService = playersLobbyService;
+    this.players = players;
     this.savegame = savegame;
   }
 
@@ -59,11 +37,13 @@ public class SessionData {
    * @return an array of four PlayerData
    */
   public String[] getPlayers() {
-    String[] players = new String[4];
-    for (int i = 0; i < playersLobbyService.length; i++) {
-      players[i] = playersLobbyService[i].name;
+    String[] playersNames = new String[this.players.size()];
+    int count = 0;
+    for (LobbyServicePlayerData player : players) {
+      playersNames[count] = player.getName();
+      count++;
     }
-    return players;
+    return playersNames;
   }
 
   /**
@@ -93,4 +73,40 @@ public class SessionData {
     return creator;
   }
 
+  /**
+   * Setter for creator of the session.
+   *
+   * @param creator name of user who created the session
+   */
+  public void setCreator(String creator) {
+    this.creator = creator;
+  }
+
+  /**
+   * Setter for the variant used in the session.
+   *
+   * @param gameServer variant of session
+   */
+  public void setGameServer(String gameServer) {
+    this.gameServer = gameServer;
+  }
+
+  /**
+   * Setter for the players in the session.
+   *
+   * @param players list of players in the session
+   */
+  public void setPlayers(
+      LinkedList<LobbyServicePlayerData> players) {
+    this.players = players;
+  }
+
+  /**
+   * Setters for the save game functionality.
+   *
+   * @param savegame save game to launch session from
+   */
+  public void setSavegame(String savegame) {
+    this.savegame = savegame;
+  }
 }

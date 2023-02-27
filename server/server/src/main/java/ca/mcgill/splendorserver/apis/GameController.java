@@ -3,12 +3,16 @@ package ca.mcgill.splendorserver.apis;
 import ca.mcgill.splendorserver.controllers.GameManager;
 import ca.mcgill.splendorserver.models.Game;
 import ca.mcgill.splendorserver.models.SessionData;
+import ca.mcgill.splendorserver.models.board.Board;
 import ca.mcgill.splendorserver.models.registries.CardRegistry;
 import ca.mcgill.splendorserver.models.registries.NobleRegistry;
 import ca.mcgill.splendorserver.models.registries.UnlockableRegistry;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,18 +35,10 @@ public class GameController {
 
   private final Logger logger;
 
-  private HashMap<String, Game> gameRegistry =
-      new HashMap<String, Game>(Map.of("test",
-          new Game("testId", "testPlayer1", new String[] {"testPlayer1"}, "splendor")));
-
-  private HashMap<String, Game> saves = new HashMap<>();
-  //registries might be unnecessary
-  private CardRegistry cardRegistry = new CardRegistry();
-  private NobleRegistry nobleRegistry = new NobleRegistry();
-  private UnlockableRegistry unlockRegistry = new UnlockableRegistry();
 
   @Autowired
   private GameManager gameManager;
+
   /**
    * Sole constructor.
    * (For invocation by subclass constructors, typically implicit.)
@@ -58,10 +54,32 @@ public class GameController {
    * @return success flag
    * @throws JsonProcessingException when JSON processing error occurs
    */
-  @GetMapping("/api/games/{gameId}")
-  public ResponseEntity<String> getGames(@PathVariable String gameId)
+  @GetMapping("/api/games/{gameId}/board")
+  public ResponseEntity<String> getBoard(@PathVariable String gameId)
       throws JsonProcessingException {
-    return ResponseEntity.ok(gameRegistry.get(gameId).getBoardJson());
+    Optional<Board> boardOptional = gameManager.getGameBoard(gameId);
+    if (boardOptional.isPresent()) {
+      return ResponseEntity.ok(boardOptional.get().toJson().toJSONString());
+    } else {
+      return ResponseEntity.ok("{}");
+    }
+  }
+
+  /**
+   * Returns the game with the given id.
+   * Used for testing.
+   *
+   * @param gameId the gameId
+   * @return the gameid for now
+   */
+  @GetMapping("/api/games/{gameId}")
+  public ResponseEntity<String> getGame(@PathVariable String gameId) {
+    Game game = gameManager.getGame(gameId);
+    if (game != null) {
+      return ResponseEntity.ok(game.getId());
+    } else {
+      return ResponseEntity.ok("{}");
+    }
   }
 
   /**
@@ -156,7 +174,7 @@ public class GameController {
    */
   @DeleteMapping(path = "/api/splendor/{gameId}")
   public void deleteGame(@PathVariable(required = true, name = "gameId") long gameId) {
-    gameRegistry.remove("" + gameId);
+    gameManager.deleteGame("" + gameId);
   }
 
   /**
@@ -164,17 +182,13 @@ public class GameController {
    *
    * @param gameId  the id of the game
    * @param session the session data for the game to create
-   * @return JSON of the game (board data) that was launched
    * @throws JsonProcessingException when JSON processing error occurs
    */
-  @PutMapping("/api/splendor/{gameId}")
-  public ResponseEntity<Game> launchGame(
+  @PutMapping("/api/games/{gameId}")
+  public void launchGame(
       @PathVariable(required = true, name = "gameId") String gameId,
       @RequestBody SessionData session) throws JsonProcessingException {
-
-      return ResponseEntity.ok(gameManager.launchGame(gameId, session));
-    }
-
+    gameManager.launchGame(gameId, session);
   }
 }
 

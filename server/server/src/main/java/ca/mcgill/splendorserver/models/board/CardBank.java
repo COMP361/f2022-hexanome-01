@@ -91,4 +91,22 @@ public class CardBank implements JsonStringafiable {
     }
     return data.toJSONString();
   }
+
+  /**
+   * Getter for a JSONArray of the cards on the board.
+   *
+   * @return the cards on the board as a JSONArray
+   */
+  public JSONArray toJson() {
+    JSONArray json = new JSONArray();
+    for (CardLevel level : CardLevel.values()) {
+      int[] row = rows.get(level);
+      JSONArray list = new JSONArray();
+      for (int cardId : row) {
+        list.add(cardId);
+      }
+      json.add(list);
+    }
+    return json;
+  }
 }
