@@ -45,7 +45,7 @@ public class NobleGemValue {
 
 [CreateAssetMenu]
 public class Noble : ScriptableObject {
-    [SerializeField] public int id;
+    [SerializeField] public long id;
     [SerializeField] private int points;
     [SerializeField] private int red;
     [SerializeField] private int blue;

@@ -5,8 +5,18 @@ using UnityEngine;
 
 public class AllCards : MonoBehaviour
 {
-    [SerializeField] private CardSlot[][] baseCards = new CardSlot[3][];
-    [SerializeField] private CardSlot[][] orientCards = new CardSlot[3][];
+    private CardSlot[][] baseCards =
+    {
+        new CardSlot[]{null, null, null, null},
+        new CardSlot[]{null, null, null, null},
+        new CardSlot[]{null, null, null, null}
+    };
+    private CardSlot[][] orientCards =
+    {
+        new CardSlot[]{null, null},
+        new CardSlot[]{null, null},
+        new CardSlot[]{null, null}
+    };
 
     public List<Card> cards = new List<Card>();
     [SerializeField] private GameObject cardObject;
@@ -15,17 +25,6 @@ public class AllCards : MonoBehaviour
     [SerializeField] private float yLevel1;
     [SerializeField] private float yLevel2;
     [SerializeField] private float yLevel3;
-
-    void Start() {
-        for (int level = 0; level < 3; level++)
-        {
-            //base cards
-            baseCards[level] = new CardSlot[4];
-
-            //orient cards
-            orientCards[level] = new CardSlot[2];
-        }
-    }
 
     public void GreyOutExcept(CardSlot _card)
     {
@@ -89,7 +88,7 @@ public class AllCards : MonoBehaviour
         }
     }
 
-    public void SetCard(bool orient, int level, int index, int id)
+    public void SetCard(bool orient, int level, int index, long id)
     {
         float x = xBase;
         if (orient) x = xOrient;

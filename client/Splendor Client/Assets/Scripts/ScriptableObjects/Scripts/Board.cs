@@ -23,8 +23,7 @@ public class Board : ScriptableObject
 
     public void SetBoard(JSONObject boardData) {
         //STEP 1: set cards
-        UnityEngine.Debug.Log(boardData.ToJSONString());
-        JSONArray[] cardsData = (JSONArray[]) boardData["cards"];
+        JSONArray cardsData = (JSONArray) boardData["cards"];
         //for each level
         IEnumerator cardLevelEnumerator = cardsData.GetEnumerator();
         for (int level = 0; cardLevelEnumerator.MoveNext(); level++)
@@ -36,34 +35,34 @@ public class Board : ScriptableObject
             IEnumerator cardEnumerator = ((JSONArray)cardLevelEnumerator.Current).GetEnumerator();
             for (int i = 0; cardEnumerator.MoveNext(); i++)
             {
-                cards.SetCard(orient, level % 3, i, (int)cardEnumerator.Current);
+                cards.SetCard(orient, level % 3,  i, (long)cardEnumerator.Current);
             }
         }
 
         //STEP 2: remove empty deck sprites
         JSONArray decks = (JSONArray)boardData["decks"];
-        if (!decks.Contains("deck1")) GameObject.Find("CardBack1").SetActive(false);
-        if (!decks.Contains("deck2")) GameObject.Find("CardBack2").SetActive(false);
-        if (!decks.Contains("deck3")) GameObject.Find("CardBack3").SetActive(false);
-        if (!decks.Contains("orientDeck1")) GameObject.Find("ExpansionCardBack1").SetActive(false);
-        if (!decks.Contains("orientDeck2")) GameObject.Find("ExpansionCardBack2").SetActive(false);
-        if (!decks.Contains("orientDeck3")) GameObject.Find("ExpansionCardBack3").SetActive(false);
+        if (!decks.Contains("level1")) GameObject.Find("CardBack1").SetActive(false);
+        if (!decks.Contains("level2")) GameObject.Find("CardBack2").SetActive(false);
+        if (!decks.Contains("level3")) GameObject.Find("CardBack3").SetActive(false);
+        if (!decks.Contains("orient_level1")) GameObject.Find("ExpansionCardBack1").SetActive(false);
+        if (!decks.Contains("orient_level2")) GameObject.Find("ExpansionCardBack2").SetActive(false);
+        if (!decks.Contains("orient_level3")) GameObject.Find("ExpansionCardBack3").SetActive(false);
 
         //STEP 3: set nobles
         JSONArray noblesData = (JSONArray)boardData["nobles"];
         IEnumerator nobleEnumerator = noblesData.GetEnumerator();
 
+        UnityEngine.Debug.Log(noblesData.Count);
         nobles.SetSize(noblesData.Count);
         for (int i = 0;  nobleEnumerator.MoveNext(); i++)
         {
-            nobles.SetNoble((int)nobleEnumerator.Current, i);
+            UnityEngine.Debug.Log(i + " has noble id "  + nobleEnumerator.Current);
+            nobles.SetNoble((long)nobleEnumerator.Current, i);
         }
 
         //TO DO: STEP 4: set token bank
 
-        //TO DO: STEP 5: display or remove the deck sprites if there are cards remaining in the decks
-
-        //STEP 6: set players
+        //STEP 5: set players
         IDictionary inventories = (IDictionary)boardData["inventories"];
         playerCount = inventories.Count;
 
@@ -100,7 +99,7 @@ public class Board : ScriptableObject
             }
         }
 
-        //STEP 7: set current player
+        //STEP 6: set current player
         currentPlayer = (string)boardData["currentPlayer"];
         //display the current player
         foreach (Player player in players) { 
@@ -110,7 +109,7 @@ public class Board : ScriptableObject
                 player.SetCurrentPlayer(false);
         }
 
-        //STEP 8: set player inventories
+        //STEP 7: set player inventories
         //reset all inventories
         for (int i = 0; i < playerCount; i++) {
             players[i].ResetInventory();
