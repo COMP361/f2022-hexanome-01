@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Stack;
 import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  * Model class holding all Splendor development card decks.
@@ -93,20 +94,28 @@ public class CardBank implements JsonStringafiable {
   }
 
   /**
-   * Getter for a JSONArray of the cards on the board.
+   * Getter for an array of JSONArrays of the cards and decks on the board.
    *
-   * @return the cards on the board as a JSONArray
+   * @return the cards and decks on the board as an array of JSONArrays
    */
-  public JSONArray toJson() {
-    JSONArray json = new JSONArray();
+  public JSONArray[] toJson() {
+    JSONArray cardsJson = new JSONArray();
+    //rows
     for (CardLevel level : CardLevel.values()) {
       int[] row = rows.get(level);
       JSONArray list = new JSONArray();
       for (int cardId : row) {
         list.add(cardId);
       }
-      json.add(list);
+      cardsJson.add(list);
     }
-    return json;
+    //decks (whether or not they're empty)
+    JSONArray decksJson = new JSONArray();
+    for (CardLevel level : CardLevel.values()) {
+      if (!decks.get(level).isEmpty()) {
+        decksJson.add(level.toString().toLowerCase());
+      }
+    }
+    return new JSONArray[]{cardsJson, decksJson};
   }
 }
