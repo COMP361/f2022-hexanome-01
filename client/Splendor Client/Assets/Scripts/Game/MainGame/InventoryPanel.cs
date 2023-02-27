@@ -29,29 +29,10 @@ public class InventoryPanel : MonoBehaviour {
             if (ownerName != null) ownerName.text = playerName.text;
 
             inventoryPanel.SetActive(true);
-            DisplayPlayerCards(playerControl.client.inventory, playerControl.client.noblesVisited);
-            //DisplayReservedCards(playerControl.client.cardReserves, playerControl.client.nobleReserves);
+            DisplayPlayerCards(playerControl.client.GetAcquiredCards(), playerControl.client.GetAcquiredNobles());
         }
         InventoryStatus();
     }
-
-    /*
-    public void DisplayReservedCards(List<Card> playerCards, List<Noble> playerNobles) { //displays reserved cards/nobles
-        ClearChildren(reservedCardContent, reservedNobleContent);
-        foreach (Card card in playerCards) {
-            GameObject temp = Instantiate(cardSlot, reservedCardContent.transform.position, Quaternion.identity);
-            temp.transform.SetParent(reservedCardContent.transform);
-            //temp.transform.localScale = new Vector3(1, 1, 1);
-            temp.GetComponent<CardSlot>().SetupInventory(card);
-        }
-        foreach (Noble noble in playerNobles) {
-            GameObject nobleInstance = Instantiate(nobleSlot, reservedNobleContent.transform.position, Quaternion.identity);
-            nobleInstance.transform.SetParent(reservedNobleContent.transform);
-            //nobleInstance.transform.localScale = new Vector3(0.2f, 0.4f, 1f);
-            nobleInstance.GetComponent<NobleSlot>().SetupInventory(noble);
-        }
-    }
-    */
 
     public void DisplayPlayerCards(List<Card> playerCards, List<Noble> playerNobles) { //displays acquired cards/nobles
         ClearChildren(purchasedCardContent, nobleContent);

@@ -5,46 +5,177 @@ using UnityEngine;
 
 public class AllCards : MonoBehaviour
 {
-    [SerializeField] public CardRow[] cards = new CardRow[6];
-    [SerializeField] private int rows;
+    [SerializeField] private CardSlot[][] baseCards = new CardSlot[3][];
+    [SerializeField] private CardSlot[][] orientCards = new CardSlot[3][];
+
+    public List<Card> cards = new List<Card>();
+    [SerializeField] private GameObject cardObject;
+    [SerializeField] private float xBase;
+    [SerializeField] private float xOrient;
+    [SerializeField] private float yLevel1;
+    [SerializeField] private float yLevel2;
+    [SerializeField] private float yLevel3;
+
+    void Start() {
+        for (int level = 0; level < 3; level++)
+        {
+            //base cards
+            baseCards[level] = new CardSlot[4];
+
+            //orient cards
+            orientCards[level] = new CardSlot[2];
+        }
+    }
 
     public void GreyOutExcept(CardSlot _card)
     {
-        for (int level=0; level<rows; level++)
-            cards[level].GreyOutExcept(_card);
+        //by level
+        for (int level = 0; level < 3; level++) {
+            //base cards
+            for (int i = 0; i < baseCards[level].Length; i++)
+            {
+                if (!baseCards[level][i].Equals(_card))
+                {
+                    baseCards[level][i].GreyOut();
+                }
+            }
+
+            //orient cards
+            for (int i = 0; i < orientCards[level].Length; i++)
+            {
+                if (!orientCards[level][i].Equals(_card))
+                {
+                    orientCards[level][i].GreyOut();
+                }
+            }
+        }
     }
 
     public void GreyOut()
     {
-        for (int level=0; level<rows; level++)
-            cards[level].GreyOut();
+        //by level
+        for (int level = 0; level < 3; level++)
+        {
+            //base cards
+            for (int i = 0; i < baseCards[level].Length; i++)
+            {
+                baseCards[level][i].GreyOut();
+            }
+
+            //orient cards
+            for (int i = 0; i < orientCards[level].Length; i++)
+            {
+                orientCards[level][i].GreyOut();
+            }
+        }
     }
 
     public void UnGreyOut()
     {
-        for (int level=0; level<rows; level++)
-            cards[level].UnGreyOut();
+        //by level
+        for (int level = 0; level < 3; level++)
+        {
+            //base cards
+            for (int i = 0; i < baseCards[level].Length; i++)
+            {
+                baseCards[level][i].UnGreyOut();
+            }
+
+            //orient cards
+            for (int i = 0; i < orientCards[level].Length; i++)
+            {
+                orientCards[level][i].UnGreyOut();
+            }
+        }
+    }
+
+    public void SetCard(bool orient, int level, int index, int id)
+    {
+        float x = xBase;
+        if (orient) x = xOrient;
+
+        float y = yLevel1;
+        if (level == 2) y = yLevel2;
+        else if (level == 3) y = yLevel3;
+
+        GameObject prefab = Instantiate(cardObject, new Vector3(x + index * 0.85F, y, 0), Quaternion.identity);
+        Card toSet = cards.Find(x => x.id.Equals(id)); //find card with given id
+
+        if (orient) {
+            orientCards[level][index] = prefab.GetComponent<CardSlot>();
+            
+            if (toSet == null)
+                orientCards[level][index].EmptySlot(); //still need to remove the last card sprite if we cant find the right card
+            else
+                orientCards[level][index].SetCard(toSet);
+        }
+        else {
+            baseCards[level][index] = prefab.GetComponent<CardSlot>();
+
+            if (toSet == null)
+                baseCards[level][index].EmptySlot(); //still need to remove the last card sprite if we cant find the right card
+            else
+                baseCards[level][index].SetCard(toSet);
+        }
     }
 
     public void RemoveCard(CardSlot cardToRemove)
     {
-        for (int level=0; level<rows; level++)
-            cards[level].RemoveCard(cardToRemove);
+        //by level
+        for (int level = 0; level < 3; level++)
+        {
+            //base cards
+            for (int i = 0; i < baseCards[level].Length; i++)
+            {
+                if (baseCards[level][i].Equals(cardToRemove))
+                {
+                    Destroy(baseCards[level][i].gameObject);
+                    return;
+                }
+            }
+
+            //orient cards
+            for (int i = 0; i < orientCards[level].Length; i++)
+            {
+                if (orientCards[level][i].Equals(cardToRemove))
+                {
+                    Destroy(orientCards[level][i].gameObject);
+                    return;
+                }
+            }
+        }
     }
 
     public void RemoveCard(Card cardToRemove) {
-        for (int level = 0; level < rows; level++)
-            cards[level].RemoveCard(cardToRemove);
+        //by level
+        for (int level = 0; level < 3; level++)
+        {
+            //base cards
+            for (int i = 0; i < baseCards[level].Length; i++)
+            {
+                if (baseCards[level][i].GetCard().Equals(cardToRemove))
+                {
+                    Destroy(baseCards[level][i].gameObject);
+                    return;
+                }
+            }
+
+            //orient cards
+            for (int i = 0; i < orientCards[level].Length; i++)
+            {
+                if (orientCards[level][i].GetCard().Equals(cardToRemove))
+                {
+                    Destroy(orientCards[level][i].gameObject);
+                    return;
+                }
+            }
+        }
     }
 
-    public CardSlot GetCard(int rowIndex, int cardIndex)
+    public CardSlot GetCard(bool orient, int level, int index)
     {
-        return cards[rowIndex].GetCard(cardIndex);
-    }
-
-    void Start()
-    {
-        rows = Math.Min(rows, 6);
+        if (orient) return orientCards[level][index];
+        else return baseCards[level][index];
     }
 
 }

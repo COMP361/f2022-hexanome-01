@@ -7065,7 +7065,6 @@ GameObject:
   - component: {fileID: 2077443208}
   - component: {fileID: 2077443207}
   - component: {fileID: 2077443211}
-  - component: {fileID: 2077443212}
   - component: {fileID: 2077443213}
   m_Layer: 5
   m_Name: Canvas
@@ -7511,36 +7510,8 @@ MonoBehaviour:
         m_CallState: 2
   playerText: {fileID: 2089150647}
   sessionNameText: {fileID: 165226677}
-  networkManager: {fileID: 2077443212}
   authentication: {fileID: 11400000, guid: f0eaca2cb6e0e48a7b2fb69740473fb7, type: 2}
-  allCards: {fileID: 2495688007317858119, guid: c7a231073fd9b0e479884062ae26a9e7, type: 3}
-  allNobles: {fileID: 4740854163311486354, guid: 45a8a1acb3f37674aa6a05b1bd233a48, type: 3}
-  globalGameClient: {fileID: 11400000, guid: e173fde9a6432464f8c29d8c55b1ffb0, type: 2}
-  game:
-    gameId: 
-    currentPlayer:
-      id: 
-      points: 0
-    row1: []
-    row2: []
-    row3: []
-    exRow1: []
-    exRow2: []
-    exRow3: []
-    nobles: []
-    players: []
---- !u!114 &2077443212
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2077443206}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5d590eb9103d34634acce0057d8885c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  board: {fileID: 11400000, guid: 4d1e1a296e4d443e087f38d7e1c03f88, type: 2}
 --- !u!114 &2077443213
 MonoBehaviour:
   m_ObjectHideFlags: 0
