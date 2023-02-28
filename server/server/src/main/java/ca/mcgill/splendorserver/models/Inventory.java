@@ -35,6 +35,33 @@ public class Inventory implements JsonStringafiable {
   }
 
   /**
+   * Getter for points gained.
+   *
+   * @return points achieved.
+   */
+  public int getPoints(){
+    return points;
+  }
+  
+  /**
+   * Getter for list of cards.
+   *
+   * @return list of acquired cards.
+   */
+  public ArrayList<Card> getCards(){
+    return cards;
+  }
+  
+  /**
+   * Getter for list of nobles.
+   *
+   * @return list of acquired nobles.
+   */
+  public ArrayList<Noble> getNobles(){
+    return nobles;
+  }
+  
+  /**
    * Add an array of tokens to the player's inventory.
    *
    * @param acquiredTokens an array of Strings representing the colors of the tokens to add

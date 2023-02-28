@@ -2,6 +2,8 @@ package ca.mcgill.splendorserver.models.expansion;
 
 import org.json.simple.JSONObject;
 
+import ca.mcgill.splendorserver.models.Player;
+
 /**
  * Model class for cities from Splendor cities expansion.
  */
@@ -12,7 +14,7 @@ public class City implements Unlockable {
   }
 
   @Override
-  public void observe() {
+  public void observe(Player player) {
     // TODO Auto-generated method stub
 
   }
