@@ -43,8 +43,9 @@ public class PlayerControl : MonoBehaviour {
             deck4 = "deck4: ", deck5 = "deck5: ", deck6 = "deck6: ";
         string noble = "nobles: ";
         string unlockable = "unlockables: ";*/
-        //Debug.Log("start");
-        for(int i = 0; i < 6; i++) {
+       
+        //print json info of cards, nobles, etc
+        /*for(int i = 0; i < 6; i++) {
             List<string> cards = new List<string>();
             foreach (Card c in allCards.cards[i].deck.cards) {
                 cards.Add(c.Convert().ToString());
@@ -59,9 +60,9 @@ public class PlayerControl : MonoBehaviour {
         foreach (Noble n in allNobles.deck.nobles) {
             nobles.Add(n.Convert().ToString());
         }
-        /*foreach (NobleSlot n in allNobles.nobles) {
+        *//*foreach (NobleSlot n in allNobles.nobles) {
             nobles.Add(n.GetNoble().Convert().ToString());
-        }*/
+        }*//*
         Debug.Log("nobles: " + (new JSONArray(nobles)).ToString());
 
         List<string> unlockables = new List<string>();
@@ -69,7 +70,7 @@ public class PlayerControl : MonoBehaviour {
         foreach (IUnlockable u in unlockableList.List) {
            unlockables.Add(u.Convert().ToString());
         }
-        Debug.Log("unlockables: " + (new JSONArray(unlockables)).ToString());
+        Debug.Log("unlockables: " + (new JSONArray(unlockables)).ToString());*/
 
         //the following was a test i made to make sure JSONHandler was working. ive left it here incase we find some uknown error with it
         /*
