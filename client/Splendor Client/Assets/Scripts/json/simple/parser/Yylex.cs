@@ -256,12 +256,14 @@ public class Yylex {
      * the number of characters from the last newline up to the start of the 
      * matched text
      */
+    #pragma warning disable CS0414
     private int yycolumn;
 
     /** 
      * zzAtBOL == true <=> the scanner is currently at the beginning of a line
      */
     private bool zzAtBOL = true;
+    #pragma warning restore CS0414
 
     /** zzAtEOF == true <=> the scanner is at the EOF */
     private bool zzAtEOF;
@@ -527,7 +529,6 @@ public class Yylex {
             zzState = ZZ_LEXSTATE[zzLexicalState];
 
 
-        zzForAction: {
                 while (true) {
 
                     if (zzCurrentPosL < zzEndReadL)
@@ -568,7 +569,6 @@ public class Yylex {
                     }
 
                 }
-            }
 
             // store back cached position
             zzMarkedPos = zzMarkedPosL;

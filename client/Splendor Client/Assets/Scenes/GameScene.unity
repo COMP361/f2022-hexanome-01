@@ -3565,6 +3565,11 @@ MonoBehaviour:
   kTokenDisplay: {fileID: 574828369}
   rTokenDisplay: {fileID: 1747516616}
   wTokenDisplay: {fileID: 958183834}
+  bBonusDisplay: {fileID: 0}
+  gBonusDisplay: {fileID: 0}
+  kBonusDisplay: {fileID: 0}
+  rBonusDisplay: {fileID: 0}
+  wBonusDisplay: {fileID: 0}
 --- !u!1 &553161074
 GameObject:
   m_ObjectHideFlags: 0
@@ -4793,6 +4798,7 @@ MonoBehaviour:
   player: {fileID: 691041389}
   gamePlayersData: []
   omm: {fileID: 960569995}
+  unlockableList: {fileID: 11400000, guid: e1967707d2e5dc849b4afe4999fc9beb, type: 2}
   globalGameClient: {fileID: 11400000, guid: e173fde9a6432464f8c29d8c55b1ffb0, type: 2}
   allCards: {fileID: 911230083}
   selectedCardToBuy: {fileID: 0}
@@ -4834,6 +4840,7 @@ MonoBehaviour:
   cardReserves: []
   noblesVisited: []
   nobleReserves: []
+  unlockables: {fileID: 11400000, guid: e1967707d2e5dc849b4afe4999fc9beb, type: 2}
   mainPlayer: {fileID: 11400000, guid: f0eaca2cb6e0e48a7b2fb69740473fb7, type: 2}
 --- !u!114 &691041390
 MonoBehaviour:
@@ -14202,7 +14209,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.7351573, y: 0.038000003}
   m_AnchorMax: {x: 0.98631454, y: 0.1273119}
-  m_AnchoredPosition: {x: -3.275299, y: 1.1999817}
+  m_AnchoredPosition: {x: -3.2753296, y: 1.1999817}
   m_SizeDelta: {x: 1, y: 2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2010020630
@@ -15116,6 +15123,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: NobleRow
       objectReference: {fileID: 0}
+    - target: {fileID: 4740854163311486380, guid: 45a8a1acb3f37674aa6a05b1bd233a48, type: 3}
+      propertyPath: nobles.Array.size
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 4740854163311486380, guid: 45a8a1acb3f37674aa6a05b1bd233a48, type: 3}
+      propertyPath: nobles.Array.data[10]
+      value: 
+      objectReference: {fileID: 11400000, guid: 0f96dea3b32ea7747a0fdf069b47d9d5, type: 2}
     - target: {fileID: 4740854163311486381, guid: 45a8a1acb3f37674aa6a05b1bd233a48, type: 3}
       propertyPath: m_RootOrder
       value: 5

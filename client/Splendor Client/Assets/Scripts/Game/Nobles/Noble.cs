@@ -56,12 +56,23 @@ public class Noble : ScriptableObject {
 
     [SerializeField] public NobleGemValue nobleValue = new NobleGemValue();
 
-    private bool active = true;
+    //private bool active = true;
 
     public Sprite sprite;
 
     private SpriteRenderer m_SpriteRenderer;
 
+    public JSONObject Convert() {
+        Dictionary<string, string> pairs = new Dictionary<string, string>();
+        pairs.Add("id", id.ToString());
+        pairs.Add("points", points.ToString());
+        pairs.Add("red", red.ToString());
+        pairs.Add("blue", blue.ToString());
+        pairs.Add("green", green.ToString());
+        pairs.Add("brown", brown.ToString());
+        pairs.Add("white", white.ToString());
+        return new JSONObject(pairs);
+    }
     public void SetData(NobleData data) {
         id = data.id;
         points = data.points;

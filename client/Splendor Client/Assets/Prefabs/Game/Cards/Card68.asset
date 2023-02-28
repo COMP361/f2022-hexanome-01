@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 68
   points: 0
-  bonus: 0
+  bonus: 71
   bonusAmount: 1
   red: 1
   blue: 1
