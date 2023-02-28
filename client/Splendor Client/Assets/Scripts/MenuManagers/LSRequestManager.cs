@@ -131,7 +131,7 @@ public class LSRequestManager : MonoBehaviour
     /// </summary>
     /// <param name="HOST">IP address to send the request to</param>
     /// <returns>Allows PUT request</returns>
-    public static IEnumerator Join(Session session)
+    public static IEnumerator Join(ActiveSession session)
     {
         string url = "http://" + HOST + ":4242/api/sessions/" + session.id + "/players/" + mainPlayer.GetUsername(); //url for PUT request
         UnityWebRequest add = UnityWebRequest.Put(url, "body"); //body of PUT cannot be empty
@@ -320,7 +320,7 @@ public class LSRequestManager : MonoBehaviour
     /// Removes a player from a session in the LobbyService.
     /// </summary>
     /// <returns>Allows DELETE request</returns>
-    public static IEnumerator Leave(Session session)
+    public static IEnumerator Leave(ActiveSession session)
     {
         string url = "http://" + HOST + ":4242/api/sessions/" + session.id + "/players/" + mainPlayer.GetUsername(); //url for DELETE request
         UnityWebRequest remove = UnityWebRequest.Delete(url);
@@ -336,7 +336,7 @@ public class LSRequestManager : MonoBehaviour
         //}
     }
 
-    public static IEnumerator Launch(Session session, Action<bool> result)
+    public static IEnumerator Launch(ActiveSession session, Action<bool> result)
     {
 
         string url = "http://" + HOST + ":4242/api/sessions/" + session.id; //url for POST request

@@ -26,8 +26,8 @@ public class NobleRow : MonoBehaviour
     public void SetNoble(long id, int index)
     {
         float y = y2Players;
-        if (nobles.Length == 4) y = y3Players;
-        if (nobles.Length == 5) y = y4Players;
+        if (size == 4) y = y3Players;
+        if (size == 5) y = y4Players;
 
         GameObject prefab = Instantiate(nobleObject, new Vector3(x, y + index * 0.98f, 0), Quaternion.identity);
         if (index < size)

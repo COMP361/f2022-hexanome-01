@@ -173,7 +173,7 @@ public class Card : ScriptableObject {
     }
 
     public bool Equals(Card card) {
-        if (card.GetId() == this.GetId()) return true;
-        else return false;
+        if (card.GetId() == id) return true;
+        return false;
     }
 }

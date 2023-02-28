@@ -14,17 +14,19 @@ public class Dashboard : MonoBehaviour
     public Text kTokenDisplay;
     public Text rTokenDisplay;
     public Text wTokenDisplay;
+    public Text jTokenDisplay;
 
     public Text bBonusDisplay;
     public Text gBonusDisplay;
     public Text kBonusDisplay;
     public Text rBonusDisplay;
     public Text wBonusDisplay;
+    public Text jBonusDisplay;
 
     public Image reserveCard1, reserveCard2, reserveCard3, reserveNoble1, reserveNoble2, reserveNoble3, reserveNoble4, reserveNoble5;
     public Sprite emptyReserveCard, emptyReserveNoble;
 
-    public void UpdatePtsDisplay(int pts)
+    public void UpdatePtsDisplay(long pts)
     {
         ptsDisplay.text = String.Format("{0}", pts);
     }

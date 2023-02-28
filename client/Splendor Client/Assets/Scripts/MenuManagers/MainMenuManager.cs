@@ -20,12 +20,11 @@ public class MainMenuManager : MonoBehaviour {
     [SerializeField] private UnityEvent promptEndSession, promptDeleteSession, joinSession, loadSave, createSession, exitToMain, exitToSession, exitToSave;
     [SerializeField] private Text playerText, sessionNameText;
     [SerializeField] private Authentication authentication;
-    [SerializeField] private Board board;
 
     private LastMenuVisited previousMenu = LastMenuVisited.MAIN;
 
     public Save currentSave;
-    public Session currentSession;
+    [SerializeField] private ActiveSession currentSession;
     private string sessionsHash = null;
     private string sessionHash = null;
 
@@ -33,7 +32,7 @@ public class MainMenuManager : MonoBehaviour {
 
     public void LoadLastMenu() {
         //reset all data
-        currentSession = null;
+        currentSession.Reset();
         sessionsHash = null;
         sessionHash = null;
 
@@ -126,7 +125,7 @@ public class MainMenuManager : MonoBehaviour {
                 if (hash != null) {
                     if (session != null) {
                         previousMenu = LastMenuVisited.LOAD;
-                        currentSession = session;
+                        currentSession.SetSession(session);
                         loadSave.Invoke(); // location of this event may change in the future
                         MakePlayers(); // displays the players in the current session
 
@@ -175,11 +174,7 @@ public class MainMenuManager : MonoBehaviour {
         StartCoroutine(LSRequestManager.Launch(currentSession, (bool success) =>
             {
                 if (success)
-                {
-                    board.launch(currentSession.id);
                     SceneManager.LoadScene(2);
-                }
-                
             }));
     }
 
@@ -195,13 +190,10 @@ public class MainMenuManager : MonoBehaviour {
         {
             if (session != null && hash != null)
             {
-                currentSession = session;
+                currentSession.SetSession(session);
                 sessionHash = hash;
                 if (session.launched)
-                {
-                    board.launch(session.id);
                     SceneManager.LoadScene(2);
-                }
                 else
                 {
                     SetupLobby();
@@ -271,7 +263,7 @@ public class MainMenuManager : MonoBehaviour {
     /// </summary>
     /// <param name="newSession">currently selected Session</param>
     public void SetSession(Session newSession) {
-        if (newSession != null) currentSession = newSession;
+        if (newSession != null) currentSession.SetSession(newSession);
     }
 
     /// <summary>
@@ -289,7 +281,7 @@ public class MainMenuManager : MonoBehaviour {
     public void MakeSessions(List<Session> sessions) {
         if (sessionContent.activeInHierarchy)
         {
-            currentSession = null;
+            currentSession.Reset();
             sessionHash = null;
 
             ClearChildren(sessionContent);

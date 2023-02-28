@@ -16,7 +16,7 @@ public class MultiplayerInfoPanel : MonoBehaviour
         nameField.text = name;
     }
 
-    public void UpdatePlayerPoints(int pts)
+    public void UpdatePlayerPoints(long pts)
     {
         pointsField.text = String.Format("{0}", pts);
     }

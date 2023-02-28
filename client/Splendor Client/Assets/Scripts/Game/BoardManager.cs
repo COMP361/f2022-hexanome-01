@@ -1,27 +1,28 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Events;
 
-//TO DO: add token bank
-
-[CreateAssetMenu]
-public class Board : ScriptableObject
+public class BoardManager : MonoBehaviour
 {
+    [SerializeField] private UnityEvent loadBoard;
+    [SerializeField] private Authentication mainPlayer;
+    [SerializeField] private ActiveSession currentSession;
     [SerializeField] private NobleRow nobles;
     [SerializeField] private AllCards cards;
-    private Player[] players = new Player[4];
+    [SerializeField] private Player[] boardPlayers;
+    private Player[] players;
+    
     private string currentPlayer;
 
-    private int playerCount;
-    [SerializeField] private Authentication mainPlayer;
-
-    public void launch(string id) {
-        //get board data & set it
-        GameRequestManager.instance.StartCoroutine(GameRequestManager.GetBoard(this, id));
+    void Start()
+    {
+        StartCoroutine(GameRequestManager.GetBoard(currentSession.id, SetBoard));
     }
 
-    public void SetBoard(JSONObject boardData) {
+    public void SetBoard(JSONObject boardData)
+    {
         //STEP 1: set cards
         JSONArray cardsData = (JSONArray) boardData["cards"];
         //for each level
@@ -29,8 +30,9 @@ public class Board : ScriptableObject
         for (int level = 0; cardLevelEnumerator.MoveNext(); level++)
         {
             bool orient = false;
-            if (level > 3) orient = true;
-
+            if (level > 2) 
+                orient = true;
+            
             //for each card at a level
             IEnumerator cardEnumerator = ((JSONArray)cardLevelEnumerator.Current).GetEnumerator();
             for (int i = 0; cardEnumerator.MoveNext(); i++)
@@ -51,12 +53,10 @@ public class Board : ScriptableObject
         //STEP 3: set nobles
         JSONArray noblesData = (JSONArray)boardData["nobles"];
         IEnumerator nobleEnumerator = noblesData.GetEnumerator();
-
-        UnityEngine.Debug.Log(noblesData.Count);
+        
         nobles.SetSize(noblesData.Count);
         for (int i = 0;  nobleEnumerator.MoveNext(); i++)
         {
-            UnityEngine.Debug.Log(i + " has noble id "  + nobleEnumerator.Current);
             nobles.SetNoble((long)nobleEnumerator.Current, i);
         }
 
@@ -64,38 +64,39 @@ public class Board : ScriptableObject
 
         //STEP 5: set players
         IDictionary inventories = (IDictionary)boardData["inventories"];
-        playerCount = inventories.Count;
 
         //set players if they havent yet been set
-        if (players[0] == null)
+        if (players == null)
         {
+            //player count set up
+            switch (inventories.Count)
+             {
+                 case 2:
+                     players = new []{ boardPlayers[0], boardPlayers[1] };
+                     break;
+                 case 3:
+                     players = new []{ boardPlayers[0], boardPlayers[2], boardPlayers[3] };
+                     break;
+             }
+            
             //set main player data and display data
-            players[0] = GameObject.Find("Main Player").GetComponent<Player>();
             players[0].SetUsername(mainPlayer.GetUsername());
             Dashboard dashboard = players[0].GetComponent<Dashboard>();
             if (dashboard != null)
                 dashboard.SetNobleReserveCount(noblesData.Count);
 
-            //set other players
-            players[1] = GameObject.Find("Player 2").GetComponent<Player>();
-            players[2] = GameObject.Find("Player 3").GetComponent<Player>();
-            players[3] = GameObject.Find("Player 4").GetComponent<Player>();
-
+            //set other players' data
             IEnumerator usernames = ((ICollection)inventories.Keys).GetEnumerator();
 
-            for (int i = 1; usernames.MoveNext(); i++)
+            int i = 1;
+            while (usernames.MoveNext() && i < players.Length)
             {
                 string username = (string)usernames.Current;
                 if (!username.Equals(mainPlayer.GetUsername()))
                 {
                     players[i].SetUsername(username);
+                    i++;
                 }
-            }
-
-            //excess players should not be visible
-            for (int i = playerCount - 1; i < players.Length; i++)
-            {
-                players[i].gameObject.SetActive(false);
             }
         }
 
@@ -110,49 +111,56 @@ public class Board : ScriptableObject
         }
 
         //STEP 7: set player inventories
-        //reset all inventories
-        for (int i = 0; i < playerCount; i++) {
-            players[i].ResetInventory();
-        }
-
-        //fill inventories
-        for (int i = 0; i < playerCount; i++) {
-            IDictionary inventory = (IDictionary)inventories[players[i].GetUsername()];
+        foreach (Player player in players)
+        {
+            //reset all inventories
+            player.ResetInventory();
+            
+            //fill inventories
+            IDictionary inventory = (IDictionary)inventories[player.GetUsername()];
 
             //set points 
-            players[i].SetPoints((int)inventory["points"]);
+            player.SetPoints((long)inventory["points"]);
 
             //set reserved cards
             IEnumerator reservedCards = ((JSONArray)inventory["reservedCards"]).GetEnumerator();
             while (reservedCards.MoveNext())
             {
-                players[i].AddReservedCard(cards.cards.Find(x => x.id.Equals((int)reservedCards.Current)));
+                player.AddReservedCard(cards.cards.Find(x => x.id.Equals((int)reservedCards.Current)));
             }
 
             //set acquired cards
             IEnumerator acquiredCards = ((JSONArray)inventory["acquiredCards"]).GetEnumerator();
             while (acquiredCards.MoveNext())
             {
-                players[i].AddAcquiredCard(cards.cards.Find(x => x.id.Equals((int)acquiredCards.Current)));
+                player.AddAcquiredCard(cards.cards.Find(x => x.id.Equals((int)acquiredCards.Current)));
             }
 
             //set reserved nobles
             IEnumerator reservedNobles = ((JSONArray)inventory["reservedNobles"]).GetEnumerator();
             while (reservedNobles.MoveNext())
             {
-                players[i].AddReservedNoble(nobles.allNobles.Find(x => x.id.Equals((int)reservedNobles.Current)));
+                player.AddReservedNoble(nobles.allNobles.Find(x => x.id.Equals((int)reservedNobles.Current)));
             }
 
             //set acquired nobles
             IEnumerator acquiredNobles = ((JSONArray)inventory["acquiredNobles"]).GetEnumerator();
             while (acquiredNobles.MoveNext())
             {
-                players[i].AddAcquiredNoble(nobles.allNobles.Find(x => x.id.Equals((int)acquiredNobles.Current)));
+                player.AddAcquiredNoble(nobles.allNobles.Find(x => x.id.Equals((int)acquiredNobles.Current)));
             }
 
             //TO DO: set token counts
 
             //TO DO: set bonus counts
+        }
+        
+        //STEP 8: dislpay the board
+        loadBoard.Invoke();
+
+        foreach (Player player in players)
+        {
+            player.gameObject.SetActive(true);
         }
     }
 }

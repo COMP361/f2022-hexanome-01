@@ -2,6 +2,7 @@ package ca.mcgill.splendorserver.models;
 
 import ca.mcgill.splendorserver.models.board.TokenBank;
 import ca.mcgill.splendorserver.models.cards.Card;
+import ca.mcgill.splendorserver.models.expansion.Unlockable;
 import java.util.ArrayList;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -11,12 +12,14 @@ import org.json.simple.JSONObject;
  */
 public class Inventory implements JsonStringafiable {
 
+  private int points;
   private TokenBank tokens;
   private TokenBank bonus;
   private ArrayList<Card> cards;
   private ArrayList<Noble> nobles;
   private ArrayList<Card> reservedCards;
   private ArrayList<Noble> reservedNobles;
+  private ArrayList<Unlockable> unlockables;
 
   /**
    * Constructor.
@@ -28,6 +31,7 @@ public class Inventory implements JsonStringafiable {
     reservedNobles = new ArrayList<>();
     tokens = new TokenBank();
     bonus = new TokenBank();
+    unlockables = new ArrayList<>();
   }
 
   /**
@@ -80,7 +84,8 @@ public class Inventory implements JsonStringafiable {
    */
   public void addCard(Card card) {
     cards.add(card);
-    //need to add the correct bonuses too?
+    //TO DO: add the correct bonuses too?
+    //TO DO: add points too
   }
 
   /**
@@ -131,6 +136,8 @@ public class Inventory implements JsonStringafiable {
    */
   public JSONObject toJson() {
     JSONObject json = new JSONObject();
+    //points
+    json.put("points", points);
     //cards
     JSONArray cardsJson = new JSONArray();
     for (Card card : cards) {
@@ -155,6 +162,12 @@ public class Inventory implements JsonStringafiable {
       noblesJson.add(noble.getId());
     }
     json.put("reservedNobles", reservedNoblesJson);
+    //unlockables
+    JSONArray unlockablesJson = new JSONArray();
+    for (Unlockable unlockable : unlockables) {
+      unlockablesJson.add(unlockable);
+    }
+    json.put("unlockables", unlockablesJson);
     //tokens
     json.put("tokens", tokens.toJson());
     //bonuses

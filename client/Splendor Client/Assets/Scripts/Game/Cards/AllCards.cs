@@ -28,10 +28,11 @@ public class AllCards : MonoBehaviour
 
     public void GreyOutExcept(CardSlot _card)
     {
+        UnGreyOut();
         //by level
         for (int level = 0; level < 3; level++) {
             //base cards
-            for (int i = 0; i < baseCards[level].Length; i++)
+            for (int i = 0; i < 4; i++)
             {
                 if (!baseCards[level][i].Equals(_card))
                 {
@@ -40,7 +41,7 @@ public class AllCards : MonoBehaviour
             }
 
             //orient cards
-            for (int i = 0; i < orientCards[level].Length; i++)
+            for (int i = 0; i < 2; i++)
             {
                 if (!orientCards[level][i].Equals(_card))
                 {
@@ -94,8 +95,8 @@ public class AllCards : MonoBehaviour
         if (orient) x = xOrient;
 
         float y = yLevel1;
-        if (level == 2) y = yLevel2;
-        else if (level == 3) y = yLevel3;
+        if (level == 1) y = yLevel2;
+        else if (level == 2) y = yLevel3;
 
         GameObject prefab = Instantiate(cardObject, new Vector3(x + index * 0.85F, y, 0), Quaternion.identity);
         Card toSet = cards.Find(x => x.id.Equals(id)); //find card with given id

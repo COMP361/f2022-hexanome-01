@@ -165,8 +165,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3e5108c306936cd47b3b912839ef7da2, type: 2}
   - {fileID: 11400000, guid: 42b4b82395af17a41a7d69ada2e65277, type: 2}
   cardObject: {fileID: 3705035989739418207, guid: 61a923ecaabd179489e0ecf947ce5c0f, type: 3}
-  xBase: -4.5
+  xBase: -2.4
   xOrient: 2
-  yLevel1: -2.5
-  yLevel2: -0.5
-  yLevel3: 1.5
+  yLevel1: -1.4
+  yLevel2: 0
+  yLevel3: 1.4
