@@ -231,6 +231,7 @@
 		  </activation>
 		  <properties>
 		    <maven.javadoc.skip>true</maven.javadoc.skip>
+		    <checkstyle.skip>true</checkstyle.skip>
 		  </properties>
 	   </profile>
     </profiles>
