@@ -137,6 +137,22 @@ public class Card : ScriptableObject {
 
     private SpriteRenderer m_SpriteRenderer;
 
+    public JSONObject Convert() {
+        Dictionary<string, string> pairs = new Dictionary<string, string>();
+        pairs.Add("id", id.ToString());
+        pairs.Add("points", points.ToString());
+        pairs.Add("bonus", bonus.ToString());
+        pairs.Add("bonusAmount", bonusAmount.ToString());
+        pairs.Add("red", red.ToString());
+        pairs.Add("blue", blue.ToString());
+        pairs.Add("green", green.ToString());
+        pairs.Add("brown", brown.ToString());
+        pairs.Add("white", white.ToString());
+        pairs.Add("satchels", satchels.ToString());
+        pairs.Add("action", action.ToString());
+        pairs.Add("active", active.ToString()); //why do we have an active bool????
+        return new JSONObject(pairs);
+    }
     public void SetData(CardData data) {
         id = data.id;
         points = data.points;

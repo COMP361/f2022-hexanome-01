@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f32fd5edb238130419d23ff8ceb34b89, type: 3}
+  m_Name: PostB
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 21300000, guid: 9f6f07dc7b14cda4e8b27d8980aba8b7, type: 3}
+  effectType: 2
+  active: 0
+  ability: {fileID: 0}
+  condition:
+    red: 0
+    blue: 0
+    green: 0
+    white: 2
+    brown: 0
+    generic: 0
+    points: 0
+    nobleRequired: 0
+  id: 16
