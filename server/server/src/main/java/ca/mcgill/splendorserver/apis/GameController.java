@@ -1,7 +1,9 @@
 package ca.mcgill.splendorserver.apis;
 
+import ca.mcgill.splendorserver.controllers.GameManager;
 import ca.mcgill.splendorserver.models.Game;
 import ca.mcgill.splendorserver.models.SessionData;
+import ca.mcgill.splendorserver.models.board.Board;
 import ca.mcgill.splendorserver.models.registries.CardRegistry;
 import ca.mcgill.splendorserver.models.registries.NobleRegistry;
 import ca.mcgill.splendorserver.models.registries.UnlockableRegistry;
@@ -9,10 +11,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -31,15 +35,9 @@ public class GameController {
 
   private final Logger logger;
 
-  private HashMap<String, Game> gameRegistry =
-      new HashMap<String, Game>(Map.of("test",
-          new Game("testId", "testPlayer1", new String[] {"testPlayer1"}, "splendor")));
 
-  private HashMap<String, Game> saves = new HashMap<>();
-  //registries might be unnecessary
-  private CardRegistry cardRegistry = new CardRegistry();
-  private NobleRegistry nobleRegistry = new NobleRegistry();
-  private UnlockableRegistry unlockRegistry = new UnlockableRegistry();
+  @Autowired
+  private GameManager gameManager;
 
   /**
    * Sole constructor.
@@ -59,8 +57,26 @@ public class GameController {
   @GetMapping("/api/games/{gameId}/board")
   public ResponseEntity<String> getBoard(@PathVariable String gameId)
       throws JsonProcessingException {
-    if (gameRegistry.containsKey(gameId)) {
-      return ResponseEntity.ok(gameRegistry.get(gameId).getBoardJson());
+    Optional<Board> boardOptional = gameManager.getGameBoard(gameId);
+    if (boardOptional.isPresent()) {
+      return ResponseEntity.ok(boardOptional.get().toJson().toJSONString());
+    } else {
+      return ResponseEntity.ok("{}");
+    }
+  }
+
+  /**
+   * Returns the game with the given id.
+   * Used for testing.
+   *
+   * @param gameId the gameId
+   * @return the gameid for now
+   */
+  @GetMapping("/api/games/{gameId}")
+  public ResponseEntity<String> getGame(@PathVariable String gameId) {
+    Game game = gameManager.getGame(gameId);
+    if (game != null) {
+      return ResponseEntity.ok(game.getId());
     } else {
       return ResponseEntity.ok("{}");
     }
@@ -158,43 +174,23 @@ public class GameController {
    */
   @DeleteMapping(path = "/api/splendor/{gameId}")
   public void deleteGame(@PathVariable(required = true, name = "gameId") long gameId) {
-    gameRegistry.remove("" + gameId);
+    gameManager.deleteGame("" + gameId);
   }
 
   /**
    * Launches game.
    *
    * @param gameId  the id of the game
-   * @param sessionString the session data for the game to create
+   * @param session the session data for the game to create
    * @throws JsonProcessingException when JSON processing error occurs
    */
   @PutMapping("/api/games/{gameId}")
-  public void launchGame(
+  public ResponseEntity<HttpStatus> launchGame(
       @PathVariable(required = true, name = "gameId") String gameId,
-      @RequestBody String sessionString) throws JsonProcessingException {
+      @RequestBody SessionData session) throws JsonProcessingException {
+    gameManager.launchGame(gameId, session);
 
-    JSONObject session = (JSONObject) JsonHandler.decodeJsonRequest(sessionString);
-    String saveId = (String) session.get("savegame");
-
-    if (!saveId.isEmpty()) {
-      Game save = saves.get(saveId);
-      gameRegistry.put(gameId, save);
-      save.setLaunched();
-    } else {
-      //players
-      JSONArray players = (JSONArray) session.get("players");
-      ArrayList<String> usernamesList = new ArrayList<>();
-      for (Object player : players) {
-        usernamesList.add((String) ((JSONObject) player).get("name"));
-      }
-      String[] usernames = usernamesList.toArray(new String[0]);
-      //variant
-      String variant = (String) session.get("gameServer");
-      //creator
-      String creator = (String) session.get("creator");
-      //create new game
-      gameRegistry.put(gameId, new Game(gameId, variant, usernames, creator));
-    }
+    return ResponseEntity.ok(HttpStatus.OK);
   }
 }
 
