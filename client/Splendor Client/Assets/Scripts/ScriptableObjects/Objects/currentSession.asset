@@ -9,7 +9,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b25f4ececeb7a744bc60c1800294cf1, type: 3}
-  m_Name: globalGameClient
+  m_Script: {fileID: 11500000, guid: 7d29587034cb6443aae6a86355d7d942, type: 3}
+  m_Name: currentSession
   m_EditorClassIdentifier: 
-  gameId: 
+  id: 
+  creator: 
+  location: 
+  maxSessionPlayers: 0
+  minSessionPlayers: 0
+  name: 
+  launched: 0
+  players: []
+  savegameid: 

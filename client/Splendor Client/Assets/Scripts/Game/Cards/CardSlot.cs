@@ -54,11 +54,11 @@ public class CardSlot : MonoBehaviour {
     /// <summary>
     /// Overrides Equals to determine if the card in the slot is the same as the card in the given card slot.
     /// </summary>
-    /// <param name="card">the card solt with which to compare this card slot</param>
+    /// <param name="cardSlot">the card solt with which to compare this card slot</param>
     /// <returns>whether the card in the slot has the same id as the card in the given card slot</returns>
-    public bool Equals(CardSlot card) {
-        if (card.GetCard().GetId() == this.card.GetId()) return true;
-        else return false;
+    public bool Equals(CardSlot cardSlot) {
+        if (cardSlot.GetCard().Equals(card)) return true;
+        return false;
     }
 
 }

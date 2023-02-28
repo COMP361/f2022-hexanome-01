@@ -11,7 +11,6 @@ public class Player {
 
   private String username;
   private Inventory inventory;
-  private ArrayList<Unlockable> unlockables;
   private Card lastAcquired;
 
   /**
@@ -31,16 +30,6 @@ public class Player {
    */
   public boolean removeCard(Card card) {
     return inventory.removeCard(card);
-  }
-
-  /**
-   * Getter for the unlockables i.e. the abilities acquired by the player from Trading Posts
-   * or the cities acquired by the payer from Cities.
-   *
-   * @return the unlockables acquired by the player
-   */
-  public ArrayList<Unlockable> getUnlockables() {
-    return unlockables;
   }
 
   /**

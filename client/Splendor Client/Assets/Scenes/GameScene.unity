@@ -217,7 +217,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &33423220
 Transform:
   m_ObjectHideFlags: 0
@@ -1744,13 +1744,14 @@ GameObject:
   - component: {fileID: 288864035}
   - component: {fileID: 288864034}
   - component: {fileID: 288864033}
+  - component: {fileID: 288864036}
   m_Layer: 5
   m_Name: Main Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &288864032
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1790,14 +1791,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainPlayer: {fileID: 11400000, guid: f0eaca2cb6e0e48a7b2fb69740473fb7, type: 2}
-  dashboard: {fileID: 551110250}
+  dashboard: {fileID: 0}
   cursor: {fileID: 242697715}
   playerCamera: {fileID: 1175326242}
   player: {fileID: 288864034}
   gamePlayersData: []
   tokenBank: {fileID: 0}
   selectedTokens: {fileID: 0}
-  globalGameClient: {fileID: 0}
   allCards: {fileID: 911230083}
   selectedCardToBuy: {fileID: 0}
   allNobles: {fileID: 1549385823}
@@ -1819,8 +1819,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0918d0fbf9a07f343819fbdb6c8d00e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnIndicator: {fileID: 0}
-  inventoryButton: {fileID: 0}
+  turnIndicator: {fileID: 65089795}
+  inventoryButton: {fileID: 369310747}
 --- !u!114 &288864035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1851,6 +1851,42 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 1175326242}
+--- !u!114 &288864036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 288864031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 038a1650565b4454cab296bc253fadb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ptsDisplay: {fileID: 25987888}
+  endDisplay: {fileID: 615537884}
+  bTokenDisplay: {fileID: 930956735}
+  gTokenDisplay: {fileID: 1253526725}
+  kTokenDisplay: {fileID: 574828369}
+  rTokenDisplay: {fileID: 1747516616}
+  wTokenDisplay: {fileID: 958183834}
+  jTokenDisplay: {fileID: 931360739}
+  bBonusDisplay: {fileID: 1491037612}
+  gBonusDisplay: {fileID: 848244555}
+  kBonusDisplay: {fileID: 781350104}
+  rBonusDisplay: {fileID: 1847339017}
+  wBonusDisplay: {fileID: 658775490}
+  jBonusDisplay: {fileID: 486546368}
+  reserveCard1: {fileID: 733199780}
+  reserveCard2: {fileID: 1385600705}
+  reserveCard3: {fileID: 394360674}
+  reserveNoble1: {fileID: 391456471}
+  reserveNoble2: {fileID: 2100960009}
+  reserveNoble3: {fileID: 231881176}
+  reserveNoble4: {fileID: 219398978}
+  reserveNoble5: {fileID: 1548154349}
+  emptyReserveCard: {fileID: 21300000, guid: ee4ad1ccef60a4c788834f89359cc187, type: 3}
+  emptyReserveNoble: {fileID: 21300000, guid: d1ae4d22b9bf14c159c5173b26b3bf9a, type: 3}
 --- !u!114 &307544648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3562,8 +3598,8 @@ GameObject:
   - component: {fileID: 551110246}
   - component: {fileID: 551110245}
   - component: {fileID: 551110249}
-  - component: {fileID: 551110250}
   - component: {fileID: 551110251}
+  - component: {fileID: 551110252}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -3674,40 +3710,6 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &551110250
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 551110244}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 038a1650565b4454cab296bc253fadb4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ptsDisplay: {fileID: 25987888}
-  endDisplay: {fileID: 615537884}
-  bTokenDisplay: {fileID: 930956735}
-  gTokenDisplay: {fileID: 1253526725}
-  kTokenDisplay: {fileID: 574828369}
-  rTokenDisplay: {fileID: 1747516616}
-  wTokenDisplay: {fileID: 958183834}
-  bBonusDisplay: {fileID: 0}
-  gBonusDisplay: {fileID: 0}
-  kBonusDisplay: {fileID: 0}
-  rBonusDisplay: {fileID: 0}
-  wBonusDisplay: {fileID: 0}
-  reserveCard1: {fileID: 0}
-  reserveCard2: {fileID: 0}
-  reserveCard3: {fileID: 0}
-  reserveNoble1: {fileID: 0}
-  reserveNoble2: {fileID: 0}
-  reserveNoble3: {fileID: 0}
-  reserveNoble4: {fileID: 0}
-  reserveNoble5: {fileID: 0}
-  emptyReserveCard: {fileID: 0}
-  emptyReserveNoble: {fileID: 0}
 --- !u!114 &551110251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3720,6 +3722,66 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ca7456fcd8ed4914b039412b910fb51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &551110252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 551110244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e729e8bc60e64f09a6fd8dd7f5d3b54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadBoard:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1640997265}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 33423219}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 1493752221}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  mainPlayer: {fileID: 11400000, guid: f0eaca2cb6e0e48a7b2fb69740473fb7, type: 2}
+  currentSession: {fileID: 11400000, guid: ebdd36260b1a84a6e9083efa914a8d39, type: 2}
+  nobles: {fileID: 1549385823}
+  cards: {fileID: 911230083}
+  boardPlayers:
+  - {fileID: 288864034}
+  - {fileID: 1814280207}
+  - {fileID: 1302658991}
+  - {fileID: 1296268878}
 --- !u!1 &553161074
 GameObject:
   m_ObjectHideFlags: 0
@@ -4738,7 +4800,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &674733702
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10309,7 +10371,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1296268875
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10512,7 +10574,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1302658988
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12315,7 +12377,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1493752222
 Transform:
   m_ObjectHideFlags: 0
@@ -13201,7 +13263,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1640997266
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14219,7 +14281,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1814280206
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16489,11 +16551,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2495688007317858118, guid: c7a231073fd9b0e479884062ae26a9e7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 439.8121
+      value: 361
       objectReference: {fileID: 0}
     - target: {fileID: 2495688007317858118, guid: c7a231073fd9b0e479884062ae26a9e7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 189.89742
+      value: 204
       objectReference: {fileID: 0}
     - target: {fileID: 2495688007317858118, guid: c7a231073fd9b0e479884062ae26a9e7, type: 3}
       propertyPath: m_LocalPosition.z
@@ -16572,6 +16634,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4740854163311486354, guid: 45a8a1acb3f37674aa6a05b1bd233a48, type: 3}
+      propertyPath: y2Players
+      value: -0.98
+      objectReference: {fileID: 0}
     - target: {fileID: 4740854163311486355, guid: 45a8a1acb3f37674aa6a05b1bd233a48, type: 3}
       propertyPath: m_Name
       value: NobleRow
