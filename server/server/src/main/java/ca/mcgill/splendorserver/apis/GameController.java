@@ -185,10 +185,12 @@ public class GameController {
    * @throws JsonProcessingException when JSON processing error occurs
    */
   @PutMapping("/api/games/{gameId}")
-  public void launchGame(
+  public ResponseEntity<HttpStatus> launchGame(
       @PathVariable(required = true, name = "gameId") String gameId,
       @RequestBody SessionData session) throws JsonProcessingException {
     gameManager.launchGame(gameId, session);
+
+    return ResponseEntity.ok(HttpStatus.OK);
   }
 }
 
