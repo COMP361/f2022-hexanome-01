@@ -222,4 +222,16 @@
             </plugin>
         </plugins>
     </build>
+    <profiles>
+	   <profile>
+		  <activation>
+			 <property>
+				  <name>debug</name>
+			 </property>
+		  </activation>
+		  <properties>
+		    <maven.javadoc.skip>true</maven.javadoc.skip>
+		  </properties>
+	   </profile>
+    </profiles>
 </project>

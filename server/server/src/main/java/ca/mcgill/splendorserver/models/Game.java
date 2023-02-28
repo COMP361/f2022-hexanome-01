@@ -12,6 +12,11 @@ public class Game {
   private String creator;
   private String[] players;
 
+
+  public void setBoard(Board board) {
+    this.board = board;
+  }
+
   private Board board;
 
   private boolean launched;
@@ -51,13 +56,13 @@ public class Game {
 
     launched = true;
   }
-
+  
   /**
-   * Getter for the board as a JSON string.
+   * Getter for the board.
    *
-   * @return the game board as a JSON string
+   * @return board object
    */
-  public String getBoardJson() {
-    return board.toJson().toJSONString();
+  public Board getBoard() {
+    return board;
   }
 }
