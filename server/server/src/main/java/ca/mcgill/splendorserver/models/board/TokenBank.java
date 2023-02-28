@@ -36,6 +36,16 @@ public class TokenBank implements JsonStringafiable {
   }
 
   /**
+   * Check remaining quantity of a specific token in the bank.
+   *
+   * @param token the colour of the token to check.
+   * @return the quantity in storage.
+   */
+  public int checkAmount(Token token) {
+    return quantities.get(token);
+  }
+  
+  /**
    * Add one token of the given colours to the bank.
    *
    * @param tokens the colours of the tokens to add
