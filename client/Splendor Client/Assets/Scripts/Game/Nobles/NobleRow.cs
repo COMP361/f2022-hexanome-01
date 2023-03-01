@@ -60,6 +60,7 @@ public class NobleRow : MonoBehaviour
                 return false;
         return true; //otherwise return false
     }
+    
     public void GreyOutExcept(NobleSlot _noble)
     {
         for (int i = 0; i < nobles.Length; i++) {

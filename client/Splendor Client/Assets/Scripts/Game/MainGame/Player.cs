@@ -11,7 +11,7 @@ public class Player : MonoBehaviour
     private List<Noble> acquiredNobles = new List<Noble>(), reservedNobles = new List<Noble>();
     private CardGemValue tokensAcquired = new CardGemValue();
     public CardGemValue bonusesAquired = new CardGemValue();
-    public UnlockableList unlockables;
+    public CitySlot acquiredCity;
     //TO DO: add bonuses
 
     private bool currentPlayer; //flag for whether the player is the current player
@@ -166,5 +166,10 @@ public class Player : MonoBehaviour
 
     public List<Noble> GetReservedNobles() {
         return reservedNobles;
+    }
+
+    public void AddCity(City city)
+    {
+        acquiredCity.SetCity(city);
     }
 }
