@@ -11,8 +11,8 @@ public class Player : MonoBehaviour
     private List<Noble> acquiredNobles = new List<Noble>(), reservedNobles = new List<Noble>();
     private CardGemValue tokensAcquired = new CardGemValue();
     public CardGemValue bonusesAquired = new CardGemValue();
-    public CitySlot acquiredCity;
     public List<TradingPostSlot> acquiredTradingPosts = new List<TradingPostSlot>();
+    public GameObject citySlot;
 
     private bool currentPlayer; //flag for whether the player is the current player
     [SerializeField] private GameObject turnIndicator, inventoryButton; //for displaying current player
@@ -56,11 +56,10 @@ public class Player : MonoBehaviour
         reservedCards = new List<Card>();
         acquiredNobles = new List<Noble>();
         reservedNobles = new List<Noble>();
-        acquiredCity.EmptySlot();
-        foreach (TradingPostSlot tradingPost in acquiredTradingPosts)
-        {
-            tradingPost.gameObject.SetActive(false);
-        }
+        // foreach (TradingPostSlot tradingPost in acquiredTradingPosts)
+        // {
+        //     tradingPost.gameObject.SetActive(false);
+        // }
     }
 
     public void AddReservedCard(Card card)
@@ -159,8 +158,15 @@ public class Player : MonoBehaviour
 
     public void AddCity(City city)
     {
-        acquiredCity.SetCity(city);
-        //TO DO: display the correct city
+        Dashboard dashboard = this.GetComponent<Dashboard>();
+        if (dashboard != null)
+            dashboard.UpdateAcquiredCityDisplay(city.sprite);
+        else
+        {
+            MultiplayerInfoPanel infoPanel = this.GetComponent<MultiplayerInfoPanel>();
+            if (infoPanel != null)
+                infoPanel.UpdateAcquiredCityDisplay(city.sprite);
+        }
     }
 
     public void AddTradingPost(TradingPost tradingPost)

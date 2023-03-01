@@ -13,7 +13,7 @@ public class CityRow : MonoBehaviour
     
     public void SetCity(long id, int index)
     {
-        GameObject prefab = Instantiate(cityObject, new Vector3(x, y + index * 0.98f, 0), Quaternion.identity);
+        GameObject prefab = Instantiate(cityObject, new Vector3(x, y + index * 1.6f, 0), Quaternion.identity);
         if (index < cities.Length)
         {
             cities[index] = prefab.GetComponent<CitySlot>();

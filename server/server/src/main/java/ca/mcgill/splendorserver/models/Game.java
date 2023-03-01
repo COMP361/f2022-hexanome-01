@@ -1,6 +1,7 @@
 package ca.mcgill.splendorserver.models;
 
 import ca.mcgill.splendorserver.models.board.Board;
+import ca.mcgill.splendorserver.models.board.CitiesBoard;
 
 /**
  * Models one game.
@@ -52,8 +53,14 @@ public class Game {
    * Flags the game as launched.
    */
   public void setLaunched() {
-    board = new Board(creator, players, variant);
-
+    switch (variant) {
+      case "cities":
+        board = new CitiesBoard(creator, players);
+        break;
+      default:
+        board = new Board(creator, players);
+        break;
+    }
     launched = true;
   }
   

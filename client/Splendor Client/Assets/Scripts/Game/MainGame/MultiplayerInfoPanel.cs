@@ -10,6 +10,7 @@ public class MultiplayerInfoPanel : MonoBehaviour
     public Text pointsField;
     public Text reservedCardsCount;
     public Text reservedNoblesCount;
+    public Image acquiredCity;
 
     public void UpdatePlayerName(string name)
     {
@@ -28,5 +29,10 @@ public class MultiplayerInfoPanel : MonoBehaviour
     public void UpdateReservedNoblesCount(int count)
     {
         reservedNoblesCount.text = String.Format("{0}", count);
+    }
+
+    public void UpdateAcquiredCityDisplay(Sprite sprite)
+    {
+        acquiredCity.sprite = sprite;
     }
 }

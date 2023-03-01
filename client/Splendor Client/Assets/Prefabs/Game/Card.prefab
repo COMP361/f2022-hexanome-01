@@ -288,8 +288,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   card: {fileID: 0}
   image: {fileID: 8869221927359558689}
-  satchelImage: {fileID: 5442976733777180564}
-  satchelCounter: {fileID: 2865605404331249210}
 --- !u!222 &5078610607918941770
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -318,7 +316,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -3631534589039266192, guid: 2f3fad4888ded134497a524228892eac, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1

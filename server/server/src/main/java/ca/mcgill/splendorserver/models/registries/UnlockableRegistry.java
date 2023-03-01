@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.Stack;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -41,6 +42,21 @@ public class UnlockableRegistry implements Registry<Unlockable> {
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+
+  /**
+   * Getter for the ids of the city tiles.
+   *
+   * @return a Stack of the ids of the city tiles
+   */
+  public static Stack<Integer> getCityIds() {
+    Stack<Integer> ids = new Stack<>();
+    for (Integer id : data.keySet()) {
+      if (data.get(id).getClass() == City.class) {
+        ids.push(id);
+      }
+    }
+    return ids;
   }
 
   @Override

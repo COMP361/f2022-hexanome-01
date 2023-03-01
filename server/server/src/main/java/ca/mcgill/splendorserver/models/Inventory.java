@@ -2,6 +2,7 @@ package ca.mcgill.splendorserver.models;
 
 import ca.mcgill.splendorserver.models.board.TokenBank;
 import ca.mcgill.splendorserver.models.cards.Card;
+import ca.mcgill.splendorserver.models.expansion.City;
 import ca.mcgill.splendorserver.models.expansion.Unlockable;
 import java.util.ArrayList;
 import org.json.simple.JSONArray;
@@ -19,6 +20,7 @@ public class Inventory implements JsonStringafiable {
   private ArrayList<Noble> nobles;
   private ArrayList<Card> reservedCards;
   private ArrayList<Noble> reservedNobles;
+  private City acquiredCity;
   private ArrayList<Unlockable> unlockables;
   private int activatedPosts;
 
@@ -194,6 +196,9 @@ public class Inventory implements JsonStringafiable {
     data.put("reservedCards", JSONArray.toJSONString(reservedCards));
     data.put("reservedNobles", JSONArray.toJSONString(reservedNobles));
     data.put("tokens", tokens.toJsonString());
+    if (acquiredCity != null) {
+      data.put("acquiredCity", acquiredCity.getId());
+    }
 
     return data.toJSONString();
   }

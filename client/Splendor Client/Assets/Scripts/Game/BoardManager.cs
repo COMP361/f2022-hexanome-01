@@ -12,7 +12,7 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private NobleRow nobles;
     [SerializeField] private AllCards cards;
     [SerializeField] private Player[] boardPlayers;
-    private CityRow cities;
+    [SerializeField] private CityRow cities;
     private Player[] players;
 
     private string currentPlayer;
@@ -26,6 +26,8 @@ public class BoardManager : MonoBehaviour
 
     public void SetBoard(JSONObject boardData)
     {
+        UnityEngine.Debug.Log(boardData);
+        
         //STEP 1: set cards
         JSONArray cardsData = (JSONArray) boardData["cards"];
         //for each level
@@ -170,7 +172,7 @@ public class BoardManager : MonoBehaviour
             //TO DO: set bonus counts
             
             //set city if cities variant
-            if (currentSession.name.Equals("cities"))
+            if (currentSession.name.Equals("cities") && inventory.Contains("acquiredCity"))
             {
                 long cityId = (long)inventory["acquiredCity"];
                 if (cityId >= 0)
@@ -191,14 +193,16 @@ public class BoardManager : MonoBehaviour
         
         //STEP 8: dislpay the board
         loadBoard.Invoke();
-
+        
         foreach (Player player in players)
         {
             player.gameObject.SetActive(true);
+            
+            //display city slot if variant is cities
+            if (currentSession.name.Equals("cities"))
+                player.citySlot.SetActive(true);
+            
+            //TO DO: display trading posts if variant is trading posts
         }
-        
-        //TO DO: display cities if variant is cities
-        
-        //TO DO: display trading posts if variant is trading posts
     }
 }

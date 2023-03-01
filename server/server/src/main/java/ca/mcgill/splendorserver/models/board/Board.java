@@ -22,10 +22,9 @@ public class Board implements JsonStringafiable {
    * Constructor.
    *
    * @param creator the creator of the game
-   * @param variant the game variant
    * @param players String array of player usernames
    */
-  public Board(String creator, String[] players, String variant) {
+  public Board(String creator, String[] players) {
     int playerNum = players.length;
     tokens = new TokenBank(playerNum + (playerNum == 4 ? 3 : 2));
     cards = new CardBank();

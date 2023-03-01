@@ -14,8 +14,8 @@ public class CitySlot : MonoBehaviour {
     public void SetupInventory(City city) { //sets all the values for use in inventory
         this.city = city;
         m_SpriteRenderer = GetComponent<SpriteRenderer>();
-        m_SpriteRenderer.sprite = city.GetSprite();
-        image.sprite = city.GetSprite();
+        m_SpriteRenderer.sprite = city.sprite;
+        image.sprite = city.sprite;
     }
 
     public void GreyOut() {
@@ -33,10 +33,10 @@ public class CitySlot : MonoBehaviour {
     // Sets the city field to the city received as input and updates the sprite render to display image of city
     public void SetCity(City city) { //only used when displaying cities on board i believe
         this.city = city;
-        gameObject.transform.localScale = new UnityEngine.Vector3(0.77f, 0.77f, 0.77f);
+        gameObject.transform.localScale = new UnityEngine.Vector3(1.1f, 1.1f, 1.1f);
         gameObject.GetComponent<Button>().interactable = false;
         m_SpriteRenderer = GetComponent<SpriteRenderer>();
-        m_SpriteRenderer.sprite = city.GetSprite();
+        m_SpriteRenderer.sprite = city.sprite;
         image.color = Color.clear; //sets canvas image to clear, since this method is used by playerControl and not orientMenuManager (which uses the image for display purposes)
     }
 
@@ -48,5 +48,4 @@ public class CitySlot : MonoBehaviour {
     public City GetCity() {
         return city;
     }
-    
 }
