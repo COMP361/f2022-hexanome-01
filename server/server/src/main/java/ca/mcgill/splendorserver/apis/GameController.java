@@ -105,6 +105,12 @@ public class GameController {
                                                                @RequestBody JSONObject data)
       throws JsonProcessingException {
     String playerId = (String) data.get("playerId");
+    
+    //parse data
+    //if card's type is not sacrifice, check to see if we can purchase it with tokens
+    //  if can purchase it, acquire it (acquire needs to be different method, since sometimes can get cards for free)
+    //  call orientManager to deal with the cards action (so that we dont bloat this class)
+    //if cards type WAS sacrifice, ping client to ask what cards they want to use (pass list of cards?)
 
     return ResponseEntity.ok(HttpStatus.OK);
   }
