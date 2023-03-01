@@ -4,7 +4,9 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [CreateAssetMenu(fileName = "New Trading Post", menuName = "Extensions/Trading Post")]
-public class TradingPost : ScriptableObject, IUnlockable {
+public class TradingPost : ScriptableObject, IUnlockable
+{
+    [SerializeField] public long id;
     [SerializeField] private Sprite sprite;
     [SerializeField] private EffectType effectType;
     [SerializeField] private bool active;

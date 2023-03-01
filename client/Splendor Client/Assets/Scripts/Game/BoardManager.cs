@@ -14,8 +14,10 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private Player[] boardPlayers;
     private CityRow cities;
     private Player[] players;
-    
+
     private string currentPlayer;
+
+    private List<TradingPost> allTradingPosts = new List<TradingPost>();
 
     void Start()
     {
@@ -174,6 +176,17 @@ public class BoardManager : MonoBehaviour
                 if (cityId >= 0)
                     player.AddCity(cities.allCities.Find(x => x.id.Equals(cityId)));
             }
+            
+            //set trading posts if trading posts variant
+            if (currentSession.name.Equals("tradingposts"))
+            {
+                JSONArray tradingPostData = (JSONArray)inventory["acquiredTradingPosts"];
+                IEnumerator tpEnumerator = tradingPostData.GetEnumerator();
+                while (tpEnumerator.MoveNext())
+                {
+                    player.AddTradingPost(allTradingPosts.Find(x => x.id.Equals((string)tpEnumerator.Current)));
+                }
+            }
         }
         
         //STEP 8: dislpay the board
@@ -185,5 +198,7 @@ public class BoardManager : MonoBehaviour
         }
         
         //TO DO: display cities if variant is cities
+        
+        //TO DO: display trading posts if variant is trading posts
     }
 }

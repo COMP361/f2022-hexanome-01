@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
     private CardGemValue tokensAcquired = new CardGemValue();
     public CardGemValue bonusesAquired = new CardGemValue();
     public CitySlot acquiredCity;
-    //TO DO: add bonuses
+    public List<TradingPost> acquiredTradingPosts = new List<TradingPost>();
 
     private bool currentPlayer; //flag for whether the player is the current player
     [SerializeField] private GameObject turnIndicator, inventoryButton; //for displaying current player
@@ -56,6 +56,11 @@ public class Player : MonoBehaviour
         reservedCards = new List<Card>();
         acquiredNobles = new List<Noble>();
         reservedNobles = new List<Noble>();
+        acquiredCity.EmptySlot();
+        foreach (TradingPost tradingPost : acquiredTradingPosts)
+        {
+            tradingPost.gameObject.SetActive(false);
+        }
     }
 
     public void AddReservedCard(Card card)
@@ -143,22 +148,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    public bool ReserveCard(Card card)
-    {
-        reservedCards.Add(card);
-        return true;
-    }
-
-    public bool ReserveNoble(Noble noble) {
-        reservedNobles.Add(noble);
-        return true;
-    }
-
-    public bool AcquireCard(Card card) {
-        acquiredCards.Add(card);
-        return true;
-    }
-
     public bool RemoveCard(Card card) {
         acquiredCards.Remove(card);
         return true;
@@ -171,5 +160,11 @@ public class Player : MonoBehaviour
     public void AddCity(City city)
     {
         acquiredCity.SetCity(city);
+        //TO DO: display the correct city
+    }
+
+    public void AddTradingPost(TradingPost tradingPost)
+    {
+        //TO DO: display the correct trading post in the player's dashboard
     }
 }
