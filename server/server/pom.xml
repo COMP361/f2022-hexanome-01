@@ -150,9 +150,8 @@
                 <configuration>
                     <source>8</source>
                     <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
-                    <reportOutputDirectory>${project.reporting.outputDirectory}/docs
-                    </reportOutputDirectory>
-                    <destDir>docs</destDir>
+                    <reportOutputDirectory>${project.basedir}/docs</reportOutputDirectory>
+                    <destDir>${project.basedir}/../../docs</destDir>
                     <failOnWarnings>true</failOnWarnings>
                 </configuration>
                 <executions>
@@ -232,6 +231,7 @@
 		  <properties>
 		    <maven.javadoc.skip>true</maven.javadoc.skip>
 		    <checkstyle.skip>true</checkstyle.skip>
+		    <maven.test.skip>true</maven.test.skip>
 		  </properties>
 	   </profile>
     </profiles>
