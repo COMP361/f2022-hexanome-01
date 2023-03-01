@@ -17,6 +17,8 @@ public class TradingPost implements Unlockable {
 
   /**
    * Constructor.
+   *
+   * @param json a JSONObject of the trading post
    */
   public TradingPost(JSONObject json) {
     id = Integer.parseInt(json.get("id").toString());

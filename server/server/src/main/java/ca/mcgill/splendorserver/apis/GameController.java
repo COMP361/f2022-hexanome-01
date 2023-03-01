@@ -1,7 +1,11 @@
 package ca.mcgill.splendorserver.apis;
 
+import ca.mcgill.splendorserver.controllers.GameManager;
+import ca.mcgill.splendorserver.models.Game;
+import ca.mcgill.splendorserver.models.SessionData;
+import ca.mcgill.splendorserver.models.board.Board;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.Optional;
-
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,13 +19,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-
-import ca.mcgill.splendorserver.controllers.GameManager;
-import ca.mcgill.splendorserver.models.Game;
-import ca.mcgill.splendorserver.models.SessionData;
-import ca.mcgill.splendorserver.models.board.Board;
 
 /**
  * Game controller class for the server.
@@ -162,6 +159,7 @@ public class GameController {
    *
    * @param gameId  the id of the game
    * @param session the session data for the game to create
+   * @return that the launch was successful
    * @throws JsonProcessingException when JSON processing error occurs
    */
   @PutMapping("/api/games/{gameId}")

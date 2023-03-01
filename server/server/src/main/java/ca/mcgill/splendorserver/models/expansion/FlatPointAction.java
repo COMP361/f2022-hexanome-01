@@ -11,6 +11,8 @@ public class FlatPointAction implements Action {
 
   /**
    * Constructor.
+   *
+   * @param points the points being added by a trading post ability
    */
   public FlatPointAction(int points) {
     this.points = points;
