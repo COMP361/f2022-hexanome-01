@@ -3,14 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu (fileName = "New City", menuName = "Extensions/City")]
-public class City : ScriptableObject, IUnlockable {
+public class City : ScriptableObject, IUnlockable
+{
+    [SerializeField] public long id;
     [SerializeField] private Sprite sprite;
     [SerializeField] private EffectType effectType;
     [SerializeField] private bool acquired;
     [SerializeField] private Condition condition;
 
     public bool Active { get { return acquired; } set { acquired = value; } }
-    public Sprite Sprite { get { return sprite; } }
+
+    public Sprite GetSprite()
+    {
+        return sprite;
+    }
+
     public Condition Condition { get { return condition; }  }
 
     public EffectType EffectType { get { return effectType; } }

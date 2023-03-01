@@ -12,6 +12,7 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private NobleRow nobles;
     [SerializeField] private AllCards cards;
     [SerializeField] private Player[] boardPlayers;
+    private CityRow cities;
     private Player[] players;
     
     private string currentPlayer;
@@ -61,6 +62,18 @@ public class BoardManager : MonoBehaviour
         }
 
         //TO DO: STEP 4: set token bank
+        
+        //INTERMEDIATE STEP: set cities if variant is cities
+        if (currentSession.name.Equals("cities"))
+        {
+            JSONArray citiesData = (JSONArray)boardData["cities"];
+            IEnumerator citiesEnumerator = citiesData.GetEnumerator();
+
+            for (int i = 0; citiesEnumerator.MoveNext(); i++)
+            {
+                cities.SetCity((long)citiesEnumerator.Current, i);
+            }
+        }
 
         //STEP 5: set players
         IDictionary inventories = (IDictionary)boardData["inventories"];
@@ -126,33 +139,41 @@ public class BoardManager : MonoBehaviour
             IEnumerator reservedCards = ((JSONArray)inventory["reservedCards"]).GetEnumerator();
             while (reservedCards.MoveNext())
             {
-                player.AddReservedCard(cards.cards.Find(x => x.id.Equals((int)reservedCards.Current)));
+                player.AddReservedCard(cards.cards.Find(x => x.id.Equals((long)reservedCards.Current)));
             }
 
             //set acquired cards
             IEnumerator acquiredCards = ((JSONArray)inventory["acquiredCards"]).GetEnumerator();
             while (acquiredCards.MoveNext())
             {
-                player.AddAcquiredCard(cards.cards.Find(x => x.id.Equals((int)acquiredCards.Current)));
+                player.AddAcquiredCard(cards.cards.Find(x => x.id.Equals((long)acquiredCards.Current)));
             }
 
             //set reserved nobles
             IEnumerator reservedNobles = ((JSONArray)inventory["reservedNobles"]).GetEnumerator();
             while (reservedNobles.MoveNext())
             {
-                player.AddReservedNoble(nobles.allNobles.Find(x => x.id.Equals((int)reservedNobles.Current)));
+                player.AddReservedNoble(nobles.allNobles.Find(x => x.id.Equals((long)reservedNobles.Current)));
             }
 
             //set acquired nobles
             IEnumerator acquiredNobles = ((JSONArray)inventory["acquiredNobles"]).GetEnumerator();
             while (acquiredNobles.MoveNext())
             {
-                player.AddAcquiredNoble(nobles.allNobles.Find(x => x.id.Equals((int)acquiredNobles.Current)));
+                player.AddAcquiredNoble(nobles.allNobles.Find(x => x.id.Equals((long)acquiredNobles.Current)));
             }
 
             //TO DO: set token counts
 
             //TO DO: set bonus counts
+            
+            //set city if cities variant
+            if (currentSession.name.Equals("cities"))
+            {
+                long cityId = (long)inventory["acquiredCity"];
+                if (cityId >= 0)
+                    player.AddCity(cities.allCities.Find(x => x.id.Equals(cityId)));
+            }
         }
         
         //STEP 8: dislpay the board
@@ -162,5 +183,7 @@ public class BoardManager : MonoBehaviour
         {
             player.gameObject.SetActive(true);
         }
+        
+        //TO DO: display cities if variant is cities
     }
 }
