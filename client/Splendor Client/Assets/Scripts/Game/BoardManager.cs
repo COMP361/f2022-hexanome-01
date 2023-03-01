@@ -13,11 +13,10 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private AllCards cards;
     [SerializeField] private Player[] boardPlayers;
     [SerializeField] private CityRow cities;
+    [SerializeField] private GameObject tradingPostsDisplay;
     private Player[] players;
 
     private string currentPlayer;
-
-    private List<TradingPost> allTradingPosts = new List<TradingPost>();
 
     void Start()
     {
@@ -180,13 +179,13 @@ public class BoardManager : MonoBehaviour
             }
             
             //set trading posts if trading posts variant
-            if (currentSession.name.Equals("tradingposts"))
+            if (currentSession.name.Equals("tradingposts") && inventory.Contains("acquiredTradingPosts"))
             {
                 JSONArray tradingPostData = (JSONArray)inventory["acquiredTradingPosts"];
                 IEnumerator tpEnumerator = tradingPostData.GetEnumerator();
                 while (tpEnumerator.MoveNext())
                 {
-                    player.AddTradingPost(allTradingPosts.Find(x => x.id.Equals((string)tpEnumerator.Current)));
+                    player.AddTradingPost((string)tpEnumerator.Current);
                 }
             }
         }
@@ -201,8 +200,13 @@ public class BoardManager : MonoBehaviour
             //display city slot if variant is cities
             if (currentSession.name.Equals("cities"))
                 player.citySlot.SetActive(true);
-            
-            //TO DO: display trading posts if variant is trading posts
+
+            if (currentSession.name.Equals("tradingposts"))
+                player.tradingPostSlots.SetActive(true);
         }
+        
+        //display trading posts if variant is trading posts
+        if (currentSession.name.Equals("tradingposts"))
+            tradingPostsDisplay.SetActive(true);
     }
 }

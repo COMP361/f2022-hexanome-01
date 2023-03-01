@@ -2477,8 +2477,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0918d0fbf9a07f343819fbdb6c8d00e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acquiredTradingPosts: []
   citySlot: {fileID: 1725860670}
+  tradingPostSlots: {fileID: 107430680}
+  tradingPostA: {fileID: 2080615246}
+  tradingPostB: {fileID: 681774344}
+  tradingPostC: {fileID: 485358412}
+  tradingPostD: {fileID: 1650070974}
+  tradingPostE: {fileID: 1327567}
   turnIndicator: {fileID: 65089795}
   inventoryButton: {fileID: 369310747}
 --- !u!114 &288864035
@@ -4585,6 +4590,7 @@ RectTransform:
   - {fileID: 1171159221}
   - {fileID: 242697718}
   - {fileID: 1191895567}
+  - {fileID: 1562138450}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4678,6 +4684,7 @@ MonoBehaviour:
   - {fileID: 1302658991}
   - {fileID: 1296268878}
   cities: {fileID: 262084527}
+  tradingPostsDisplay: {fileID: 1562138449}
 --- !u!1 &553161074
 GameObject:
   m_ObjectHideFlags: 0
@@ -12728,8 +12735,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0918d0fbf9a07f343819fbdb6c8d00e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acquiredTradingPosts: []
   citySlot: {fileID: 1437549605}
+  tradingPostSlots: {fileID: 860385344}
+  tradingPostA: {fileID: 571781588}
+  tradingPostB: {fileID: 825450589}
+  tradingPostC: {fileID: 1423089608}
+  tradingPostD: {fileID: 851726644}
+  tradingPostE: {fileID: 1386751749}
   turnIndicator: {fileID: 2078247550}
   inventoryButton: {fileID: 742675256}
 --- !u!1 &1296323561
@@ -12936,8 +12948,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0918d0fbf9a07f343819fbdb6c8d00e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acquiredTradingPosts: []
   citySlot: {fileID: 1184836303}
+  tradingPostSlots: {fileID: 1285922245}
+  tradingPostA: {fileID: 1997272257}
+  tradingPostB: {fileID: 104300608}
+  tradingPostC: {fileID: 1574798057}
+  tradingPostD: {fileID: 1091449631}
+  tradingPostE: {fileID: 26062205}
   turnIndicator: {fileID: 1501839273}
   inventoryButton: {fileID: 859237795}
 --- !u!1 &1310818840
@@ -15622,6 +15639,81 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01bfda32fb71b4e9784fd9f5aaf6d0f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1562138449
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1562138450}
+  - component: {fileID: 1562138452}
+  - component: {fileID: 1562138451}
+  m_Layer: 5
+  m_Name: TradingPosts
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1562138450
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1562138449}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_Children: []
+  m_Father: {fileID: 551110248}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 261, y: 2}
+  m_SizeDelta: {x: 139, y: 442}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1562138451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1562138449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 3d1543b25c66ee34c915be8b170c8dba, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1562138452
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1562138449}
+  m_CullTransparentMesh: 1
 --- !u!1 &1568623698
 GameObject:
   m_ObjectHideFlags: 0
@@ -17624,8 +17716,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0918d0fbf9a07f343819fbdb6c8d00e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  acquiredTradingPosts: []
   citySlot: {fileID: 96455130}
+  tradingPostSlots: {fileID: 1899276081}
+  tradingPostA: {fileID: 910854230}
+  tradingPostB: {fileID: 319933217}
+  tradingPostC: {fileID: 1626149666}
+  tradingPostD: {fileID: 1252879835}
+  tradingPostE: {fileID: 887620120}
   turnIndicator: {fileID: 1332253250}
   inventoryButton: {fileID: 1153480000}
 --- !u!222 &1814280208
