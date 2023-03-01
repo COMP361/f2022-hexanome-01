@@ -131,61 +131,12 @@ public class PlayerControl : MonoBehaviour {
         }
     }
 
-    void UpdateDisplay() { //update display elements (might Add things to this later)
-        dashboard.UpdatePtsDisplay(player.GetPoints());
-        //TO DO: update player tokens
-    }
-
-    public bool ReserveCard(Card card) { //Add card to players reserve inventory
-        if (player.ReserveCard(card)) {
-            UpdateDisplay();
-            allCards.RemoveCard(card);
-            return true;
-        }
-        else
-            return false;
-    }
-
-    public void ReserveNoble(Noble noble) { //Add noble to players reserve inventory
-        player.ReserveNoble(noble);
-        allNobles.RemoveNoble(noble);
-    }
-
-    public void AcquireCard(Card card) { //Add card to players purchase inventory (does not pay for the card, if paying use PurchaseAction)
-        player.AcquireCard(card);
-        UpdateDisplay();
-        allCards.RemoveCard(card);
-    }
-
-    public void RemoveCard(Card card) { //removes card from player inventory
-        player.RemoveCard(card);
-        UpdateDisplay();
-    }
-
     bool PurchaseAction() { //attempt to purchase a card
         return false;
     }
 
-
     public void EndTurn() // Player clicks "end turn"
     { }
-
-    
-
-    // public void SetGameData(GameData data) {
-    //     gameId = data.gameId;
-
-    //     gamePlayersData = new List<PlayerData>(data.playersInGame);
-
-    //     for (int i = 0; i < data.noblesDisplayed.Length; i++)          
-    //         allNobles.nobles[i].GetNoble().SetData(data.noblesDisplayed[i]);
-
-    //     // noblesOnBoard[i].GetNoble().SetData(data.noblesDisplayed[i]);
-
-    //     for (int i = 0; i < allCards.cards.Length; i++) 
-    //         for (int j = 0; j < allCards.cards[i].deck.Count(); j++)
-    //             allCards.cards[i].deck.cards[j].SetData(data.cards[i][j]);
-    // }
 
     public void StartTurn() // Start of player's turn
     {
