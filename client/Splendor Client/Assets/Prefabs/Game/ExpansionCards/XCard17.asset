@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c3bc38af4fa4404c8a2f28f2feed2c5, type: 3}
   m_Name: XCard17
   m_EditorClassIdentifier: 
-  id: 17
+  id: 121
   points: 3
   bonus: 87
   bonusAmount: 1
@@ -21,6 +21,4 @@ MonoBehaviour:
   green: 0
   brown: 0
   white: 0
-  satchels: 0
-  action: 1
   sprite: {fileID: 2668923928584967121, guid: 610d06418fe70dd4dae948b974baa749, type: 3}

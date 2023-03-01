@@ -1819,6 +1819,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0918d0fbf9a07f343819fbdb6c8d00e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unlockables: {fileID: 0}
   turnIndicator: {fileID: 65089795}
   inventoryButton: {fileID: 369310747}
 --- !u!114 &288864035
@@ -10434,6 +10435,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0918d0fbf9a07f343819fbdb6c8d00e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unlockables: {fileID: 0}
   turnIndicator: {fileID: 2078247550}
   inventoryButton: {fileID: 742675256}
 --- !u!1 &1296323561
@@ -10637,6 +10639,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0918d0fbf9a07f343819fbdb6c8d00e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unlockables: {fileID: 0}
   turnIndicator: {fileID: 1501839273}
   inventoryButton: {fileID: 859237795}
 --- !u!1 &1310818840
@@ -14320,6 +14323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0918d0fbf9a07f343819fbdb6c8d00e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  unlockables: {fileID: 0}
   turnIndicator: {fileID: 1332253250}
   inventoryButton: {fileID: 1153480000}
 --- !u!222 &1814280208
@@ -16588,6 +16592,10 @@ PrefabInstance:
     - target: {fileID: 2495688007317858118, guid: c7a231073fd9b0e479884062ae26a9e7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2495688007317858119, guid: c7a231073fd9b0e479884062ae26a9e7, type: 3}
+      propertyPath: xOrient
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 2495688007353309437, guid: c7a231073fd9b0e479884062ae26a9e7, type: 3}
       propertyPath: x

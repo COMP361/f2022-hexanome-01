@@ -33,7 +33,7 @@ public class JSONValue {
             return parser.Parse(stringReader);
         }
         catch (Exception e) {
-            return null;
+            return e;
         }
     }
 
