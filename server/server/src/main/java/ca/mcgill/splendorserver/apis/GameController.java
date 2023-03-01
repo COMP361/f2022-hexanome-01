@@ -1,18 +1,7 @@
 package ca.mcgill.splendorserver.apis;
 
-import ca.mcgill.splendorserver.controllers.GameManager;
-import ca.mcgill.splendorserver.models.Game;
-import ca.mcgill.splendorserver.models.SessionData;
-import ca.mcgill.splendorserver.models.board.Board;
-import ca.mcgill.splendorserver.models.registries.CardRegistry;
-import ca.mcgill.splendorserver.models.registries.NobleRegistry;
-import ca.mcgill.splendorserver.models.registries.UnlockableRegistry;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
-import org.json.simple.JSONArray;
+
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,6 +15,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+
+import ca.mcgill.splendorserver.controllers.GameManager;
+import ca.mcgill.splendorserver.models.Game;
+import ca.mcgill.splendorserver.models.SessionData;
+import ca.mcgill.splendorserver.models.board.Board;
 
 /**
  * Game controller class for the server.
@@ -90,7 +86,7 @@ public class GameController {
    * @return success flag
    * @throws JsonProcessingException when JSON processing error occurs
    */
-  @PostMapping("/api/action/takeTokens/{gameId}")
+  @PostMapping("/api/action/{gameId}/takeTokens")
   public ResponseEntity<HttpStatus> takeTokensAction(@PathVariable String gameId,
                                                      @RequestBody JSONObject data)
       throws JsonProcessingException {
@@ -107,7 +103,7 @@ public class GameController {
    * @return success flag
    * @throws JsonProcessingException when JSON processing error occurs
    */
-  @PostMapping("/api/action/performPurchaseRegularCard/{gameId}")
+  @PostMapping("/api/action/{gameId}/performPurchaseCard")
   public ResponseEntity<HttpStatus> performPurchaseRegularCard(@PathVariable String gameId,
                                                                @RequestBody JSONObject data)
       throws JsonProcessingException {
@@ -124,23 +120,7 @@ public class GameController {
    * @return success flag
    * @throws JsonProcessingException when JSON processing error occurs
    */
-  @PostMapping("/api/action/performPurchaseRedLevelThreeDevelopmentCard/{gameId}")
-  public ResponseEntity<HttpStatus> performPurchaseRedLevelThreeDevelopmentCard(
-      @PathVariable String gameId, @RequestBody JSONObject data) throws JsonProcessingException {
-    String playerId = (String) data.get("playerId");
-
-    return ResponseEntity.ok(HttpStatus.OK);
-  }
-
-  /**
-   * Takes token.
-   *
-   * @param gameId the id of the game
-   * @param data   the game data of the take tokens action
-   * @return success flag
-   * @throws JsonProcessingException when JSON processing error occurs
-   */
-  @PostMapping("/api/action/reserveCard/{gameId}")
+  @PostMapping("/api/action/{gameId}/reserveCard")
   public ResponseEntity<HttpStatus> reserveCardAction(@PathVariable String gameId,
                                                       @RequestBody JSONObject data)
       throws JsonProcessingException {
@@ -157,7 +137,7 @@ public class GameController {
    * @return success flag
    * @throws JsonProcessingException when JSON processing error occurs
    */
-  @PostMapping("/api/action/claimNoble/{gameId}")
+  @PostMapping("/api/action/{gameId}/claimNoble")
   public ResponseEntity<HttpStatus> claimNobleAction(@PathVariable String gameId,
                                                      @RequestBody JSONObject data)
       throws JsonProcessingException {

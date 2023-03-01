@@ -1,14 +1,15 @@
 package ca.mcgill.splendorserver.models.board;
 
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Stack;
+
+import org.json.simple.JSONArray;
+
 import ca.mcgill.splendorserver.models.JsonStringafiable;
 import ca.mcgill.splendorserver.models.cards.Card;
 import ca.mcgill.splendorserver.models.cards.CardLevel;
 import ca.mcgill.splendorserver.models.registries.CardRegistry;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Stack;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 /**
  * Model class holding all Splendor development card decks.
