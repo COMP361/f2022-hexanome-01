@@ -1,0 +1,8 @@
+ca.mcgill.splendorserver
+ca.mcgill.splendorserver.apis
+ca.mcgill.splendorserver.controllers
+ca.mcgill.splendorserver.models
+ca.mcgill.splendorserver.models.board
+ca.mcgill.splendorserver.models.cards
+ca.mcgill.splendorserver.models.expansion
+ca.mcgill.splendorserver.models.registries
