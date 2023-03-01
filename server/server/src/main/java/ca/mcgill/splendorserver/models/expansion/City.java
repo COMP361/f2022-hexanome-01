@@ -2,6 +2,7 @@ package ca.mcgill.splendorserver.models.expansion;
 
 import org.json.simple.JSONObject;
 
+import ca.mcgill.splendorserver.apis.JsonHandler;
 import ca.mcgill.splendorserver.models.Player;
 
 /**
@@ -9,8 +10,13 @@ import ca.mcgill.splendorserver.models.Player;
  */
 public class City implements Unlockable {
 
+  private int id;
+  private Condition condition; //condition to unlock this city
+
   public City(JSONObject jsonObject) {
-    // TODO Auto-generated constructor stub
+    id = Integer.parseInt(jsonObject.get("id").toString());
+    condition = 
+        new Condition((JSONObject) JsonHandler.decodeJsonRequest(jsonObject.get("condition").toString()));
   }
 
   @Override
@@ -20,7 +26,7 @@ public class City implements Unlockable {
   }
 
   @Override
-  public void use() {
+  public void use(Player player) {
     // TODO Auto-generated method stub
 
   }
@@ -28,7 +34,7 @@ public class City implements Unlockable {
   @Override
   public int getId() {
     // TODO Auto-generated method stub
-    return 0;
+    return id;
   }
 
 }
