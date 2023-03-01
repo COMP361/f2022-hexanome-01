@@ -23,11 +23,16 @@ public class TradingPost implements Unlockable {
     condition = 
         new Condition((JSONObject) JsonHandler.decodeJsonRequest(json.get("condition").toString()));
     switch (id) {
-      case 0: break;
-      case 1: break;
-      case 2: break;
-      case 3: break;
-      case 4: break;
+      case 15: action = null; 
+               break;
+      case 16: action = null; 
+               break;
+      case 17: action = null; 
+               break;
+      case 18: action = new DynamicPointAction(); 
+               break;
+      case 19: action = new FlatPointAction(5); 
+               break;
       default: break;
     }
     //owners = new ArrayList<Player>();
