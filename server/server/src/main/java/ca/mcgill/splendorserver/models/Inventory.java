@@ -3,6 +3,7 @@ package ca.mcgill.splendorserver.models;
 import ca.mcgill.splendorserver.models.board.TokenBank;
 import ca.mcgill.splendorserver.models.cards.Card;
 import ca.mcgill.splendorserver.models.expansion.City;
+import ca.mcgill.splendorserver.models.expansion.TradingPost;
 import ca.mcgill.splendorserver.models.expansion.Unlockable;
 import java.util.ArrayList;
 import org.json.simple.JSONArray;
@@ -21,7 +22,8 @@ public class Inventory implements JsonStringafiable {
   private ArrayList<Card> reservedCards;
   private ArrayList<Noble> reservedNobles;
   private City acquiredCity;
-  private ArrayList<Unlockable> unlockables;
+  private TradingPost[] tradingPosts;
+  private ArrayList<Unlockable> unlockables; //please keep cities and trading posts separate
   private int activatedPosts;
 
   /**
@@ -34,6 +36,7 @@ public class Inventory implements JsonStringafiable {
     reservedNobles = new ArrayList<>();
     tokens = new TokenBank();
     bonus = new TokenBank();
+    tradingPosts = new TradingPost[5];
     unlockables = new ArrayList<>();
   }
 
@@ -236,16 +239,39 @@ public class Inventory implements JsonStringafiable {
       noblesJson.add(noble.getId());
     }
     json.put("reservedNobles", reservedNoblesJson);
-    //unlockables
-    JSONArray unlockablesJson = new JSONArray();
-    for (Unlockable unlockable : unlockables) {
-      unlockablesJson.add(unlockable);
-    }
-    json.put("unlockables", unlockablesJson);
     //tokens
     json.put("tokens", tokens.toJson());
     //bonuses
     json.put("bonuses", bonus.toJson());
+    //trading posts
+    JSONArray tradingPostsJson = new JSONArray();
+    for (TradingPost tradingPost : tradingPosts) {
+      if (tradingPost != null) {
+        switch (tradingPost.getId()) {
+          case 15:
+            tradingPostsJson.add("A");
+            break;
+          case 16:
+            tradingPostsJson.add("B");
+            break;
+          case 17:
+            tradingPostsJson.add("C");
+            break;
+          case 18:
+            tradingPostsJson.add("D");
+            break;
+          case 19:
+            tradingPostsJson.add("E");
+            break;
+          default:
+            break;
+        }
+      }
+    }
+    if (!tradingPostsJson.isEmpty()) {
+      json.put("acquiredTradingPosts", tradingPostsJson);
+    }
+
     return json;
   }
 }

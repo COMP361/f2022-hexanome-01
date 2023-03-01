@@ -11,8 +11,7 @@ public class Player : MonoBehaviour
     private List<Noble> acquiredNobles = new List<Noble>(), reservedNobles = new List<Noble>();
     private CardGemValue tokensAcquired = new CardGemValue();
     public CardGemValue bonusesAquired = new CardGemValue();
-    public List<TradingPostSlot> acquiredTradingPosts = new List<TradingPostSlot>();
-    public GameObject citySlot;
+    public GameObject citySlot, tradingPostSlots, tradingPostA, tradingPostB, tradingPostC, tradingPostD, tradingPostE;
 
     private bool currentPlayer; //flag for whether the player is the current player
     [SerializeField] private GameObject turnIndicator, inventoryButton; //for displaying current player
@@ -169,8 +168,15 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void AddTradingPost(TradingPost tradingPost)
+    public void AddTradingPost(string tradingPost)
     {
-        //TO DO: display the correct trading post in the player's dashboard
+        switch (tradingPost)
+        {
+            case "A": tradingPostA.SetActive(true); break;
+            case "B": tradingPostB.SetActive(true); break;
+            case "C": tradingPostC.SetActive(true); break;
+            case "D": tradingPostD.SetActive(true); break;
+            case "E": tradingPostE.SetActive(true); break;
+        }
     }
 }
