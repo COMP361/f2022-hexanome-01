@@ -20,6 +20,7 @@ public class Inventory implements JsonStringafiable {
   private ArrayList<Card> reservedCards;
   private ArrayList<Noble> reservedNobles;
   private ArrayList<Unlockable> unlockables;
+  private int activatedPosts;
 
   /**
    * Constructor.
@@ -44,12 +45,46 @@ public class Inventory implements JsonStringafiable {
   }
   
   /**
+   * Getter for activated trading posts.
+   *
+   * @return number of activated trading posts.
+   */
+  public int getPosts(){
+    return activatedPosts;
+  }
+  
+  /**
+   * incrementer for activated trading posts.
+   *
+   */
+  public void incrementPosts(){
+    activatedPosts++;
+  }
+  
+  /**
+   * decrementer for activated trading posts.
+   *
+   */
+  public void decrementPosts(){
+    activatedPosts--;
+  }
+  
+  /**
    * Getter for list of cards.
    *
    * @return list of acquired cards.
    */
   public ArrayList<Card> getCards(){
     return cards;
+  }
+  
+  /**
+   * Getter for list of unlockables unlocked by this player.
+   *
+   * @return list of unlocked unlockables
+   */
+  public ArrayList<Unlockable> getUnlockables(){
+    return unlockables;
   }
   
   /**
@@ -93,6 +128,15 @@ public class Inventory implements JsonStringafiable {
    */
   public void reserveNoble(Noble noble) {
     reservedNobles.add(noble);
+  }
+  
+  /**
+   * Change points by indicated value.
+   *
+   * @param integer to change points by.
+   */
+  public void changePoints(int change) {
+    points += change;
   }
 
   /**
