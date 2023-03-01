@@ -40,62 +40,60 @@ public class Inventory implements JsonStringafiable {
    *
    * @return points achieved.
    */
-  public int getPoints(){
+  public int getPoints() {
     return points;
   }
-  
+
   /**
    * Getter for activated trading posts.
    *
    * @return number of activated trading posts.
    */
-  public int getPosts(){
+  public int getPosts() {
     return activatedPosts;
   }
-  
+
   /**
    * incrementer for activated trading posts.
-   *
    */
-  public void incrementPosts(){
+  public void incrementPosts() {
     activatedPosts++;
   }
-  
+
   /**
    * decrementer for activated trading posts.
-   *
    */
-  public void decrementPosts(){
+  public void decrementPosts() {
     activatedPosts--;
   }
-  
+
   /**
    * Getter for list of cards.
    *
    * @return list of acquired cards.
    */
-  public ArrayList<Card> getCards(){
+  public ArrayList<Card> getCards() {
     return cards;
   }
-  
+
   /**
    * Getter for list of unlockables unlocked by this player.
    *
    * @return list of unlocked unlockables
    */
-  public ArrayList<Unlockable> getUnlockables(){
+  public ArrayList<Unlockable> getUnlockables() {
     return unlockables;
   }
-  
+
   /**
    * Getter for list of nobles.
    *
    * @return list of acquired nobles.
    */
-  public ArrayList<Noble> getNobles(){
+  public ArrayList<Noble> getNobles() {
     return nobles;
   }
-  
+
   /**
    * Add an array of tokens to the player's inventory.
    *
@@ -129,11 +127,11 @@ public class Inventory implements JsonStringafiable {
   public void reserveNoble(Noble noble) {
     reservedNobles.add(noble);
   }
-  
+
   /**
    * Change points by indicated value.
    *
-   * @param integer to change points by.
+   * @param change to change points by.
    */
   public void changePoints(int change) {
     points += change;

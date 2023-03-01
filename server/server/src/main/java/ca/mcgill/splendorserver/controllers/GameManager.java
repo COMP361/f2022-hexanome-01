@@ -7,7 +7,6 @@ import ca.mcgill.splendorserver.models.registries.CardRegistry;
 import ca.mcgill.splendorserver.models.registries.NobleRegistry;
 import ca.mcgill.splendorserver.models.registries.UnlockableRegistry;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import org.springframework.stereotype.Component;
 
@@ -19,9 +18,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class GameManager {
 
-  private HashMap<String, Game> gameRegistry =
-      new HashMap<String, Game>(Map.of("test",
-          new Game("testId", "testPlayer1", new String[] {"testPlayer1"}, "splendor")));
+  private HashMap<String, Game> gameRegistry = new HashMap<String, Game>();
 
   private HashMap<String, Game> saves = new HashMap<>();
 

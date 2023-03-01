@@ -9,13 +9,15 @@ import org.json.simple.JSONObject;
  * Condition for unlocking an unlockable.
  */
 public class Condition {
-  private HashMap<String, Integer> gemConditions;
+  private HashMap<String, Integer> gemConditions = new HashMap<>();
   private int genericGemCost;
   private boolean nobleRequired;
   private int points;
 
   /**
    * Constructor.
+   *
+   * @param obj a JSONObject of the city
    */
   public Condition(JSONObject obj) {
     points = Integer.parseInt(obj.get("points").toString());

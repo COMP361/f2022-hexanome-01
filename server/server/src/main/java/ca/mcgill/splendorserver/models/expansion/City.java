@@ -14,6 +14,8 @@ public class City implements Unlockable {
 
   /**
    * Constructor.
+   *
+   * @param jsonObject a JSONObject of the city
    */
   public City(JSONObject jsonObject) {
     id = Integer.parseInt(jsonObject.get("id").toString());
