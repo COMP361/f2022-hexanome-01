@@ -14,6 +14,15 @@ public class Player {
   private Card lastAcquired;
 
   /**
+   * Getter for inventory field.
+   *
+   * @return inventory of this player.
+   */
+  public Inventory getInventory() {
+    return inventory;
+  }  
+  
+  /**
    * Add the card to the player's inventory.
    *
    * @param card the card to add
