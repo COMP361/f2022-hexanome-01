@@ -23,7 +23,9 @@ public class Dashboard : MonoBehaviour
     public Text wBonusDisplay;
     public Text jBonusDisplay;
 
-    public Image reserveCard1, reserveCard2, reserveCard3, reserveNoble1, reserveNoble2, reserveNoble3, reserveNoble4, reserveNoble5;
+    public Image reserveCard1, reserveCard2, reserveCard3, 
+        reserveNoble1, reserveNoble2, reserveNoble3, reserveNoble4, reserveNoble5,
+        acquiredCity;
     public Sprite emptyReserveCard, emptyReserveNoble;
 
     public void UpdatePtsDisplay(long pts)
@@ -101,5 +103,10 @@ public class Dashboard : MonoBehaviour
                 reserveNoble5.gameObject.SetActive(false);
                 break;
         }
+    }
+
+    public void UpdateAcquiredCityDisplay(Sprite sprite)
+    {
+        acquiredCity.sprite = sprite;
     }
 }

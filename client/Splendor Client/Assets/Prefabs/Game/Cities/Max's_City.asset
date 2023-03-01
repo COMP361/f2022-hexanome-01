@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f89f3ee35f9747840a6dc5e5e2794b8c, type: 3}
   m_Name: Max's_City
   m_EditorClassIdentifier: 
+  id: 14
   sprite: {fileID: 21300000, guid: 2b095fb9f97ff4b54b72ec6aad3816ef, type: 3}
   effectType: 0
   acquired: 0

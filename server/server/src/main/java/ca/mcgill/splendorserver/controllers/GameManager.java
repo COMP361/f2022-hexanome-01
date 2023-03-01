@@ -48,7 +48,7 @@ public class GameManager {
       //creator
       String creator = session.getCreator();
       //create new game
-      gameRegistry.put(gameId, new Game(gameId, variant, players, creator));
+      gameRegistry.put(gameId, new Game(gameId, creator, players, variant));
     }
   }
 

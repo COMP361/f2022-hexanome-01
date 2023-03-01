@@ -166,6 +166,7 @@ public class GameController {
   public ResponseEntity<HttpStatus> launchGame(
       @PathVariable(required = true, name = "gameId") String gameId,
       @RequestBody SessionData session) throws JsonProcessingException {
+    System.out.println("launching");
     gameManager.launchGame(gameId, session);
 
     return ResponseEntity.ok(HttpStatus.OK);

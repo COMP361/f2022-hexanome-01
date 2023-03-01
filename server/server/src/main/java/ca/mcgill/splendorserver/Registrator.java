@@ -124,7 +124,7 @@ public class Registrator {
       Map<String, Object> bodyParams = new HashMap<>();
       bodyParams.put("name", serviceName);
       bodyParams.put("displayName", serviceName);
-      bodyParams.put("location", gameServiceLocation + serviceName);
+      bodyParams.put("location", gameServiceLocation + "splendor");
       bodyParams.put("maxSessionPlayers", 4);
       bodyParams.put("minSessionPlayers", 2);
       bodyParams.put("webSupport", "false");
