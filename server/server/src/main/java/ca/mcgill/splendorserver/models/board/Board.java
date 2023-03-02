@@ -2,6 +2,7 @@ package ca.mcgill.splendorserver.models.board;
 
 import ca.mcgill.splendorserver.models.Inventory;
 import ca.mcgill.splendorserver.models.JsonStringafiable;
+import ca.mcgill.splendorserver.models.Player;
 import java.util.HashMap;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -13,8 +14,10 @@ public class Board implements JsonStringafiable {
 
   private String currentPlayer;
 
-  private HashMap<String, Inventory> inventories;
+  private Player[] players;
   private TokenBank tokens;
+
+
   private CardBank cards;
   private NobleBank nobles;
 
@@ -24,15 +27,12 @@ public class Board implements JsonStringafiable {
    * @param creator the creator of the game
    * @param players String array of player usernames
    */
-  public Board(String creator, String[] players) {
+  public Board(String creator, Player[] players) {
     int playerNum = players.length;
     tokens = new TokenBank(playerNum + (playerNum == 4 ? 3 : 2));
     cards = new CardBank();
     nobles = new NobleBank(playerNum + 1);
-    inventories = new HashMap<String, Inventory>();
-    for (String playerId : players) {
-      inventories.put(playerId, new Inventory());
-    }
+    this.players = players;
     this.currentPlayer = creator;
   }
 
@@ -47,8 +47,8 @@ public class Board implements JsonStringafiable {
     data.put("tokens", tokens.toJsonString());
 
     JSONObject inventoryJson = new JSONObject();
-    for (String playerId : inventories.keySet()) {
-      inventoryJson.put(playerId, inventories.get(playerId).toJsonString());
+    for (Player player : players) {
+      inventoryJson.put(player.getUsername(), player.getInventory().toJsonString());
     }
 
     data.put("inventories", inventoryJson.toJSONString());
@@ -71,11 +71,30 @@ public class Board implements JsonStringafiable {
     json.put("tokens", tokens.toJson());
 
     JSONObject inventoriesJson = new JSONObject();
-    for (String playerId : inventories.keySet()) {
-      inventoriesJson.put(playerId, inventories.get(playerId).toJson());
+    for (Player player : players) {
+      inventoriesJson.put(player.getUsername(), player.getInventory().toJsonString());
     }
     json.put("inventories", inventoriesJson);
 
     return json;
   }
+
+  /**
+   * returns the cards in this game.
+   *
+   * @return cards in the board
+   */
+  public CardBank getCards() {
+    return cards;
+  }
+
+  /**
+   * Sets the bank of card for this board.
+   *
+   * @param cards bank of cards
+   */
+  public void setCards(CardBank cards) {
+    this.cards = cards;
+  }
+
 }

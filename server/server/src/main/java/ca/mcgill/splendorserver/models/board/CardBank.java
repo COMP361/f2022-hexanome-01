@@ -93,6 +93,28 @@ public class CardBank implements JsonStringafiable {
   }
 
   /**
+   * Gets the card from the id provided if its
+   * part of the bank.
+   * @param id uniqueId of the card
+   * @return card object
+   */
+  public Card getCard(int id){
+
+  }
+
+  /**
+   * Returns if true if the board contains the card
+   * with the id provided.
+   * @param id card identifier
+   * @return true if its found in board else false.
+   */
+  public boolean containsCard(int id){
+    if(id >= 64 & id <= 103 ){
+      int[] cardOnRow = rows.get(CardLevel.LEVEL1);
+    }
+  }
+
+  /**
    * Getter for an array of JSONArrays of the cards and decks on the board.
    *
    * @return the cards and decks on the board as an array of JSONArrays

@@ -14,14 +14,25 @@ public class Player {
   private Card lastAcquired;
 
   /**
+   * Constructor to create a new player. It only takes a
+   * username and initializes it with a new inventory.
+   *
+   * @param username username assign to the player
+   */
+  public Player(String username) {
+    this.username = username;
+    this.inventory = new Inventory();
+  }
+
+  /**
    * Getter for inventory field.
    *
    * @return inventory of this player.
    */
   public Inventory getInventory() {
     return inventory;
-  }  
-  
+  }
+
   /**
    * Add the card to the player's inventory.
    *
@@ -49,4 +60,23 @@ public class Player {
   public Card getLastAcquired() {
     return lastAcquired;
   }
+
+  /**
+   * returns the username of the player.
+   *
+   * @return username
+   */
+  public String getUsername() {
+    return username;
+  }
+
+  /**
+   * sets the username of the player.
+   *
+   * @param username the username of the player
+   */
+  public void setUsername(String username) {
+    this.username = username;
+  }
+
 }
