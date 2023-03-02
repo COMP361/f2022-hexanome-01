@@ -408,13 +408,11 @@ public class GameController {
    *
    * @param gameId          the id of the game
    * @param reserveCardData the game data of the take reserve card action
-   * @return success flag
-   * @throws JsonProcessingException when JSON processing error occurs
+   * @return success flaggit 
    */
   @PostMapping("/api/action/{gameId}/reserveCard")
   public ResponseEntity<String> reserveCardAction(@PathVariable String gameId,
-                                                  @RequestBody ReserveCardData reserveCardData)
-      throws JsonProcessingException {
+                                                  @RequestBody ReserveCardData reserveCardData) {
 
     boolean success = gameManager.reserveCard(gameId, reserveCardData);
     JSONObject response = new JSONObject();
