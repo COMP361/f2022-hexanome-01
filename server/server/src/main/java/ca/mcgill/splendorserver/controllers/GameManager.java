@@ -3,13 +3,16 @@ package ca.mcgill.splendorserver.controllers;
 import ca.mcgill.splendorserver.models.Game;
 import ca.mcgill.splendorserver.models.Inventory;
 import ca.mcgill.splendorserver.models.Noble;
-import ca.mcgill.splendorserver.models.SessionData;
+import ca.mcgill.splendorserver.models.Player;
 import ca.mcgill.splendorserver.models.Token;
 import ca.mcgill.splendorserver.models.board.Board;
 import ca.mcgill.splendorserver.models.board.CardBank;
 import ca.mcgill.splendorserver.models.board.TokenBank;
 import ca.mcgill.splendorserver.models.cards.Card;
+import ca.mcgill.splendorserver.models.cards.CardLevel;
 import ca.mcgill.splendorserver.models.cards.CardType;
+import ca.mcgill.splendorserver.models.communicationbeans.ReserveCardData;
+import ca.mcgill.splendorserver.models.communicationbeans.SessionData;
 import ca.mcgill.splendorserver.models.expansion.TradingPost;
 import ca.mcgill.splendorserver.models.registries.CardRegistry;
 import ca.mcgill.splendorserver.models.registries.NobleRegistry;
@@ -53,7 +56,12 @@ public class GameManager {
       save.setLaunched();
     } else {
       //players
-      String[] players = session.getPlayers();
+      String[] playersUsernames = session.getPlayers();
+      int numberOfPlayers = playersUsernames.length;
+      Player[] players = new Player[numberOfPlayers];
+      for (int i = 0; i < numberOfPlayers; i++) {
+        players[i] = new Player(playersUsernames[i]);
+      }
       //variant
       String variant = session.getVariant();
       //creator
@@ -76,17 +84,17 @@ public class GameManager {
       return null;
     }
   }
-  
+
   /**
    * Adds a card to a players inventory. does pay for the card.
    *
-   * @param game the game where the player and card reside.
+   * @param game     the game where the player and card reside.
    * @param playerId the player in question.
-   * @param cardId the card the player wishes to acquire.
+   * @param cardId   the card the player wishes to acquire.
    * @return the JSONObject response containing the action being done, and choices for user.
    */
   @SuppressWarnings("unchecked")
-public static JSONObject purchaseCard(Game game, String playerId, int cardId) {
+  public static JSONObject purchaseCard(Game game, String playerId, int cardId) {
     Board board = game.getBoard();
     Card card = CardRegistry.of(cardId);
     Inventory inventory = board.getInventory(playerId);
@@ -95,7 +103,7 @@ public static JSONObject purchaseCard(Game game, String playerId, int cardId) {
       return null;
     }
     inventory.payForCard(card);
-    
+
     JSONObject purchaseResults = determineBody(card, board, inventory);
 
     return purchaseResults;
@@ -114,6 +122,7 @@ public static JSONObject determineBody(Card card, Board board, Inventory invento
     JSONObject response = new JSONObject();
     response.put("action", "none");
     response.put("choices", JSONArray.toJSONString(new ArrayList<Noble>()));
+
     if (card.getType() != CardType.NONE) {
       JSONObject result = OrientManager.handleCard(card, board, inventory);
       String furtherAction = (String) result.get("type");
@@ -128,12 +137,12 @@ public static JSONObject determineBody(Card card, Board board, Inventory invento
 
     return response;
   }
-  
+
   /**
    * Adds a card to a players inventory. does not pay for the card.
    *
-   * @param card the card the player wishes to acquire.
-   * @param board the board on which the card resides.
+   * @param card      the card the player wishes to acquire.
+   * @param board     the board on which the card resides.
    * @param inventory the inventory we wish to add the card to.
    * @return whether the acquisition was successful.
    */
@@ -143,7 +152,7 @@ public static JSONObject determineBody(Card card, Board board, Inventory invento
     }
     CardBank cards = board.getCards();
     int pickedUp = cards.draw(card.getId());
-    if (pickedUp != card.getId())  {
+    if (pickedUp != card.getId()) {
       return false;
     }
     inventory.addCard(card);
@@ -273,6 +282,41 @@ public static JSONObject determineBody(Card card, Board board, Inventory invento
    */
   public static void deleteGame(String gameId) {
     gameRegistry.remove(gameId);
+  }
+
+  /**
+   * Functionality for a player to reserve a card.
+   * It makes sure that the player is part of the game
+   * they requested from.
+   *
+   * @param gameId          the game that its being played
+   * @param reserveCardData the data receive from the request
+   * @return true or false depending if the player can or cannot reserve card
+   */
+  public boolean reserveCard(String gameId, ReserveCardData reserveCardData) {
+    if (gameRegistry.containsKey(gameId)) {
+      Game game = gameRegistry.get(gameId);
+      Player[] players = game.getPlayers();
+      for (Player player : players) {
+        if (player.getUsername().equals(reserveCardData.getPlayer())) {
+          if (reserveCardData.getDeck().equals("")) {
+            int cardToReserve =
+                game.getBoard().getCards().draw(reserveCardData.getCard());
+            if (cardToReserve == -1) {
+              return false;
+            }
+            player.getInventory().reserve(cardRegistry.of(cardToReserve));
+            return true;
+          } else {
+            CardLevel cardLevel = CardBank.getCardLevelFromString(reserveCardData.getDeck());
+            int card = game.getBoard().getCards().drawCardFromDeck(cardLevel);
+            player.getInventory().reserve(cardRegistry.of(card));
+            return true;
+          }
+        }
+      }
+    }
+    return false;
   }
 
   /**

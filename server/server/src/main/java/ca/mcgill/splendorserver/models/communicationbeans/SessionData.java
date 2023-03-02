@@ -1,5 +1,6 @@
-package ca.mcgill.splendorserver.models;
+package ca.mcgill.splendorserver.models.communicationbeans;
 
+import ca.mcgill.splendorserver.models.LobbyServicePlayerData;
 import java.util.LinkedList;
 
 /**

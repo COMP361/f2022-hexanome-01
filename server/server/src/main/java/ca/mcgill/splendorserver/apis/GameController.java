@@ -5,11 +5,12 @@ import ca.mcgill.splendorserver.controllers.OrientManager;
 import ca.mcgill.splendorserver.models.Game;
 import ca.mcgill.splendorserver.models.Inventory;
 import ca.mcgill.splendorserver.models.Noble;
-import ca.mcgill.splendorserver.models.SessionData;
 import ca.mcgill.splendorserver.models.board.Board;
 import ca.mcgill.splendorserver.models.cards.Card;
 import ca.mcgill.splendorserver.models.cards.CardLevel;
 import ca.mcgill.splendorserver.models.cards.CardType;
+import ca.mcgill.splendorserver.models.communicationbeans.ReserveCardData;
+import ca.mcgill.splendorserver.models.communicationbeans.SessionData;
 import ca.mcgill.splendorserver.models.registries.CardRegistry;
 import ca.mcgill.splendorserver.models.registries.NobleRegistry;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -184,7 +185,7 @@ public class GameController {
       if (game == null) {
         return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
       }
-      if (!game.getCurrentPlayer().equals(playerId)) {
+      if (!game.getCurrentPlayer().getUsername().equals(playerId)) {
         return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
       }
 
@@ -384,18 +385,22 @@ public class GameController {
   /**
    * Takes token.
    *
-   * @param gameId the id of the game
-   * @param data   the game data of the take tokens action
-   * @return success flag
-   * @throws JsonProcessingException when JSON processing error occurs
+   * @param gameId          the id of the game
+   * @param reserveCardData the game data of the take reserve card action
+   * @return success flaggit 
    */
   @PostMapping("/api/action/{gameId}/reserveCard")
-  public ResponseEntity<HttpStatus> reserveCardAction(@PathVariable String gameId,
-                                                      @RequestBody JSONObject data)
-      throws JsonProcessingException {
-    String playerId = (String) data.get("playerId");
+  public ResponseEntity<String> reserveCardAction(@PathVariable String gameId,
+                                                  @RequestBody ReserveCardData reserveCardData) {
 
-    return ResponseEntity.ok(HttpStatus.OK);
+    boolean success = gameManager.reserveCard(gameId, reserveCardData);
+    JSONObject response = new JSONObject();
+    if (success) {
+      response.put("status", "success");
+    } else {
+      response.put("status", "failure");
+    }
+    return ResponseEntity.ok(response.toJSONString());
   }
 
   /**
@@ -438,7 +443,7 @@ public class GameController {
   public ResponseEntity<HttpStatus> launchGame(
       @PathVariable(required = true, name = "gameId") String gameId,
       @RequestBody SessionData session) throws JsonProcessingException {
-    System.out.println("launching");
+    System.out.println("launching: " + gameId);
     GameManager.launchGame(gameId, session);
 
     return ResponseEntity.ok(HttpStatus.OK);

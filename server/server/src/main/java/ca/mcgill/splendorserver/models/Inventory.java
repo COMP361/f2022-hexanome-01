@@ -1,5 +1,12 @@
 package ca.mcgill.splendorserver.models;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import ca.mcgill.splendorserver.models.board.TokenBank;
 import ca.mcgill.splendorserver.models.cards.Card;
 import ca.mcgill.splendorserver.models.expansion.City;
@@ -228,7 +235,16 @@ public class Inventory implements JsonStringafiable {
     return bonuses;
   }
 
-  public TradingPost[] getTradingPosts() {
+  /**
+   * Getter for the reserved cards of the player.
+   *
+   * @return reservedCards
+   */
+  public ArrayList<Card> getReservedCards() {
+    return (ArrayList<Card>) reservedCards.clone();
+  }
+
+  public TradingPost[] getTradingPosts(){
     return tradingPosts;
   }
 
