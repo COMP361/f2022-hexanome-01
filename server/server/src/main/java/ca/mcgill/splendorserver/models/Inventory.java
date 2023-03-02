@@ -158,6 +158,7 @@ public class Inventory implements JsonStringafiable {
     cards.add(card);
     //TO DO: add the correct bonuses too?
     //TO DO: add points too
+    //do not remove cost of card tho, it will mess up stuff
   }
 
   /**

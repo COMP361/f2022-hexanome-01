@@ -76,22 +76,38 @@ public class GameManager {
   public static ArrayList<Noble> purchaseCard(Game game, String playerId, int cardId) {
 	  Board board = game.getBoard();
 	  Card card = CardRegistry.of(cardId);
-	  
-	  if (card == null)
-		  return null;
-	  
 	  Inventory inventory = board.getInventory(playerId);
 	  
-	  CardBank cards = board.getCards();
-	  int pickedUp = cards.draw(cardId);
-	  if (pickedUp != cardId) 
+	  if(!acquireCard(card, board, inventory)) {
 		  return null;
+	  }
 	  
-	  inventory.addCard(card);
+	  
 	  
 	  ArrayList<Noble> noblesVisiting = board.getNobles().attemptImpress(inventory);
 	  
 	  return noblesVisiting;
+  }
+  
+  /**
+   * Adds a card to a players inventory. does not pay for the card.
+   *
+   * @param card the card the player wishes to acquire.
+   * @param board the board on which the card resides.
+   * @param inventory the inventory we wish to add the card to.
+   * @return whether or not the acquisition was successful.
+   */
+  public static boolean acquireCard(Card card, Board board, Inventory inventory) {
+	  if (card == null)
+		  return false;
+	  
+	  CardBank cards = board.getCards();
+	  int pickedUp = cards.draw(card.getId());
+	  if (pickedUp != card.getId()) 
+		  return false;
+	  
+	  inventory.addCard(card);
+	  return true;
   }
 
   /**
