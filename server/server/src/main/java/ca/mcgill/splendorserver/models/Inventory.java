@@ -19,6 +19,7 @@ public class Inventory implements JsonStringafiable {
 
   private int points;
   private TokenBank tokens;
+  private TokenBank bonuses;
   private ArrayList<Card> cards;
   private ArrayList<Noble> nobles;
   private ArrayList<Card> reservedCards;
@@ -37,6 +38,7 @@ public class Inventory implements JsonStringafiable {
     reservedCards = new ArrayList<>();
     reservedNobles = new ArrayList<>();
     tokens = new TokenBank();
+    bonuses = new TokenBank();
     tradingPosts = new TradingPost[5];
     unlockables = new ArrayList<>();
   }
@@ -269,6 +271,8 @@ public JSONObject toJson() {
     json.put("reservedNobles", reservedNoblesJson);
     //tokens
     json.put("tokens", tokens.toJson());
+    //bonuses
+    json.put("bonuses", bonuses.toJson());
     //trading posts
     JSONArray tradingPostsJson = new JSONArray();
     for (TradingPost tradingPost : tradingPosts) {
