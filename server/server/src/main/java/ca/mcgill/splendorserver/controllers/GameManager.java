@@ -1,11 +1,5 @@
 package ca.mcgill.splendorserver.controllers;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Optional;
-
-import org.springframework.stereotype.Component;
-
 import ca.mcgill.splendorserver.models.Game;
 import ca.mcgill.splendorserver.models.Inventory;
 import ca.mcgill.splendorserver.models.Noble;
@@ -13,9 +7,16 @@ import ca.mcgill.splendorserver.models.SessionData;
 import ca.mcgill.splendorserver.models.board.Board;
 import ca.mcgill.splendorserver.models.board.CardBank;
 import ca.mcgill.splendorserver.models.cards.Card;
+import ca.mcgill.splendorserver.models.cards.CardType;
 import ca.mcgill.splendorserver.models.registries.CardRegistry;
 import ca.mcgill.splendorserver.models.registries.NobleRegistry;
 import ca.mcgill.splendorserver.models.registries.UnlockableRegistry;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Optional;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.springframework.stereotype.Component;
 
 /**
  * This is the controller for all game managing functionality.
@@ -73,23 +74,41 @@ public class GameManager {
     }
   }
   
-  public static ArrayList<Noble> purchaseCard(Game game, String playerId, int cardId) {
-	  Board board = game.getBoard();
-	  Card card = CardRegistry.of(cardId);
-	  Inventory inventory = board.getInventory(playerId);
-	  
-	  if(!acquireCard(card, board, inventory)) {
-		  return null;
-	  }
-	  if (!inventory.isCostAffordable(card.getCost())) {
-		  return null;
-	  }
-	  
-	  
-	  
-	  ArrayList<Noble> noblesVisiting = board.getNobles().attemptImpress(inventory);
-	  
-	  return noblesVisiting;
+  /**
+   * Adds a card to a players inventory. does pay for the card.
+   *
+   * @param game the game where the player and card reside.
+   * @param playerId the player in question.
+   * @param cardId the card the player wishes to acquire.
+   * @return the JSONObject response containing the action being done, and choices for user.
+   */
+  @SuppressWarnings("unchecked")
+public static JSONObject purchaseCard(Game game, String playerId, int cardId) {
+    Board board = game.getBoard();
+    Card card = CardRegistry.of(cardId);
+    Inventory inventory = board.getInventory(playerId);
+    JSONObject purchaseResults = new JSONObject();
+
+    if (!inventory.isCostAffordable(card.getCost()) || !acquireCard(card, board, inventory)) {
+      return null;
+    }
+    inventory.payForCard(card);
+    
+    purchaseResults.put("action", "none");
+    purchaseResults.put("choices", JSONArray.toJSONString(new ArrayList<Noble>()));
+    if (card.getType() != CardType.NONE) {
+      JSONObject result = OrientManager.handleCard(card, board, inventory);
+      String furtherAction = (String) result.get("type");
+      String actionOptions = (String) result.get("choices");
+      purchaseResults.replace("action", furtherAction);
+      purchaseResults.replace("choices", actionOptions);
+      purchaseResults.put("noblesVisiting", JSONArray.toJSONString(new ArrayList<Noble>()));
+    } else {
+      ArrayList<Noble> noblesVisiting = board.getNobles().attemptImpress(inventory);
+      purchaseResults.put("noblesVisiting", JSONArray.toJSONString(noblesVisiting));
+    }
+
+    return purchaseResults;
   }
   
   /**
@@ -101,16 +120,16 @@ public class GameManager {
    * @return whether or not the acquisition was successful.
    */
   public static boolean acquireCard(Card card, Board board, Inventory inventory) {
-	  if (card == null)
-		  return false;
-	  
-	  CardBank cards = board.getCards();
-	  int pickedUp = cards.draw(card.getId());
-	  if (pickedUp != card.getId()) 
-		  return false;
-	  
-	  inventory.addCard(card);
-	  return true;
+    if (card == null) {
+      return false;
+    }
+    CardBank cards = board.getCards();
+    int pickedUp = cards.draw(card.getId());
+    if (pickedUp != card.getId())  {
+      return false;
+    }
+    inventory.addCard(card);
+    return true;
   }
 
   /**

@@ -21,10 +21,17 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import ca.mcgill.splendorserver.controllers.GameManager;
+import ca.mcgill.splendorserver.controllers.OrientManager;
 import ca.mcgill.splendorserver.models.Game;
+import ca.mcgill.splendorserver.models.Inventory;
 import ca.mcgill.splendorserver.models.Noble;
 import ca.mcgill.splendorserver.models.SessionData;
 import ca.mcgill.splendorserver.models.board.Board;
+import ca.mcgill.splendorserver.models.cards.Card;
+import ca.mcgill.splendorserver.models.cards.CardLevel;
+import ca.mcgill.splendorserver.models.cards.CardType;
+import ca.mcgill.splendorserver.models.registries.CardRegistry;
+import ca.mcgill.splendorserver.models.registries.NobleRegistry;
 
 /**
  * Game controller class for the server.
@@ -135,7 +142,7 @@ private ResponseEntity<String> errorResponse(String message) {
   }
 
   /**
-   * Takes token.
+   * Purchases a card.
    *
    * @param gameId the id of the game
    * @param data   the game data of the take tokens action
@@ -146,9 +153,8 @@ private ResponseEntity<String> errorResponse(String message) {
   @PostMapping("/api/action/{gameId}/purchaseCard")
   public ResponseEntity<String> purchaseCard(@PathVariable String gameId,
                                                                @RequestBody JSONObject data) {
-	
-	try {
-		String playerId = (String) data.get("playerId");
+    try {
+      String playerId = (String) data.get("playerId");
 
 		//parse data
 		//if card's type is not sacrifice, check to see if we can purchase it with tokens
@@ -156,31 +162,228 @@ private ResponseEntity<String> errorResponse(String message) {
 		//  call orientManager to deal with the cards action (so that we dont bloat this class)
 		//if cards type WAS sacrifice, ping client to ask what cards they want to use (pass list of cards?)
 
-		Game game = GameManager.getGame(gameId);
-		if (game == null)
-			return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
+      Game game = GameManager.getGame(gameId);
+      if (game == null) {
+        return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
+      }
+      if (!game.getCurrentPlayer().equals(playerId)) {
+        return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
+      }
 
-		if (!game.getCurrentPlayer().equals(playerId)) {
-			return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
-		}
-		
-		int cardId = (int) data.get("cardId");
-		//check if sacrifice carad
-		ArrayList<Noble> noblesVisiting = GameManager.purchaseCard(game, playerId, cardId);
-		if (noblesVisiting == null)
-			return ResponseEntity.ok().body(invalidAction.toJSONString());
-		
-		JSONObject response = new JSONObject();
-		response.put("status", "success");
-		response.put("noblesVisiting", JSONArray.toJSONString(noblesVisiting));
-		
-		return ResponseEntity.ok(response.toJSONString());
-	}
-	catch (Exception e) {
-		return errorResponse(e.getMessage());
-	}
+      int cardId = (int) data.get("cardId");
+      JSONObject response = GameManager.purchaseCard(game, playerId, cardId);
+      if (response == null) {
+        return ResponseEntity.ok().body(invalidAction.toJSONString());
+      }
+      response.put("status", "success");
+
+      return ResponseEntity.ok(response.toJSONString());
+    } catch (Exception e) {
+      return errorResponse(e.getMessage());
+    }
   }
 
+  /**
+   * Performs the satchel action associated with a domino card.
+   *
+   * @param gameId the id of the game
+   * @param data   the game data of the take tokens action
+   * @return success flag
+   * @throws JsonProcessingException when JSON processing error occurs
+   */
+  @SuppressWarnings("unchecked")
+  @PostMapping("/api/action/{gameId}/dominoSatchel")
+  public ResponseEntity<String> dominoSatchel(@PathVariable String gameId,
+                                                               @RequestBody JSONObject data) {
+    try {
+      String playerId = (String) data.get("playerId");
+
+      Game game = GameManager.getGame(gameId);
+      if (game == null) {
+        return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
+      }
+      if (!game.getCurrentPlayer().equals(playerId)) {
+        return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
+      }
+
+      int cardId = (int) data.get("cardId");
+      JSONObject response = new JSONObject();
+      Board board = game.getBoard();
+      Card card = CardRegistry.of(cardId);
+      Inventory inventory = board.getInventory(playerId);
+
+      if (!OrientManager.addSatchel(card, inventory)) {
+        return ResponseEntity.ok().body(invalidAction.toJSONString());
+      }
+      response.put("type", "DOMINO2");
+      ArrayList<Card> choices = new ArrayList<Card>();
+      int[] regularRow = board.getCards().getRows().get(CardLevel.LEVEL1);
+      int[] orientRow = board.getCards().getRows().get(CardLevel.ORIENT_LEVEL1);
+      for (int i = 0; i < regularRow.length; i++) {
+        choices.add(CardRegistry.of(regularRow[i]));
+      }
+      for (int i = 0; i < orientRow.length; i++) {
+        choices.add(CardRegistry.of(regularRow[i]));
+      }
+      response.put("options", JSONArray.toJSONString(choices));
+
+      response.put("status", "success");
+
+      return ResponseEntity.ok(response.toJSONString());
+    } catch (Exception e) {
+      return errorResponse(e.getMessage());
+    }
+  }
+  
+  /**
+   * Attaches a satchel to the selected card.
+   *
+   * @param gameId the id of the game
+   * @param data   the game data of the take tokens action
+   * @return success flag
+   * @throws JsonProcessingException when JSON processing error occurs
+   */
+  @SuppressWarnings("unchecked")
+  @PostMapping("/api/action/{gameId}/satchel")
+  public ResponseEntity<String> satchel(@PathVariable String gameId,
+                                                               @RequestBody JSONObject data) {
+    try {
+      String playerId = (String) data.get("playerId");
+
+      Game game = GameManager.getGame(gameId);
+      if (game == null) {
+        return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
+      }
+      if (!game.getCurrentPlayer().equals(playerId)) {
+        return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
+      }
+
+      int cardId = (int) data.get("cardId");
+      JSONObject response = new JSONObject();
+      Board board = game.getBoard();
+      Card card = CardRegistry.of(cardId);
+      Inventory inventory = board.getInventory(playerId);
+
+      if (!OrientManager.addSatchel(card, inventory)) {
+        return ResponseEntity.ok().body(invalidAction.toJSONString());
+      }
+      response.put("action", "none");
+
+      response.put("noblesVisiting", 
+            JSONArray.toJSONString(board.getNobles().attemptImpress(inventory)));
+
+      response.put("options", JSONArray.toJSONString(new ArrayList<Card>()));
+
+      response.put("status", "success");
+
+      return ResponseEntity.ok(response.toJSONString());
+    } catch (Exception e) {
+      return errorResponse(e.getMessage());
+    }
+  }
+  
+  /**
+   * Reserves the selected noble.
+   *
+   * @param gameId the id of the game
+   * @param data   the game data of the take tokens action
+   * @return success flag
+   * @throws JsonProcessingException when JSON processing error occurs
+   */
+  @SuppressWarnings("unchecked")
+  @PostMapping("/api/action/{gameId}/reserveNoble")
+  public ResponseEntity<String> reserveNoble(@PathVariable String gameId,
+                                                               @RequestBody JSONObject data) {
+    try {
+      String playerId = (String) data.get("playerId");
+
+      Game game = GameManager.getGame(gameId);
+      if (game == null) {
+        return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
+      }
+      if (!game.getCurrentPlayer().equals(playerId)) {
+        return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
+      }
+
+      int nobleId = (int) data.get("nobleId");
+      JSONObject response = new JSONObject();
+      Board board = game.getBoard();
+      Noble noble = NobleRegistry.of(nobleId);
+      Inventory inventory = board.getInventory(playerId);
+
+      if (!OrientManager.reserveNoble(noble, board, inventory)) {
+        return ResponseEntity.ok().body(invalidAction.toJSONString());
+      }
+      response.put("action", "none");
+
+      response.put("noblesVisiting", 
+            JSONArray.toJSONString(board.getNobles().attemptImpress(inventory)));
+
+      response.put("options", JSONArray.toJSONString(new ArrayList<Card>()));
+
+      response.put("status", "success");
+
+      return ResponseEntity.ok(response.toJSONString());
+    } catch (Exception e) {
+      return errorResponse(e.getMessage());
+    }
+  }
+  
+  /**
+   * Takes selected card for free due to domino effect.
+   *
+   * @param gameId the id of the game
+   * @param data   the game data of the take tokens action
+   * @return success flag
+   * @throws JsonProcessingException when JSON processing error occurs
+   */
+  @SuppressWarnings("unchecked")
+  @PostMapping("/api/action/{gameId}/domino")
+  public ResponseEntity<String> domino(@PathVariable String gameId,
+                                                               @RequestBody JSONObject data) {
+    try {
+      String playerId = (String) data.get("playerId");
+
+      Game game = GameManager.getGame(gameId);
+      if (game == null) {
+        return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
+      }
+      if (!game.getCurrentPlayer().equals(playerId)) {
+        return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
+      }
+
+      int cardId = (int) data.get("cardId");
+      JSONObject response = new JSONObject();
+      Board board = game.getBoard();
+      Card card = CardRegistry.of(cardId);
+      Inventory inventory = board.getInventory(playerId);
+
+      if (!GameManager.acquireCard(card, board, inventory)) {
+        return ResponseEntity.ok().body(invalidAction.toJSONString());
+      }
+      response.put("action", "none");
+      response.put("choices", JSONArray.toJSONString(new ArrayList<Noble>()));
+      if (card.getType() != CardType.NONE) {
+        JSONObject result = OrientManager.handleCard(card, board, inventory);
+        String furtherAction = (String) result.get("type");
+        String actionOptions = (String) result.get("choices");
+        response.replace("action", furtherAction);
+        response.replace("choices", actionOptions);
+        response.put("noblesVisiting", JSONArray.toJSONString(new ArrayList<Noble>()));
+      } else {
+        ArrayList<Noble> noblesVisiting = board.getNobles().attemptImpress(inventory);
+        response.put("noblesVisiting", JSONArray.toJSONString(noblesVisiting));
+      }
+
+      response.put("status", "success");
+
+      return ResponseEntity.ok(response.toJSONString());
+    } catch (Exception e) {
+      return errorResponse(e.getMessage());
+    }
+  }
+  
+ 
   /**
    * Takes token.
    *
@@ -244,5 +447,3 @@ private ResponseEntity<String> errorResponse(String message) {
     return ResponseEntity.ok(HttpStatus.OK);
   }
 }
-
-
