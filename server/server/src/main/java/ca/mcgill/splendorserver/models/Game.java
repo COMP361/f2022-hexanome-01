@@ -40,7 +40,7 @@ public class Game {
 
     launched = false;
     setLaunched();
-    
+
     currentPlayerIndex = 0;
   }
 
@@ -94,8 +94,12 @@ public class Game {
   public void setPlayers(Player[] players) {
     this.players = players;
   }
-  
+
   public Player getCurrentPlayer() {
-	  return players[currentPlayerIndex];
+    return players[currentPlayerIndex];
+  }
+
+  public String getVariant() {
+    return variant;
   }
 }
