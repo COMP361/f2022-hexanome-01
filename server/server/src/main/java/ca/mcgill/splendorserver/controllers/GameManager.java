@@ -82,13 +82,14 @@ public class GameManager {
 	  
 	  Inventory inventory = board.getInventory(playerId);
 	  
+	  if (!inventory.isCostAffordable(card.getCost()))
+		  return null;
+	  
 	  CardBank cards = board.getCards();
 	  int pickedUp = cards.draw(cardId);
 	  if (pickedUp != cardId) 
 		  return null;
 	  
-	  if (!inventory.isCostAffordable(card.getCost()))
-		  return null;
 	  inventory.addCard(card);
 	  
 	  ArrayList<Noble> noblesVisiting = board.getNobles().attemptImpress(inventory);
