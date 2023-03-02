@@ -81,6 +81,9 @@ public class GameManager {
 	  if(!acquireCard(card, board, inventory)) {
 		  return null;
 	  }
+	  if (!inventory.isCostAffordable(card.getCost())) {
+		  return null;
+	  }
 	  
 	  
 	  

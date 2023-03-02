@@ -1,13 +1,16 @@
 package ca.mcgill.splendorserver.models;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import ca.mcgill.splendorserver.models.board.TokenBank;
 import ca.mcgill.splendorserver.models.cards.Card;
 import ca.mcgill.splendorserver.models.expansion.City;
 import ca.mcgill.splendorserver.models.expansion.TradingPost;
 import ca.mcgill.splendorserver.models.expansion.Unlockable;
-import java.util.ArrayList;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 /**
  * Model class for a Splendor player's inventory i.e. everything they've acquired.
@@ -155,10 +158,23 @@ public class Inventory implements JsonStringafiable {
    * @param card the card to add
    */
   public void addCard(Card card) {
+	for (Token token : Token.values()) {
+		if (token.equals(Token.GOLD)) continue;
+		tokens.removeRepeated(token.toString(), card.getCost().get(token));
+	}
     cards.add(card);
     //TO DO: add the correct bonuses too?
     //TO DO: add points too
     //do not remove cost of card tho, it will mess up stuff
+  }
+  
+  public boolean isCostAffordable(HashMap<Token, Integer> cost) {
+	  for (Token token : Token.values()) {
+		  if (token.equals(Token.GOLD)) continue;
+		  if (tokens.checkAmount(token) < cost.get(token))
+			  return false;
+	  }
+	  return true;
   }
 
   /**
