@@ -111,6 +111,11 @@ public class CardBank implements JsonStringafiable {
     return -1;
   }
 
+  public int drawCardFromDeck(CardLevel level){
+    Stack<Integer> deck = decks.get(level);
+    return deck.pop();
+  }
+
   @Override
   public String toJsonString() {
     JSONArray data = new JSONArray();
@@ -123,6 +128,45 @@ public class CardBank implements JsonStringafiable {
       data.add(list.toJSONString());
     }
     return data.toJSONString();
+  }
+
+
+  /**
+   * Returns if true if the board contains the card
+   * with the id provided.
+   *
+   * @param id card identifier
+   * @return true if its found in board else false.
+   */
+  public boolean containsCard(int id) {
+    if (id >= 64 & id <= 103) {
+      return cardIsPartOfRow(CardLevel.LEVEL1, id);
+    } else if (id >= 20 & id <= 50) {
+      return cardIsPartOfRow(CardLevel.LEVEL2, id);
+    } else if (id >= 0 & id <= 19) {
+      return cardIsPartOfRow(CardLevel.LEVEL3, id);
+    } else {
+      if (cardIsPartOfRow(CardLevel.ORIENT_LEVEL1, id)) {
+        return true;
+      } else if (cardIsPartOfRow(CardLevel.ORIENT_LEVEL2, id)) {
+        return true;
+      } else if (cardIsPartOfRow(CardLevel.ORIENT_LEVEL3, id)) {
+        return true;
+      }
+      return false;
+      //Couldn't find card;
+
+    }
+  }
+
+  private boolean cardIsPartOfRow(CardLevel level, int id) {
+    int[] cardOnRow = rows.get(level);
+    for (int card : cardOnRow) {
+      if (card == id) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
@@ -149,5 +193,22 @@ public class CardBank implements JsonStringafiable {
       }
     }
     return new JSONArray[] {cardsJson, decksJson};
+  }
+
+  public static CardLevel getCardLevelFromString(String cardLevel) {
+    if (cardLevel.equals("Level1")) {
+      return CardLevel.LEVEL1;
+    } else if (cardLevel.equals("Level2")) {
+      return CardLevel.LEVEL2;
+    } else if (cardLevel.equals("Level3")) {
+      return CardLevel.LEVEL3;
+    } else if (cardLevel.equals("OrientLevel1")) {
+      return CardLevel.ORIENT_LEVEL1;
+    } else if (cardLevel.equals("OrientLevel2")) {
+      return CardLevel.ORIENT_LEVEL2;
+    } else if (cardLevel.equals("OrientLevel3")) {
+      return CardLevel.ORIENT_LEVEL3;
+    }
+    return null;
   }
 }

@@ -11,7 +11,8 @@ public class Game {
   private String id;
   private String variant;
   private String creator;
-  private String[] players;
+
+  private Player[] players;
 
   private int currentPlayerIndex;
 
@@ -28,10 +29,10 @@ public class Game {
    *
    * @param id      String representing the game id (same as session id from LobbyService)
    * @param variant the variant of the game
-   * @param players player usernames
+   * @param players player objects
    * @param creator the creator of the session
    */
-  public Game(String id, String creator, String[] players, String variant) {
+  public Game(String id, String creator, Player[] players, String variant) {
     this.id = id;
     this.variant = variant;
     this.creator = creator;
@@ -76,7 +77,25 @@ public class Game {
     return board;
   }
 
-  public String getCurrentPlayer() {
+  /**
+   * Getter for the players who are part of this game.
+   *
+   * @return String of players in this game
+   */
+  public Player[] getPlayers() {
+    return players;
+  }
+
+  /**
+   * Setter for the players who are part of this game.
+   *
+   * @param players the players in this game
+   */
+  public void setPlayers(Player[] players) {
+    this.players = players;
+  }
+
+  public Player getCurrentPlayer() {
     return players[currentPlayerIndex];
   }
 
