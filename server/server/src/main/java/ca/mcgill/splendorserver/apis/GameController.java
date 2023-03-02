@@ -165,7 +165,7 @@ private ResponseEntity<String> errorResponse(String message) {
 		}
 		
 		int cardId = (int) data.get("cardId");
-		
+		//check if sacrifice carad
 		ArrayList<Noble> noblesVisiting = GameManager.purchaseCard(game, playerId, cardId);
 		if (noblesVisiting == null)
 			return ResponseEntity.ok().body(invalidAction.toJSONString());

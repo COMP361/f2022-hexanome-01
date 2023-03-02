@@ -1,5 +1,11 @@
 package ca.mcgill.splendorserver.controllers;
 
+import org.json.simple.JSONObject;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import ca.mcgill.splendorserver.models.Game;
 import ca.mcgill.splendorserver.models.cards.Card;
 import ca.mcgill.splendorserver.models.cards.CardLevel;
 
@@ -13,7 +19,7 @@ public class OrientManager {
    *
    * @param card that has been acquired, whose type has to be dealt with.
    */
-  public void handleCard(Card card) {
+  public static void handleCard(Card card) {
     switch (card.getType()) {
       case DOMINO1: 
         domino(card, 1);
@@ -22,7 +28,7 @@ public class OrientManager {
         domino(card, 2);
         break;
       case RESERVE: 
-        reserve(card);
+        reserve();
         break;
       case SATCHEL: 
         satchel(card);
@@ -37,10 +43,14 @@ public class OrientManager {
    * @param card that has been acquired, and level of desired domino effect.
    * @param level int of level of desired domino effect.
    */
-  public void domino(Card card, int level) {
+  @SuppressWarnings("unchecked")
+public static void domino(Card card, int level) {
     //prompts player to take a card of level for free
     //if level is lowest, then it was a domino1 card to trigger this. do satchela action first
-    
+    JSONObject jsonresponse = new JSONObject();
+    jsonresponse.put("type", "domino");
+    jsonresponse.put("options", "list of options to display");
+    ResponseEntity<String> re = new ResponseEntity<String>(jsonresponse.toJSONString(), HttpStatus.OK);
   }
   
   /**
@@ -48,7 +58,7 @@ public class OrientManager {
    *
    * @param card that has been acquired.
    */
-  public void satchel(Card card) {
+  public static void satchel(Game game, String playerId) {
     //asks player to select a card in their invenroty.
     //increments the satchel value on selected card
     //updates player bonuses
@@ -59,7 +69,7 @@ public class OrientManager {
    *
    * @param card that has been acquired.
    */
-  public void reserve(Card card) {
+  public static void reserve() {
     //asks player to select a noble to reserve
     //adds noble to player's noble reserve inventory list
   } 
@@ -69,7 +79,7 @@ public class OrientManager {
    *
    * @param card that has been acquired.
    */
-  public void sacrifice(Card card) {
+  public static void sacrifice(Game game, String playerId, int cardId) {
     //asks player to select which cards they desire to sacrifice
     //prioritizes sacrificing cards who satchel value != 0
     //if valid cards selected (2 cards, or 1 with bonus of 2), remove them from ivnentory and add this card
