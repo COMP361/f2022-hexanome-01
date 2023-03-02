@@ -2,7 +2,6 @@ package ca.mcgill.splendorserver.controllers;
 
 import ca.mcgill.splendorserver.models.cards.Card;
 import ca.mcgill.splendorserver.models.cards.CardLevel;
-import com.fasterxml.jackson.core.JsonProcessingException;
 
 /**
  * Class containing the methods for handling orient functionality.
@@ -16,10 +15,18 @@ public class OrientManager {
    */
   public void handleCard(Card card) {
     switch (card.getType()) {
-      case DOMINO1: break;
-      case DOMINO2: break;
-      case RESERVE: break;
-      case SATCHEL: break;
+      case DOMINO1: 
+        domino(card, 1);
+        break;
+      case DOMINO2: 
+        domino(card, 2);
+        break;
+      case RESERVE: 
+        reserve(card);
+        break;
+      case SATCHEL: 
+        satchel(card);
+        break;
       default: break;
     }
   }
@@ -28,8 +35,9 @@ public class OrientManager {
    * Handles orient domino cards.
    *
    * @param card that has been acquired, and level of desired domino effect.
+   * @param level int of level of desired domino effect.
    */
-  public void domino(Card card, CardLevel level) {
+  public void domino(Card card, int level) {
     //prompts player to take a card of level for free
     //if level is lowest, then it was a domino1 card to trigger this. do satchela action first
     

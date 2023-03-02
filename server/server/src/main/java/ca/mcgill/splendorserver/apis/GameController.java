@@ -101,7 +101,7 @@ public class GameController {
    * @throws JsonProcessingException when JSON processing error occurs
    */
   @PostMapping("/api/action/{gameId}/performPurchaseCard")
-  public ResponseEntity<HttpStatus> performPurchaseRegularCard(@PathVariable String gameId,
+  public ResponseEntity<HttpStatus> performPurchaseCard(@PathVariable String gameId,
                                                                @RequestBody JSONObject data)
       throws JsonProcessingException {
     String playerId = (String) data.get("playerId");
