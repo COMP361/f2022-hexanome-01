@@ -1,7 +1,10 @@
 package ca.mcgill.splendorserver.models;
 
 import java.util.HashMap;
+
 import org.json.simple.JSONObject;
+
+import ca.mcgill.splendorserver.models.board.TokenBank;
 
 /**
  * Model class for Splendor noble tiles.
@@ -35,11 +38,20 @@ public class Noble {
   public Noble(JSONObject obj) {
     id = Integer.parseInt((String) obj.get("id"));
     pts = Integer.parseInt((String) obj.get("points"));
-    cost.put("blue", Integer.parseInt((String) obj.get("blue")));
-    cost.put("green", Integer.parseInt((String) obj.get("green")));
-    cost.put("red", Integer.parseInt((String) obj.get("red")));
-    cost.put("white", Integer.parseInt((String) obj.get("white")));
-    cost.put("black", Integer.parseInt((String) obj.get("brown")));
+    cost.put(Token.BLUE.toString(), Integer.parseInt((String) obj.get("blue")));
+    cost.put(Token.GREEN.toString(), Integer.parseInt((String) obj.get("green")));
+    cost.put(Token.RED.toString(), Integer.parseInt((String) obj.get("red")));
+    cost.put(Token.WHITE.toString(), Integer.parseInt((String) obj.get("white")));
+    cost.put(Token.BLACK.toString(), Integer.parseInt((String) obj.get("black")));
+  }
+  
+  public boolean impressed(TokenBank bonus) {
+	  for (Token token : Token.values()) {
+		  if (token.equals(Token.GOLD)) continue;
+		  if (bonus.checkAmount(token) < cost.get(token.toString()))
+			  return false;
+	  }
+	  return true;
   }
 
   /**

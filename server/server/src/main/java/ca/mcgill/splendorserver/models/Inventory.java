@@ -16,7 +16,6 @@ public class Inventory implements JsonStringafiable {
 
   private int points;
   private TokenBank tokens;
-  private TokenBank bonus;
   private ArrayList<Card> cards;
   private ArrayList<Noble> nobles;
   private ArrayList<Card> reservedCards;
@@ -35,7 +34,6 @@ public class Inventory implements JsonStringafiable {
     reservedCards = new ArrayList<>();
     reservedNobles = new ArrayList<>();
     tokens = new TokenBank();
-    bonus = new TokenBank();
     tradingPosts = new TradingPost[5];
     unlockables = new ArrayList<>();
   }
@@ -187,7 +185,11 @@ public class Inventory implements JsonStringafiable {
    * @return TokenBank containing the player's current discount or bonus count for each token.
    */
   public TokenBank getBonuses() {
-    return bonus;
+    TokenBank bonuses = new TokenBank();
+    for (Card card : cards) {
+    	bonuses.addRepeated(card.getBonus().getType().toString(), card.getBonus().getAmount());
+    }
+    return bonuses;
   }
 
   @Override
@@ -211,7 +213,8 @@ public class Inventory implements JsonStringafiable {
    *
    * @return the inventory as a JSONObject
    */
-  public JSONObject toJson() {
+  @SuppressWarnings("unchecked")
+public JSONObject toJson() {
     JSONObject json = new JSONObject();
     //points
     json.put("points", points);
@@ -241,8 +244,6 @@ public class Inventory implements JsonStringafiable {
     json.put("reservedNobles", reservedNoblesJson);
     //tokens
     json.put("tokens", tokens.toJson());
-    //bonuses
-    json.put("bonuses", bonus.toJson());
     //trading posts
     JSONArray tradingPostsJson = new JSONArray();
     for (TradingPost tradingPost : tradingPosts) {

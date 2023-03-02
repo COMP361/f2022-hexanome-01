@@ -112,6 +112,10 @@ public class Card {
   public CardLevel getLevel() {
     return level;
   }
+  
+  public CardBonus getBonus() {
+	  return bonus;
+  }
 
   /**
    * Mark this card as associated to a satchel card.

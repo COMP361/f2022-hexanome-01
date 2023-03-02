@@ -1,11 +1,16 @@
 package ca.mcgill.splendorserver.models.board;
 
-import ca.mcgill.splendorserver.models.JsonStringafiable;
-import ca.mcgill.splendorserver.models.registries.NobleRegistry;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Stack;
+
 import org.json.simple.JSONArray;
+
+import ca.mcgill.splendorserver.models.Inventory;
+import ca.mcgill.splendorserver.models.JsonStringafiable;
+import ca.mcgill.splendorserver.models.Noble;
+import ca.mcgill.splendorserver.models.registries.NobleRegistry;
 
 /**
  * Model class holding all Splendor noble tiles on the board.
@@ -68,6 +73,17 @@ public class NobleBank implements JsonStringafiable {
    */
   public int[] getNobles() {
     return nobles;
+  }
+  
+  public ArrayList<Noble> attemptImpress(Inventory inventory) {
+	  ArrayList<Noble> impressed = new ArrayList<Noble>();
+	  for (int nobleId : getNobles()) {
+		  if (nobleId == -1) continue;
+		  Noble noble = NobleRegistry.of(nobleId);
+		  if (noble.impressed(inventory.getBonuses()))
+			  impressed.add(noble);
+	  }
+	  return impressed;
   }
 
   @Override

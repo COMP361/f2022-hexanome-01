@@ -13,6 +13,7 @@ public class Game {
   private String creator;
   private String[] players;
 
+  private int currentPlayerIndex;
 
   public void setBoard(Board board) {
     this.board = board;
@@ -38,6 +39,8 @@ public class Game {
 
     launched = false;
     setLaunched();
+    
+    currentPlayerIndex = 0;
   }
 
   /**
@@ -71,5 +74,9 @@ public class Game {
    */
   public Board getBoard() {
     return board;
+  }
+  
+  public String getCurrentPlayer() {
+	  return players[currentPlayerIndex];
   }
 }
