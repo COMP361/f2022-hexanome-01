@@ -234,15 +234,7 @@ public class GameController {
         return ResponseEntity.ok().body(invalidAction.toJSONString());
       }
       response.put("type", "DOMINO2");
-      ArrayList<Card> choices = new ArrayList<Card>();
-      int[] regularRow = board.getCards().getRows().get(CardLevel.LEVEL1);
-      int[] orientRow = board.getCards().getRows().get(CardLevel.ORIENT_LEVEL1);
-      for (int i = 0; i < regularRow.length; i++) {
-        choices.add(CardRegistry.of(regularRow[i]));
-      }
-      for (int i = 0; i < orientRow.length; i++) {
-        choices.add(CardRegistry.of(regularRow[i]));
-      }
+      ArrayList<Card> choices = OrientManager.getDominoOptions(board, 1);
       response.put("options", JSONArray.toJSONString(choices));
 
       response.put("status", "success");
@@ -371,7 +363,6 @@ public class GameController {
       }
 
       int cardId = (int) data.get("cardId");
-      JSONObject response = new JSONObject();
       Board board = game.getBoard();
       Card card = CardRegistry.of(cardId);
       Inventory inventory = board.getInventory(playerId);
@@ -379,20 +370,8 @@ public class GameController {
       if (!GameManager.acquireCard(card, board, inventory)) {
         return ResponseEntity.ok().body(invalidAction.toJSONString());
       }
-      response.put("action", "none");
-      response.put("choices", JSONArray.toJSONString(new ArrayList<Noble>()));
-      if (card.getType() != CardType.NONE) {
-        JSONObject result = OrientManager.handleCard(card, board, inventory);
-        String furtherAction = (String) result.get("type");
-        String actionOptions = (String) result.get("choices");
-        response.replace("action", furtherAction);
-        response.replace("choices", actionOptions);
-        response.put("noblesVisiting", JSONArray.toJSONString(new ArrayList<Noble>()));
-      } else {
-        ArrayList<Noble> noblesVisiting = board.getNobles().attemptImpress(inventory);
-        response.put("noblesVisiting", JSONArray.toJSONString(noblesVisiting));
-      }
-
+      
+      JSONObject response = GameManager.determineBody(card, board, inventory);
       response.put("status", "success");
 
       return ResponseEntity.ok(response.toJSONString());
