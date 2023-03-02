@@ -9,14 +9,14 @@ public class TokenBank : MonoBehaviour{
     public Text goldAmount, blueAmount, greenAmount, blackAmount, redAmount, whiteAmount;
     [SerializeField] private SelectedTokens selectedTokens;
     
-    public int gold;
-    public int blue;
-    public int green;
-    public int black;
-    public int red;
-    public int white;
+    public long gold;
+    public long blue;
+    public long green;
+    public long black;
+    public long red;
+    public long white;
 
-    public void setExceptGold(int n){
+    public void setExceptGold(long n){
         gold = 5;
         blue = n;
         green = n;
@@ -37,7 +37,37 @@ public class TokenBank : MonoBehaviour{
         }
     }
 
-    public void setAll(int n){
+    public void Set(long gold, long blue, long green, long black, long red, long white)
+    {
+        this.gold = gold;
+        this.blue = blue;
+        this.green = green;
+        this.black = black;
+        this.red = red;
+        this.white = white;
+        
+        goldAmount.text = gold.ToString();
+        blueAmount.text = blue.ToString();
+        greenAmount.text = green.ToString();
+        blackAmount.text = black.ToString();
+        redAmount.text = red.ToString();
+        whiteAmount.text = white.ToString();
+        
+        foreach (Gem gem in tokens)
+        {
+            switch (gem.colour)
+            {
+                case "gold": gem.amount = gold; break;
+                case "blue": gem.amount = blue; break;
+                case "green": gem.amount = green; break;
+                case "black": gem.amount = black; break;
+                case "red": gem.amount = red; break;
+                case "white": gem.amount = white; break;
+            }
+        }
+    }
+
+    public void setAll(long n){
         gold = n;
         blue = n;
         green = n;
@@ -86,29 +116,26 @@ public class TokenBank : MonoBehaviour{
             }
         }*/
     }
-
-    //hard coded token amount; the real amount should be different according to number of players
-    //gold token is always 5 regardless of number of players
-    void Start(){
-        setExceptGold(7);
-        selectedTokens.reset();
-        /*goldSlot.amount.text = goldSlot.token.amount.ToString();
-        blueSlot.amount.text = blueSlot.token.amount.ToString();
-        greenSlot.amount.text = greenSlot.token.amount.ToString();
-        blackSlot.amount.text = blackSlot.token.amount.ToString();
-        redSlot.amount.text = redSlot.token.amount.ToString();
-        whiteSlot.amount.text = whiteSlot.token.amount.ToString();
-        */
+    
+    public void AddAmount(string colour, long amount) {
+        switch (colour) {
+            case "white": white += amount; break;
+            case "red": red += amount; break;
+            case "blue": blue += amount; break;
+            case "green": green += amount; break;
+            case "black": black += amount; break;
+            case "gold": gold += amount; break;
+        }
     }
 
     public Text getDisplayedAmount(string colour){
         switch(colour){
-            case "gold": return goldAmount; break;
-            case "blue": return blueAmount; break;
-            case "green": return greenAmount; break;
-            case "black": return blackAmount; break;
-            case "red": return redAmount; break;
-            case "white": return whiteAmount; break;
+            case "gold": return goldAmount; 
+            case "blue": return blueAmount; 
+            case "green": return greenAmount; 
+            case "black": return blackAmount; 
+            case "red": return redAmount; 
+            case "white": return whiteAmount;
         }
         return null;
     }

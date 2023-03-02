@@ -14,6 +14,7 @@ public class Game {
 
   private Player[] players;
 
+  private int currentPlayerIndex;
 
   public void setBoard(Board board) {
     this.board = board;
@@ -39,6 +40,8 @@ public class Game {
 
     launched = false;
     setLaunched();
+    
+    currentPlayerIndex = 0;
   }
 
   /**
@@ -90,5 +93,9 @@ public class Game {
    */
   public void setPlayers(Player[] players) {
     this.players = players;
+  }
+  
+  public Player getCurrentPlayer() {
+	  return players[currentPlayerIndex];
   }
 }

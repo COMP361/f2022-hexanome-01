@@ -47,13 +47,11 @@ public class NobleRegistry implements Registry<Noble> {
     return ids;
   }
 
-  @Override
   public Set<Integer> listIds() {
     return data.keySet();
   }
 
-  @Override
-  public Noble of(int id) {
+  public static Noble of(int id) {
     return data.get(id);
   }
 }
