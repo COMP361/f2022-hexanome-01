@@ -63,19 +63,48 @@ public class OrientManager {
         }
       }
     } else { //pass free cards choices (i.e. this is a domino2)
-      int[] regularRow = board.getCards().getRows().get(CardLevel.LEVEL2);
-      int[] orientRow = board.getCards().getRows().get(CardLevel.ORIENT_LEVEL2);
-      for (int i = 0; i < regularRow.length; i++) {
-        choices.add(CardRegistry.of(regularRow[i]));
-      }
-      for (int i = 0; i < orientRow.length; i++) {
-        choices.add(CardRegistry.of(regularRow[i]));
-      }
+      choices = OrientManager.getDominoOptions(board, 2);
     }
   
     response.put("options", JSONArray.toJSONString(choices));
     
     return response;
+  }
+ 
+  /**
+   * Handles orient domino cards.
+   *
+   * @param board of current game.
+   * @param level of card desired.
+   * @return the list of all the cards on the board of the given level.
+   */
+  public static ArrayList<Card> getDominoOptions(Board board, int level) {
+    int[] regularRow;
+    int[] orientRow;
+
+    switch (level) {
+      case 1: regularRow = board.getCards().getRows().get(CardLevel.LEVEL1);
+        orientRow = board.getCards().getRows().get(CardLevel.ORIENT_LEVEL1);
+        break;
+      case 2: regularRow = board.getCards().getRows().get(CardLevel.LEVEL2);
+        orientRow = board.getCards().getRows().get(CardLevel.ORIENT_LEVEL2);
+        break;
+      case 3: regularRow = board.getCards().getRows().get(CardLevel.LEVEL3);
+        orientRow = board.getCards().getRows().get(CardLevel.ORIENT_LEVEL3);
+        break;
+      default: regularRow = new int[0]; 
+        orientRow = new int[0];
+        break;
+    }
+
+    ArrayList<Card> choices = new ArrayList<Card>();
+    for (int i = 0; i < regularRow.length; i++) {
+      choices.add(CardRegistry.of(regularRow[i]));
+    }
+    for (int i = 0; i < orientRow.length; i++) {
+      choices.add(CardRegistry.of(regularRow[i]));
+    }
+    return choices;
   }
   
   /**

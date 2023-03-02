@@ -90,28 +90,43 @@ public static JSONObject purchaseCard(Game game, String playerId, int cardId) {
     Board board = game.getBoard();
     Card card = CardRegistry.of(cardId);
     Inventory inventory = board.getInventory(playerId);
-    JSONObject purchaseResults = new JSONObject();
 
     if (!inventory.isCostAffordable(card.getCost()) || !acquireCard(card, board, inventory)) {
       return null;
     }
     inventory.payForCard(card);
     
-    purchaseResults.put("action", "none");
-    purchaseResults.put("choices", JSONArray.toJSONString(new ArrayList<Noble>()));
+    JSONObject purchaseResults = determineBody(card, board, inventory);
+
+    return purchaseResults;
+  }
+  
+  /**
+   * Creates the body for http responses.
+   *
+   * @param card that was purchased/acquired.
+   * @param board of the game in question.
+   * @param inventory of the player acquiring the card.
+   * @return the JSONObject response containing the action being done, and choices for user.
+   */
+  @SuppressWarnings("unchecked")
+public static JSONObject determineBody(Card card, Board board, Inventory inventory) {
+    JSONObject response = new JSONObject();
+    response.put("action", "none");
+    response.put("choices", JSONArray.toJSONString(new ArrayList<Noble>()));
     if (card.getType() != CardType.NONE) {
       JSONObject result = OrientManager.handleCard(card, board, inventory);
       String furtherAction = (String) result.get("type");
       String actionOptions = (String) result.get("choices");
-      purchaseResults.replace("action", furtherAction);
-      purchaseResults.replace("choices", actionOptions);
-      purchaseResults.put("noblesVisiting", JSONArray.toJSONString(new ArrayList<Noble>()));
+      response.replace("action", furtherAction);
+      response.replace("choices", actionOptions);
+      response.put("noblesVisiting", JSONArray.toJSONString(new ArrayList<Noble>()));
     } else {
       ArrayList<Noble> noblesVisiting = board.getNobles().attemptImpress(inventory);
-      purchaseResults.put("noblesVisiting", JSONArray.toJSONString(noblesVisiting));
+      response.put("noblesVisiting", JSONArray.toJSONString(noblesVisiting));
     }
 
-    return purchaseResults;
+    return response;
   }
   
   /**
