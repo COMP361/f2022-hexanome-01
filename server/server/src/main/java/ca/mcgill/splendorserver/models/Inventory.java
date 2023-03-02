@@ -12,6 +12,10 @@ import ca.mcgill.splendorserver.models.cards.Card;
 import ca.mcgill.splendorserver.models.expansion.City;
 import ca.mcgill.splendorserver.models.expansion.TradingPost;
 import ca.mcgill.splendorserver.models.expansion.Unlockable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  * Model class for a Splendor player's inventory i.e. everything they've acquired.
@@ -181,6 +185,12 @@ public class Inventory implements JsonStringafiable {
     }
   }
 
+  /**
+   * Checks whether the player can afford the cost.
+   *
+   * @param cost the amount to check for in the player's token bank
+   * @return whether the player can afford the cost
+   */
   public boolean isCostAffordable(HashMap<Token, Integer> cost) {
     for (Token token : Token.values()) {
       if (token.equals(Token.GOLD)) {
@@ -232,6 +242,10 @@ public class Inventory implements JsonStringafiable {
    */
   public ArrayList<Card> getReservedCards() {
     return (ArrayList<Card>) reservedCards.clone();
+  }
+
+  public TradingPost[] getTradingPosts(){
+    return tradingPosts;
   }
 
   @Override

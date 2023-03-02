@@ -1,10 +1,8 @@
 package ca.mcgill.splendorserver.models;
 
-import java.util.HashMap;
-
-import org.json.simple.JSONObject;
-
 import ca.mcgill.splendorserver.models.board.TokenBank;
+import java.util.HashMap;
+import org.json.simple.JSONObject;
 
 /**
  * Model class for Splendor noble tiles.
@@ -44,14 +42,23 @@ public class Noble {
     cost.put(Token.WHITE.toString(), Integer.parseInt((String) obj.get("white")));
     cost.put(Token.BLACK.toString(), Integer.parseInt((String) obj.get("black")));
   }
-  
+
+  /**
+   * Checks whether the noble will be impressed given an amount of bonuses.
+   *
+   * @param bonus the bonuses that could earn a noble visit
+   * @return whether the noble is impressed by the amount of bonuses
+   */
   public boolean impressed(TokenBank bonus) {
-	  for (Token token : Token.values()) {
-		  if (token.equals(Token.GOLD)) continue;
-		  if (bonus.checkAmount(token) < cost.get(token.toString()))
-			  return false;
-	  }
-	  return true;
+    for (Token token : Token.values()) {
+      if (token.equals(Token.GOLD)) {
+        continue;
+      }
+      if (bonus.checkAmount(token) < cost.get(token.toString())) {
+        return false;
+      }
+    }
+    return true;
   }
 
   /**

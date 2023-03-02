@@ -88,12 +88,11 @@ public class CardBank implements JsonStringafiable {
   }
 
   /**
-   * Draws a card from the decks.
+   * Draws a card.
    *
-   * @param cardId the card we want to take out
-   * @return the id of card
+   * @param cardId the cardId of the card being replaced
+   * @return the id of the newly drawn card
    */
-
   public int draw(int cardId) {
     Card card = CardRegistry.of(cardId);
     Stack<Integer> deck = decks.get(card.getLevel());

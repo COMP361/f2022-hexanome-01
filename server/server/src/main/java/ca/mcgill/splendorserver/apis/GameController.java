@@ -1,6 +1,5 @@
 package ca.mcgill.splendorserver.apis;
 
-
 import ca.mcgill.splendorserver.controllers.GameManager;
 import ca.mcgill.splendorserver.controllers.OrientManager;
 import ca.mcgill.splendorserver.models.Game;
@@ -31,7 +30,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
 
 /**
  * Game controller class for the server.
@@ -80,9 +78,9 @@ public class GameController {
   }
 
   /**
-   * Takes token.
+   * Getter for the board.
    *
-   * @param gameId the id of the game
+   * @param gameId the id of the game to get
    * @return success flag
    * @throws JsonProcessingException when JSON processing error occurs
    */
@@ -131,12 +129,33 @@ public class GameController {
    * @throws JsonProcessingException when JSON processing error occurs
    */
   @PostMapping("/api/action/{gameId}/takeTokens")
-  public ResponseEntity<HttpStatus> takeTokensAction(@PathVariable String gameId,
-                                                     @RequestBody JSONObject data)
+  public ResponseEntity<String> takeTokens(@PathVariable String gameId,
+                                           @RequestBody JSONObject data)
       throws JsonProcessingException {
-    String playerId = (String) data.get("playerId");
+    try {
+      //check validity of request
+      String playerId = (String) data.get("playerId");
+      Game game = GameManager.getGame(gameId);
+      if (game == null) {
+        return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
+      }
+      if (!game.getCurrentPlayer().equals(playerId)) {
+        return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
+      }
 
-    return ResponseEntity.ok(HttpStatus.OK);
+      //perform taking the tokens
+      JSONArray tokens = (JSONArray) data.get("tokens");
+      String[] tokenStrings = new String[tokens.size()];
+      for (int i = 0; i < tokenStrings.length; i++) {
+        tokenStrings[i] = (String) tokens.get(i);
+      }
+      JSONObject response = GameManager.takeTokens(game, playerId, tokenStrings);
+
+      //return the result of taking the tokens
+      return ResponseEntity.ok(response.toJSONString());
+    } catch (Exception e) {
+      return errorResponse(e.getMessage());
+    }
   }
 
   /**
@@ -156,12 +175,11 @@ public class GameController {
 
       //parse data
       //if card's type is not sacrifice, check to see if we can purchase it with tokens
-      //  if can purchase it, acquire it (acquire needs to be different method,
-      //  since sometimes can get cards for free)
-      //  call orientManager to deal with the
-      //  cards action (so that we dont bloat this class)
-      //if cards type WAS sacrifice, ping client to ask what cards they
-      // want to use (pass list of cards?)
+      //if we can purchase it, acquire it
+      //(acquire needs to be different method, since sometimes can get cards for free)
+      //call orientManager to deal with the cards action (so that we don't bloat this class)
+      //if cards type WAS sacrifice, ping client to ask what cards they want to use
+      //(pass list of cards?)
 
       Game game = GameManager.getGame(gameId);
       if (game == null) {
