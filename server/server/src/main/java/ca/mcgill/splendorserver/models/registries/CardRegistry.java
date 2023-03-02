@@ -102,13 +102,11 @@ public class CardRegistry implements Registry<Card> {
     return data.values();
   }
 
-  @Override
-  public Set<Integer> listIds() {
+  public static Set<Integer> listIds() {
     return data.keySet();
   }
 
-  @Override
-  public Card of(int id) {
+  public static Card of(int id) {
     return data.get(id);
   }
 }

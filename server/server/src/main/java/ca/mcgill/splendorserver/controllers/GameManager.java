@@ -1,14 +1,21 @@
 package ca.mcgill.splendorserver.controllers;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Optional;
+
+import org.springframework.stereotype.Component;
+
 import ca.mcgill.splendorserver.models.Game;
+import ca.mcgill.splendorserver.models.Inventory;
+import ca.mcgill.splendorserver.models.Noble;
 import ca.mcgill.splendorserver.models.SessionData;
 import ca.mcgill.splendorserver.models.board.Board;
+import ca.mcgill.splendorserver.models.board.CardBank;
+import ca.mcgill.splendorserver.models.cards.Card;
 import ca.mcgill.splendorserver.models.registries.CardRegistry;
 import ca.mcgill.splendorserver.models.registries.NobleRegistry;
 import ca.mcgill.splendorserver.models.registries.UnlockableRegistry;
-import java.util.HashMap;
-import java.util.Optional;
-import org.springframework.stereotype.Component;
 
 /**
  * This is the controller for all game managing functionality.
@@ -18,9 +25,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class GameManager {
 
-  private HashMap<String, Game> gameRegistry = new HashMap<String, Game>();
+  private static HashMap<String, Game> gameRegistry = new HashMap<String, Game>();
 
-  private HashMap<String, Game> saves = new HashMap<>();
+  private static HashMap<String, Game> saves = new HashMap<>();
 
   private CardRegistry cardRegistry = new CardRegistry();
   private NobleRegistry nobleRegistry = new NobleRegistry();
@@ -33,7 +40,7 @@ public class GameManager {
    * @param gameId  the unique id of the game
    * @param session the data about the session
    */
-  public void launchGame(String gameId, SessionData session) {
+  public static void launchGame(String gameId, SessionData session) {
     String saveId = session.getSavegame();
 
     if (!saveId.equals("")) {
@@ -58,12 +65,33 @@ public class GameManager {
    * @param gameId the id of the game we want to find.
    * @return the game object saved
    */
-  public Game getGame(String gameId) {
+  public static Game getGame(String gameId) {
     if (gameRegistry.containsKey(gameId)) {
       return gameRegistry.get(gameId);
     } else {
       return null;
     }
+  }
+  
+  public static ArrayList<Noble> purchaseCard(Game game, String playerId, int cardId) {
+	  Board board = game.getBoard();
+	  Card card = CardRegistry.of(cardId);
+	  
+	  if (card == null)
+		  return null;
+	  
+	  Inventory inventory = board.getInventory(playerId);
+	  
+	  CardBank cards = board.getCards();
+	  int pickedUp = cards.draw(cardId);
+	  if (pickedUp != cardId) 
+		  return null;
+	  
+	  inventory.addCard(card);
+	  
+	  ArrayList<Noble> noblesVisiting = board.getNobles().attemptImpress(inventory);
+	  
+	  return noblesVisiting;
   }
 
   /**
@@ -72,7 +100,7 @@ public class GameManager {
    * @param gameId id of game
    * @return Optional Optional its used in this case as we might not have found the game
    */
-  public Optional<Board> getGameBoard(String gameId) {
+  public static Optional<Board> getGameBoard(String gameId) {
     if (gameRegistry.containsKey(gameId)) {
       return Optional.of(gameRegistry.get(gameId).getBoard());
     } else {
@@ -85,7 +113,7 @@ public class GameManager {
    *
    * @param gameId the id of the games
    */
-  public void deleteGame(String gameId) {
+  public static void deleteGame(String gameId) {
     gameRegistry.remove(gameId);
   }
 
@@ -94,7 +122,7 @@ public class GameManager {
    *
    * @return gameRegistry
    */
-  public HashMap<String, Game> getGameRegistry() {
+  public static HashMap<String, Game> getGameRegistry() {
     return gameRegistry;
   }
 }

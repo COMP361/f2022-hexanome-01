@@ -1,11 +1,9 @@
 package ca.mcgill.splendorserver.apis;
 
-import ca.mcgill.splendorserver.controllers.GameManager;
-import ca.mcgill.splendorserver.models.Game;
-import ca.mcgill.splendorserver.models.SessionData;
-import ca.mcgill.splendorserver.models.board.Board;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import java.util.ArrayList;
 import java.util.Optional;
+
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +18,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
+import ca.mcgill.splendorserver.controllers.GameManager;
+import ca.mcgill.splendorserver.models.Game;
+import ca.mcgill.splendorserver.models.Noble;
+import ca.mcgill.splendorserver.models.SessionData;
+import ca.mcgill.splendorserver.models.board.Board;
+
 /**
  * Game controller class for the server.
  */
@@ -27,7 +33,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class GameController {
 
   private final Logger logger;
-
+  
+  private JSONObject gameNotFound;
+  private JSONObject playerNotTurn;
+  
+  private JSONObject invalidAction;
 
   @Autowired
   private GameManager gameManager;
@@ -36,9 +46,31 @@ public class GameController {
    * Sole constructor.
    * (For invocation by subclass constructors, typically implicit.)
    */
-  public GameController() {
+@SuppressWarnings("unchecked")
+public GameController() {
     logger = LoggerFactory.getLogger(GameController.class);
+  
+    gameNotFound = new JSONObject();
+    gameNotFound.put("status", "failure");
+    gameNotFound.put("message", "Game not found.");
+    
+    playerNotTurn = new JSONObject();
+    playerNotTurn.put("status", "failure");
+    playerNotTurn.put("message", "Cannot make move outside of turn.");
+    
+    invalidAction = new JSONObject();
+    invalidAction.put("status", "failure");
+    invalidAction.put("message", "Invalid action.");
+  
   }
+
+@SuppressWarnings({ "unused", "unchecked" })
+private ResponseEntity<String> errorResponse(String message) {
+    JSONObject error = new JSONObject();
+    error.put("status", "failure");
+    error.put("message", "Error 500: " + message);
+    return ResponseEntity.status(500).body(error.toJSONString());
+}
 
   /**
    * Takes token.
@@ -50,7 +82,7 @@ public class GameController {
   @GetMapping("/api/games/{gameId}/board")
   public ResponseEntity<String> getBoard(@PathVariable String gameId)
       throws JsonProcessingException {
-    Optional<Board> boardOptional = gameManager.getGameBoard(gameId);
+    Optional<Board> boardOptional = GameManager.getGameBoard(gameId);
     if (boardOptional.isPresent()) {
       return ResponseEntity.ok(boardOptional.get().toJson().toJSONString());
     } else {
@@ -67,12 +99,17 @@ public class GameController {
    */
   @GetMapping("/api/games/{gameId}")
   public ResponseEntity<String> getGame(@PathVariable String gameId) {
-    Game game = gameManager.getGame(gameId);
-    if (game != null) {
-      return ResponseEntity.ok(game.getId());
-    } else {
-      return ResponseEntity.ok("{}");
-    }
+	try {
+		Game game = GameManager.getGame(gameId);
+		if (game != null) {
+			return ResponseEntity.ok(game.getId());
+		} else {
+			return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
+		}
+	}
+	catch (Exception e) {
+		return errorResponse(e.getMessage());
+	}
   }
 
   /**
@@ -100,19 +137,43 @@ public class GameController {
    * @return success flag
    * @throws JsonProcessingException when JSON processing error occurs
    */
-  @PostMapping("/api/action/{gameId}/performPurchaseCard")
-  public ResponseEntity<HttpStatus> performPurchaseCard(@PathVariable String gameId,
-                                                               @RequestBody JSONObject data)
-      throws JsonProcessingException {
-    String playerId = (String) data.get("playerId");
-    
-    //parse data
-    //if card's type is not sacrifice, check to see if we can purchase it with tokens
-    //  if can purchase it, acquire it (acquire needs to be different method, since sometimes can get cards for free)
-    //  call orientManager to deal with the cards action (so that we dont bloat this class)
-    //if cards type WAS sacrifice, ping client to ask what cards they want to use (pass list of cards?)
+  @SuppressWarnings("unchecked")
+  @PostMapping("/api/action/{gameId}/purchaseCard")
+  public ResponseEntity<String> purchaseCard(@PathVariable String gameId,
+                                                               @RequestBody JSONObject data) {
+	
+	try {
+		String playerId = (String) data.get("playerId");
 
-    return ResponseEntity.ok(HttpStatus.OK);
+		//parse data
+		//if card's type is not sacrifice, check to see if we can purchase it with tokens
+		//  if can purchase it, acquire it (acquire needs to be different method, since sometimes can get cards for free)
+		//  call orientManager to deal with the cards action (so that we dont bloat this class)
+		//if cards type WAS sacrifice, ping client to ask what cards they want to use (pass list of cards?)
+
+		Game game = GameManager.getGame(gameId);
+		if (game == null)
+			return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
+
+		if (!game.getCurrentPlayer().equals(playerId)) {
+			return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
+		}
+		
+		int cardId = (int) data.get("cardId");
+		
+		ArrayList<Noble> noblesVisiting = GameManager.purchaseCard(game, playerId, cardId);
+		if (noblesVisiting == null)
+			return ResponseEntity.ok().body(invalidAction.toJSONString());
+		
+		JSONObject response = new JSONObject();
+		response.put("status", "success");
+		response.put("noblesVisiting", JSONArray.toJSONString(noblesVisiting));
+		
+		return ResponseEntity.ok(response.toJSONString());
+	}
+	catch (Exception e) {
+		return errorResponse(e.getMessage());
+	}
   }
 
   /**
@@ -157,7 +218,7 @@ public class GameController {
    */
   @DeleteMapping(path = "/api/splendor/{gameId}")
   public void deleteGame(@PathVariable(required = true, name = "gameId") long gameId) {
-    gameManager.deleteGame("" + gameId);
+    GameManager.deleteGame("" + gameId);
   }
 
   /**
@@ -173,7 +234,7 @@ public class GameController {
       @PathVariable(required = true, name = "gameId") String gameId,
       @RequestBody SessionData session) throws JsonProcessingException {
     System.out.println("launching");
-    gameManager.launchGame(gameId, session);
+    GameManager.launchGame(gameId, session);
 
     return ResponseEntity.ok(HttpStatus.OK);
   }
