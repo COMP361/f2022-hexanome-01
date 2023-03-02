@@ -112,9 +112,9 @@ public class Card {
   public CardLevel getLevel() {
     return level;
   }
-  
+
   public CardBonus getBonus() {
-	  return bonus;
+    return bonus;
   }
 
   /**

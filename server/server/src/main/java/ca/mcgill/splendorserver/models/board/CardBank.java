@@ -67,7 +67,7 @@ public class CardBank implements JsonStringafiable {
   public HashMap<CardLevel, int[]> getRows() {
     return rows;
   }
-  
+
   /**
    * Draw a card from the deck.
    *
@@ -86,23 +86,29 @@ public class CardBank implements JsonStringafiable {
     rows.put(level, row);
     return old;
   }
-  
+
+  /**
+   * Draws a card.
+   *
+   * @param cardId the cardId of the card being replaced
+   * @return the id of the newly drawn card
+   */
   public int draw(int cardId) {
-	  Card card = CardRegistry.of(cardId);
-	  Stack<Integer> deck = decks.get(card.getLevel());
-	  if (deck.isEmpty()) {
-		  return -1;
-	  }
-	  int[] row = rows.get(card.getLevel());
-	  for (int i=0; i<row.length; i++) {
-		  if (row[i] == card.getId()) {
-			  int old = row[i];
-			  row[i] = deck.pop();
-			  rows.put(card.getLevel(), row);
-			  return old;
-		  }
-	  }
-	  return -1;
+    Card card = CardRegistry.of(cardId);
+    Stack<Integer> deck = decks.get(card.getLevel());
+    if (deck.isEmpty()) {
+      return -1;
+    }
+    int[] row = rows.get(card.getLevel());
+    for (int i = 0; i < row.length; i++) {
+      if (row[i] == card.getId()) {
+        int old = row[i];
+        row[i] = deck.pop();
+        rows.put(card.getLevel(), row);
+        return old;
+      }
+    }
+    return -1;
   }
 
   @Override

@@ -135,8 +135,9 @@ public class OrientManager {
   public static JSONObject sacrifice(Card card, Inventory inventory) {
     return null;
     //asks player to select which cards they desire to sacrifice
-    //prioritizes sacrificing cards who satchel value != 0
-    //if valid cards selected (2 cards, or 1 with bonus of 2), remove them from ivnentory and add this card
+    //prioritizes sacrificing cards with satchel value != 0
+    //if valid cards selected (2 cards, or 1 with bonus of 2),
+    //remove them from inventory and add this card
   } 
   
   /**

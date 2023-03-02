@@ -39,7 +39,7 @@ public class Game {
 
     launched = false;
     setLaunched();
-    
+
     currentPlayerIndex = 0;
   }
 
@@ -66,7 +66,7 @@ public class Game {
     }
     launched = true;
   }
-  
+
   /**
    * Getter for the board.
    *
@@ -75,8 +75,12 @@ public class Game {
   public Board getBoard() {
     return board;
   }
-  
+
   public String getCurrentPlayer() {
-	  return players[currentPlayerIndex];
+    return players[currentPlayerIndex];
+  }
+
+  public String getVariant() {
+    return variant;
   }
 }
