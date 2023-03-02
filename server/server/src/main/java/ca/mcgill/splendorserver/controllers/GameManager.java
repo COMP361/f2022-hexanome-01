@@ -1,8 +1,10 @@
 package ca.mcgill.splendorserver.controllers;
 
 import ca.mcgill.splendorserver.models.Game;
+import ca.mcgill.splendorserver.models.Player;
 import ca.mcgill.splendorserver.models.SessionData;
 import ca.mcgill.splendorserver.models.board.Board;
+import ca.mcgill.splendorserver.models.communicationbeans.ReserveCardData;
 import ca.mcgill.splendorserver.models.registries.CardRegistry;
 import ca.mcgill.splendorserver.models.registries.NobleRegistry;
 import ca.mcgill.splendorserver.models.registries.UnlockableRegistry;
@@ -42,7 +44,12 @@ public class GameManager {
       save.setLaunched();
     } else {
       //players
-      String[] players = session.getPlayers();
+      String[] playersUsernames = session.getPlayers();
+      int numberOfPlayers = playersUsernames.length;
+      Player[] players = new Player[numberOfPlayers];
+      for (int i = 0; i < numberOfPlayers; i++) {
+        players[i] = new Player(playersUsernames[i]);
+      }
       //variant
       String variant = session.getVariant();
       //creator
@@ -87,6 +94,26 @@ public class GameManager {
    */
   public void deleteGame(String gameId) {
     gameRegistry.remove(gameId);
+  }
+
+  /**
+   * Functionality for a player to reserve a card.
+   * It makes sure that the player is part of the game
+   * they requested from.
+   * @param gameId the game that its being played
+   * @param reserveCardData the data receive from the request
+   * @return true or false depending if the player can or cannot reserve card
+   */
+  public boolean reserveCard(String gameId, ReserveCardData reserveCardData) {
+    if (gameRegistry.containsKey(gameId)) {
+      Game game = gameRegistry.get(gameId);
+      Player[] players = game.getPlayers();
+      for (Player player : players) {
+        if (player.getUsername().equals(reserveCardData.getPlayer())) {
+        }
+      }
+    }
+    return false;
   }
 
   /**

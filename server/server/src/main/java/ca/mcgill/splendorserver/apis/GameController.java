@@ -4,6 +4,7 @@ import ca.mcgill.splendorserver.controllers.GameManager;
 import ca.mcgill.splendorserver.models.Game;
 import ca.mcgill.splendorserver.models.SessionData;
 import ca.mcgill.splendorserver.models.board.Board;
+import ca.mcgill.splendorserver.models.communicationbeans.ReserveCardData;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.Optional;
 import org.json.simple.JSONObject;
@@ -119,15 +120,16 @@ public class GameController {
    * Takes token.
    *
    * @param gameId the id of the game
-   * @param data   the game data of the take tokens action
+   * @param reserveCardData   the game data of the take reserve card action
    * @return success flag
    * @throws JsonProcessingException when JSON processing error occurs
    */
   @PostMapping("/api/action/{gameId}/reserveCard")
   public ResponseEntity<HttpStatus> reserveCardAction(@PathVariable String gameId,
-                                                      @RequestBody JSONObject data)
+                                                      @RequestBody ReserveCardData reserveCardData)
       throws JsonProcessingException {
-    String playerId = (String) data.get("playerId");
+
+
 
     return ResponseEntity.ok(HttpStatus.OK);
   }
