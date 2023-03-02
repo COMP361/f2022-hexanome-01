@@ -36,6 +36,25 @@ public class Board implements JsonStringafiable {
     this.currentPlayer = creator;
   }
 
+  /**
+   * Gets the inventory of the player with the provided id
+   * @param playerId the id of player
+   * @return Inventory object
+   */
+  public Inventory getInventory(String playerId) {
+    for(Player player : players){
+      if(player.getUsername().equals(playerId)){
+        return player.getInventory();
+      }
+    }
+    return null;
+  }
+
+  
+  public NobleBank getNobles() {
+	  return nobles;
+  }
+
   @SuppressWarnings("unchecked")
   @Override
   public String toJsonString() {
@@ -61,7 +80,8 @@ public class Board implements JsonStringafiable {
    *
    * @return the board as a JSONObject
    */
-  public JSONObject toJson() {
+  @SuppressWarnings("unchecked")
+public JSONObject toJson() {
     JSONObject json = new JSONObject();
     json.put("currentPlayer", currentPlayer);
     JSONArray[] cardsAndDecks = cards.toJson();

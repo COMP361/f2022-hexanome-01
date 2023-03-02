@@ -1,10 +1,10 @@
 package utils;
 
 import ca.mcgill.splendorserver.models.LobbyServicePlayerData;
-import ca.mcgill.splendorserver.models.SessionData;
+import ca.mcgill.splendorserver.models.communicationbeans.SessionData;
 import java.util.LinkedList;
 
-public class APITestUtils {
+public class ControllerTestUtils {
 
   public SessionData createDummySessionData() {
     LobbyServicePlayerData creator = new LobbyServicePlayerData("testCreator", "blue");

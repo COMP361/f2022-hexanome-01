@@ -11,21 +11,21 @@ using System.Runtime.InteropServices.WindowsRuntime;
 
 [CreateAssetMenu]
 public class Gem : ScriptableObject{
-    [SerializeField] public int amount;
+    [SerializeField] public long amount;
     [SerializeField] public string colour;
     public Sprite sprite;
     private SpriteRenderer m_SpriteRenderer;
     [SerializeField] private Image image;
 
-    public void setAmount(int n){
+    public void setAmount(long n){
         amount = n;
     }
 
-    public void decreaseAmount(int n){
+    public void decreaseAmount(long n){
         amount -= n;
     }
 
-    public void increaseAmount(int n){
+    public void increaseAmount(long n){
         amount += n;
     }
     

@@ -9,6 +9,7 @@ public class ReserveCardData {
 
   private String player;
   private int card;
+  private String deck;
 
   /**
    * Constructor for the data received when a player wants
@@ -16,10 +17,12 @@ public class ReserveCardData {
    *
    * @param player username of plauyer that wants to reserve card
    * @param card   card that he wants to reserve (Unique ID)
+   * @param deck   if reserve from deck it will be the name of the deck
    */
-  public ReserveCardData(String player, int card) {
+  public ReserveCardData(String player, int card, String deck) {
     this.player = player;
     this.card = card;
+    this.deck = deck;
   }
 
   /**
@@ -56,5 +59,24 @@ public class ReserveCardData {
    */
   public void setCard(int card) {
     this.card = card;
+  }
+
+  /**
+   * Returns the name of the deck.
+   *
+   * @return name of the deck
+   */
+  public String getDeck() {
+    return deck;
+  }
+
+  /**
+   * Sets the deck that we want to reserve a card from.
+   *
+   * @param deck name of deck
+   */
+
+  public void setDeck(String deck) {
+    this.deck = deck;
   }
 }

@@ -18,4 +18,12 @@ public class CardBonus {
     type = null;
     amount = 0;
   }
+
+public Token getType() {
+	return type;
+}
+
+public int getAmount() {
+	return amount;
+}
 }

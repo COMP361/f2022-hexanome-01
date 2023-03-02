@@ -59,6 +59,14 @@ public class TokenBank implements JsonStringafiable {
     }
     return true;
   }
+  public boolean addRepeated(String token, int amount) {
+    Integer current = quantities.get(Token.valueOf(token));
+    if (current == null) {
+      return false;
+    }
+    quantities.put(Token.valueOf(token), current + amount);
+    return true;
+  }
 
   /**
    * Add one token of a given colour.
@@ -67,12 +75,7 @@ public class TokenBank implements JsonStringafiable {
    * @return whether the token was added successfully
    */
   public boolean addOne(String token) {
-    Integer current = quantities.get(Token.valueOf(token));
-    if (current == null) {
-      return false;
-    }
-    quantities.put(Token.valueOf(token), current + 1);
-    return true;
+	  return addRepeated(token, 1);
   }
 
   /**
@@ -97,11 +100,15 @@ public class TokenBank implements JsonStringafiable {
    * @return whether the removal was successful
    */
   public boolean removeOne(String token) {
+	    return removeRepeated(token, 1);
+	  }
+  
+  public boolean removeRepeated(String token, int amount) {
     Integer current = quantities.get(Token.valueOf(token));
     if (current == null || current == 0) {
       return false;
     }
-    quantities.put(Token.valueOf(token), current - 1);
+    quantities.put(Token.valueOf(token), current - amount);
     return true;
   }
 

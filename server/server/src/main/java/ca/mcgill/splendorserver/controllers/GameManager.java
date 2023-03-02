@@ -1,15 +1,24 @@
 package ca.mcgill.splendorserver.controllers;
 
 import ca.mcgill.splendorserver.models.Game;
+import ca.mcgill.splendorserver.models.Inventory;
+import ca.mcgill.splendorserver.models.Noble;
 import ca.mcgill.splendorserver.models.Player;
-import ca.mcgill.splendorserver.models.SessionData;
 import ca.mcgill.splendorserver.models.board.Board;
+import ca.mcgill.splendorserver.models.board.CardBank;
+import ca.mcgill.splendorserver.models.cards.Card;
+import ca.mcgill.splendorserver.models.cards.CardLevel;
+import ca.mcgill.splendorserver.models.cards.CardType;
 import ca.mcgill.splendorserver.models.communicationbeans.ReserveCardData;
+import ca.mcgill.splendorserver.models.communicationbeans.SessionData;
 import ca.mcgill.splendorserver.models.registries.CardRegistry;
 import ca.mcgill.splendorserver.models.registries.NobleRegistry;
 import ca.mcgill.splendorserver.models.registries.UnlockableRegistry;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Component;
 
 /**
@@ -20,9 +29,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class GameManager {
 
-  private HashMap<String, Game> gameRegistry = new HashMap<String, Game>();
+  private static HashMap<String, Game> gameRegistry = new HashMap<String, Game>();
 
-  private HashMap<String, Game> saves = new HashMap<>();
+  private static HashMap<String, Game> saves = new HashMap<>();
 
   private CardRegistry cardRegistry = new CardRegistry();
   private NobleRegistry nobleRegistry = new NobleRegistry();
@@ -35,7 +44,7 @@ public class GameManager {
    * @param gameId  the unique id of the game
    * @param session the data about the session
    */
-  public void launchGame(String gameId, SessionData session) {
+  public static void launchGame(String gameId, SessionData session) {
     String saveId = session.getSavegame();
 
     if (!saveId.equals("")) {
@@ -65,7 +74,7 @@ public class GameManager {
    * @param gameId the id of the game we want to find.
    * @return the game object saved
    */
-  public Game getGame(String gameId) {
+  public static Game getGame(String gameId) {
     if (gameRegistry.containsKey(gameId)) {
       return gameRegistry.get(gameId);
     } else {
@@ -74,12 +83,70 @@ public class GameManager {
   }
 
   /**
+   * Adds a card to a players inventory. does pay for the card.
+   *
+   * @param game     the game where the player and card reside.
+   * @param playerId the player in question.
+   * @param cardId   the card the player wishes to acquire.
+   * @return the JSONObject response containing the action being done, and choices for user.
+   */
+  @SuppressWarnings("unchecked")
+  public static JSONObject purchaseCard(Game game, String playerId, int cardId) {
+    Board board = game.getBoard();
+    Card card = CardRegistry.of(cardId);
+    Inventory inventory = board.getInventory(playerId);
+    JSONObject purchaseResults = new JSONObject();
+
+    if (!inventory.isCostAffordable(card.getCost()) || !acquireCard(card, board, inventory)) {
+      return null;
+    }
+    inventory.payForCard(card);
+
+    purchaseResults.put("action", "none");
+    purchaseResults.put("choices", JSONArray.toJSONString(new ArrayList<Noble>()));
+    if (card.getType() != CardType.NONE) {
+      JSONObject result = OrientManager.handleCard(card, board, inventory);
+      String furtherAction = (String) result.get("type");
+      String actionOptions = (String) result.get("choices");
+      purchaseResults.replace("action", furtherAction);
+      purchaseResults.replace("choices", actionOptions);
+      purchaseResults.put("noblesVisiting", JSONArray.toJSONString(new ArrayList<Noble>()));
+    } else {
+      ArrayList<Noble> noblesVisiting = board.getNobles().attemptImpress(inventory);
+      purchaseResults.put("noblesVisiting", JSONArray.toJSONString(noblesVisiting));
+    }
+
+    return purchaseResults;
+  }
+
+  /**
+   * Adds a card to a players inventory. does not pay for the card.
+   *
+   * @param card      the card the player wishes to acquire.
+   * @param board     the board on which the card resides.
+   * @param inventory the inventory we wish to add the card to.
+   * @return whether or not the acquisition was successful.
+   */
+  public static boolean acquireCard(Card card, Board board, Inventory inventory) {
+    if (card == null) {
+      return false;
+    }
+    CardBank cards = board.getCards();
+    int pickedUp = cards.draw(card.getId());
+    if (pickedUp != card.getId()) {
+      return false;
+    }
+    inventory.addCard(card);
+    return true;
+  }
+
+  /**
    * Gets the gameboard of the game with the provided ID.
    *
    * @param gameId id of game
    * @return Optional Optional its used in this case as we might not have found the game
    */
-  public Optional<Board> getGameBoard(String gameId) {
+  public static Optional<Board> getGameBoard(String gameId) {
     if (gameRegistry.containsKey(gameId)) {
       return Optional.of(gameRegistry.get(gameId).getBoard());
     } else {
@@ -92,7 +159,7 @@ public class GameManager {
    *
    * @param gameId the id of the games
    */
-  public void deleteGame(String gameId) {
+  public static void deleteGame(String gameId) {
     gameRegistry.remove(gameId);
   }
 
@@ -100,7 +167,8 @@ public class GameManager {
    * Functionality for a player to reserve a card.
    * It makes sure that the player is part of the game
    * they requested from.
-   * @param gameId the game that its being played
+   *
+   * @param gameId          the game that its being played
    * @param reserveCardData the data receive from the request
    * @return true or false depending if the player can or cannot reserve card
    */
@@ -110,6 +178,20 @@ public class GameManager {
       Player[] players = game.getPlayers();
       for (Player player : players) {
         if (player.getUsername().equals(reserveCardData.getPlayer())) {
+          if (reserveCardData.getDeck().equals("")) {
+            int cardToReserve =
+                game.getBoard().getCards().draw(reserveCardData.getCard());
+            if (cardToReserve == -1) {
+              return false;
+            }
+            player.getInventory().reserve(cardRegistry.of(cardToReserve));
+            return true;
+          } else {
+            CardLevel cardLevel = CardBank.getCardLevelFromString(reserveCardData.getDeck());
+            int card = game.getBoard().getCards().drawCardFromDeck(cardLevel);
+            player.getInventory().reserve(cardRegistry.of(card));
+            return true;
+          }
         }
       }
     }
@@ -121,7 +203,7 @@ public class GameManager {
    *
    * @return gameRegistry
    */
-  public HashMap<String, Game> getGameRegistry() {
+  public static HashMap<String, Game> getGameRegistry() {
     return gameRegistry;
   }
 }
