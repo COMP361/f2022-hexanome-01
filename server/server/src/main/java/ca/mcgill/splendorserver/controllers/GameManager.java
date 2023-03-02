@@ -82,6 +82,9 @@ public class GameManager {
 	  
 	  Inventory inventory = board.getInventory(playerId);
 	  
+	  if (!inventory.isCostAffordable(card.getCost()))
+		  return null;
+	  
 	  CardBank cards = board.getCards();
 	  int pickedUp = cards.draw(cardId);
 	  if (pickedUp != cardId) 
