@@ -87,6 +87,8 @@ public class GameManager {
 	  if (pickedUp != cardId) 
 		  return null;
 	  
+	  if (!inventory.isCostAffordable(card.getCost()))
+		  return null;
 	  inventory.addCard(card);
 	  
 	  ArrayList<Noble> noblesVisiting = board.getNobles().attemptImpress(inventory);
