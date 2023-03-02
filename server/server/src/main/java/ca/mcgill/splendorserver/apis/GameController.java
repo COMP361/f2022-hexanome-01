@@ -82,12 +82,17 @@ private ResponseEntity<String> errorResponse(String message) {
   @GetMapping("/api/games/{gameId}/board")
   public ResponseEntity<String> getBoard(@PathVariable String gameId)
       throws JsonProcessingException {
-    Optional<Board> boardOptional = GameManager.getGameBoard(gameId);
-    if (boardOptional.isPresent()) {
-      return ResponseEntity.ok(boardOptional.get().toJson().toJSONString());
-    } else {
-      return ResponseEntity.ok("{}");
-    }
+	try {
+		Optional<Board> boardOptional = GameManager.getGameBoard(gameId);
+		if (boardOptional.isPresent()) {
+			return ResponseEntity.ok(boardOptional.get().toJson().toJSONString());
+		} else {
+			return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
+		}
+	}
+	catch (Exception e) {
+		return errorResponse(e.getMessage());
+	}
   }
 
   /**
