@@ -60,6 +60,15 @@ public class CardBank implements JsonStringafiable {
   }
 
   /**
+   * Getter for the hashmap of displayed cards.
+   *
+   * @return the rows of displayed cards.
+   */
+  public HashMap<CardLevel, int[]> getRows() {
+    return rows;
+  }
+  
+  /**
    * Draw a card from the deck.
    *
    * @param index the index of the card to draw

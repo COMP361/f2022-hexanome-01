@@ -158,14 +158,22 @@ public class Inventory implements JsonStringafiable {
    * @param card the card to add
    */
   public void addCard(Card card) {
-	for (Token token : Token.values()) {
-		if (token.equals(Token.GOLD)) continue;
-		tokens.removeRepeated(token.toString(), card.getCost().get(token));
-	}
     cards.add(card);
     //TO DO: add the correct bonuses too?
     //TO DO: add points too
     //do not remove cost of card tho, it will mess up stuff
+  }
+  
+  /**
+   * Pay for a card using player's tokens/discounts.
+   *
+   * @param card the card to pay for.
+   */
+  public void payForCard(Card card) {
+    for (Token token : Token.values()) {
+      if (token.equals(Token.GOLD)) continue;
+      tokens.removeRepeated(token.toString(), card.getCost().get(token));
+    }
   }
   
   public boolean isCostAffordable(HashMap<Token, Integer> cost) {

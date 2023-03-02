@@ -75,6 +75,19 @@ public class NobleBank implements JsonStringafiable {
     return nobles;
   }
   
+  /**
+   * Method that checks if a given noble is on the board.
+   *
+   * @return whether or not this noble is on the board
+   */
+  public boolean contains(int nobleId) {
+    for (int i = 0; i < nobles.length; i++)
+      if (nobleId == nobles[i]) {
+        return true;
+      }
+    return false;
+  }
+  
   public ArrayList<Noble> attemptImpress(Inventory inventory) {
 	  ArrayList<Noble> impressed = new ArrayList<Noble>();
 	  for (int nobleId : getNobles()) {
