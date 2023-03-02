@@ -19,11 +19,11 @@ public class CardBonus {
     amount = 0;
   }
 
-public Token getType() {
-	return type;
-}
+  public Token getType() {
+    return type;
+  }
 
-public int getAmount() {
-	return amount;
-}
+  public int getAmount() {
+    return amount;
+  }
 }
