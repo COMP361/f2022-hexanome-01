@@ -24,8 +24,8 @@ public class Board implements JsonStringafiable {
   /**
    * Constructor.
    *
-   * @param creator the creator of the game
-   * @param players String array of player usernames
+   * @param creator the creator of the game.
+   * @param players String array of player usernames.
    */
   public Board(String creator, Player[] players) {
     int playerNum = players.length;
@@ -37,13 +37,14 @@ public class Board implements JsonStringafiable {
   }
 
   /**
-   * Gets the inventory of the player with the provided id
-   * @param playerId the id of player
-   * @return Inventory object
+   * Gets the inventory of the player with the provided id.
+   *
+   * @param playerId the id of player.
+   * @return Inventory object.
    */
   public Inventory getInventory(String playerId) {
-    for(Player player : players){
-      if(player.getUsername().equals(playerId)){
+    for (Player player : players) {
+      if (player.getUsername().equals(playerId)) {
         return player.getInventory();
       }
     }

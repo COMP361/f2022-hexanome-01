@@ -111,7 +111,7 @@ public class CardBank implements JsonStringafiable {
     return -1;
   }
 
-  public int drawCardFromDeck(CardLevel level){
+  public int drawCardFromDeck(CardLevel level) {
     Stack<Integer> deck = decks.get(level);
     return deck.pop();
   }
@@ -195,6 +195,11 @@ public class CardBank implements JsonStringafiable {
     return new JSONArray[] {cardsJson, decksJson};
   }
 
+  /**
+   * Converter converting a string representation of a cardlevel to the enum.
+   *
+   * @return level of the desired (enum).
+   */
   public static CardLevel getCardLevelFromString(String cardLevel) {
     if (cardLevel.equals("Level1")) {
       return CardLevel.LEVEL1;

@@ -244,7 +244,12 @@ public class Inventory implements JsonStringafiable {
     return (ArrayList<Card>) reservedCards.clone();
   }
 
-  public TradingPost[] getTradingPosts(){
+  /**
+   * Getter for the trading posts of the player.
+   *
+   * @return trading post array
+   */
+  public TradingPost[] getTradingPosts() {
     return tradingPosts;
   }
 
