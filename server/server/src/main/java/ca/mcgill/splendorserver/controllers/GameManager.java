@@ -93,7 +93,6 @@ public class GameManager {
    * @param cardId   the card the player wishes to acquire.
    * @return the JSONObject response containing the action being done, and choices for user.
    */
-  @SuppressWarnings("unchecked")
   public static JSONObject purchaseCard(Game game, String playerId, int cardId) {
     Board board = game.getBoard();
     Card card = CardRegistry.of(cardId);
@@ -121,7 +120,7 @@ public class GameManager {
 public static JSONObject determineBody(Card card, Board board, Inventory inventory) {
     JSONObject response = new JSONObject();
     response.put("action", "none");
-    response.put("choices", JSONArray.toJSONString(new ArrayList<Noble>()));
+    response.put("choices", JSONArray.toJSONString(new ArrayList<Integer>()));
 
     if (card.getType() != CardType.NONE) {
       JSONObject result = OrientManager.handleCard(card, board, inventory);
@@ -129,9 +128,9 @@ public static JSONObject determineBody(Card card, Board board, Inventory invento
       String actionOptions = (String) result.get("choices");
       response.replace("action", furtherAction);
       response.replace("choices", actionOptions);
-      response.put("noblesVisiting", JSONArray.toJSONString(new ArrayList<Noble>()));
+      response.put("noblesVisiting", JSONArray.toJSONString(new ArrayList<Integer>()));
     } else {
-      ArrayList<Noble> noblesVisiting = board.getNobles().attemptImpress(inventory);
+      ArrayList<Integer> noblesVisiting = board.getNobles().attemptImpress(inventory);
       response.put("noblesVisiting", JSONArray.toJSONString(noblesVisiting));
     }
 
