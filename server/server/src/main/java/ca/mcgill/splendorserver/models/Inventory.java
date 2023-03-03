@@ -1,5 +1,6 @@
 package ca.mcgill.splendorserver.models;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -11,6 +12,10 @@ import ca.mcgill.splendorserver.models.cards.Card;
 import ca.mcgill.splendorserver.models.expansion.City;
 import ca.mcgill.splendorserver.models.expansion.TradingPost;
 import ca.mcgill.splendorserver.models.expansion.Unlockable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  * Model class for a Splendor player's inventory i.e. everything they've acquired.
@@ -19,6 +24,7 @@ public class Inventory implements JsonStringafiable {
 
   private int points;
   private TokenBank tokens;
+  private TokenBank bonuses;
   private ArrayList<Card> cards;
   private ArrayList<Noble> nobles;
   private ArrayList<Card> reservedCards;
@@ -37,6 +43,7 @@ public class Inventory implements JsonStringafiable {
     reservedCards = new ArrayList<>();
     reservedNobles = new ArrayList<>();
     tokens = new TokenBank();
+    bonuses = new TokenBank();
     tradingPosts = new TradingPost[5];
     unlockables = new ArrayList<>();
   }
@@ -158,22 +165,42 @@ public class Inventory implements JsonStringafiable {
    * @param card the card to add
    */
   public void addCard(Card card) {
-	for (Token token : Token.values()) {
-		if (token.equals(Token.GOLD)) continue;
-		tokens.removeRepeated(token.toString(), card.getCost().get(token));
-	}
     cards.add(card);
     //TO DO: add the correct bonuses too?
     //TO DO: add points too
+    //do not remove cost of card tho, it will mess up stuff
   }
-  
+
+  /**
+   * Pay for a card using player's tokens/discounts.
+   *
+   * @param card the card to pay for.
+   */
+  public void payForCard(Card card) {
+    for (Token token : Token.values()) {
+      if (token.equals(Token.GOLD)) {
+        continue;
+      }
+      tokens.removeRepeated(token.toString(), card.getCost().get(token));
+    }
+  }
+
+  /**
+   * Checks whether the player can afford the cost.
+   *
+   * @param cost the amount to check for in the player's token bank
+   * @return whether the player can afford the cost
+   */
   public boolean isCostAffordable(HashMap<Token, Integer> cost) {
-	  for (Token token : Token.values()) {
-		  if (token.equals(Token.GOLD)) continue;
-		  if (tokens.checkAmount(token) < cost.get(token))
-			  return false;
-	  }
-	  return true;
+    for (Token token : Token.values()) {
+      if (token.equals(Token.GOLD)) {
+        continue;
+      }
+      if (tokens.checkAmount(token) < cost.get(token)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   /**
@@ -203,9 +230,22 @@ public class Inventory implements JsonStringafiable {
   public TokenBank getBonuses() {
     TokenBank bonuses = new TokenBank();
     for (Card card : cards) {
-    	bonuses.addRepeated(card.getBonus().getType().toString(), card.getBonus().getAmount());
+      bonuses.addRepeated(card.getBonus().getType().toString(), card.getBonus().getAmount());
     }
     return bonuses;
+  }
+
+  /**
+   * Getter for the reserved cards of the player.
+   *
+   * @return reservedCards
+   */
+  public ArrayList<Card> getReservedCards() {
+    return (ArrayList<Card>) reservedCards.clone();
+  }
+
+  public TradingPost[] getTradingPosts(){
+    return tradingPosts;
   }
 
   @Override
@@ -230,7 +270,7 @@ public class Inventory implements JsonStringafiable {
    * @return the inventory as a JSONObject
    */
   @SuppressWarnings("unchecked")
-public JSONObject toJson() {
+  public JSONObject toJson() {
     JSONObject json = new JSONObject();
     //points
     json.put("points", points);
@@ -260,6 +300,8 @@ public JSONObject toJson() {
     json.put("reservedNobles", reservedNoblesJson);
     //tokens
     json.put("tokens", tokens.toJson());
+    //bonuses
+    json.put("bonuses", bonuses.toJson());
     //trading posts
     JSONArray tradingPostsJson = new JSONArray();
     for (TradingPost tradingPost : tradingPosts) {

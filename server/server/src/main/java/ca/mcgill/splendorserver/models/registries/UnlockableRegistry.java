@@ -59,12 +59,10 @@ public class UnlockableRegistry implements Registry<Unlockable> {
     return ids;
   }
 
-  @Override
   public Set<Integer> listIds() {
     return data.keySet();
   }
 
-  @Override
   public Unlockable of(int id) {
     return data.get(id);
   }

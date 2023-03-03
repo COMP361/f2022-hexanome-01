@@ -12,6 +12,7 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private NobleRow nobles;
     [SerializeField] private AllCards cards;
     [SerializeField] private Player[] boardPlayers;
+	[SerializeField] private TokenBank tokens;
     [SerializeField] private CityRow cities;
     [SerializeField] private GameObject tradingPostsDisplay;
     private Player[] players;
@@ -65,6 +66,15 @@ public class BoardManager : MonoBehaviour
         }
 
         //TO DO: STEP 4: set token bank
+		JSONObject tokenBank = (JSONObject)boardData["tokens"];
+		tokens.Set(
+			(long)tokenBank["gold"], 
+			(long)tokenBank["blue"], 
+			(long)tokenBank["green"], 
+			(long)tokenBank["black"], 
+			(long)tokenBank["red"], 
+			(long)tokenBank["white"]
+		);
         
         //INTERMEDIATE STEP: set cities if variant is cities
         if (currentSession.name.Equals("cities"))
@@ -166,9 +176,27 @@ public class BoardManager : MonoBehaviour
                 player.AddAcquiredNoble(nobles.allNobles.Find(x => x.id.Equals((long)acquiredNobles.Current)));
             }
 
-            //TO DO: set token counts
+            //set token counts
+			JSONObject tokenInventory = (JSONObject)inventory["tokens"];
+			player.GetTokenBank().Set(
+				(long)tokenInventory["gold"], 
+				(long)tokenInventory["blue"], 
+				(long)tokenInventory["green"], 
+				(long)tokenInventory["black"], 
+				(long)tokenInventory["red"], 
+				(long)tokenInventory["white"]
+			);
 
-            //TO DO: set bonus counts
+            //set bonus counts
+			JSONObject bonusInventory = (JSONObject)inventory["bonuses"];
+			player.GetBonusBank().Set(
+				(long)bonusInventory["gold"], 
+				(long)bonusInventory["blue"], 
+				(long)bonusInventory["green"], 
+				(long)bonusInventory["black"], 
+				(long)bonusInventory["red"], 
+				(long)bonusInventory["white"]
+			);
             
             //set city if cities variant
             if (currentSession.name.Equals("cities") && inventory.Contains("acquiredCity"))
@@ -199,10 +227,10 @@ public class BoardManager : MonoBehaviour
             
             //display city slot if variant is cities
             if (currentSession.name.Equals("cities"))
-                player.citySlot.SetActive(true);
+                player.GetCitySlot().SetActive(true);
 
             if (currentSession.name.Equals("tradingposts"))
-                player.tradingPostSlots.SetActive(true);
+                player.GetTradingPostSlots().SetActive(true);
         }
         
         //display trading posts if variant is trading posts

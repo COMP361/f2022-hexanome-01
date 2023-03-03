@@ -15,17 +15,17 @@ public class SelectedTokens : MonoBehaviour
     //displayed selected tokens amount
     public List<Text> nums = new List<Text>();
 
-    public int getTotalNum(){
-        int n=0;
+    public long getTotalNum(){
+        long n=0;
         foreach (Gem token in sTokens){
             n += token.amount;
         }
         return n;
     }
 
-    public int getNum(string colour){
+    public long getNum(string colour){
         foreach(Gem token in sTokens){
-            if (token.colour == colour){return token.amount;break;}
+            if (token.colour == colour){return token.amount;}
         }
         return -1;
     }

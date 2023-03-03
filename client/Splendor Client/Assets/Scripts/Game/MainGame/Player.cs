@@ -9,9 +9,9 @@ public class Player : MonoBehaviour
     private long points = 0;
     private List<Card> acquiredCards = new List<Card>(), reservedCards = new List<Card>();
     private List<Noble> acquiredNobles = new List<Noble>(), reservedNobles = new List<Noble>();
-    private CardGemValue tokensAcquired = new CardGemValue();
-    public CardGemValue bonusesAquired = new CardGemValue();
-    public GameObject citySlot, tradingPostSlots, tradingPostA, tradingPostB, tradingPostC, tradingPostD, tradingPostE;
+    [SerializeField] private TokenBank tokensAcquired;
+    [SerializeField] private TokenBank bonusesAcquired;
+    [SerializeField] private GameObject citySlot, tradingPostSlots, tradingPostA, tradingPostB, tradingPostC, tradingPostD, tradingPostE;
 
     private bool currentPlayer; //flag for whether the player is the current player
     [SerializeField] private GameObject turnIndicator, inventoryButton; //for displaying current player
@@ -134,17 +134,20 @@ public class Player : MonoBehaviour
     }
 
     public void TakeTokens(List<Gem> tokens){
-        char tempColour;
         foreach (Gem token in tokens){
             if (token.colour != "none"){
-                if (token.colour == "black"){
-                    tempColour = 'K';
-                }
-                else{tempColour = char.ToUpper(token.colour[0]);}
-                tokensAcquired.ChangeGemAmount(tempColour, token.amount);
+                tokensAcquired.AddAmount(token.colour, token.amount);
             }
         }
     }
+
+	public TokenBank GetTokenBank() {
+		return tokensAcquired;
+	}
+
+	public TokenBank GetBonusBank() {
+		return bonusesAcquired;
+	}
 
     public bool RemoveCard(Card card) {
         acquiredCards.Remove(card);
@@ -168,6 +171,10 @@ public class Player : MonoBehaviour
         }
     }
 
+	public GameObject GetCitySlot() {
+		return citySlot;
+	}
+
     public void AddTradingPost(string tradingPost)
     {
         switch (tradingPost)
@@ -179,4 +186,8 @@ public class Player : MonoBehaviour
             case "E": tradingPostE.SetActive(true); break;
         }
     }
+
+	public GameObject GetTradingPostSlots() {
+		return tradingPostSlots;
+	}
 }

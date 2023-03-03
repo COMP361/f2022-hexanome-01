@@ -2401,6 +2401,7 @@ GameObject:
   - component: {fileID: 288864034}
   - component: {fileID: 288864033}
   - component: {fileID: 288864036}
+  - component: {fileID: 288864037}
   m_Layer: 5
   m_Name: Main Player
   m_TagString: Untagged
@@ -2449,13 +2450,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainPlayer: {fileID: 11400000, guid: f0eaca2cb6e0e48a7b2fb69740473fb7, type: 2}
-  dashboard: {fileID: 0}
+  dashboard: {fileID: 288864036}
   cursor: {fileID: 242697715}
   playerCamera: {fileID: 1175326242}
   player: {fileID: 288864034}
   gamePlayersData: []
-  tokenBank: {fileID: 0}
-  selectedTokens: {fileID: 0}
+  tokenBank: {fileID: 1493752223}
+  selectedTokens: {fileID: 1191895568}
   allCards: {fileID: 911230083}
   selectedCardToBuy: {fileID: 0}
   allNobles: {fileID: 1549385823}
@@ -2477,6 +2478,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0918d0fbf9a07f343819fbdb6c8d00e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tokensAcquired: {fileID: 1296323563}
+  bonusesAcquired: {fileID: 288864037}
   citySlot: {fileID: 1725860670}
   tradingPostSlots: {fileID: 107430680}
   tradingPostA: {fileID: 2080615246}
@@ -2553,6 +2556,32 @@ MonoBehaviour:
   acquiredCity: {fileID: 1725860672}
   emptyReserveCard: {fileID: 21300000, guid: ee4ad1ccef60a4c788834f89359cc187, type: 3}
   emptyReserveNoble: {fileID: 21300000, guid: d1ae4d22b9bf14c159c5173b26b3bf9a, type: 3}
+--- !u!114 &288864037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 288864031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86ef08bf3e025d240b8322bd12d81c50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tokens: []
+  goldAmount: {fileID: 486546368}
+  blueAmount: {fileID: 1491037612}
+  greenAmount: {fileID: 848244555}
+  blackAmount: {fileID: 781350104}
+  redAmount: {fileID: 1847339017}
+  whiteAmount: {fileID: 658775490}
+  selectedTokens: {fileID: 0}
+  gold: 0
+  blue: 0
+  green: 0
+  black: 0
+  red: 0
+  white: 0
 --- !u!114 &307544648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4674,6 +4703,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 674733701}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
   mainPlayer: {fileID: 11400000, guid: f0eaca2cb6e0e48a7b2fb69740473fb7, type: 2}
   currentSession: {fileID: 11400000, guid: ebdd36260b1a84a6e9083efa914a8d39, type: 2}
   nobles: {fileID: 1549385823}
@@ -4683,6 +4724,7 @@ MonoBehaviour:
   - {fileID: 1814280207}
   - {fileID: 1302658991}
   - {fileID: 1296268878}
+  tokens: {fileID: 1493752223}
   cities: {fileID: 262084527}
   tradingPostsDisplay: {fileID: 1562138449}
 --- !u!1 &553161074
@@ -6793,6 +6835,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 753540076}
+  - component: {fileID: 753540077}
   m_Layer: 5
   m_Name: Wallet
   m_TagString: Untagged
@@ -6825,6 +6868,32 @@ RectTransform:
   m_AnchoredPosition: {x: 57.999992, y: -42.999966}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &753540077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 753540075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86ef08bf3e025d240b8322bd12d81c50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tokens: []
+  goldAmount: {fileID: 817271121}
+  blueAmount: {fileID: 1601221086}
+  greenAmount: {fileID: 1437122966}
+  blackAmount: {fileID: 1705270535}
+  redAmount: {fileID: 2124247167}
+  whiteAmount: {fileID: 939804408}
+  selectedTokens: {fileID: 0}
+  gold: 0
+  blue: 0
+  green: 0
+  black: 0
+  red: 0
+  white: 0
 --- !u!1 &766916626
 GameObject:
   m_ObjectHideFlags: 0
@@ -9918,6 +9987,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1112433822}
+  - component: {fileID: 1112433823}
   m_Layer: 5
   m_Name: Wallet
   m_TagString: Untagged
@@ -9950,6 +10020,32 @@ RectTransform:
   m_AnchoredPosition: {x: 123.20001, y: -127.5}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1112433823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1112433821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86ef08bf3e025d240b8322bd12d81c50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tokens: []
+  goldAmount: {fileID: 1935209429}
+  blueAmount: {fileID: 437346725}
+  greenAmount: {fileID: 230519405}
+  blackAmount: {fileID: 1123301982}
+  redAmount: {fileID: 315490140}
+  whiteAmount: {fileID: 1656357461}
+  selectedTokens: {fileID: 0}
+  gold: 0
+  blue: 0
+  green: 0
+  black: 0
+  red: 0
+  white: 0
 --- !u!1 &1120664519
 GameObject:
   m_ObjectHideFlags: 0
@@ -12663,6 +12759,7 @@ GameObject:
   - component: {fileID: 1296268877}
   - component: {fileID: 1296268876}
   - component: {fileID: 1296268878}
+  - component: {fileID: 1296268879}
   m_Layer: 5
   m_Name: Player 4
   m_TagString: Untagged
@@ -12735,6 +12832,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0918d0fbf9a07f343819fbdb6c8d00e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tokensAcquired: {fileID: 1112433823}
+  bonusesAcquired: {fileID: 1296268879}
   citySlot: {fileID: 1437549605}
   tradingPostSlots: {fileID: 860385344}
   tradingPostA: {fileID: 571781588}
@@ -12744,6 +12843,32 @@ MonoBehaviour:
   tradingPostE: {fileID: 1386751749}
   turnIndicator: {fileID: 2078247550}
   inventoryButton: {fileID: 742675256}
+--- !u!114 &1296268879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1296268874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86ef08bf3e025d240b8322bd12d81c50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tokens: []
+  goldAmount: {fileID: 1080065667}
+  blueAmount: {fileID: 2137909675}
+  greenAmount: {fileID: 1675663092}
+  blackAmount: {fileID: 1023274298}
+  redAmount: {fileID: 1483369471}
+  whiteAmount: {fileID: 505690286}
+  selectedTokens: {fileID: 0}
+  gold: 0
+  blue: 0
+  green: 0
+  black: 0
+  red: 0
+  white: 0
 --- !u!1 &1296323561
 GameObject:
   m_ObjectHideFlags: 0
@@ -12753,6 +12878,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1296323562}
+  - component: {fileID: 1296323563}
   m_Layer: 5
   m_Name: Wallet
   m_TagString: Untagged
@@ -12785,6 +12911,32 @@ RectTransform:
   m_AnchoredPosition: {x: -83.999855, y: 25.000017}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1296323563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1296323561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86ef08bf3e025d240b8322bd12d81c50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tokens: []
+  goldAmount: {fileID: 931360739}
+  blueAmount: {fileID: 930956735}
+  greenAmount: {fileID: 1253526725}
+  blackAmount: {fileID: 574828369}
+  redAmount: {fileID: 1747516616}
+  whiteAmount: {fileID: 958183834}
+  selectedTokens: {fileID: 0}
+  gold: 0
+  blue: 0
+  green: 0
+  black: 0
+  red: 0
+  white: 0
 --- !u!1 &1301769662
 GameObject:
   m_ObjectHideFlags: 0
@@ -12876,6 +13028,7 @@ GameObject:
   - component: {fileID: 1302658990}
   - component: {fileID: 1302658989}
   - component: {fileID: 1302658991}
+  - component: {fileID: 1302658992}
   m_Layer: 5
   m_Name: Player 3
   m_TagString: Untagged
@@ -12948,6 +13101,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0918d0fbf9a07f343819fbdb6c8d00e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tokensAcquired: {fileID: 1917330382}
+  bonusesAcquired: {fileID: 1302658992}
   citySlot: {fileID: 1184836303}
   tradingPostSlots: {fileID: 1285922245}
   tradingPostA: {fileID: 1997272257}
@@ -12957,6 +13112,32 @@ MonoBehaviour:
   tradingPostE: {fileID: 26062205}
   turnIndicator: {fileID: 1501839273}
   inventoryButton: {fileID: 859237795}
+--- !u!114 &1302658992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1302658987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86ef08bf3e025d240b8322bd12d81c50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tokens: []
+  goldAmount: {fileID: 816648926}
+  blueAmount: {fileID: 1212329083}
+  greenAmount: {fileID: 370086332}
+  blackAmount: {fileID: 751421852}
+  redAmount: {fileID: 1937558117}
+  whiteAmount: {fileID: 485310948}
+  selectedTokens: {fileID: 0}
+  gold: 0
+  blue: 0
+  green: 0
+  black: 0
+  red: 0
+  white: 0
 --- !u!1 &1310818840
 GameObject:
   m_ObjectHideFlags: 0
@@ -17669,6 +17850,7 @@ GameObject:
   - component: {fileID: 1814280208}
   - component: {fileID: 1814280209}
   - component: {fileID: 1814280207}
+  - component: {fileID: 1814280210}
   m_Layer: 5
   m_Name: Player 2
   m_TagString: Untagged
@@ -17716,6 +17898,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0918d0fbf9a07f343819fbdb6c8d00e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tokensAcquired: {fileID: 753540077}
+  bonusesAcquired: {fileID: 1814280210}
   citySlot: {fileID: 96455130}
   tradingPostSlots: {fileID: 1899276081}
   tradingPostA: {fileID: 910854230}
@@ -17750,6 +17934,32 @@ MonoBehaviour:
   reservedCardsCount: {fileID: 1858706289}
   reservedNoblesCount: {fileID: 1051743271}
   acquiredCity: {fileID: 96455132}
+--- !u!114 &1814280210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1814280205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86ef08bf3e025d240b8322bd12d81c50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tokens: []
+  goldAmount: {fileID: 1083237391}
+  blueAmount: {fileID: 891074207}
+  greenAmount: {fileID: 1326247837}
+  blackAmount: {fileID: 595059562}
+  redAmount: {fileID: 1916002123}
+  whiteAmount: {fileID: 1186665200}
+  selectedTokens: {fileID: 0}
+  gold: 0
+  blue: 0
+  green: 0
+  black: 0
+  red: 0
+  white: 0
 --- !u!1 &1817710639
 GameObject:
   m_ObjectHideFlags: 0
@@ -18530,6 +18740,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1917330381}
+  - component: {fileID: 1917330382}
   m_Layer: 5
   m_Name: Wallet
   m_TagString: Untagged
@@ -18562,6 +18773,32 @@ RectTransform:
   m_AnchoredPosition: {x: 123.20001, y: -127.5}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1917330382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1917330380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86ef08bf3e025d240b8322bd12d81c50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tokens: []
+  goldAmount: {fileID: 628096664}
+  blueAmount: {fileID: 1143969786}
+  greenAmount: {fileID: 1222196151}
+  blackAmount: {fileID: 1852823918}
+  redAmount: {fileID: 543051974}
+  whiteAmount: {fileID: 1513737214}
+  selectedTokens: {fileID: 0}
+  gold: 0
+  blue: 0
+  green: 0
+  black: 0
+  red: 0
+  white: 0
 --- !u!1 &1923388816
 GameObject:
   m_ObjectHideFlags: 0

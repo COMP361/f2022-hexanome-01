@@ -1,5 +1,6 @@
 package ca.mcgill.splendorserver.models.board;
 
+import ca.mcgill.splendorserver.models.Player;
 import ca.mcgill.splendorserver.models.registries.UnlockableRegistry;
 import java.util.Collections;
 import java.util.Stack;
@@ -19,7 +20,7 @@ public class CitiesBoard extends Board {
    * @param creator the creator of the session to pass to Board's constructor
    * @param players the players in the session to pass to Board's constructor
    */
-  public CitiesBoard(String creator, String[] players) {
+  public CitiesBoard(String creator, Player[] players) {
     super(creator, players);
     cities = new int[3];
     Stack<Integer> cityIds = UnlockableRegistry.getCityIds();
