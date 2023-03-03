@@ -2,6 +2,8 @@ package ca.mcgill.splendorserver.apis;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.async.DeferredResult;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
@@ -41,6 +44,8 @@ public class GameController {
 
   @Autowired
   private GameManager gameManager;
+  
+  private ExecutorService threads = Executors.newFixedThreadPool(5);
 
   /**
    * Sole constructor.
@@ -80,19 +85,25 @@ private ResponseEntity<String> errorResponse(String message) {
    * @throws JsonProcessingException when JSON processing error occurs
    */
   @GetMapping("/api/games/{gameId}/board")
-  public ResponseEntity<String> getBoard(@PathVariable String gameId)
-      throws JsonProcessingException {
-	try {
-		Optional<Board> boardOptional = GameManager.getGameBoard(gameId);
-		if (boardOptional.isPresent()) {
-			return ResponseEntity.ok(boardOptional.get().toJson().toJSONString());
-		} else {
-			return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
-		}
-	}
-	catch (Exception e) {
-		return errorResponse(e.getMessage());
-	}
+  public DeferredResult<String> getBoard(@PathVariable String gameId) {
+	  DeferredResult<String> result = new DeferredResult<>(5000L);
+	  result.onTimeout(() -> result.setResult(gameNotFound.toJSONString()));
+	  threads.execute(() -> {
+		  try {		
+			  Optional<Board> boardOptional;
+			  do {
+				  boardOptional = GameManager.getGameBoard(gameId);
+				  if (boardOptional.isPresent()) {
+					  result.setResult(boardOptional.get().toJson().toJSONString());
+				  }
+			  }
+			  while (boardOptional.isEmpty());
+		  }
+		  catch (Exception e) {
+			  result.setErrorResult(errorResponse(e.getMessage()).getBody());
+		  }
+	  });
+	  return result;
   }
 
   /**
@@ -237,11 +248,16 @@ private ResponseEntity<String> errorResponse(String message) {
   @PutMapping("/api/games/{gameId}")
   public ResponseEntity<HttpStatus> launchGame(
       @PathVariable(required = true, name = "gameId") String gameId,
-      @RequestBody SessionData session) throws JsonProcessingException {
-    System.out.println("launching");
-    GameManager.launchGame(gameId, session);
+      @RequestBody SessionData session) {
+	try {
+		System.out.println("launching");
+		GameManager.launchGame(gameId, session);
 
-    return ResponseEntity.ok(HttpStatus.OK);
+		return ResponseEntity.ok(HttpStatus.OK);
+	}
+	catch (Exception e) {
+		return ResponseEntity.status(500).body(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
   }
 }
 
