@@ -96,7 +96,7 @@ public class Board implements JsonStringafiable {
 
     JSONObject inventoriesJson = new JSONObject();
     for (Player player : players) {
-      inventoriesJson.put(player.getUsername(), player.getInventory().toJsonString());
+      inventoriesJson.put(player.getUsername(), player.getInventory().toJson());
     }
     json.put("inventories", inventoriesJson);
 
