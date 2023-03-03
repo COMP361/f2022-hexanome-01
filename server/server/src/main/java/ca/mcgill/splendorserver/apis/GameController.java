@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -90,24 +89,22 @@ public class GameController {
    */
   @GetMapping("/api/games/{gameId}/board")
   public DeferredResult<String> getBoard(@PathVariable String gameId) {
-	  DeferredResult<String> result = new DeferredResult<>(5000L);
-	  result.onTimeout(() -> result.setResult(gameNotFound.toJSONString()));
-	  threads.execute(() -> {
-		  try {		
-			  Optional<Board> boardOptional;
-			  do {
-				  boardOptional = GameManager.getGameBoard(gameId);
-				  if (boardOptional.isPresent()) {
-					  result.setResult(boardOptional.get().toJson().toJSONString());
-				  }
-			  }
-			  while (boardOptional.isEmpty());
-		  }
-		  catch (Exception e) {
-			  result.setErrorResult(errorResponse(e.getMessage()).getBody());
-		  }
-	  });
-	  return result;
+    DeferredResult<String> result = new DeferredResult<>(5000L);
+    result.onTimeout(() -> result.setResult(gameNotFound.toJSONString()));
+    threads.execute(() -> {
+      try {
+        Optional<Board> boardOptional;
+        do {
+          boardOptional = GameManager.getGameBoard(gameId);
+          if (boardOptional.isPresent()) {
+            result.setResult(boardOptional.get().toJson().toJSONString());
+          }
+        } while (boardOptional.isEmpty());
+      } catch (Exception e) {
+        result.setErrorResult(errorResponse(e.getMessage()).getBody());
+      }
+    });
+    return result;
   }
 
   /**
@@ -370,7 +367,7 @@ public class GameController {
       if (game == null) {
         return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
       }
-      if (!game.getCurrentPlayer().equals(playerId)) {
+      if (!game.getCurrentPlayer().getUsername().equals(playerId)) {
         return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
       }
 
@@ -400,6 +397,7 @@ public class GameController {
    * @param reserveCardData the game data of the take reserve card action
    * @return success flaggit 
    */
+  @SuppressWarnings("unchecked")
   @PostMapping("/api/action/{gameId}/reserveCard")
   public ResponseEntity<String> reserveCardAction(@PathVariable String gameId,
                                                   @RequestBody ReserveCardData reserveCardData) {
@@ -422,13 +420,35 @@ public class GameController {
    * @return success flag
    * @throws JsonProcessingException when JSON processing error occurs
    */
+  @SuppressWarnings("unchecked")
   @PostMapping("/api/action/{gameId}/claimNoble")
-  public ResponseEntity<HttpStatus> claimNobleAction(@PathVariable String gameId,
+  public ResponseEntity<String> claimNobleAction(@PathVariable String gameId,
                                                      @RequestBody JSONObject data)
+
       throws JsonProcessingException {
     String playerId = (String) data.get("playerId");
 
-    return ResponseEntity.ok(HttpStatus.OK);
+    Game game = GameManager.getGame(gameId);
+    if (game == null) {
+      return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
+    }
+    if (!game.getCurrentPlayer().getUsername().equals(playerId)) {
+      return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
+    }
+
+    int nobleId = (int) data.get("nobleId");
+    Board board = game.getBoard();
+    Noble noble = NobleRegistry.of(nobleId);
+    Inventory inventory = board.getInventory(playerId);
+
+    if (!GameManager.acquireNoble(noble, board, inventory)) {
+      return ResponseEntity.ok().body(invalidAction.toJSONString());
+    }
+      
+    JSONObject response = new JSONObject();
+    response.put("status", "success");
+
+    return ResponseEntity.ok(response.toJSONString());
   }
 
 
@@ -454,14 +474,13 @@ public class GameController {
   public ResponseEntity<HttpStatus> launchGame(
       @PathVariable(required = true, name = "gameId") String gameId,
       @RequestBody SessionData session) {
-	try {
-		System.out.println("launching: " + gameId);
-		GameManager.launchGame(gameId, session);
+    try {
+      System.out.println("launching: " + gameId);
+      GameManager.launchGame(gameId, session);
 
-		return ResponseEntity.ok(HttpStatus.OK);
-	}
-	catch (Exception e) {
-		return ResponseEntity.status(500).body(HttpStatus.INTERNAL_SERVER_ERROR);
-	}
+      return ResponseEntity.ok(HttpStatus.OK);
+    } catch (Exception e) {
+      return ResponseEntity.status(500).body(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 }
