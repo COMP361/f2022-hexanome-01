@@ -44,7 +44,7 @@ public class TokenBank implements JsonStringafiable {
   public int checkAmount(Token token) {
     return quantities.get(token);
   }
-  
+
   /**
    * Add one token of the given colours to the bank.
    *
@@ -59,13 +59,22 @@ public class TokenBank implements JsonStringafiable {
     }
     return true;
   }
+
+  /**
+   * Adds a given amount of a given token to the token bank.
+   *
+   * @param token the token that is being added
+   * @param amount the number of tokens that should be added
+   * @return whether adding the tokens was successful
+   */
   public boolean addRepeated(String token, int amount) {
-    Integer current = quantities.get(Token.valueOf(token));
-    if (current == null) {
+    try {
+      Integer current = quantities.get(Token.valueOf(token));
+      quantities.put(Token.valueOf(token), current + amount);
+      return true;
+    } catch (Exception e) {
       return false;
     }
-    quantities.put(Token.valueOf(token), current + amount);
-    return true;
   }
 
   /**
@@ -75,7 +84,7 @@ public class TokenBank implements JsonStringafiable {
    * @return whether the token was added successfully
    */
   public boolean addOne(String token) {
-	  return addRepeated(token, 1);
+    return addRepeated(token, 1);
   }
 
   /**
@@ -100,16 +109,27 @@ public class TokenBank implements JsonStringafiable {
    * @return whether the removal was successful
    */
   public boolean removeOne(String token) {
-	    return removeRepeated(token, 1);
-	  }
-  
+    return removeRepeated(token, 1);
+  }
+
+  /**
+   * Removes a given amount of a given token from the token bank.
+   *
+   * @param token the token to remove
+   * @param amount the number of tokens to remove
+   * @return whether the removal was successful
+   */
   public boolean removeRepeated(String token, int amount) {
-    Integer current = quantities.get(Token.valueOf(token));
-    if (current == null || current == 0) {
+    try {
+      Integer current = quantities.get(Token.valueOf(token));
+      if (current == 0) {
+        return false;
+      }
+      quantities.put(Token.valueOf(token), current - amount);
+      return true;
+    } catch (Exception e) {
       return false;
     }
-    quantities.put(Token.valueOf(token), current - amount);
-    return true;
   }
 
   /**
@@ -129,25 +149,32 @@ public class TokenBank implements JsonStringafiable {
   }
 
   /**
-   * Check whether the tokens of given colours are available in this bank.
+   * Checks whether there are more than 10 tokens in the token bank.
    *
-   * @param tokens the colours of the tokens to check for in the bank
-   * @return whether the tokens are available
+   * @return the number of tokens over the 10 token limit in the token bank
    */
-  public boolean checkAvailable(String[] tokens) {
-    for (Token t : Token.values()) {
-      String tokenName = t.toString();
-      int quantity = quantities.get(t);
-      for (String s : tokens) {
-        if (tokenName.equals(s)) {
-          quantity--;
-        }
-      }
-      if (quantity < 0) {
-        return false;
-      }
+  public int checkOverflow() {
+    int total = 0;
+    for (int quantity : quantities.values()) {
+      total += quantity;
     }
-    return true;
+    //overflow is more than 10 tokens
+    if (total > 10) {
+      return total - 10;
+    } else {
+      return 0;
+    }
+  }
+
+  /**
+   * Checks the token bank's quantity of a given token,
+   * for checking the validity of a take tokens action.
+   *
+   * @param token the token whose quantity is being checked
+   * @return the quantity of the given token
+   */
+  public int checkQuantity(Token token) {
+    return quantities.get(token);
   }
 
   @Override

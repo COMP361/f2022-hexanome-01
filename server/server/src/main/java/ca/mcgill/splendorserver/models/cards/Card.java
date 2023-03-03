@@ -112,15 +112,15 @@ public class Card {
   public CardLevel getLevel() {
     return level;
   }
-  
+
   public CardBonus getBonus() {
-	  return bonus;
+    return bonus;
   }
 
   /**
    * Mark this card as associated to a satchel card.
    */
-  void addSatchel() {
+  public void addSatchel() {
     if (this.type == CardType.SATCHEL) {
       return;
     }
@@ -132,7 +132,7 @@ public class Card {
    *
    * @return -1 if it is a satchel card, otherwise the number of associations with a satchel card
    */
-  int getSatchelCount() {
+  public int getSatchelCount() {
     if (this.type == CardType.SATCHEL) {
       return -1;
     }

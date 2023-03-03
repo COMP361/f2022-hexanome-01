@@ -13,7 +13,6 @@ public class TradingPost implements Unlockable {
   private int id;
   private Condition condition; //condition to unlock this post
   private Action action;
-  //private ArrayList<Player> owners; //list of players who have unlocked this post in current game
 
   /**
    * Constructor.
@@ -37,7 +36,6 @@ public class TradingPost implements Unlockable {
                break;
       default: break;
     }
-    //owners = new ArrayList<Player>();
   }
   
   /**
@@ -53,7 +51,6 @@ public class TradingPost implements Unlockable {
   public void observe(Player player) {
     if (!player.getInventory().getUnlockables().contains(this)
           && condition.checkCondition(player.getInventory())) {
-      //owners.add(player);
       player.getInventory().getUnlockables().add(this);
       action.activate(player);
       if (!(action instanceof DynamicPointAction)) {
@@ -67,7 +64,6 @@ public class TradingPost implements Unlockable {
       }
     } else if (player.getInventory().getUnlockables().contains(this)
           && !condition.checkCondition(player.getInventory())) {
-      //owners.remove(player);
       action.deactivate(player);
       player.getInventory().getUnlockables().remove(this);
       if (!(action instanceof DynamicPointAction)) {
