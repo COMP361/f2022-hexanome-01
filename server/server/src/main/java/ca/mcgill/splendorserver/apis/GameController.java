@@ -93,8 +93,10 @@ public class GameController {
    * @throws JsonProcessingException when JSON processing error occurs
    */
   @GetMapping("/api/games/{gameId}/board")
-  public DeferredResult<String> getBoard(@PathVariable String gameId,
-                                         @RequestParam("hash") Optional<String> lastHash) {
+  public DeferredResult<String> getBoard(@PathVariable String gameId, @RequestParam(value = "hash",
+      defaultValue = "") String lastHash) {
+    //System.out.println("board for " + gameId + " with hash :" + lastHash + "\n" +
+    //GameManager.getGameBoard(gameId).get().toJson().toJSONString());
     DeferredResult<String> result = new DeferredResult<>(5000L);
     //timeout should result in a 408 error
     result.onTimeout(() ->
@@ -114,16 +116,16 @@ public class GameController {
           do {
             boardOptional = GameManager.getGameBoard(gameId);
             //check if there's been an update on the board
-            if (boardOptional.isEmpty()) {
+            if (!boardOptional.isPresent()) {
               //an empty board when the previous board wasn't empty is an update
               //the previous board couldn't have been empty since there was a hash provided
               result.setResult("");
             } else if (!DigestUtils.md5Hex(boardOptional.get().toJson().toJSONString()).equals(
-                lastHash.get())) {
+                lastHash)) {
               result.setResult(boardOptional.get().toJson().toJSONString());
             }
           } while (boardOptional.isPresent() && DigestUtils.md5Hex(
-              boardOptional.get().toJson().toJSONString()).equals(lastHash.get()));
+              boardOptional.get().toJson().toJSONString()).equals(lastHash));
         }
       } catch (Exception e) {
         result.setErrorResult(errorResponse(e.getMessage()).getBody());
