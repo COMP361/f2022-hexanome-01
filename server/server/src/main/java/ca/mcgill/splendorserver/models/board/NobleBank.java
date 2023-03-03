@@ -93,15 +93,15 @@ public class NobleBank implements JsonStringafiable {
    * @param inventory the inventory that could impress one or many nobles
    * @return the nobles that were impressed
    */
-  public ArrayList<Noble> attemptImpress(Inventory inventory) {
-    ArrayList<Noble> impressed = new ArrayList<Noble>();
+  public ArrayList<Integer> attemptImpress(Inventory inventory) {
+    ArrayList<Integer> impressed = new ArrayList<Integer>();
     for (int nobleId : getNobles()) {
       if (nobleId == -1) {
         continue;
       }
       Noble noble = NobleRegistry.of(nobleId);
       if (noble.impressed(inventory.getBonuses())) {
-        impressed.add(noble);
+        impressed.add(noble.getId());
       }
     }
     return impressed;

@@ -50,7 +50,7 @@ public class OrientManager {
   public static JSONObject domino(Card card, Board board, Inventory inventory) {
     JSONObject response = new JSONObject();
     response.put("type", card.getType().toString());
-    ArrayList<Card> choices = new ArrayList<Card>();
+    ArrayList<Integer> choices = new ArrayList<Integer>();
   
     if (card.getType() == CardType.DOMINO1) { //pass satchelable cards
       for (int i = 0; i < inventory.getCards().size(); i++) {
@@ -58,7 +58,7 @@ public class OrientManager {
           Card currentCard = inventory.getCards().get(i);
           if (currentCard.getBonus().getType() != null 
               && currentCard.getBonus().getType() != Token.GOLD) {
-            choices.add(inventory.getCards().get(i));
+            choices.add(inventory.getCards().get(i).getId());
           }
         }
       }
@@ -78,7 +78,7 @@ public class OrientManager {
    * @param level of card desired.
    * @return the list of all the cards on the board of the given level.
    */
-  public static ArrayList<Card> getDominoOptions(Board board, int level) {
+  public static ArrayList<Integer> getDominoOptions(Board board, int level) {
     int[] regularRow;
     int[] orientRow;
 
@@ -97,12 +97,12 @@ public class OrientManager {
         break;
     }
 
-    ArrayList<Card> choices = new ArrayList<Card>();
+    ArrayList<Integer> choices = new ArrayList<Integer>();
     for (int i = 0; i < regularRow.length; i++) {
-      choices.add(CardRegistry.of(regularRow[i]));
+      choices.add(CardRegistry.of(regularRow[i]).getId());
     }
     for (int i = 0; i < orientRow.length; i++) {
-      choices.add(CardRegistry.of(regularRow[i]));
+      choices.add(CardRegistry.of(regularRow[i]).getId());
     }
     return choices;
   }
@@ -114,17 +114,18 @@ public class OrientManager {
    * @param inventory of player making the action.
    * @return the JSONObject response containing the action being done, and choices for user.
    */
-  public static JSONObject satchel(Card card, Inventory inventory) {
+  @SuppressWarnings("unchecked")
+public static JSONObject satchel(Card card, Inventory inventory) {
     JSONObject response = new JSONObject();
     response.put("type", card.getType().toString());
-    ArrayList<Card> choices = new ArrayList<Card>();
+    ArrayList<Integer> choices = new ArrayList<Integer>();
 
     for (int i = 0; i < inventory.getCards().size(); i++) {
       if (inventory.getCards().get(i).getId() != card.getId()) {
         Card currentCard = inventory.getCards().get(i);
         if (currentCard.getBonus().getType() != null 
             && currentCard.getBonus().getType() != Token.GOLD) {
-          choices.add(inventory.getCards().get(i));
+          choices.add(inventory.getCards().get(i).getId());
         }
       }
     }
@@ -141,12 +142,13 @@ public class OrientManager {
    * @param board of current game.
    * @return the JSONObject response containing the action being done, and choices for user.
    */
-  public static JSONObject reserve(Card card, Board board) {
+  @SuppressWarnings("unchecked")
+public static JSONObject reserve(Card card, Board board) {
     JSONObject response = new JSONObject();
     response.put("type", card.getType().toString());
-    ArrayList<Noble> choices = new ArrayList<Noble>();
+    ArrayList<Integer> choices = new ArrayList<Integer>();
     for (int i = 0; i < board.getNobles().getNobles().length; i++) {
-      choices.add(NobleRegistry.of(board.getNobles().getNobles()[i]));
+      choices.add(NobleRegistry.of(board.getNobles().getNobles()[i]).getId());
     }
 
     response.put("options", JSONArray.toJSONString(choices));

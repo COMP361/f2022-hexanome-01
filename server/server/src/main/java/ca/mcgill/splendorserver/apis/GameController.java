@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
+import org.apache.commons.codec.digest.DigestUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
 
@@ -43,8 +44,8 @@ public class GameController {
 
   private JSONObject gameNotFound;
   private JSONObject playerNotTurn;
-
   private JSONObject invalidAction;
+  private JSONObject noUpdates;
 
   @Autowired
   private GameManager gameManager;
@@ -71,6 +72,9 @@ public class GameController {
     invalidAction.put("status", "failure");
     invalidAction.put("message", "Invalid action.");
 
+    noUpdates = new JSONObject();
+    noUpdates.put("status", "timeout");
+    noUpdates.put("message", "No new updates.");
   }
 
   @SuppressWarnings({"unused", "unchecked"})
@@ -89,26 +93,45 @@ public class GameController {
    * @throws JsonProcessingException when JSON processing error occurs
    */
   @GetMapping("/api/games/{gameId}/board")
-  public DeferredResult<String> getBoard(@PathVariable String gameId) {
-	  DeferredResult<String> result = new DeferredResult<>(5000L);
-	  result.onTimeout(() -> result.setResult(gameNotFound.toJSONString()));
-	  threads.execute(() -> {
-		  try {		
-			  Optional<Board> boardOptional;
-			  do {
-				  boardOptional = GameManager.getGameBoard(gameId);
-				  if (boardOptional.isPresent()) {
-					  result.setResult(boardOptional.get().toJson().toJSONString());
-				  }
-			  }
-			  while (boardOptional.isEmpty());
-		  }
-		  catch (Exception e) {
-				logger.error(e.getStackTrace().toString());
-			  result.setErrorResult(errorResponse(e.getMessage()).getBody());
-		  }
-	  });
-	  return result;
+  public DeferredResult<String> getBoard(@PathVariable String gameId, @RequestParam(value = "hash",
+      defaultValue = "") String lastHash) {
+    //System.out.println("board for " + gameId + " with hash :" + lastHash + "\n" +
+    //GameManager.getGameBoard(gameId).get().toJson().toJSONString());
+    DeferredResult<String> result = new DeferredResult<>(5000L);
+    //timeout should result in a 408 error
+    result.onTimeout(() ->
+        result.setErrorResult(ResponseEntity.status(408).body(noUpdates.toJSONString())));
+    threads.execute(() -> {
+      try {
+        Optional<Board> boardOptional;
+        //return the board as soon as there is a board if this is the first request
+        if (lastHash.isEmpty()) {
+          do {
+            boardOptional = GameManager.getGameBoard(gameId);
+            if (boardOptional.isPresent()) {
+              result.setResult(boardOptional.get().toJson().toJSONString());
+            }
+          } while (boardOptional.isEmpty());
+        } else { //return the board if there's been an update since this isn't the first request
+          do {
+            boardOptional = GameManager.getGameBoard(gameId);
+            //check if there's been an update on the board
+            if (!boardOptional.isPresent()) {
+              //an empty board when the previous board wasn't empty is an update
+              //the previous board couldn't have been empty since there was a hash provided
+              result.setResult("");
+            } else if (!DigestUtils.md5Hex(boardOptional.get().toJson().toJSONString()).equals(
+                lastHash)) {
+              result.setResult(boardOptional.get().toJson().toJSONString());
+            }
+          } while (boardOptional.isPresent() && DigestUtils.md5Hex(
+              boardOptional.get().toJson().toJSONString()).equals(lastHash));
+        }
+      } catch (Exception e) {
+        result.setErrorResult(errorResponse(e.getMessage()).getBody());
+      }
+    });
+    return result;
   }
 
   /**
@@ -238,7 +261,7 @@ public class GameController {
       if (game == null) {
         return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
       }
-      if (!game.getCurrentPlayer().equals(playerId)) {
+      if (!game.getCurrentPlayer().getUsername().equals(playerId)) {
         return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
       }
 
@@ -252,7 +275,7 @@ public class GameController {
         return ResponseEntity.ok().body(invalidAction.toJSONString());
       }
       response.put("type", "DOMINO2");
-      ArrayList<Card> choices = OrientManager.getDominoOptions(board, 1);
+      ArrayList<Integer> choices = OrientManager.getDominoOptions(board, 1);
       response.put("options", JSONArray.toJSONString(choices));
 
       response.put("status", "success");
@@ -284,7 +307,7 @@ public class GameController {
       if (game == null) {
         return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
       }
-      if (!game.getCurrentPlayer().equals(playerId)) {
+      if (!game.getCurrentPlayer().getUsername().equals(playerId)) {
         return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
       }
 
@@ -302,7 +325,7 @@ public class GameController {
       response.put("noblesVisiting",
           JSONArray.toJSONString(board.getNobles().attemptImpress(inventory)));
 
-      response.put("options", JSONArray.toJSONString(new ArrayList<Card>()));
+      response.put("options", JSONArray.toJSONString(new ArrayList<Integer>()));
 
       response.put("status", "success");
 
@@ -333,7 +356,7 @@ public class GameController {
       if (game == null) {
         return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
       }
-      if (!game.getCurrentPlayer().equals(playerId)) {
+      if (!game.getCurrentPlayer().getUsername().equals(playerId)) {
         return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
       }
 
@@ -351,7 +374,7 @@ public class GameController {
       response.put("noblesVisiting",
           JSONArray.toJSONString(board.getNobles().attemptImpress(inventory)));
 
-      response.put("options", JSONArray.toJSONString(new ArrayList<Card>()));
+      response.put("options", JSONArray.toJSONString(new ArrayList<Integer>()));
 
       response.put("status", "success");
 
@@ -382,7 +405,7 @@ public class GameController {
       if (game == null) {
         return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
       }
-      if (!game.getCurrentPlayer().equals(playerId)) {
+      if (!game.getCurrentPlayer().getUsername().equals(playerId)) {
         return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
       }
 
@@ -413,6 +436,7 @@ public class GameController {
    * @param reserveCardData the game data of the take reserve card action
    * @return success flaggit 
    */
+  @SuppressWarnings("unchecked")
   @PostMapping("/api/action/{gameId}/reserveCard")
   public ResponseEntity<String> reserveCardAction(@PathVariable String gameId,
                                                   @RequestBody ReserveCardData reserveCardData)
@@ -436,13 +460,35 @@ public class GameController {
    * @return success flag
    * @throws JsonProcessingException when JSON processing error occurs
    */
+  @SuppressWarnings("unchecked")
   @PostMapping("/api/action/{gameId}/claimNoble")
-  public ResponseEntity<HttpStatus> claimNobleAction(@PathVariable String gameId,
+  public ResponseEntity<String> claimNobleAction(@PathVariable String gameId,
                                                      @RequestBody JSONObject data)
+
       throws JsonProcessingException {
     String playerId = (String) data.get("playerId");
 
-    return ResponseEntity.ok(HttpStatus.OK);
+    Game game = GameManager.getGame(gameId);
+    if (game == null) {
+      return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
+    }
+    if (!game.getCurrentPlayer().getUsername().equals(playerId)) {
+      return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
+    }
+
+    int nobleId = (int) data.get("nobleId");
+    Board board = game.getBoard();
+    Noble noble = NobleRegistry.of(nobleId);
+    Inventory inventory = board.getInventory(playerId);
+
+    if (!GameManager.acquireNoble(noble, board, inventory)) {
+      return ResponseEntity.ok().body(invalidAction.toJSONString());
+    }
+      
+    JSONObject response = new JSONObject();
+    response.put("status", "success");
+
+    return ResponseEntity.ok(response.toJSONString());
   }
 
 
@@ -467,17 +513,14 @@ public class GameController {
   @PutMapping("/api/games/{gameId}")
   public ResponseEntity<HttpStatus> launchGame(
       @PathVariable(required = true, name = "gameId") String gameId,
-      @RequestBody SessionData session)
-    	      throws JsonProcessingException {
-	try {
-		System.out.println("launching: " + gameId);
-		GameManager.launchGame(gameId, session);
+      @RequestBody SessionData session) {
+    try {
+      System.out.println("launching: " + gameId);
+      GameManager.launchGame(gameId, session);
 
-		return ResponseEntity.ok(HttpStatus.OK);
-	}
-	catch (Exception e) {
-		logger.error(e.getStackTrace().toString());
-		return ResponseEntity.status(500).body(HttpStatus.INTERNAL_SERVER_ERROR);
-	}
+      return ResponseEntity.ok(HttpStatus.OK);
+    } catch (Exception e) {
+      return ResponseEntity.status(500).body(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 }

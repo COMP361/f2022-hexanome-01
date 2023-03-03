@@ -7,6 +7,7 @@ import ca.mcgill.splendorserver.models.Player;
 import ca.mcgill.splendorserver.models.Token;
 import ca.mcgill.splendorserver.models.board.Board;
 import ca.mcgill.splendorserver.models.board.CardBank;
+import ca.mcgill.splendorserver.models.board.NobleBank;
 import ca.mcgill.splendorserver.models.board.TokenBank;
 import ca.mcgill.splendorserver.models.cards.Card;
 import ca.mcgill.splendorserver.models.cards.CardLevel;
@@ -93,7 +94,6 @@ public class GameManager {
    * @param cardId   the card the player wishes to acquire.
    * @return the JSONObject response containing the action being done, and choices for user.
    */
-  @SuppressWarnings("unchecked")
   public static JSONObject purchaseCard(Game game, String playerId, int cardId) {
     Board board = game.getBoard();
     Card card = CardRegistry.of(cardId);
@@ -121,7 +121,7 @@ public class GameManager {
 public static JSONObject determineBody(Card card, Board board, Inventory inventory) {
     JSONObject response = new JSONObject();
     response.put("action", "none");
-    response.put("choices", JSONArray.toJSONString(new ArrayList<Noble>()));
+    response.put("choices", JSONArray.toJSONString(new ArrayList<Integer>()));
 
     if (card.getType() != CardType.NONE) {
       JSONObject result = OrientManager.handleCard(card, board, inventory);
@@ -129,9 +129,9 @@ public static JSONObject determineBody(Card card, Board board, Inventory invento
       String actionOptions = (String) result.get("choices");
       response.replace("action", furtherAction);
       response.replace("choices", actionOptions);
-      response.put("noblesVisiting", JSONArray.toJSONString(new ArrayList<Noble>()));
+      response.put("noblesVisiting", JSONArray.toJSONString(new ArrayList<Integer>()));
     } else {
-      ArrayList<Noble> noblesVisiting = board.getNobles().attemptImpress(inventory);
+      ArrayList<Integer> noblesVisiting = board.getNobles().attemptImpress(inventory);
       response.put("noblesVisiting", JSONArray.toJSONString(noblesVisiting));
     }
 
@@ -167,7 +167,8 @@ public static JSONObject determineBody(Card card, Board board, Inventory invento
    * @param tokens the tokens to take
    * @return a JSONObject of the player's token overflow following taking tokens (max 10)
    */
-  public static JSONObject takeTokens(Game game, String playerId, String[] tokens) {
+  @SuppressWarnings("unchecked")
+public static JSONObject takeTokens(Game game, String playerId, String[] tokens) {
     Board board = game.getBoard();
     Inventory inventory = board.getInventory(playerId);
     JSONObject takeTokensResult = new JSONObject();
@@ -305,12 +306,12 @@ public static JSONObject determineBody(Card card, Board board, Inventory invento
             if (cardToReserve == -1) {
               return false;
             }
-            player.getInventory().reserve(cardRegistry.of(cardToReserve));
+            player.getInventory().reserve(CardRegistry.of(cardToReserve));
             return true;
           } else {
             CardLevel cardLevel = CardBank.getCardLevelFromString(reserveCardData.getDeck());
             int card = game.getBoard().getCards().drawCardFromDeck(cardLevel);
-            player.getInventory().reserve(cardRegistry.of(card));
+            player.getInventory().reserve(CardRegistry.of(card));
             return true;
           }
         }
@@ -326,5 +327,35 @@ public static JSONObject determineBody(Card card, Board board, Inventory invento
    */
   public static HashMap<String, Game> getGameRegistry() {
     return gameRegistry;
+  }
+
+  /**
+   * Adds a card to a players inventory. does not pay for the card.
+   *
+   * @param noble      the noble the player wishes to acquire.
+   * @param board     the board on which the card resides.
+   * @param inventory the inventory we wish to add the card to.
+   * @return whether the acquisition was successful.
+   */
+  public static boolean acquireNoble(Noble noble, Board board, Inventory inventory) {
+    if (noble == null) {
+      return false;
+    }
+    NobleBank nobles = board.getNobles();
+    if (!nobles.contains(noble.getId())) {
+      return false;
+    }
+    inventory.addNobleToInventory(noble);
+    return true;
+  }
+
+  /**
+   * Ends a game turn by updating the current player of a game.
+   *
+   * @param gameId the id of the game where the turn is ending
+   */
+  public static void endTurn(String gameId) {
+    Game game = GameManager.getGame(gameId);
+    game.nextPlayer(); //changes the current player to the next player
   }
 }
