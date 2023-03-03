@@ -33,9 +33,8 @@ public class OrientManager {
       case RESERVE: return reserve(card, board);
       case SATCHEL: return satchel(card, inventory);
       case SACRIFICE: return sacrifice(card, inventory);
-      default: break;
+      default: return null;
     }
-    return null;
   }
   
   /**
@@ -102,7 +101,7 @@ public class OrientManager {
       choices.add(CardRegistry.of(regularRow[i]).getId());
     }
     for (int i = 0; i < orientRow.length; i++) {
-      choices.add(CardRegistry.of(regularRow[i]).getId());
+      choices.add(CardRegistry.of(orientRow[i]).getId());
     }
     return choices;
   }
@@ -148,7 +147,7 @@ public static JSONObject reserve(Card card, Board board) {
     response.put("type", card.getType().toString());
     ArrayList<Integer> choices = new ArrayList<Integer>();
     for (int i = 0; i < board.getNobles().getNobles().length; i++) {
-      choices.add(NobleRegistry.of(board.getNobles().getNobles()[i]).getId());
+      choices.add(board.getNobles().getNobles()[i]);
     }
 
     response.put("options", JSONArray.toJSONString(choices));

@@ -36,6 +36,7 @@ public class GameManagerTest extends ControllerTestUtils {
     gameManager.launchGame("TestGame", dummy);
     Game game = gameManager.getGame("TestGame");
     assertEquals("TestGame", game.getId());
+    assertEquals(null, gameManager.getGame("FakeGame"));
   }
 
   @Test
@@ -60,7 +61,9 @@ public class GameManagerTest extends ControllerTestUtils {
       }
     }
     assertTrue("Player didn't reserve card", cardWasReserved);
-
+    assertTrue("Invalid Game", !gameManager.reserveCard("FakeGame", reserveCardData));
+    //game.getBoard().setCards(new CardBank());
+    //assertTrue("Empty Deck", !gameManager.reserveCard("TestGame", reserveCardData));
   }
 
   @Test

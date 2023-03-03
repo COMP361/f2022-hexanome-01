@@ -124,9 +124,22 @@ public static JSONObject determineBody(Card card, Board board, Inventory invento
     response.put("choices", JSONArray.toJSONString(new ArrayList<Integer>()));
 
     if (card.getType() != CardType.NONE) {
+      if (card.getType() == CardType.SATCHEL || card.getType() == CardType.DOMINO1) {
+        boolean valid = false;
+        for (int i = 0; i < inventory.getCards().size(); i++) {
+          if (inventory.getCards().get(i).getBonus().getType() != null
+              && inventory.getCards().get(i).getBonus().getType() != Token.GOLD) {
+            valid = true;
+            break;
+          }
+        }
+        if (!valid) {
+          return null;
+        }
+      }
       JSONObject result = OrientManager.handleCard(card, board, inventory);
       String furtherAction = (String) result.get("type");
-      String actionOptions = (String) result.get("choices");
+      String actionOptions = (String) result.get("options");
       response.replace("action", furtherAction);
       response.replace("choices", actionOptions);
       response.put("noblesVisiting", JSONArray.toJSONString(new ArrayList<Integer>()));

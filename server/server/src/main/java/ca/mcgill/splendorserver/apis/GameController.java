@@ -197,7 +197,7 @@ public class GameController {
         return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
       }
 
-      int cardId = (int) data.get("cardId");
+      int cardId = Integer.parseInt((String) data.get("cardId"));
       JSONObject response = GameManager.purchaseCard(game, playerId, cardId);
       if (response == null) {
         return ResponseEntity.ok().body(invalidAction.toJSONString());
