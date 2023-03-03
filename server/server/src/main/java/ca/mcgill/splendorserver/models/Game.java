@@ -99,6 +99,16 @@ public class Game {
     return players[currentPlayerIndex];
   }
 
+  /**
+   * Changes the current player to the next player.
+   */
+  public void nextPlayer() {
+    currentPlayerIndex++;
+    if (currentPlayerIndex == players.length) {
+      currentPlayerIndex = 0;
+    }
+  }
+
   public String getVariant() {
     return variant;
   }

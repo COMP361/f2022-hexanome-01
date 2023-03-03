@@ -348,4 +348,14 @@ public static JSONObject takeTokens(Game game, String playerId, String[] tokens)
     inventory.addNobleToInventory(noble);
     return true;
   }
+
+  /**
+   * Ends a game turn by updating the current player of a game.
+   *
+   * @param gameId the id of the game where the turn is ending
+   */
+  public static void endTurn(String gameId) {
+    Game game = GameManager.getGame(gameId);
+    game.nextPlayer(); //changes the current player to the next player
+  }
 }
