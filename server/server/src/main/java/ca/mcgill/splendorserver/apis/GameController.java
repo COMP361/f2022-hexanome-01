@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
 
@@ -42,8 +44,8 @@ public class GameController {
 
   private JSONObject gameNotFound;
   private JSONObject playerNotTurn;
-
   private JSONObject invalidAction;
+  private JSONObject noUpdates;
 
   @Autowired
   private GameManager gameManager;
@@ -70,6 +72,9 @@ public class GameController {
     invalidAction.put("status", "failure");
     invalidAction.put("message", "Invalid action.");
 
+    noUpdates = new JSONObject();
+    noUpdates.put("status", "timeout");
+    noUpdates.put("message", "No new updates.");
   }
 
   @SuppressWarnings({"unused", "unchecked"})
@@ -88,18 +93,38 @@ public class GameController {
    * @throws JsonProcessingException when JSON processing error occurs
    */
   @GetMapping("/api/games/{gameId}/board")
-  public DeferredResult<String> getBoard(@PathVariable String gameId) {
+  public DeferredResult<String> getBoard(@PathVariable String gameId,
+                                         @RequestParam("hash") Optional<String> lastHash) {
     DeferredResult<String> result = new DeferredResult<>(5000L);
-    result.onTimeout(() -> result.setResult(gameNotFound.toJSONString()));
+    //timeout should result in a 408 error
+    result.onTimeout(() ->
+        result.setErrorResult(ResponseEntity.status(408).body(noUpdates.toJSONString())));
     threads.execute(() -> {
       try {
         Optional<Board> boardOptional;
-        do {
-          boardOptional = GameManager.getGameBoard(gameId);
-          if (boardOptional.isPresent()) {
-            result.setResult(boardOptional.get().toJson().toJSONString());
-          }
-        } while (boardOptional.isEmpty());
+        //return the board as soon as there is a board if this is the first request
+        if (lastHash.isEmpty()) {
+          do {
+            boardOptional = GameManager.getGameBoard(gameId);
+            if (boardOptional.isPresent()) {
+              result.setResult(boardOptional.get().toJson().toJSONString());
+            }
+          } while (boardOptional.isEmpty());
+        } else { //return the board if there's been an update since this isn't the first request
+          do {
+            boardOptional = GameManager.getGameBoard(gameId);
+            //check if there's been an update on the board
+            if (boardOptional.isEmpty()) {
+              //an empty board when the previous board wasn't empty is an update
+              //the previous board couldn't have been empty since there was a hash provided
+              result.setResult("");
+            } else if (!DigestUtils.md5Hex(boardOptional.get().toJson().toJSONString()).equals(
+                lastHash.get())) {
+              result.setResult(boardOptional.get().toJson().toJSONString());
+            }
+          } while (boardOptional.isPresent() && DigestUtils.md5Hex(
+              boardOptional.get().toJson().toJSONString()).equals(lastHash.get()));
+        }
       } catch (Exception e) {
         result.setErrorResult(errorResponse(e.getMessage()).getBody());
       }
