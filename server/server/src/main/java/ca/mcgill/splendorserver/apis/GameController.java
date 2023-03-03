@@ -232,7 +232,7 @@ public class GameController {
       if (game == null) {
         return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
       }
-      if (!game.getCurrentPlayer().equals(playerId)) {
+      if (!game.getCurrentPlayer().getUsername().equals(playerId)) {
         return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
       }
 
@@ -246,7 +246,7 @@ public class GameController {
         return ResponseEntity.ok().body(invalidAction.toJSONString());
       }
       response.put("type", "DOMINO2");
-      ArrayList<Card> choices = OrientManager.getDominoOptions(board, 1);
+      ArrayList<Integer> choices = OrientManager.getDominoOptions(board, 1);
       response.put("options", JSONArray.toJSONString(choices));
 
       response.put("status", "success");
@@ -276,7 +276,7 @@ public class GameController {
       if (game == null) {
         return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
       }
-      if (!game.getCurrentPlayer().equals(playerId)) {
+      if (!game.getCurrentPlayer().getUsername().equals(playerId)) {
         return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
       }
 
@@ -294,7 +294,7 @@ public class GameController {
       response.put("noblesVisiting",
           JSONArray.toJSONString(board.getNobles().attemptImpress(inventory)));
 
-      response.put("options", JSONArray.toJSONString(new ArrayList<Card>()));
+      response.put("options", JSONArray.toJSONString(new ArrayList<Integer>()));
 
       response.put("status", "success");
 
@@ -323,7 +323,7 @@ public class GameController {
       if (game == null) {
         return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
       }
-      if (!game.getCurrentPlayer().equals(playerId)) {
+      if (!game.getCurrentPlayer().getUsername().equals(playerId)) {
         return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
       }
 
@@ -341,7 +341,7 @@ public class GameController {
       response.put("noblesVisiting",
           JSONArray.toJSONString(board.getNobles().attemptImpress(inventory)));
 
-      response.put("options", JSONArray.toJSONString(new ArrayList<Card>()));
+      response.put("options", JSONArray.toJSONString(new ArrayList<Integer>()));
 
       response.put("status", "success");
 
