@@ -104,6 +104,7 @@ public class GameController {
 			  while (boardOptional.isEmpty());
 		  }
 		  catch (Exception e) {
+				logger.error(e.getStackTrace().toString());
 			  result.setErrorResult(errorResponse(e.getMessage()).getBody());
 		  }
 	  });
@@ -127,6 +128,7 @@ public class GameController {
         return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
       }
     } catch (Exception e) {
+		logger.error(e.getStackTrace().toString());
       return errorResponse(e.getMessage());
     }
   }
@@ -165,6 +167,7 @@ public class GameController {
       //return the result of taking the tokens
       return ResponseEntity.ok(response.toJSONString());
     } catch (Exception e) {
+		logger.error(e.getStackTrace().toString());
       return errorResponse(e.getMessage());
     }
   }
@@ -180,7 +183,8 @@ public class GameController {
   @SuppressWarnings("unchecked")
   @PostMapping("/api/action/{gameId}/purchaseCard")
   public ResponseEntity<String> purchaseCard(@PathVariable String gameId,
-                                             @RequestBody JSONObject data) {
+                                             @RequestBody JSONObject data) 
+                                            	      throws JsonProcessingException {
     try {
       String playerId = (String) data.get("playerId");
 
@@ -209,6 +213,7 @@ public class GameController {
 
       return ResponseEntity.ok(response.toJSONString());
     } catch (Exception e) {
+		logger.error(e.getStackTrace().toString());
       return errorResponse(e.getMessage());
     }
   }
@@ -224,7 +229,8 @@ public class GameController {
   @SuppressWarnings("unchecked")
   @PostMapping("/api/action/{gameId}/dominoSatchel")
   public ResponseEntity<String> dominoSatchel(@PathVariable String gameId,
-                                              @RequestBody JSONObject data) {
+                                              @RequestBody JSONObject data)
+                                            	      throws JsonProcessingException {
     try {
       String playerId = (String) data.get("playerId");
 
@@ -253,6 +259,7 @@ public class GameController {
 
       return ResponseEntity.ok(response.toJSONString());
     } catch (Exception e) {
+		logger.error(e.getStackTrace().toString());
       return errorResponse(e.getMessage());
     }
   }
@@ -268,7 +275,8 @@ public class GameController {
   @SuppressWarnings("unchecked")
   @PostMapping("/api/action/{gameId}/satchel")
   public ResponseEntity<String> satchel(@PathVariable String gameId,
-                                        @RequestBody JSONObject data) {
+                                        @RequestBody JSONObject data)
+                                        	      throws JsonProcessingException {
     try {
       String playerId = (String) data.get("playerId");
 
@@ -300,6 +308,7 @@ public class GameController {
 
       return ResponseEntity.ok(response.toJSONString());
     } catch (Exception e) {
+		logger.error(e.getStackTrace().toString());
       return errorResponse(e.getMessage());
     }
   }
@@ -315,7 +324,8 @@ public class GameController {
   @SuppressWarnings("unchecked")
   @PostMapping("/api/action/{gameId}/reserveNoble")
   public ResponseEntity<String> reserveNoble(@PathVariable String gameId,
-                                             @RequestBody JSONObject data) {
+                                             @RequestBody JSONObject data)
+                                            	      throws JsonProcessingException {
     try {
       String playerId = (String) data.get("playerId");
 
@@ -347,6 +357,7 @@ public class GameController {
 
       return ResponseEntity.ok(response.toJSONString());
     } catch (Exception e) {
+		logger.error(e.getStackTrace().toString());
       return errorResponse(e.getMessage());
     }
   }
@@ -362,7 +373,8 @@ public class GameController {
   @SuppressWarnings("unchecked")
   @PostMapping("/api/action/{gameId}/domino")
   public ResponseEntity<String> domino(@PathVariable String gameId,
-                                       @RequestBody JSONObject data) {
+                                       @RequestBody JSONObject data)
+                                    		      throws JsonProcessingException {
     try {
       String playerId = (String) data.get("playerId");
 
@@ -388,6 +400,7 @@ public class GameController {
 
       return ResponseEntity.ok(response.toJSONString());
     } catch (Exception e) {
+		logger.error(e.getStackTrace().toString());
       return errorResponse(e.getMessage());
     }
   }
@@ -402,7 +415,8 @@ public class GameController {
    */
   @PostMapping("/api/action/{gameId}/reserveCard")
   public ResponseEntity<String> reserveCardAction(@PathVariable String gameId,
-                                                  @RequestBody ReserveCardData reserveCardData) {
+                                                  @RequestBody ReserveCardData reserveCardData)
+                                                	      throws JsonProcessingException {
 
     boolean success = gameManager.reserveCard(gameId, reserveCardData);
     JSONObject response = new JSONObject();
@@ -453,7 +467,8 @@ public class GameController {
   @PutMapping("/api/games/{gameId}")
   public ResponseEntity<HttpStatus> launchGame(
       @PathVariable(required = true, name = "gameId") String gameId,
-      @RequestBody SessionData session) {
+      @RequestBody SessionData session)
+    	      throws JsonProcessingException {
 	try {
 		System.out.println("launching: " + gameId);
 		GameManager.launchGame(gameId, session);
@@ -461,6 +476,7 @@ public class GameController {
 		return ResponseEntity.ok(HttpStatus.OK);
 	}
 	catch (Exception e) {
+		logger.error(e.getStackTrace().toString());
 		return ResponseEntity.status(500).body(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
   }
