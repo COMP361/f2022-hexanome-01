@@ -47,7 +47,7 @@ public class GameController {
   private JSONObject noUpdates;
 
   @Autowired
-  //private GameManager GameManager;
+  private GameManager GameManager;
   
   private ExecutorService threads = Executors.newFixedThreadPool(5);
 
