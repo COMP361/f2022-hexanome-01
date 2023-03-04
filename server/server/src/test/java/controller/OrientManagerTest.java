@@ -27,6 +27,8 @@ import org.json.simple.JSONObject;
 import org.junit.Test;
 import org.springframework.http.ResponseEntity;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import utils.ControllerTestUtils;
 /**
  * Tester for Orient endpoints and functionality
@@ -34,7 +36,7 @@ import utils.ControllerTestUtils;
 public class OrientManagerTest {
 
 	@Test
-	  public void requestResponseTest() {
+	  public void requestResponseTest() throws JsonProcessingException {
 		JSONObject invalidAction = new JSONObject();
 	    invalidAction.put("status", "failure");
 	    invalidAction.put("message", "Invalid action.");
@@ -84,15 +86,13 @@ public class OrientManagerTest {
 	    	
 	    }
 	    
-	    request.replace("cardId", board.getCards().getRows().get(CardLevel.LEVEL1)[0] + "");
-	    response = gc.domino("TestGame", request);
+	    response = gc.satchel("TestGame", request);
 	    try {
 	      assertEquals(ResponseEntity.ok().body(invalidAction.toJSONString()), response);
 	      fail("expected exception not thrown");
 	    }
 	    catch (AssertionError e) { }
 	    
-	    request.replace("cardId", board.getCards().getRows().get(CardLevel.LEVEL1)[0] + "");
 	    response = gc.dominoSatchel("TestGame", request);
 	    try {
 	      assertEquals(ResponseEntity.ok().body(invalidAction.toJSONString()), response);
@@ -101,7 +101,16 @@ public class OrientManagerTest {
 	    catch (AssertionError e) { }
 	    
 	    request.replace("cardId", board.getCards().getRows().get(CardLevel.LEVEL1)[0] + "");
-	    response = gc.satchel("TestGame", request);
+	    response = gc.domino("TestGame", request);
+	    try {
+	      assertEquals(ResponseEntity.ok().body(invalidAction.toJSONString()), response);
+	      fail("expected exception not thrown");
+	    }
+	    catch (AssertionError e) { }
+	    
+	    ReserveCardData request2 = new ReserveCardData("testCreator", board.getCards().getRows().get(CardLevel.LEVEL1)[0], "");
+	    request.replace("cardId", board.getCards().getRows().get(CardLevel.LEVEL1)[0] + "");
+	    response = gc.reserveCardAction("TestGame", request2);
 	    try {
 	      assertEquals(ResponseEntity.ok().body(invalidAction.toJSONString()), response);
 	      fail("expected exception not thrown");

@@ -15,6 +15,7 @@ import ca.mcgill.splendorserver.models.cards.CardType;
 import ca.mcgill.splendorserver.models.communicationbeans.ReserveCardData;
 import ca.mcgill.splendorserver.models.communicationbeans.SessionData;
 import ca.mcgill.splendorserver.models.expansion.TradingPost;
+import ca.mcgill.splendorserver.models.expansion.Unlockable;
 import ca.mcgill.splendorserver.models.registries.CardRegistry;
 import ca.mcgill.splendorserver.models.registries.NobleRegistry;
 import ca.mcgill.splendorserver.models.registries.UnlockableRegistry;
@@ -307,7 +308,7 @@ public static JSONObject takeTokens(Game game, String playerId, String[] tokens)
    * @param reserveCardData the data receive from the request
    * @return true or false depending if the player can or cannot reserve card
    */
-  public boolean reserveCard(String gameId, ReserveCardData reserveCardData) {
+  public static boolean reserveCard(String gameId, ReserveCardData reserveCardData) {
     if (gameRegistry.containsKey(gameId)) {
       Game game = gameRegistry.get(gameId);
       Player[] players = game.getPlayers();
@@ -369,6 +370,12 @@ public static JSONObject takeTokens(Game game, String playerId, String[] tokens)
    */
   public static void endTurn(String gameId) {
     Game game = GameManager.getGame(gameId);
+    
+    Player currentPlayer = game.getCurrentPlayer();
+    for(Unlockable u : currentPlayer.getInventory().getUnlockables()) {
+      u.observe(currentPlayer);
+    }
+    
     game.nextPlayer(); //changes the current player to the next player
   }
 }
