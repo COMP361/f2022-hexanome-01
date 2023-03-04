@@ -7,6 +7,7 @@ public class TokenBank : MonoBehaviour{
     public List<Gem> tokens = new List<Gem>();
     //displayed board token bank amount
     public Text goldAmount, blueAmount, greenAmount, blackAmount, redAmount, whiteAmount;
+    [SerializeField] private SelectedTokens selectedTokens;
     
     public long gold;
     public long blue;

@@ -5,15 +5,18 @@ using UnityEngine.UI;
 
 public class SelectedTokens : MonoBehaviour
 {
-    public List<Gem> sTokens = new List<Gem>();
+    public List<Gem> sTokens = new List<Gem> ();
     private PlayerControl playerControl;
 
     //displayed selected tokens amount
     //Text colour1, colour2, colour3;
-    [SerializeField] private Image slot1, slot2, slot3;
+    public List<Text> colours = new List<Text>();
+
+    //displayed selected tokens amount
+    public List<Text> nums = new List<Text>();
 
     public long getTotalNum(){
-        long n = 0;
+        long n=0;
         foreach (Gem token in sTokens){
             n += token.amount;
         }
@@ -22,108 +25,73 @@ public class SelectedTokens : MonoBehaviour
 
     public long getNum(string colour){
         foreach(Gem token in sTokens){
-            if (token.colour.Equals(colour)) 
-                return token.amount;
+            if (token.colour == colour){return token.amount;}
         }
         return -1;
     }
 
-    public bool addOne(string colour)
-    {
-        for (int i = 0; i < 3; i++){
+    public bool addOne(string colour){
+        for (int i =0; i<3; i++){
             //cannot take more than 2 of the same colour
-            if (sTokens[i].colour.Equals(colour))
-            {
-                long tokenNum = getTotalNum();
-                if(tokenNum <= 1){
-                    sTokens[i].amount += 1;
-                    switch (tokenNum)
-                    {
-                        case 0: 
-                            slot1.color = SetColour(colour);
-                            slot1.gameObject.SetActive(true);
-                            return true;
-                        case 1:
-                            slot2.color = SetColour(colour);
-                            slot2.gameObject.SetActive(true);
-                            return true;
-                    }
-                }
+            if (sTokens[i].colour == colour){
+                if(this.getTotalNum()<=1){
+                    sTokens[i].amount += 1; 
+                    nums[i].text = sTokens[i].amount.ToString();
+                    return true;}
+                return false;
             }
             //when take 3 different colours
             else if (sTokens[i].colour == "none"){
                 if (sTokens[0].amount<2 & sTokens[1].amount<2 & sTokens[2].amount<2){
                     sTokens[i].colour = colour;
-                    switch (i)
-                    {
-                        case 0: 
-                            slot1.color = SetColour(colour);
-                            slot1.gameObject.SetActive(true);
-                            return true;
-                        case 1:
-                            slot2.color = SetColour(colour);
-                            slot2.gameObject.SetActive(true);
-                            return true;
-                        case 2:
-                            slot3.color = SetColour(colour);
-                            slot3.gameObject.SetActive(true);
-                            return true;
-                    }
+                    colours[i].text = colour;
                     sTokens[i].amount += 1;
-                }
+                    nums[i].text = sTokens[i].amount.ToString();
+                    return true;}
             }
+            
         }
         return false;
+        
     }
 
     public bool removeOne(string colour){
-        for (int i = 2; i >= 0; i--){
+        for (int i =0; i<3; i++){
             if (sTokens[i].colour == colour & sTokens[i].amount > 0){
                 sTokens[i].amount -= 1;
+                nums[i].text = sTokens[i].amount.ToString();
                 if (sTokens[i].amount == 0){
                     sTokens[i].colour = "none";
-                    switch (i)
-                    {
-                        case 0:
-                            slot1.gameObject.SetActive(false);
-                            return true;
-                        case 1:
-                            slot2.gameObject.SetActive(false);
-                            return true;
-                        case 2:
-                            slot3.gameObject.SetActive(false);
-                            return true;
+                    colours[i].text = "none";
+                    return true;
                     }
-                }
                 return true;
             }
         }
         return false;
     }
 
-    public void Reset(){
+    public void reset(){
         foreach (Gem token in sTokens){
             token.colour = "none";
             token.amount = 0;
         }
-        
-        slot1.gameObject.SetActive(false);
-        slot2.gameObject.SetActive(false);
-        slot3.gameObject.SetActive(false);
-    }
-
-    private Color32 SetColour(string colour)
-    {
-        switch (colour)
-        {
-            case "black": return new Color32(39, 39, 52, 255);
-            case "blue": return new Color32(110, 156, 198, 255);
-            case "gold": return new Color32(240, 215, 148, 255);
-            case "green": return new Color32(92, 138, 113, 255);
-            case "red": return new Color32(203, 108, 105, 255);
-            case "white": return new Color32(255, 253, 240, 255);
+        foreach (Text colour in colours){
+            colour.text = "none";
         }
+        foreach (Text amount in nums){
+            amount.text = "0";
+        }
+    }
+    // Start is called before the first frame update
+    /*void Start()
+    {
+        reset();
+    }*/
 
-        return new Color32(242, 236, 187, 255);
+    // Update is called once per frame
+    void Update()
+    {
+        
     }
 }

@@ -136,15 +136,12 @@ public class PlayerControl : MonoBehaviour {
     }
 
     public void EndTurn() // Player clicks "end turn"
-    {
-        selectedTokens.Reset();
-    }
+    { }
 
     public void StartTurn() // Start of player's turn
     {
         dashboard.ResetEndDisplay();
         waiting = false;
-        selectedTokens.Reset();
         selectedCardToBuy = null;
     }
 
