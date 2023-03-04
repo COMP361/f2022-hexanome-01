@@ -14,6 +14,7 @@ import ca.mcgill.splendorserver.models.cards.CardLevel;
 import ca.mcgill.splendorserver.models.cards.CardType;
 import ca.mcgill.splendorserver.models.communicationbeans.SessionData;
 import ca.mcgill.splendorserver.models.expansion.TradingPost;
+import ca.mcgill.splendorserver.models.expansion.Unlockable;
 import ca.mcgill.splendorserver.models.registries.CardRegistry;
 import ca.mcgill.splendorserver.models.registries.NobleRegistry;
 import ca.mcgill.splendorserver.models.registries.UnlockableRegistry;
@@ -369,6 +370,12 @@ public JSONObject takeTokens(Game game, String playerId, String[] tokens) {
    */
   public void endTurn(String gameId) {
     Game game = getGame(gameId);
+    
+    Player currentPlayer = game.getCurrentPlayer();
+    for(Unlockable u : currentPlayer.getInventory().getUnlockables()) {
+      u.observe(currentPlayer);
+    }
+    
     game.nextPlayer(); //changes the current player to the next player
   }
 }
