@@ -230,7 +230,9 @@ public class Inventory implements JsonStringafiable {
   public TokenBank getBonuses() {
     TokenBank bonuses = new TokenBank();
     for (Card card : cards) {
-      bonuses.addRepeated(card.getBonus().getType().toString(), card.getBonus().getAmount());
+      if (card.getBonus().getType() != null) {
+        bonuses.addRepeated(card.getBonus().getType().toString(), card.getBonus().getAmount());
+      }
     }
     return bonuses;
   }
