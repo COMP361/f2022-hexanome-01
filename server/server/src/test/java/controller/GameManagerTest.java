@@ -4,14 +4,20 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import ca.mcgill.splendorserver.controllers.GameManager;
+import ca.mcgill.splendorserver.controllers.OrientManager;
 import ca.mcgill.splendorserver.models.Game;
+import ca.mcgill.splendorserver.models.Inventory;
 import ca.mcgill.splendorserver.models.Player;
 import ca.mcgill.splendorserver.models.communicationbeans.SessionData;
+import ca.mcgill.splendorserver.models.registries.NobleRegistry;
+import ca.mcgill.splendorserver.models.board.Board;
 import ca.mcgill.splendorserver.models.board.CardBank;
 import ca.mcgill.splendorserver.models.cards.Card;
 import ca.mcgill.splendorserver.models.cards.CardLevel;
 import ca.mcgill.splendorserver.models.communicationbeans.ReserveCardData;
 import java.util.HashMap;
+
+import org.json.simple.JSONObject;
 import org.junit.Test;
 import utils.ControllerTestUtils;
 
@@ -37,6 +43,23 @@ public class GameManagerTest extends ControllerTestUtils {
     Game game = gameManager.getGame("TestGame");
     assertEquals("TestGame", game.getId());
     assertEquals(null, gameManager.getGame("FakeGame"));
+  }
+  
+  @Test
+  public void getNobleTest() {
+    SessionData dummy = createDummySessionData();
+    GameManager gameManager = new GameManager();
+    gameManager.launchGame("TestGame", dummy);
+    Game game = gameManager.getGame("TestGame");
+    JSONObject request = new JSONObject();
+    Board board = game.getBoard();
+    Inventory testInventory = board.getInventory("testCreator");
+    
+    gameManager.acquireNoble(NobleRegistry.of(board.getNobles().getNobles()[0]), board, testInventory);
+    assertEquals(NobleRegistry.of(board.getNobles().getNobles()[0]), testInventory.getNobles().get(0));
+    
+    OrientManager.reserveNoble(NobleRegistry.of(board.getNobles().getNobles()[0]), board, testInventory);
+    assertEquals(NobleRegistry.of(board.getNobles().getNobles()[0]), testInventory.getReservedNobles().get(0));
   }
 
   @Test
