@@ -307,7 +307,7 @@ public static JSONObject takeTokens(Game game, String playerId, String[] tokens)
    * @param reserveCardData the data receive from the request
    * @return true or false depending if the player can or cannot reserve card
    */
-  public boolean reserveCard(String gameId, ReserveCardData reserveCardData) {
+  public static boolean reserveCard(String gameId, ReserveCardData reserveCardData) {
     if (gameRegistry.containsKey(gameId)) {
       Game game = gameRegistry.get(gameId);
       Player[] players = game.getPlayers();
