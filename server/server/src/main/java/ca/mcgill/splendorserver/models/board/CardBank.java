@@ -90,7 +90,7 @@ public class CardBank implements JsonStringafiable {
   /**
    * Draws a card.
    *
-   * @param cardId the cardId of the card being replaced
+   * @param card the card being replaced
    * @return the id of the newly drawn card
    */
   public int draw(Card card) {
@@ -110,14 +110,22 @@ public class CardBank implements JsonStringafiable {
     return -1;
   }
 
+  /**
+   * Draws a card.
+   *
+   * @param level level of the deck being drawn from
+   * @return the id of the newly drawn card
+   */
   public int drawCardFromDeck(CardLevel level) {
     Stack<Integer> deck = decks.get(level);
-    if (deck.isEmpty()) return -1;
+    if (deck.isEmpty()) { 
+      return -1; 
+    }
     return deck.pop();
   }
 
   @SuppressWarnings("unchecked")
-@Override
+  @Override
   public String toJsonString() {
     JSONArray data = new JSONArray();
     for (CardLevel level : CardLevel.values()) {

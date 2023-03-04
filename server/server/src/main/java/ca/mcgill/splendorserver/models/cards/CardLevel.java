@@ -12,17 +12,17 @@ public enum CardLevel {
   ORIENTLEVEL3("OrientLevel3");
 
   public static CardLevel valueOfIgnoreCase(String name) {
-       return valueOf(name.toUpperCase());
+    return valueOf(name.toUpperCase());
   }
 
   private final String displayName; 
 
   CardLevel(String displayName) {
-      this.displayName = displayName;
+    this.displayName = displayName;
   }
 
   @Override
   public String toString() {
-      return this.displayName.toLowerCase(); 
+    return this.displayName.toLowerCase(); 
   }
 }
