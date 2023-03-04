@@ -47,7 +47,7 @@ public class GameController {
   private JSONObject noUpdates;
 
   @Autowired
-  private GameManager GameManager;
+  private GameManager gameManager;
   
   private ExecutorService threads = Executors.newFixedThreadPool(5);
 
@@ -418,6 +418,9 @@ public class GameController {
       }
       
       JSONObject response = GameManager.determineBody(card, board, inventory);
+      if (response == null) {
+        return ResponseEntity.ok().body(invalidAction.toJSONString());
+      }
       response.put("status", "success");
 
       return ResponseEntity.ok(response.toJSONString());
@@ -432,43 +435,42 @@ public class GameController {
    * Takes token.
    *
    * @param gameId          the id of the game
-   * @param reserveCardData the game data of the take reserve card action
+   * @param data the game data of the take reserve card action
    * @return success flaggit 
    */
   @SuppressWarnings("unchecked")
   @PostMapping("/api/action/{gameId}/reserveCard")
   public ResponseEntity<String> reserveCardAction(@PathVariable String gameId,
                                                   @RequestBody JSONObject data)
-                                                	      throws JsonProcessingException {
-	try {
-	    String playerId = (String) data.get("playerId");
-	    
-	    Game game = GameManager.getGame(gameId);
-	    if (game == null) {
-	      return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
-	    }
-	    if (!game.getCurrentPlayer().getUsername().equals(playerId)) {
-	      return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
-	    }
-	    
-	    String source = (String) data.get("source");
-	    
-	    int cardId = Integer.parseInt((String) data.get("cardId"));
-	    String deckId = (String) data.get("deckId");
-	    
-		boolean success = GameManager.reserveCard(game, playerId, source, cardId, deckId);
-		JSONObject response = new JSONObject();
-		if (success) {
-			response.put("status", "success");
-		} else {
-			response.put("status", "failure");
-		}
-		return ResponseEntity.ok(response.toJSONString());
-	}
-    catch (Exception e) {
-    	return errorResponse(e.getMessage());
+                                                  throws JsonProcessingException {
+    try {
+      String playerId = (String) data.get("playerId");
+
+      Game game = GameManager.getGame(gameId);
+      if (game == null) {
+        return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
+      }
+      if (!game.getCurrentPlayer().getUsername().equals(playerId)) {
+        return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
+      }
+
+      String source = (String) data.get("source");
+
+      int cardId = Integer.parseInt((String) data.get("cardId"));
+      String deckId = (String) data.get("deckId");
+
+      boolean success = GameManager.reserveCard(game, playerId, source, cardId, deckId);
+      JSONObject response = new JSONObject();
+      if (success) {
+        response.put("status", "success");
+      } else {
+        response.put("status", "failure");
+      }
+      return ResponseEntity.ok(response.toJSONString());
+    } catch (Exception e) {
+      return errorResponse(e.getMessage());
     }
-}
+  }
 
   /**
    * Takes token.
@@ -483,35 +485,34 @@ public class GameController {
   public ResponseEntity<String> claimNobleAction(@PathVariable String gameId,
                                                      @RequestBody JSONObject data) 
         throws JsonProcessingException {
-	  try {
-    String playerId = (String) data.get("playerId");
+    try {
+      String playerId = (String) data.get("playerId");
 
-    Game game = GameManager.getGame(gameId);
-    if (game == null) {
-      return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
-    }
-    if (!game.getCurrentPlayer().getUsername().equals(playerId)) {
-      return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
-    }
+      Game game = GameManager.getGame(gameId);
+      if (game == null) {
+        return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
+      }
+      if (!game.getCurrentPlayer().getUsername().equals(playerId)) {
+        return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
+      }
 
-    int nobleId = Integer.parseInt((String) data.get("nobleId"));
-    Board board = game.getBoard();
-    Noble noble = NobleRegistry.of(nobleId);
-    Inventory inventory = board.getInventory(playerId);
+      int nobleId = Integer.parseInt((String) data.get("nobleId"));
+      Board board = game.getBoard();
+      Noble noble = NobleRegistry.of(nobleId);
+      Inventory inventory = board.getInventory(playerId);
 
-    if (!GameManager.acquireNoble(noble, board, inventory)) {
-      return ResponseEntity.ok().body(invalidAction.toJSONString());
-    }
+      if (!GameManager.acquireNoble(noble, board, inventory)) {
+        return ResponseEntity.ok().body(invalidAction.toJSONString());
+      }
       
-    JSONObject response = new JSONObject();
-    response.put("status", "success");
+      JSONObject response = new JSONObject();
+      response.put("status", "success");
 
-    return ResponseEntity.ok(response.toJSONString());
-	  }
-	  catch (Exception e) {
-		  logger.error(e.getStackTrace().toString());
-		  return errorResponse(e.getMessage());
-	  }
+      return ResponseEntity.ok(response.toJSONString());
+    } catch (Exception e) {
+      logger.error(e.getStackTrace().toString());
+      return errorResponse(e.getMessage());
+    }
   }
 
 
