@@ -112,4 +112,13 @@ public class Game {
   public String getVariant() {
     return variant;
   }
+
+  public void setCurrentPlayer(String username) {
+    for(int i = 0;i < players.length; i++) {
+      if(players[i].getUsername().equals(username)) {
+        currentPlayerIndex = i;
+        return;
+      }
+    }
+  }
 }

@@ -30,9 +30,8 @@ public class TokenSlot : MonoBehaviour
             }
         } */
         //selectedTokens.SetActive();
-        bool active = false;
-        active = selectedTokens.addOne(token.colour);
-        if (active){
+        
+        if (selectedTokens.addOne(token.colour)){
             //this token is the token in bank not selectedToken
             token.amount -= 1;
             tokenBank.removeOne(token.colour);
@@ -45,8 +44,7 @@ public class TokenSlot : MonoBehaviour
         //this.token now is the token in selectedTokens
         bool active = false;
         string tempColour = token.colour;
-        active = selectedTokens.removeOne(tempColour);
-        if (active){
+        if (selectedTokens.removeOne(tempColour)){
             tokenBank.addOne(tempColour);
         }
     }
@@ -56,7 +54,8 @@ public class TokenSlot : MonoBehaviour
     {
         //initialises the displayed amount text to amount given to scriptableobject
         //tokenBank.setExceptGold(7);
-        amount.text = token.amount.ToString();
+        if (amount != null) 
+            amount.text = token.amount.ToString();
     }
 
     // Update is called once per frame
