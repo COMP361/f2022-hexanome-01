@@ -43,7 +43,7 @@ public class InventoryTest {
 	    Inventory testInventory = board.getInventory("testCreator");
 	    
 	    
-	    assertEquals("{\"acquiredNobles\":\"[]\",\"reservedNobles\":\"[]\",\"reservedCards\":\"[]\",\"tokens\":\"{\\\"RED\\\":0,\\\"GREEN\\\":0,\\\"WHITE\\\":0,\\\"BLUE\\\":0,\\\"BLACK\\\":0,\\\"GOLD\\\":0}\",\"acquiredCards\":\"[]\"}", 
+	    assertEquals("{\"acquiredNobles\":\"[]\",\"reservedNobles\":\"[]\",\"reservedCards\":\"[]\",\"tokens\":\"{\\\"RED\\\":0,\\\"GOLD\\\":0,\\\"GREEN\\\":0,\\\"WHITE\\\":0,\\\"BLUE\\\":0,\\\"BLACK\\\":0}\",\"acquiredCards\":\"[]\"}", 
 	    		testInventory.toJsonString());
 	    
 	    assertEquals("{\"acquiredNobles\":[],\"reservedNobles\":[],\"reservedCards\":[],\"tokens\":{\"red\":0,\"gold\":0,\"green\":0,\"white\":0,\"blue\":0,\"black\":0},\"bonuses\":{\"red\":0,\"gold\":0,\"green\":0,\"white\":0,\"blue\":0,\"black\":0},\"acquiredCards\":[],\"points\":0}", 
