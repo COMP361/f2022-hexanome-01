@@ -4,11 +4,20 @@ package ca.mcgill.splendorserver.models;
  * Enumeration of the possible token colours.
  */
 public enum Token {
-  GOLD("Gold"), BLUE("Blue"), GREEN("Green"), RED("Red"), WHITE("White"), BLACK("Black"), NONE("None");
+  GOLD("Gold"), BLUE("Blue"), GREEN("Green"), RED("Red"), WHITE("White"), BLACK("Black");
   
   public static Token valueOfIgnoreCase(String name) {
-	if (name.equals("null")) return NONE;
-    return valueOf(name.toUpperCase());
+    switch (name) {
+      case "null": return null;
+      case "X": return null;
+      case "G": return GREEN;
+      case "R": return RED;
+      case "J": return GOLD;
+      case "B": return BLUE;
+      case "K": return BLACK;
+      case "W": return WHITE;
+      default: return valueOf(name.toUpperCase());
+    }
   }
 
   private final String displayName; 
