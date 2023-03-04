@@ -236,7 +236,7 @@ public class GameController {
 
       return ResponseEntity.ok(response.toJSONString());
     } catch (Exception e) {
-      logger.error(e.getStackTrace().toString());
+      logger.error(e.toString());
       return errorResponse(e.getMessage());
     }
   }
@@ -423,7 +423,7 @@ public class GameController {
 
       return ResponseEntity.ok(response.toJSONString());
     } catch (Exception e) {
-      logger.error(e.getStackTrace().toString());
+      logger.error(e.toString());
       return errorResponse(e.getMessage());
     }
   }
