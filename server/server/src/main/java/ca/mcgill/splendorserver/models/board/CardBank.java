@@ -21,7 +21,7 @@ public class CardBank implements JsonStringafiable {
       CardLevel.LEVEL1, CardLevel.LEVEL2, CardLevel.LEVEL3
   };
   private static final CardLevel[] orientLevels = {
-      CardLevel.ORIENT_LEVEL1, CardLevel.ORIENT_LEVEL2, CardLevel.ORIENT_LEVEL3
+      CardLevel.ORIENTLEVEL1, CardLevel.ORIENTLEVEL2, CardLevel.ORIENTLEVEL3
   };
 
   private static final int REGULAR_NUM = 4;
@@ -93,8 +93,7 @@ public class CardBank implements JsonStringafiable {
    * @param cardId the cardId of the card being replaced
    * @return the id of the newly drawn card
    */
-  public int draw(int cardId) {
-    Card card = CardRegistry.of(cardId);
+  public int draw(Card card) {
     Stack<Integer> deck = decks.get(card.getLevel());
     if (deck.isEmpty()) {
       return -1;
@@ -113,10 +112,12 @@ public class CardBank implements JsonStringafiable {
 
   public int drawCardFromDeck(CardLevel level) {
     Stack<Integer> deck = decks.get(level);
+    if (deck.isEmpty()) return -1;
     return deck.pop();
   }
 
-  @Override
+  @SuppressWarnings("unchecked")
+@Override
   public String toJsonString() {
     JSONArray data = new JSONArray();
     for (CardLevel level : CardLevel.values()) {
@@ -130,51 +131,13 @@ public class CardBank implements JsonStringafiable {
     return data.toJSONString();
   }
 
-
-  /**
-   * Returns if true if the board contains the card
-   * with the id provided.
-   *
-   * @param id card identifier
-   * @return true if its found in board else false.
-   */
-  public boolean containsCard(int id) {
-    if (id >= 64 & id <= 103) {
-      return cardIsPartOfRow(CardLevel.LEVEL1, id);
-    } else if (id >= 20 & id <= 50) {
-      return cardIsPartOfRow(CardLevel.LEVEL2, id);
-    } else if (id >= 0 & id <= 19) {
-      return cardIsPartOfRow(CardLevel.LEVEL3, id);
-    } else {
-      if (cardIsPartOfRow(CardLevel.ORIENT_LEVEL1, id)) {
-        return true;
-      } else if (cardIsPartOfRow(CardLevel.ORIENT_LEVEL2, id)) {
-        return true;
-      } else if (cardIsPartOfRow(CardLevel.ORIENT_LEVEL3, id)) {
-        return true;
-      }
-      return false;
-      //Couldn't find card;
-
-    }
-  }
-
-  private boolean cardIsPartOfRow(CardLevel level, int id) {
-    int[] cardOnRow = rows.get(level);
-    for (int card : cardOnRow) {
-      if (card == id) {
-        return true;
-      }
-    }
-    return false;
-  }
-
   /**
    * Getter for an array of JSONArrays of the cards and decks on the board.
    *
    * @return the cards and decks on the board as an array of JSONArrays
    */
-  public JSONArray[] toJson() {
+  @SuppressWarnings("unchecked")
+public JSONArray[] toJson() {
     JSONArray cardsJson = new JSONArray();
     //rows
     for (CardLevel level : CardLevel.values()) {
@@ -195,25 +158,4 @@ public class CardBank implements JsonStringafiable {
     return new JSONArray[] {cardsJson, decksJson};
   }
 
-  /**
-   * Converter converting a string representation of a cardlevel to the enum.
-   *
-   * @return level of the desired (enum).
-   */
-  public static CardLevel getCardLevelFromString(String cardLevel) {
-    if (cardLevel.equals("Level1")) {
-      return CardLevel.LEVEL1;
-    } else if (cardLevel.equals("Level2")) {
-      return CardLevel.LEVEL2;
-    } else if (cardLevel.equals("Level3")) {
-      return CardLevel.LEVEL3;
-    } else if (cardLevel.equals("OrientLevel1")) {
-      return CardLevel.ORIENT_LEVEL1;
-    } else if (cardLevel.equals("OrientLevel2")) {
-      return CardLevel.ORIENT_LEVEL2;
-    } else if (cardLevel.equals("OrientLevel3")) {
-      return CardLevel.ORIENT_LEVEL3;
-    }
-    return null;
-  }
 }

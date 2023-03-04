@@ -83,13 +83,13 @@ public class OrientManager {
 
     switch (level) {
       case 1: regularRow = board.getCards().getRows().get(CardLevel.LEVEL1);
-        orientRow = board.getCards().getRows().get(CardLevel.ORIENT_LEVEL1);
+        orientRow = board.getCards().getRows().get(CardLevel.ORIENTLEVEL1);
         break;
       case 2: regularRow = board.getCards().getRows().get(CardLevel.LEVEL2);
-        orientRow = board.getCards().getRows().get(CardLevel.ORIENT_LEVEL2);
+        orientRow = board.getCards().getRows().get(CardLevel.ORIENTLEVEL2);
         break;
       case 3: regularRow = board.getCards().getRows().get(CardLevel.LEVEL3);
-        orientRow = board.getCards().getRows().get(CardLevel.ORIENT_LEVEL3);
+        orientRow = board.getCards().getRows().get(CardLevel.ORIENTLEVEL3);
         break;
       default: regularRow = new int[0]; 
         orientRow = new int[0];

@@ -187,7 +187,8 @@ public class TokenBank implements JsonStringafiable {
    *
    * @return the tokens as a JSONObject (tokens identified by lowercase colour)
    */
-  public JSONObject toJson() {
+  @SuppressWarnings("unchecked")
+public JSONObject toJson() {
     JSONObject json = new JSONObject();
     for (Token colour : quantities.keySet()) {
       json.put(colour.toString().toLowerCase(), quantities.get(colour));
