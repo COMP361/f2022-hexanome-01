@@ -463,9 +463,9 @@ public class GameController {
   @SuppressWarnings("unchecked")
   @PostMapping("/api/action/{gameId}/claimNoble")
   public ResponseEntity<String> claimNobleAction(@PathVariable String gameId,
-                                                     @RequestBody JSONObject data) {
+                                                     @RequestBody JSONObject data) 
 
-    //throws JsonProcessingException {
+        throws JsonProcessingException {
     String playerId = (String) data.get("playerId");
 
     Game game = GameManager.getGame(gameId);
