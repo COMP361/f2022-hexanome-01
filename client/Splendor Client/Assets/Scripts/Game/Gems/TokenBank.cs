@@ -102,18 +102,18 @@ public class TokenBank : MonoBehaviour{
 
     public void removeOne(string colour){
         switch(colour){
-            case "gold": gold -= 1; break;
-            case "blue": blue -= 1; break;
-            case "green": green -= 1; break;
-            case "black": black -= 1; break;
-            case "red": red -= 1; break;
-            case "white": white -= 1; break;
+            case "gold": gold -= 1; goldAmount.text = gold.ToString(); break;
+            case "blue": blue -= 1; blueAmount.text = blue.ToString(); break;
+            case "green": green -= 1; greenAmount.text = green.ToString(); break;
+            case "black": black -= 1; blackAmount.text = black.ToString(); break;
+            case "red": red -= 1; redAmount.text = red.ToString(); break;
+            case "white": white -= 1; whiteAmount.text = white.ToString(); break;
         }
-        /*foreach(Gem token in tokens){
+        foreach(Gem token in tokens){
             if (colour == token.colour){
                 token.amount -= 1;
             }
-        }*/
+        }
     }
     
     public void AddAmount(string colour, long amount) {

@@ -150,7 +150,7 @@ public class GameController {
         return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
       }
     } catch (Exception e) {
-		logger.error(e.getStackTrace().toString());
+      logger.error(e.getStackTrace().toString());
       return errorResponse(e.getMessage());
     }
   }
@@ -189,7 +189,7 @@ public class GameController {
       //return the result of taking the tokens
       return ResponseEntity.ok(response.toJSONString());
     } catch (Exception e) {
-		logger.error(e.getStackTrace().toString());
+      logger.error(e.getStackTrace().toString());
       return errorResponse(e.getMessage());
     }
   }
@@ -206,7 +206,7 @@ public class GameController {
   @PostMapping("/api/action/{gameId}/purchaseCard")
   public ResponseEntity<String> purchaseCard(@PathVariable String gameId,
                                              @RequestBody JSONObject data) 
-                                            	      throws JsonProcessingException {
+        throws JsonProcessingException {
     try {
       String playerId = (String) data.get("playerId");
 
@@ -235,7 +235,7 @@ public class GameController {
 
       return ResponseEntity.ok(response.toJSONString());
     } catch (Exception e) {
-		logger.error(e.getStackTrace().toString());
+      logger.error(e.toString());
       return errorResponse(e.getMessage());
     }
   }
@@ -252,7 +252,7 @@ public class GameController {
   @PostMapping("/api/action/{gameId}/dominoSatchel")
   public ResponseEntity<String> dominoSatchel(@PathVariable String gameId,
                                               @RequestBody JSONObject data)
-                                            	      throws JsonProcessingException {
+        throws JsonProcessingException {
     try {
       String playerId = (String) data.get("playerId");
 
@@ -281,7 +281,7 @@ public class GameController {
 
       return ResponseEntity.ok(response.toJSONString());
     } catch (Exception e) {
-		logger.error(e.getStackTrace().toString());
+      logger.error(e.getStackTrace().toString());
       return errorResponse(e.getMessage());
     }
   }
@@ -298,7 +298,7 @@ public class GameController {
   @PostMapping("/api/action/{gameId}/satchel")
   public ResponseEntity<String> satchel(@PathVariable String gameId,
                                         @RequestBody JSONObject data)
-                                        	      throws JsonProcessingException {
+        throws JsonProcessingException {
     try {
       String playerId = (String) data.get("playerId");
 
@@ -330,7 +330,7 @@ public class GameController {
 
       return ResponseEntity.ok(response.toJSONString());
     } catch (Exception e) {
-		logger.error(e.getStackTrace().toString());
+      logger.error(e.getStackTrace().toString());
       return errorResponse(e.getMessage());
     }
   }
@@ -347,7 +347,7 @@ public class GameController {
   @PostMapping("/api/action/{gameId}/reserveNoble")
   public ResponseEntity<String> reserveNoble(@PathVariable String gameId,
                                              @RequestBody JSONObject data)
-                                            	      throws JsonProcessingException {
+        throws JsonProcessingException {
     try {
       String playerId = (String) data.get("playerId");
 
@@ -379,7 +379,7 @@ public class GameController {
 
       return ResponseEntity.ok(response.toJSONString());
     } catch (Exception e) {
-		logger.error(e.getStackTrace().toString());
+      logger.error(e.getStackTrace().toString());
       return errorResponse(e.getMessage());
     }
   }
@@ -396,7 +396,7 @@ public class GameController {
   @PostMapping("/api/action/{gameId}/domino")
   public ResponseEntity<String> domino(@PathVariable String gameId,
                                        @RequestBody JSONObject data)
-                                    		      throws JsonProcessingException {
+        throws JsonProcessingException {
     try {
       String playerId = (String) data.get("playerId");
 
@@ -422,7 +422,7 @@ public class GameController {
 
       return ResponseEntity.ok(response.toJSONString());
     } catch (Exception e) {
-		logger.error(e.getStackTrace().toString());
+      logger.error(e.toString());
       return errorResponse(e.getMessage());
     }
   }
