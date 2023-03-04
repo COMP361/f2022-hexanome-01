@@ -338,4 +338,8 @@ public class Inventory implements JsonStringafiable {
 
     return json;
   }
+
+  public ArrayList<Noble> getReservedNobles() {
+    return (ArrayList<Noble>) reservedNobles.clone();
+  }
 }
