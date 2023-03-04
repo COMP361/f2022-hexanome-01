@@ -27,6 +27,8 @@ import org.json.simple.JSONObject;
 import org.junit.Test;
 import org.springframework.http.ResponseEntity;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import utils.ControllerTestUtils;
 /**
  * Tester for Orient endpoints and functionality
@@ -34,7 +36,7 @@ import utils.ControllerTestUtils;
 public class OrientManagerTest {
 
 	@Test
-	  public void requestResponseTest() {
+	  public void requestResponseTest() throws JsonProcessingException {
 		JSONObject invalidAction = new JSONObject();
 	    invalidAction.put("status", "failure");
 	    invalidAction.put("message", "Invalid action.");
