@@ -63,7 +63,7 @@ public class CardRegistry implements Registry<Card> {
 
       for (Object obj : exDeck1) {
         Card card = new Card((JSONObject) (JsonHandler.decodeJsonRequest((String) obj)),
-            CardLevel.ORIENT_LEVEL1);
+            CardLevel.ORIENTLEVEL1);
         data.put(card.getId(), card);
       }
 
@@ -74,7 +74,7 @@ public class CardRegistry implements Registry<Card> {
 
       for (Object obj : exDeck2) {
         Card card = new Card((JSONObject) (JsonHandler.decodeJsonRequest((String) obj)),
-            CardLevel.ORIENT_LEVEL2);
+            CardLevel.ORIENTLEVEL2);
         data.put(card.getId(), card);
       }
 
@@ -85,7 +85,7 @@ public class CardRegistry implements Registry<Card> {
 
       for (Object obj : exDeck3) {
         Card card = new Card((JSONObject) (JsonHandler.decodeJsonRequest((String) obj)),
-            CardLevel.ORIENT_LEVEL3);
+            CardLevel.ORIENTLEVEL3);
         data.put(card.getId(), card);
       }
     } catch (IOException e) {

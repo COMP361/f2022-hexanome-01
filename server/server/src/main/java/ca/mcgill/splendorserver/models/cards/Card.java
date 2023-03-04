@@ -44,8 +44,8 @@ public class Card {
     cost.put(Token.RED, red);
     cost.put(Token.WHITE, white);
     cost.put(Token.BLACK, black);
-    this.type = CardType.valueOf(type);
-    this.level = CardLevel.valueOf(level);
+    this.type = CardType.valueOfIgnoreCase(type);
+    this.level = CardLevel.valueOfIgnoreCase(level);
   }
 
   /**
@@ -55,41 +55,15 @@ public class Card {
    * @param level the level of the card
    */
   public Card(JSONObject obj, CardLevel level) {
-    id = Integer.parseInt((String) obj.get("id"));
-    pts = Integer.parseInt((String) obj.get("points"));
+    this.id = Integer.parseInt((String) obj.get("id"));
+    this.pts = Integer.parseInt((String) obj.get("points"));
+    this.bonus = new CardBonus(Token.valueOfIgnoreCase((String) obj.get("bonus")), Integer.parseInt((String) obj.get("bonusAmount")));
     cost.put(Token.BLUE, Integer.parseInt((String) obj.get("blue")));
     cost.put(Token.GREEN, Integer.parseInt((String) obj.get("green")));
     cost.put(Token.RED, Integer.parseInt((String) obj.get("red")));
     cost.put(Token.WHITE, Integer.parseInt((String) obj.get("white")));
     cost.put(Token.BLACK, Integer.parseInt((String) obj.get("brown")));
     satchelCount = 0;
-    bonus.amount = Integer.parseInt((String) obj.get("bonusAmount"));
-    String typeChar = (String) obj.get("bonus");
-
-    //bonus type
-    switch (typeChar) {
-      case "J":
-        bonus.type = Token.GOLD;
-        break;
-      case "R":
-        bonus.type = Token.RED;
-        break;
-      case "W":
-        bonus.type = Token.WHITE;
-        break;
-      case "G":
-        bonus.type = Token.GREEN;
-        break;
-      case "B":
-        bonus.type = Token.BLUE;
-        break;
-      case "K":
-        bonus.type = Token.BLACK;
-        break;
-      default:
-        bonus.type = null;
-        break;
-    }
 
     type = CardType.valueOf((String) obj.get("action"));
     this.level = level;

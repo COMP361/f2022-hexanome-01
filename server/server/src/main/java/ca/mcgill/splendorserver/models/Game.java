@@ -103,10 +103,7 @@ public class Game {
    * Changes the current player to the next player.
    */
   public void nextPlayer() {
-    currentPlayerIndex++;
-    if (currentPlayerIndex == players.length) {
-      currentPlayerIndex = 0;
-    }
+	currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
   }
 
   public String getVariant() {

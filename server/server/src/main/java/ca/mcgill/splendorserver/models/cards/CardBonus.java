@@ -24,6 +24,7 @@ public class CardBonus {
   }
 
   public int getAmount() {
+	if (type == Token.NONE) return 0;
     return amount;
   }
 }

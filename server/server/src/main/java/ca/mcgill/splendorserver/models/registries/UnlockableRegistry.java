@@ -59,11 +59,11 @@ public class UnlockableRegistry implements Registry<Unlockable> {
     return ids;
   }
 
-  public Set<Integer> listIds() {
+  public static Set<Integer> listIds() {
     return data.keySet();
   }
 
-  public Unlockable of(int id) {
+  public static Unlockable of(int id) {
     return data.get(id);
   }
 

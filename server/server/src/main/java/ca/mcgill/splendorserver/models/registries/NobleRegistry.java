@@ -47,7 +47,7 @@ public class NobleRegistry implements Registry<Noble> {
     return ids;
   }
 
-  public Set<Integer> listIds() {
+  public static Set<Integer> listIds() {
     return data.keySet();
   }
 
