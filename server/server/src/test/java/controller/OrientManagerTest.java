@@ -17,7 +17,6 @@ import ca.mcgill.splendorserver.models.board.Board;
 import ca.mcgill.splendorserver.models.board.CardBank;
 import ca.mcgill.splendorserver.models.cards.Card;
 import ca.mcgill.splendorserver.models.cards.CardLevel;
-import ca.mcgill.splendorserver.models.communicationbeans.ReserveCardData;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -108,9 +107,8 @@ public class OrientManagerTest {
 	    }
 	    catch (AssertionError e) { }
 	    
-	    ReserveCardData request2 = new ReserveCardData("testCreator", board.getCards().getRows().get(CardLevel.LEVEL1)[0], "");
 	    request.replace("cardId", board.getCards().getRows().get(CardLevel.LEVEL1)[0] + "");
-	    response = gc.reserveCardAction("TestGame", request2);
+	    response = gc.reserveCardAction("TestGame", request);
 	    try {
 	      assertEquals(ResponseEntity.ok().body(invalidAction.toJSONString()), response);
 	      fail("expected exception not thrown");
@@ -180,7 +178,7 @@ public class OrientManagerTest {
 	    testInventory.addTokens(tokens);
 	    
 	    request.put("playerId", "testCreator");
-	    request.put("cardId", board.getCards().getRows().get(CardLevel.ORIENT_LEVEL1)[0] + "");
+	    request.put("cardId", board.getCards().getRows().get(CardLevel.ORIENTLEVEL1)[0] + "");
 	    gameManager.acquireCard(CardRegistry.of(0), board, testInventory);
 	    gameManager.acquireCard(CardRegistry.of(2), board, testInventory);
 	    gameManager.acquireCard(CardRegistry.of(3), board, testInventory);
@@ -194,7 +192,7 @@ public class OrientManagerTest {
 	    }
 	    catch (AssertionError e) { }
 	    
-	    request.replace("cardId", board.getCards().getRows().get(CardLevel.ORIENT_LEVEL1)[0] + "");
+	    request.replace("cardId", board.getCards().getRows().get(CardLevel.ORIENTLEVEL1)[0] + "");
 	    response = gc.purchaseCard("TestGame", request);
 	    try {
 	      assertEquals(ResponseEntity.ok().body(invalidAction.toJSONString()), response);
@@ -202,7 +200,7 @@ public class OrientManagerTest {
 	    }
 	    catch (AssertionError e) { }
 	    
-	    request.replace("cardId", board.getCards().getRows().get(CardLevel.ORIENT_LEVEL1)[0] + "");
+	    request.replace("cardId", board.getCards().getRows().get(CardLevel.ORIENTLEVEL1)[0] + "");
 	    response = gc.purchaseCard("TestGame", request);
 	    try {
 	      assertEquals(ResponseEntity.ok().body(invalidAction.toJSONString()), response);
@@ -210,7 +208,7 @@ public class OrientManagerTest {
 	    }
 	    catch (AssertionError e) { }
 	    
-	    request.replace("cardId", board.getCards().getRows().get(CardLevel.ORIENT_LEVEL2)[0] + "");
+	    request.replace("cardId", board.getCards().getRows().get(CardLevel.ORIENTLEVEL2)[0] + "");
 	    response = gc.dominoSatchel("TestGame", request);
 	    try {
 	      assertEquals(ResponseEntity.ok().body(invalidAction.toJSONString()), response);
@@ -218,7 +216,7 @@ public class OrientManagerTest {
 	    }
 	    catch (AssertionError e) { }
 	    
-	    request.replace("cardId", board.getCards().getRows().get(CardLevel.ORIENT_LEVEL2)[0] + "");
+	    request.replace("cardId", board.getCards().getRows().get(CardLevel.ORIENTLEVEL2)[0] + "");
 	    response = gc.domino("TestGame", request);
 	    try {
 	      assertEquals(ResponseEntity.ok().body(invalidAction.toJSONString()), response);
@@ -226,7 +224,7 @@ public class OrientManagerTest {
 	    }
 	    catch (AssertionError e) { }
 	    
-	    request.replace("cardId", board.getCards().getRows().get(CardLevel.ORIENT_LEVEL2)[0] + "");
+	    request.replace("cardId", board.getCards().getRows().get(CardLevel.ORIENTLEVEL2)[0] + "");
 	    response = gc.domino("TestGame", request);
 	    try {
 	      assertEquals(ResponseEntity.ok().body(invalidAction.toJSONString()), response);
@@ -234,7 +232,7 @@ public class OrientManagerTest {
 	    }
 	    catch (AssertionError e) { }
 	    
-	    request.replace("cardId", board.getCards().getRows().get(CardLevel.ORIENT_LEVEL2)[0] + "");
+	    request.replace("cardId", board.getCards().getRows().get(CardLevel.ORIENTLEVEL2)[0] + "");
 	    response = gc.domino("TestGame", request);
 	    try {
 	      assertEquals(ResponseEntity.ok().body(invalidAction.toJSONString()), response);
@@ -275,7 +273,7 @@ public class OrientManagerTest {
 	    for (int i : board.getCards().getRows().get(CardLevel.LEVEL2)) {
 	    	list.add(i);
 	    }
-	    for (int i : board.getCards().getRows().get(CardLevel.ORIENT_LEVEL2)) {
+	    for (int i : board.getCards().getRows().get(CardLevel.ORIENTLEVEL2)) {
 	    	list.add(i);
 	    }
 	    String cards = JSONArray.toJSONString(list);
@@ -298,7 +296,7 @@ public class OrientManagerTest {
 	    for (int i : board.getCards().getRows().get(CardLevel.LEVEL1)) {
 	    	list.add(i);
 	    }
-	    for (int i : board.getCards().getRows().get(CardLevel.ORIENT_LEVEL1)) {
+	    for (int i : board.getCards().getRows().get(CardLevel.ORIENTLEVEL1)) {
 	    	list.add(i);
 	    }
 	    String cards = JSONArray.toJSONString(list);
@@ -310,7 +308,7 @@ public class OrientManagerTest {
 	    for (int i : board.getCards().getRows().get(CardLevel.LEVEL2)) {
 	    	list.add(i);
 	    }
-	    for (int i : board.getCards().getRows().get(CardLevel.ORIENT_LEVEL2)) {
+	    for (int i : board.getCards().getRows().get(CardLevel.ORIENTLEVEL2)) {
 	    	list.add(i);
 	    }
 	    
@@ -321,7 +319,7 @@ public class OrientManagerTest {
 	    for (int i : board.getCards().getRows().get(CardLevel.LEVEL3)) {
 	    	list.add(i);
 	    }
-	    for (int i : board.getCards().getRows().get(CardLevel.ORIENT_LEVEL3)) {
+	    for (int i : board.getCards().getRows().get(CardLevel.ORIENTLEVEL3)) {
 	    	list.add(i);
 	    }
 	    
