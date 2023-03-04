@@ -27,6 +27,8 @@ public class PlayerControl : MonoBehaviour {
     [SerializeField] private bool waiting;
 
     public bool inOrientMenu, inInventory, sacrificeMade, inNobleMenu;
+    private ActionManager actionManager;
+    public Session currSession;
 
     void Start() {
         //the following was a test i made to make sure JSONHandler was working. ive left it here incase we find some uknown error with it
@@ -134,6 +136,122 @@ public class PlayerControl : MonoBehaviour {
     bool PurchaseAction() { //attempt to purchase a card
         return false;
     }
+
+
+    public void purchaseCardAction(){
+        JSONObject selectedCardJson = new JSONObject();
+        json.Add("playerId", player.GetUsername());
+        json.Add("cardId", selectedCardToBuy.GetCard().GetId());
+        actionManager.MakeApiRequest(currSession.id, selectedCardJson, ActionType.performCardPurchase, (response) => {
+
+            if(response != null){
+                string status = response.Get("status");
+                string action = response.Get("action");
+                int[] choices = response.Get("choices");
+                JSONArray jsonNoblesVisited= response.GetArray("noblesVisiting");
+                int[] noblesVisiting = jsonNoblesVisited.ToIntArray();
+
+                switch (action)
+                {
+                    case "none":
+                        Console.WriteLine("none");
+                        break;
+                    case "DOMINO1":
+                        Console.WriteLine("Domino1");
+                        break;  
+                    case "DOMINO2":
+                        Console.WriteLine("Domino2");
+                        break;
+                    case "SATCHEL":
+                        Console.WriteLine("Satchel");
+                        break;
+                    case "SACRAFICE":
+                        Console.WriteLine("Sacrafice");
+                        break;
+                    default:
+                        Console.WriteLine("Invalid Action");
+                        break;
+                }
+
+            }
+        });
+    }
+
+    public void selectNobleAction(Noble chosenNoble){
+        JSONObject selectNobleJson = new JSONObject();
+        selectNobleJson.Add("playerId", player.GetUsername());
+        selectNobleJson.Add("nobleId", chosenNoble.GetId());
+        actionManager.MakeApiRequest(currSession.id, selectedCardJson, ActionType.selectNobleAction, (response) => {
+
+            if(response != null){
+                string status = response.Get("status");
+
+
+                if(status == "success"){
+                    // Add selectedNobleToInventory
+                }else{
+                    // Handle failed status
+                }
+
+            }else{
+                //Handle null return
+            }
+
+
+        });
+        
+    }
+
+    public void takeTokensAction(){
+        JSONObject chosenTokensJson = new JSONObject();
+        chosenTokensJson.Add("player", player.GetUsername());
+        string[] tokenColours = selectedTokens.colours.toArray();
+        chosenTokensJson.Add("tokens", tokenColours);
+        actionManager.MakeApiRequest(currSession.id, chosenTokensJson, ActionType.takeTokensAction, (response) => {
+            if(response != null){
+                string status = response.Get("status");
+                int overFlowAmount = response.Get("tokenOverFlow");
+                if(status == "success"){
+                    if(overFlowAmount == 0){
+                        // Handle removal of selected tokens
+                    }else{
+                        // Handle too many tokens
+                    }
+                }else{
+                    // Handle Unsuccessful return
+                }
+
+            }else{
+                // Handle null response from server
+            }
+
+
+
+        });
+
+    }
+
+    public void reserveCardAction(){
+        JSONObject reserveCardJson = new JSONObject();
+        reserveCardJson.Add("playerId", player.GetUsername());
+        reserveCardJson.Add("cardId", selectedCardToBuy.GetCard().GetId());
+        actionManager.MakeApiRequest(currSession.id, reserveCardJson, ActionType.reserveCardAction, (response) => {
+            if(response != null){
+                string status = response.Get("status");
+                if(status == "success"){
+                    // Add to reserve cards
+                }else{
+                    // Handle reserve card failure
+                }
+                
+
+            }else{
+                // Handle null return
+            }
+        });
+        
+    }
+
 
     public void EndTurn() // Player clicks "end turn"
     { }
