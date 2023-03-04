@@ -76,7 +76,7 @@ public class GameController {
     noUpdates.put("message", "No new updates.");
   }
 
-  @SuppressWarnings({"unused", "unchecked"})
+  @SuppressWarnings("unchecked")
   private ResponseEntity<String> errorResponse(String message) {
     JSONObject error = new JSONObject();
     error.put("status", "failure");
@@ -174,7 +174,7 @@ public class GameController {
       if (game == null) {
         return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
       }
-      if (!game.getCurrentPlayer().equals(playerId)) {
+      if (!game.getCurrentPlayer().getUsername().equals(playerId)) {
         return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
       }
 
@@ -185,11 +185,13 @@ public class GameController {
         tokenStrings[i] = (String) tokens.get(i);
       }
       JSONObject response = GameManager.takeTokens(game, playerId, tokenStrings);
-
+      if (response == null) {
+        return ResponseEntity.ok().body(invalidAction.toJSONString());
+      }
       //return the result of taking the tokens
       return ResponseEntity.ok(response.toJSONString());
     } catch (Exception e) {
-      logger.error(e.getStackTrace().toString());
+      logger.error(e.getMessage());
       return errorResponse(e.getMessage());
     }
   }

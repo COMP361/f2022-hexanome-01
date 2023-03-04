@@ -184,7 +184,7 @@ public static JSONObject takeTokens(Game game, String playerId, String[] tokens)
 
     //check validity of the token taking
     if (!checkValidityTokens(game, playerId, tokens)) {
-      throw new RuntimeException("The requested take tokens action was not valid.");
+      return null;
     }
 
     //try adding tokens
@@ -193,7 +193,7 @@ public static JSONObject takeTokens(Game game, String playerId, String[] tokens)
       takeTokensResult.put("tokenOverflow", inventory.getTokens().checkOverflow());
       return takeTokensResult;
     } else { //if taking the tokens didn't go through
-      throw new RuntimeException("The requested take tokens action could not be completed.");
+      return null;
     }
   }
 

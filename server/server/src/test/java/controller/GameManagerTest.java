@@ -3,6 +3,7 @@ package controller;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import ca.mcgill.splendorserver.apis.GameController;
 import ca.mcgill.splendorserver.controllers.GameManager;
 import ca.mcgill.splendorserver.controllers.OrientManager;
 import ca.mcgill.splendorserver.models.Game;
@@ -18,6 +19,10 @@ import java.util.HashMap;
 
 import org.json.simple.JSONObject;
 import org.junit.Test;
+import org.springframework.http.ResponseEntity;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import utils.ControllerTestUtils;
 
 /**
@@ -62,15 +67,20 @@ public class GameManagerTest extends ControllerTestUtils {
   }
 
   @Test
-  public void reserveCardTest() {
+  public void reserveCardTest() throws JsonProcessingException {
+    GameController gc = new GameController();
     SessionData dummy = createDummySessionData();
     GameManager gameManager = new GameManager();
     gameManager.launchGame("TestGame", dummy);
     Game game = gameManager.getGame("TestGame");
     CardBank cards = game.getBoard().getCards();
     int cardId = cards.getRows().get(CardLevel.LEVEL1)[0];
+    
+    JSONObject request = new JSONObject();
+    request.put("cardId", cardId + "");
+    request.put("playerId", "testCreator");
 
-    //gameManager.reserveCard("TestGame", reserveCardData);
+    //ResponseEntity<String> response = gc.reserveCardAction("TestGame", request);
 
     boolean cardWasReserved = false;
     for (Player player : game.getPlayers()) {
