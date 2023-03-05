@@ -98,7 +98,7 @@ public class GameManager {
     
     int goldUsed = inventory.isCostAffordable(card.getCost());
 
-    if (goldUsed != -1 || !acquireCard(card, board, inventory)) {
+    if (goldUsed == -1 || !acquireCard(card, board, inventory)) {
       return null;
     }
     inventory.payForCard(card, goldUsed);
