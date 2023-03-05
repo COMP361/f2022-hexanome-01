@@ -1,20 +1,10 @@
 package ca.mcgill.splendorserver.apis;
 
-import ca.mcgill.splendorserver.controllers.GameManager;
-import ca.mcgill.splendorserver.controllers.OrientManager;
-import ca.mcgill.splendorserver.models.Game;
-import ca.mcgill.splendorserver.models.Inventory;
-import ca.mcgill.splendorserver.models.Noble;
-import ca.mcgill.splendorserver.models.board.Board;
-import ca.mcgill.splendorserver.models.cards.Card;
-import ca.mcgill.splendorserver.models.communicationbeans.SessionData;
-import ca.mcgill.splendorserver.models.registries.CardRegistry;
-import ca.mcgill.splendorserver.models.registries.NobleRegistry;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -32,6 +22,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+
+import ca.mcgill.splendorserver.controllers.GameManager;
+import ca.mcgill.splendorserver.controllers.OrientManager;
+import ca.mcgill.splendorserver.models.Game;
+import ca.mcgill.splendorserver.models.Inventory;
+import ca.mcgill.splendorserver.models.Noble;
+import ca.mcgill.splendorserver.models.Token;
+import ca.mcgill.splendorserver.models.board.Board;
+import ca.mcgill.splendorserver.models.cards.Card;
+import ca.mcgill.splendorserver.models.communicationbeans.SessionData;
+import ca.mcgill.splendorserver.models.registries.CardRegistry;
+import ca.mcgill.splendorserver.models.registries.NobleRegistry;
 
 /**
  * Game controller class for the server.
@@ -180,11 +184,11 @@ public class GameController {
 
       //perform taking the tokens
       JSONArray tokens = (JSONArray) data.get("tokens");
-      String[] tokenStrings = new String[tokens.size()];
-      for (int i = 0; i < tokenStrings.length; i++) {
-        tokenStrings[i] = (String) tokens.get(i);
+      Token[] tokensArray = new Token[tokens.size()];
+      for (int i = 0; i < tokensArray.length; i++) {
+    	  tokensArray[i] = Token.valueOfIgnoreCase((String) tokens.get(i));
       }
-      JSONObject response = GameManager.takeTokens(game, playerId, tokenStrings);
+      JSONObject response = GameManager.takeTokens(game, playerId, tokensArray);
       if (response == null) {
         return ResponseEntity.ok().body(invalidAction.toJSONString());
       }

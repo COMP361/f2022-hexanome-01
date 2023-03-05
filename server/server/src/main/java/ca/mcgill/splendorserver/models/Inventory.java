@@ -103,7 +103,7 @@ public class Inventory {
    * @param acquiredTokens an array of Strings representing the colors of the tokens to add
    * @return whether the tokens were successfully added
    */
-  public boolean addTokens(String[] acquiredTokens) {
+  public boolean addTokens(Token[] acquiredTokens) {
     return tokens.addAll(acquiredTokens);
   }
 
@@ -166,12 +166,13 @@ public class Inventory {
    *
    * @param card the card to pay for.
    */
-  public void payForCard(Card card) {
+  public void payForCard(Card card, int goldUsed) {
+	tokens.removeRepeated(Token.GOLD, goldUsed);
     for (Token token : Token.values()) {
       if (token.equals(Token.GOLD)) {
         continue;
       }
-      tokens.removeRepeated(token.toString(), card.getCost().get(token));
+      tokens.removeRepeated(token, card.getCost().get(token));
     }
   }
 
@@ -181,16 +182,22 @@ public class Inventory {
    * @param cost the amount to check for in the player's token bank
    * @return whether the player can afford the cost
    */
-  public boolean isCostAffordable(HashMap<Token, Integer> cost) {
+  public int isCostAffordable(HashMap<Token, Integer> cost) {
+	int goldUsed = 0;
     for (Token token : Token.values()) {
       if (token.equals(Token.GOLD)) {
         continue;
       }
-      if (tokens.checkAmount(token) < cost.get(token)) {
-        return false;
+      int tokenAmount = tokens.checkAmount(token);
+      int tokenCost = cost.get(token);
+      if (tokenAmount < tokenCost) {
+    	int goldAvailable = tokens.checkAmount(Token.GOLD) - goldUsed;
+    	if (tokenCost - tokenAmount > goldAvailable)
+    		return -1;
+    	goldUsed += tokenCost - tokenAmount;
       }
     }
-    return true;
+    return goldUsed;
   }
 
   /**
@@ -221,7 +228,7 @@ public class Inventory {
     TokenBank bonuses = new TokenBank();
     for (Card card : cards) {
       if (card.getBonus().getType() != null) {
-        bonuses.addRepeated(card.getBonus().getType().toString(), card.getBonus().getAmount());
+        bonuses.addRepeated(card.getBonus().getType(), card.getBonus().getAmount());
       }
     }
     return bonuses;
