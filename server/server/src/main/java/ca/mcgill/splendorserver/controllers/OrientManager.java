@@ -204,7 +204,7 @@ public static JSONObject reserve(Card card, Board board) {
   /**
    * Handles orient sacrifice selection.
    *
-   * 
+   * @return whether or not the action went through
    */
   public static boolean makeSacrifice() {
     return true;
