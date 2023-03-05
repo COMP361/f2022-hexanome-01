@@ -18,6 +18,7 @@ import ca.mcgill.splendorserver.apis.JsonHandler;
 import ca.mcgill.splendorserver.controllers.GameManager;
 import ca.mcgill.splendorserver.models.Game;
 import ca.mcgill.splendorserver.models.Inventory;
+import ca.mcgill.splendorserver.models.Noble;
 import ca.mcgill.splendorserver.models.Token;
 import ca.mcgill.splendorserver.models.board.Board;
 import ca.mcgill.splendorserver.models.cards.Card;
@@ -71,6 +72,50 @@ public class InventoryTest {
 	    assertEquals(15, testInventory.getTradingPosts()[0].getId());
 	    
 	    assertTrue("cannot buy card", testInventory.getTokens().canPurchase(CardRegistry.of(3)));
-	}
 	    
+	    assertEquals(6, testInventory.getTokens().checkAmount(Token.RED));
+	    testInventory.getTokens().removeAll(tokens);
+	    assertEquals(5, testInventory.getTokens().checkAmount(Token.RED));
+	}
+	   
+	@Test
+	public void NobleBankTest() {
+	    SessionData dummy = ControllerTestUtils.createDummySessionData();
+	    GameManager gameManager = new GameManager();
+	    gameManager.launchGame("TestGame", dummy);
+	    HashMap<String, Game> gameRegistry = gameManager.getGameRegistry();
+	    GameController gc = new GameController();
+	    Game game = gameRegistry.get("TestGame");
+	    Board board = game.getBoard();
+	    Inventory testInventory = board.getInventory("testCreator");
+	    
+	    int originalNoble = board.getNobles().getNobles()[0];
+	    board.getNobles().remove(0);
+	    assertEquals(-1, board.getNobles().getNobles()[0]);
+	    board.getNobles().add(originalNoble);
+	    assertEquals(originalNoble, board.getNobles().getNobles()[0]);
+	    
+	    JSONArray json = board.getNobles().toJson();
+	    assertEquals(originalNoble, json.get(0));
+	}
+	
+	@Test
+	public void CardBankTest() {
+	    SessionData dummy = ControllerTestUtils.createDummySessionData();
+	    GameManager gameManager = new GameManager();
+	    gameManager.launchGame("TestGame", dummy);
+	    HashMap<String, Game> gameRegistry = gameManager.getGameRegistry();
+	    GameController gc = new GameController();
+	    Game game = gameRegistry.get("TestGame");
+	    Board board = game.getBoard();
+	    Inventory testInventory = board.getInventory("testCreator");
+	    
+	    int originalCard = board.getCards().getRows().get(CardLevel.LEVEL1)[0];
+	    int drawnCard = board.getCards().draw(CardLevel.LEVEL1, 0);
+	    
+	    assertEquals(originalCard, drawnCard);
+	    
+	    JSONArray[] json = board.getCards().toJson();
+	    assertEquals(board.getCards().getRows().get(CardLevel.LEVEL1)[0], ((JSONArray) json[0].get(0)).get(0));
+	}
 }
