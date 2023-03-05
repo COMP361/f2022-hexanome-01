@@ -23,11 +23,11 @@ public enum Token {
   private final String displayName; 
 
   Token(String displayName) {
-      this.displayName = displayName;
+    this.displayName = displayName;
   }
 
   @Override
   public String toString() {
-     return this.displayName.toLowerCase(); 
+    return this.displayName.toLowerCase(); 
   }
 }

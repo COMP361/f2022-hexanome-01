@@ -23,8 +23,13 @@ public class CardBonus {
     return type;
   }
 
+  /**
+   * Getter for quantity of bonus.
+   */
   public int getAmount() {
-	if (type == null) return 0;
+    if (type == null) {
+      return 0;
+    }
     return amount;
   }
 }

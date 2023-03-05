@@ -184,7 +184,7 @@ public static JSONObject takeTokens(Game game, String playerId, String[] tokens)
 
     //check validity of the token taking
     if (!checkValidityTokens(game, playerId, tokens)) {
-      throw new RuntimeException("The requested take tokens action was not valid.");
+      return null;
     }
 
     //try adding tokens
@@ -193,7 +193,7 @@ public static JSONObject takeTokens(Game game, String playerId, String[] tokens)
       takeTokensResult.put("tokenOverflow", inventory.getTokens().checkOverflow());
       return takeTokensResult;
     } else { //if taking the tokens didn't go through
-      throw new RuntimeException("The requested take tokens action could not be completed.");
+      return null;
     }
   }
 
@@ -299,39 +299,40 @@ public static JSONObject takeTokens(Game game, String playerId, String[] tokens)
    * It makes sure that the player is part of the game
    * they requested from.
    *
-   * @param gameId          the game that its being played
-   * @param reserveCardData the data receive from the request
+   * @param game the game that its being played
+   * @param source the data receive from the request
+   * @param cardId the card being reserved
+   * @param deckId id of deck the card came from (if any)
    * @return true or false depending if the player can or cannot reserve card
    */
-  public static boolean reserveCard(Game game, String playerId, String source, int cardId, String deckId) {
-	  
-	  Board board = game.getBoard();
-	  Inventory inventory = board.getInventory(playerId);
-	  CardBank cards = board.getCards();
-	  
-	  if (source.equals("board")) {
-	  	Card card = CardRegistry.of(cardId);
-	  
-	    int pickedUp = cards.draw(card);
-	    if (pickedUp != card.getId()) {
-	      return false;
-	    }
-	    inventory.reserve(card);
-	    return true;
-	  }
-	  
-	  else if (source.equals("deck")) {
-		CardLevel level = CardLevel.valueOfIgnoreCase(deckId);
-		  
-		int pickedUp = cards.drawCardFromDeck(level);
-		if (pickedUp == -1) {
-		  return false;
-		}
-		inventory.reserve(CardRegistry.of(pickedUp));
-		return true;
-	  }
-	  
-	  return false;
+  public static boolean reserveCard(Game game, String playerId, 
+      String source, int cardId, String deckId) {
+
+    Board board = game.getBoard();
+    Inventory inventory = board.getInventory(playerId);
+    CardBank cards = board.getCards();
+
+    if (source.equals("board")) {
+      Card card = CardRegistry.of(cardId);
+
+      int pickedUp = cards.draw(card);
+      if (pickedUp != card.getId()) {
+        return false;
+      }
+      inventory.reserve(card);
+      return true;
+    } else if (source.equals("deck")) {
+      CardLevel level = CardLevel.valueOfIgnoreCase(deckId);
+
+      int pickedUp = cards.drawCardFromDeck(level);
+      if (pickedUp == -1) {
+        return false;
+      }
+      inventory.reserve(CardRegistry.of(pickedUp));
+      return true;
+    }
+
+    return false;
   }
 
   /**
@@ -372,7 +373,7 @@ public static JSONObject takeTokens(Game game, String playerId, String[] tokens)
     Game game = getGame(gameId);
     
     Player currentPlayer = game.getCurrentPlayer();
-    for(Unlockable u : currentPlayer.getInventory().getUnlockables()) {
+    for (Unlockable u : currentPlayer.getInventory().getUnlockables()) {
       u.observe(currentPlayer);
     }
     
