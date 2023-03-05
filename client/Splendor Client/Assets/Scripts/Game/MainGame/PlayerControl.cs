@@ -270,6 +270,7 @@ public class PlayerControl : MonoBehaviour {
         dashboard.DisplayReserve();
         allCards.UnGreyOut();
         Debug.Log("select reserve");
+        reserveCardAction();
     }
     public void setReserveToFalse(){
         selectReserve = false;
@@ -278,6 +279,8 @@ public class PlayerControl : MonoBehaviour {
         dashboard.DisplayPurchase();
         allCards.UnGreyOut();
         Debug.Log("select purchase");
+        purchaseCardAction();
+        
     }
 
     public void selectNobleToClaim() {
