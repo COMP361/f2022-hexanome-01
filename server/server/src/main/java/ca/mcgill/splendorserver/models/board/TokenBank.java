@@ -141,6 +141,9 @@ public class TokenBank implements JsonStringafiable {
   public boolean canPurchase(Card card) {
     HashMap<Token, Integer> cost = card.getCost();
     for (Token t : Token.values()) {
+      if (t.equals(Token.GOLD)) {
+        continue;
+      }
       if (quantities.get(t) < cost.get(t)) {
         return false;
       }
