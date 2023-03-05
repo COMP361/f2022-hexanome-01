@@ -10,6 +10,7 @@ public enum Token {
   * converter of string to token enum.
 
   * @param name given token name
+  * @return enum of name string
   */
   public static Token valueOfIgnoreCase(String name) {
     switch (name) {

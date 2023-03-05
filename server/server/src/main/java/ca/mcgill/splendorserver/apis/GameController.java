@@ -1,10 +1,21 @@
 package ca.mcgill.splendorserver.apis;
 
+import ca.mcgill.splendorserver.controllers.GameManager;
+import ca.mcgill.splendorserver.controllers.OrientManager;
+import ca.mcgill.splendorserver.models.Game;
+import ca.mcgill.splendorserver.models.Inventory;
+import ca.mcgill.splendorserver.models.Noble;
+import ca.mcgill.splendorserver.models.Token;
+import ca.mcgill.splendorserver.models.board.Board;
+import ca.mcgill.splendorserver.models.cards.Card;
+import ca.mcgill.splendorserver.models.communicationbeans.SessionData;
+import ca.mcgill.splendorserver.models.registries.CardRegistry;
+import ca.mcgill.splendorserver.models.registries.NobleRegistry;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
 import org.apache.commons.codec.digest.DigestUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -22,20 +33,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-
-import ca.mcgill.splendorserver.controllers.GameManager;
-import ca.mcgill.splendorserver.controllers.OrientManager;
-import ca.mcgill.splendorserver.models.Game;
-import ca.mcgill.splendorserver.models.Inventory;
-import ca.mcgill.splendorserver.models.Noble;
-import ca.mcgill.splendorserver.models.Token;
-import ca.mcgill.splendorserver.models.board.Board;
-import ca.mcgill.splendorserver.models.cards.Card;
-import ca.mcgill.splendorserver.models.communicationbeans.SessionData;
-import ca.mcgill.splendorserver.models.registries.CardRegistry;
-import ca.mcgill.splendorserver.models.registries.NobleRegistry;
 
 /**
  * Game controller class for the server.
@@ -92,8 +89,8 @@ public class GameController {
    * Getter for the board.
    *
    * @param gameId the id of the game to get
+   * @param lastHash of the previous attempt
    * @return success flag
-   * @throws JsonProcessingException when JSON processing error occurs
    */
   @GetMapping("/api/games/{gameId}/board")
   public DeferredResult<String> getBoard(@PathVariable String gameId, @RequestParam(value = "hash",
@@ -186,7 +183,7 @@ public class GameController {
       JSONArray tokens = (JSONArray) data.get("tokens");
       Token[] tokensArray = new Token[tokens.size()];
       for (int i = 0; i < tokensArray.length; i++) {
-    	  tokensArray[i] = Token.valueOfIgnoreCase((String) tokens.get(i));
+        tokensArray[i] = Token.valueOfIgnoreCase((String) tokens.get(i));
       }
       JSONObject response = GameManager.takeTokens(game, playerId, tokensArray);
       if (response == null) {
@@ -443,6 +440,7 @@ public class GameController {
    * @param gameId          the id of the game
    * @param data the game data of the take reserve card action
    * @return success flaggit 
+   * @throws JsonProcessingException when JSON processing error occurs
    */
   @SuppressWarnings("unchecked")
   @PostMapping("/api/action/{gameId}/reserveCard")
@@ -538,7 +536,6 @@ public class GameController {
    * @param gameId  the id of the game
    * @param session the session data for the game to create
    * @return that the launch was successful
-   * @throws JsonProcessingException when JSON processing error occurs
    */
   @PutMapping("/api/games/{gameId}")
   public ResponseEntity<HttpStatus> launchGame(

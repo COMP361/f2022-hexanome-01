@@ -1,11 +1,9 @@
 package ca.mcgill.splendorserver.models.board;
 
-import java.util.HashMap;
-
-import org.json.simple.JSONObject;
-
 import ca.mcgill.splendorserver.models.Token;
 import ca.mcgill.splendorserver.models.cards.Card;
+import java.util.HashMap;
+import org.json.simple.JSONObject;
 
 /**
  * Model class for a bank of Splendor tokens.
