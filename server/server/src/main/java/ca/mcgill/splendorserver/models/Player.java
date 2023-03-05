@@ -12,6 +12,7 @@ public class Player {
   private String username;
   private Inventory inventory;
   private Card lastAcquired;
+  private boolean doubleGold = false;
 
   /**
    * Constructor to create a new player. It only takes a
@@ -31,6 +32,24 @@ public class Player {
    */
   public Inventory getInventory() {
     return inventory;
+  }
+  
+  /**
+   * Getter for trading post C status.
+   *
+   * @return inventory of this player.
+   */
+  public boolean getDoubleGold() {
+    return doubleGold;
+  }
+  
+  /**
+   * Setter for trading post C status.
+   *
+   * @param doubleGold new status of trading post C.
+   */
+  public void setDoubleGold(boolean doubleGold) {
+    this.doubleGold = doubleGold;
   }
 
   /**
