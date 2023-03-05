@@ -76,7 +76,7 @@ public class GameController {
     noUpdates.put("message", "No new updates.");
   }
 
-  @SuppressWarnings({"unused", "unchecked"})
+  @SuppressWarnings("unchecked")
   private ResponseEntity<String> errorResponse(String message) {
     JSONObject error = new JSONObject();
     error.put("status", "failure");
@@ -95,7 +95,7 @@ public class GameController {
   public DeferredResult<String> getBoard(@PathVariable String gameId, @RequestParam(value = "hash",
       defaultValue = "") String lastHash) {
     //System.out.println("board for " + gameId + " with hash :" + lastHash + "\n" +
-    //gameManager.getGameBoard(gameId).get().toJson().toJSONString());
+    //GameManager.getGameBoard(gameId).get().toJson().toJSONString());
     DeferredResult<String> result = new DeferredResult<>(5000L);
     //timeout should result in a 408 error
     result.onTimeout(() ->
@@ -106,14 +106,14 @@ public class GameController {
         //return the board as soon as there is a board if this is the first request
         if (lastHash.isEmpty()) {
           do {
-            boardOptional = gameManager.getGameBoard(gameId);
+            boardOptional = GameManager.getGameBoard(gameId);
             if (boardOptional.isPresent()) {
               result.setResult(boardOptional.get().toJson().toJSONString());
             }
           } while (boardOptional.isEmpty());
         } else { //return the board if there's been an update since this isn't the first request
           do {
-            boardOptional = gameManager.getGameBoard(gameId);
+            boardOptional = GameManager.getGameBoard(gameId);
             //check if there's been an update on the board
             if (!boardOptional.isPresent()) {
               //an empty board when the previous board wasn't empty is an update
@@ -143,7 +143,7 @@ public class GameController {
   @GetMapping("/api/games/{gameId}")
   public ResponseEntity<String> getGame(@PathVariable String gameId) {
     try {
-      Game game = gameManager.getGame(gameId);
+      Game game = GameManager.getGame(gameId);
       if (game != null) {
         return ResponseEntity.ok(game.getId());
       } else {
@@ -170,11 +170,11 @@ public class GameController {
     try {
       //check validity of request
       String playerId = (String) data.get("playerId");
-      Game game = gameManager.getGame(gameId);
+      Game game = GameManager.getGame(gameId);
       if (game == null) {
         return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
       }
-      if (!game.getCurrentPlayer().equals(playerId)) {
+      if (!game.getCurrentPlayer().getUsername().equals(playerId)) {
         return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
       }
 
@@ -184,12 +184,14 @@ public class GameController {
       for (int i = 0; i < tokenStrings.length; i++) {
         tokenStrings[i] = (String) tokens.get(i);
       }
-      JSONObject response = gameManager.takeTokens(game, playerId, tokenStrings);
-
+      JSONObject response = GameManager.takeTokens(game, playerId, tokenStrings);
+      if (response == null) {
+        return ResponseEntity.ok().body(invalidAction.toJSONString());
+      }
       //return the result of taking the tokens
       return ResponseEntity.ok(response.toJSONString());
     } catch (Exception e) {
-      logger.error(e.getStackTrace().toString());
+      logger.error(e.getMessage());
       return errorResponse(e.getMessage());
     }
   }
@@ -218,7 +220,7 @@ public class GameController {
       //if cards type WAS sacrifice, ping client to ask what cards they want to use
       //(pass list of cards?)
 
-      Game game = gameManager.getGame(gameId);
+      Game game = GameManager.getGame(gameId);
       if (game == null) {
         return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
       }
@@ -227,7 +229,7 @@ public class GameController {
       }
 
       int cardId = Integer.parseInt((String) data.get("cardId"));
-      JSONObject response = gameManager.purchaseCard(game, playerId, cardId);
+      JSONObject response = GameManager.purchaseCard(game, playerId, cardId);
       if (response == null) {
         return ResponseEntity.ok().body(invalidAction.toJSONString());
       }
@@ -256,7 +258,7 @@ public class GameController {
     try {
       String playerId = (String) data.get("playerId");
 
-      Game game = gameManager.getGame(gameId);
+      Game game = GameManager.getGame(gameId);
       if (game == null) {
         return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
       }
@@ -302,7 +304,7 @@ public class GameController {
     try {
       String playerId = (String) data.get("playerId");
 
-      Game game = gameManager.getGame(gameId);
+      Game game = GameManager.getGame(gameId);
       if (game == null) {
         return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
       }
@@ -351,7 +353,7 @@ public class GameController {
     try {
       String playerId = (String) data.get("playerId");
 
-      Game game = gameManager.getGame(gameId);
+      Game game = GameManager.getGame(gameId);
       if (game == null) {
         return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
       }
@@ -400,7 +402,7 @@ public class GameController {
     try {
       String playerId = (String) data.get("playerId");
 
-      Game game = gameManager.getGame(gameId);
+      Game game = GameManager.getGame(gameId);
       if (game == null) {
         return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
       }
@@ -413,11 +415,14 @@ public class GameController {
       Card card = CardRegistry.of(cardId);
       Inventory inventory = board.getInventory(playerId);
 
-      if (!gameManager.acquireCard(card, board, inventory)) {
+      if (!GameManager.acquireCard(card, board, inventory)) {
         return ResponseEntity.ok().body(invalidAction.toJSONString());
       }
       
-      JSONObject response = gameManager.determineBody(card, board, inventory);
+      JSONObject response = GameManager.determineBody(card, board, inventory);
+      if (response == null) {
+        return ResponseEntity.ok().body(invalidAction.toJSONString());
+      }
       response.put("status", "success");
 
       return ResponseEntity.ok(response.toJSONString());
@@ -432,43 +437,42 @@ public class GameController {
    * Takes token.
    *
    * @param gameId          the id of the game
-   * @param reserveCardData the game data of the take reserve card action
+   * @param data the game data of the take reserve card action
    * @return success flaggit 
    */
   @SuppressWarnings("unchecked")
   @PostMapping("/api/action/{gameId}/reserveCard")
   public ResponseEntity<String> reserveCardAction(@PathVariable String gameId,
                                                   @RequestBody JSONObject data)
-                                                	      throws JsonProcessingException {
-	try {
-	    String playerId = (String) data.get("playerId");
-	    
-	    Game game = gameManager.getGame(gameId);
-	    if (game == null) {
-	      return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
-	    }
-	    if (!game.getCurrentPlayer().getUsername().equals(playerId)) {
-	      return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
-	    }
-	    
-	    String source = (String) data.get("source");
-	    
-	    int cardId = Integer.parseInt((String) data.get("cardId"));
-	    String deckId = (String) data.get("deckId");
-	    
-		boolean success = gameManager.reserveCard(game, playerId, source, cardId, deckId);
-		JSONObject response = new JSONObject();
-		if (success) {
-			response.put("status", "success");
-		} else {
-			response.put("status", "failure");
-		}
-		return ResponseEntity.ok(response.toJSONString());
-	}
-    catch (Exception e) {
-    	return errorResponse(e.getMessage());
+                                                  throws JsonProcessingException {
+    try {
+      String playerId = (String) data.get("playerId");
+
+      Game game = GameManager.getGame(gameId);
+      if (game == null) {
+        return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
+      }
+      if (!game.getCurrentPlayer().getUsername().equals(playerId)) {
+        return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
+      }
+
+      String source = (String) data.get("source");
+
+      int cardId = Integer.parseInt((String) data.get("cardId"));
+      String deckId = (String) data.get("deckId");
+
+      boolean success = GameManager.reserveCard(game, playerId, source, cardId, deckId);
+      JSONObject response = new JSONObject();
+      if (success) {
+        response.put("status", "success");
+      } else {
+        response.put("status", "failure");
+      }
+      return ResponseEntity.ok(response.toJSONString());
+    } catch (Exception e) {
+      return errorResponse(e.getMessage());
     }
-}
+  }
 
   /**
    * Takes token.
@@ -483,35 +487,34 @@ public class GameController {
   public ResponseEntity<String> claimNobleAction(@PathVariable String gameId,
                                                      @RequestBody JSONObject data) 
         throws JsonProcessingException {
-	  try {
-    String playerId = (String) data.get("playerId");
+    try {
+      String playerId = (String) data.get("playerId");
 
-    Game game = gameManager.getGame(gameId);
-    if (game == null) {
-      return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
-    }
-    if (!game.getCurrentPlayer().getUsername().equals(playerId)) {
-      return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
-    }
+      Game game = GameManager.getGame(gameId);
+      if (game == null) {
+        return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
+      }
+      if (!game.getCurrentPlayer().getUsername().equals(playerId)) {
+        return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
+      }
 
-    int nobleId = Integer.parseInt((String) data.get("nobleId"));
-    Board board = game.getBoard();
-    Noble noble = NobleRegistry.of(nobleId);
-    Inventory inventory = board.getInventory(playerId);
+      int nobleId = Integer.parseInt((String) data.get("nobleId"));
+      Board board = game.getBoard();
+      Noble noble = NobleRegistry.of(nobleId);
+      Inventory inventory = board.getInventory(playerId);
 
-    if (!gameManager.acquireNoble(noble, board, inventory)) {
-      return ResponseEntity.ok().body(invalidAction.toJSONString());
-    }
+      if (!GameManager.acquireNoble(noble, board, inventory)) {
+        return ResponseEntity.ok().body(invalidAction.toJSONString());
+      }
       
-    JSONObject response = new JSONObject();
-    response.put("status", "success");
+      JSONObject response = new JSONObject();
+      response.put("status", "success");
 
-    return ResponseEntity.ok(response.toJSONString());
-	  }
-	  catch (Exception e) {
-		  logger.error(e.getStackTrace().toString());
-		  return errorResponse(e.getMessage());
-	  }
+      return ResponseEntity.ok(response.toJSONString());
+    } catch (Exception e) {
+      logger.error(e.getStackTrace().toString());
+      return errorResponse(e.getMessage());
+    }
   }
 
 
@@ -522,7 +525,7 @@ public class GameController {
    */
   @DeleteMapping(path = "/api/splendor/{gameId}")
   public void deleteGame(@PathVariable(required = true, name = "gameId") long gameId) {
-    gameManager.deleteGame("" + gameId);
+    GameManager.deleteGame("" + gameId);
   }
 
   /**
@@ -539,7 +542,7 @@ public class GameController {
       @RequestBody SessionData session) {
     try {
       System.out.println("launching: " + gameId);
-      gameManager.launchGame(gameId, session);
+      GameManager.launchGame(gameId, session);
 
       return ResponseEntity.ok(HttpStatus.OK);
     } catch (Exception e) {

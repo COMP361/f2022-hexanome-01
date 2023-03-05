@@ -1,10 +1,11 @@
 package ca.mcgill.splendorserver.models.board;
 
-import ca.mcgill.splendorserver.models.JsonStringafiable;
+import java.util.HashMap;
+
+import org.json.simple.JSONObject;
+
 import ca.mcgill.splendorserver.models.Token;
 import ca.mcgill.splendorserver.models.cards.Card;
-import java.util.HashMap;
-import org.json.simple.JSONObject;
 
 /**
  * Model class for a bank of Splendor tokens.
@@ -141,6 +142,9 @@ public class TokenBank {
   public boolean canPurchase(Card card) {
     HashMap<Token, Integer> cost = card.getCost();
     for (Token t : Token.values()) {
+      if (t.equals(Token.GOLD)) {
+        continue;
+      }
       if (quantities.get(t) < cost.get(t)) {
         return false;
       }

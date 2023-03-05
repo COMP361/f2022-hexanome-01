@@ -60,9 +60,9 @@ public class BoardManager : MonoBehaviour
             if (!decks.Contains("level1")) GameObject.Find("CardBack1").SetActive(false);
             if (!decks.Contains("level2")) GameObject.Find("CardBack2").SetActive(false);
             if (!decks.Contains("level3")) GameObject.Find("CardBack3").SetActive(false);
-            if (!decks.Contains("orient_level1")) GameObject.Find("ExpansionCardBack1").SetActive(false);
-            if (!decks.Contains("orient_level2")) GameObject.Find("ExpansionCardBack2").SetActive(false);
-            if (!decks.Contains("orient_level3")) GameObject.Find("ExpansionCardBack3").SetActive(false);
+            if (!decks.Contains("orientlevel1")) GameObject.Find("ExpansionCardBack1").SetActive(false);
+            if (!decks.Contains("orientlevel2")) GameObject.Find("ExpansionCardBack2").SetActive(false);
+            if (!decks.Contains("orientlevel3")) GameObject.Find("ExpansionCardBack3").SetActive(false);
 
             //STEP 3: set nobles
             JSONArray noblesData = (JSONArray)boardData["nobles"];

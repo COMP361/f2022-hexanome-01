@@ -57,7 +57,8 @@ public class Card {
   public Card(JSONObject obj, CardLevel level) {
     this.id = Integer.parseInt((String) obj.get("id"));
     this.pts = Integer.parseInt((String) obj.get("points"));
-    this.bonus = new CardBonus(Token.valueOfIgnoreCase((String) obj.get("bonus")), Integer.parseInt((String) obj.get("bonusAmount")));
+    this.bonus = new CardBonus(Token.valueOfIgnoreCase((String) obj.get("bonus")), 
+        Integer.parseInt((String) obj.get("bonusAmount")));
     cost.put(Token.BLUE, Integer.parseInt((String) obj.get("blue")));
     cost.put(Token.GREEN, Integer.parseInt((String) obj.get("green")));
     cost.put(Token.RED, Integer.parseInt((String) obj.get("red")));

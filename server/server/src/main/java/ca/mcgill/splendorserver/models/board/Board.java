@@ -1,7 +1,6 @@
 package ca.mcgill.splendorserver.models.board;
 
 import ca.mcgill.splendorserver.models.Inventory;
-import ca.mcgill.splendorserver.models.JsonStringafiable;
 import ca.mcgill.splendorserver.models.Player;
 import java.util.HashMap;
 import org.json.simple.JSONArray;

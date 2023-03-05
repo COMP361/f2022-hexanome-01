@@ -1,6 +1,5 @@
 package ca.mcgill.splendorserver.models.board;
 
-import ca.mcgill.splendorserver.models.JsonStringafiable;
 import ca.mcgill.splendorserver.models.cards.Card;
 import ca.mcgill.splendorserver.models.cards.CardLevel;
 import ca.mcgill.splendorserver.models.registries.CardRegistry;
@@ -90,7 +89,7 @@ public class CardBank {
   /**
    * Draws a card.
    *
-   * @param cardId the cardId of the card being replaced
+   * @param card the card being replaced
    * @return the id of the newly drawn card
    */
   public int draw(Card card) {
@@ -110,9 +109,17 @@ public class CardBank {
     return -1;
   }
 
+  /**
+   * Draws a card.
+   *
+   * @param level level of the deck being drawn from
+   * @return the id of the newly drawn card
+   */
   public int drawCardFromDeck(CardLevel level) {
     Stack<Integer> deck = decks.get(level);
-    if (deck.isEmpty()) return -1;
+    if (deck.isEmpty()) { 
+      return -1; 
+    }
     return deck.pop();
   }
 
