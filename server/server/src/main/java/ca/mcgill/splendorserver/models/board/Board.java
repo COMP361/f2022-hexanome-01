@@ -1,7 +1,6 @@
 package ca.mcgill.splendorserver.models.board;
 
 import ca.mcgill.splendorserver.models.Inventory;
-import ca.mcgill.splendorserver.models.JsonStringafiable;
 import ca.mcgill.splendorserver.models.Player;
 import java.util.HashMap;
 import org.json.simple.JSONArray;
@@ -10,7 +9,7 @@ import org.json.simple.JSONObject;
 /**
  * Model class for the Splendor board.
  */
-public class Board implements JsonStringafiable {
+public class Board {
 
   private String currentPlayer;
 
@@ -57,26 +56,6 @@ public class Board implements JsonStringafiable {
 
   public TokenBank getTokens() {
     return tokens;
-  }
-
-  @SuppressWarnings("unchecked")
-  @Override
-  public String toJsonString() {
-    JSONObject data = new JSONObject();
-    data.put("currentPlayer", currentPlayer);
-
-    data.put("cards", cards.toJsonString());
-    data.put("nobles", nobles.toJsonString());
-    data.put("tokens", tokens.toJsonString());
-
-    JSONObject inventoryJson = new JSONObject();
-    for (Player player : players) {
-      inventoryJson.put(player.getUsername(), player.getInventory().toJsonString());
-    }
-
-    data.put("inventories", inventoryJson.toJSONString());
-
-    return data.toJSONString();
   }
 
   /**
