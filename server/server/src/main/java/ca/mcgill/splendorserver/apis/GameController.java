@@ -190,7 +190,7 @@ public class GameController {
       }
       JSONObject response = GameManager.takeTokens(game, playerId, tokensArray);
       if (response == null) {
-        return ResponseEntity.ok().body(invalidAction.toJSONString());
+        return ResponseEntity.badRequest().body(invalidAction.toJSONString());
       }
       //return the result of taking the tokens
       return ResponseEntity.ok(response.toJSONString());
@@ -425,7 +425,7 @@ public class GameController {
       
       JSONObject response = GameManager.determineBody(card, board, inventory);
       if (response == null) {
-        return ResponseEntity.ok().body(invalidAction.toJSONString());
+        return ResponseEntity.badRequest().body(invalidAction.toJSONString());
       }
       response.put("status", "success");
 
