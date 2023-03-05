@@ -12,6 +12,8 @@ public class TokenSlot : MonoBehaviour
     public Image image;
     [SerializeField] private SelectedTokens selectedTokens;
     [SerializeField] private TokenBank tokenBank;
+    public GameObject takeTokenButton;
+    private bool confirm;
 
     public void passToSelected(){
         /*for (int i =0; i<3; i++){
@@ -37,6 +39,11 @@ public class TokenSlot : MonoBehaviour
             //token.amount -= 1;
             tokenBank.removeOne(token.colour);
             //this.amount.text = token.amount.ToString();
+            confirm = selectedTokens.checkAmount();
+            if (confirm){
+                takeTokenButton.SetActive(true);
+            }
+            else{takeTokenButton.SetActive(false);}
         }
         //tokenBank.removeOne(token.colour);
     }
@@ -48,6 +55,11 @@ public class TokenSlot : MonoBehaviour
         active = selectedTokens.removeOne(tempColour);
         if (active){
             tokenBank.addOne(tempColour);
+            confirm = selectedTokens.checkAmount();
+            if (confirm){
+                takeTokenButton.SetActive(true);
+            }
+            else{takeTokenButton.SetActive(false);}
         }
     }
 
