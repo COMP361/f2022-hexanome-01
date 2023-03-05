@@ -262,6 +262,7 @@ public class PlayerControl : MonoBehaviour {
         selectedCardToReserve = selectedCard;
         selectedCardToBuy = null;
         dashboard.DisplayReserve();
+        allCards.UnGreyOut();
         Debug.Log("select reserve");
     }
     public void setReserveToFalse(){
@@ -269,6 +270,7 @@ public class PlayerControl : MonoBehaviour {
         selectedCardToBuy = selectedCard;
         selectedCardToReserve = null;
         dashboard.DisplayPurchase();
+        allCards.UnGreyOut();
         Debug.Log("select purchase");
     }
 
