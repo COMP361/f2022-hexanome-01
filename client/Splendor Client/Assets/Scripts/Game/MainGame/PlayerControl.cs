@@ -243,12 +243,12 @@ public class PlayerControl : MonoBehaviour {
 
         JSONObject reserveCardJson = new JSONObject(requestDict);
         reserveCardJson.Add("playerId", player.GetUsername());
-        reserveCardJson.Add("cardId", selectedCardToBuy.GetCard().GetId());
+        reserveCardJson.Add("cardId", selectedCardToReserve.GetCard().GetId());
         actionManager.MakeApiRequest(currSession.id, reserveCardJson, ActionManager.ActionType.reserveCard, ActionManager.RequestType.POST,(response) => {
             if(response != null){
                 string status = (string)response["status"];
                 if(status == "success"){
-                    // Add to reserve cards
+                    setReserveToFalse();
                 }else{
                     // Handle reserve card failure
                 }
