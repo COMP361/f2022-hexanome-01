@@ -12,7 +12,7 @@ import org.json.simple.JSONArray;
 /**
  * Model class holding all Splendor development card decks.
  */
-public class CardBank implements JsonStringafiable {
+public class CardBank {
 
   private HashMap<CardLevel, int[]> rows = new HashMap<CardLevel, int[]>();
   private HashMap<CardLevel, Stack<Integer>> decks = new HashMap<CardLevel, Stack<Integer>>();
@@ -114,21 +114,6 @@ public class CardBank implements JsonStringafiable {
     Stack<Integer> deck = decks.get(level);
     if (deck.isEmpty()) return -1;
     return deck.pop();
-  }
-
-  @SuppressWarnings("unchecked")
-@Override
-  public String toJsonString() {
-    JSONArray data = new JSONArray();
-    for (CardLevel level : CardLevel.values()) {
-      int[] row = rows.get(level);
-      JSONArray list = new JSONArray();
-      for (int cardId : row) {
-        list.add(cardId);
-      }
-      data.add(list.toJSONString());
-    }
-    return data.toJSONString();
   }
 
   /**

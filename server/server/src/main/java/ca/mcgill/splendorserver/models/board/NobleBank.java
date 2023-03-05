@@ -13,7 +13,7 @@ import org.json.simple.JSONArray;
 /**
  * Model class holding all Splendor noble tiles on the board.
  */
-public class NobleBank implements JsonStringafiable {
+public class NobleBank {
 
   private int[] nobles;
   private int size;
@@ -105,11 +105,6 @@ public class NobleBank implements JsonStringafiable {
       }
     }
     return impressed;
-  }
-
-  @Override
-  public String toJsonString() {
-    return JSONArray.toJSONString(Arrays.asList(nobles));
   }
 
   /**

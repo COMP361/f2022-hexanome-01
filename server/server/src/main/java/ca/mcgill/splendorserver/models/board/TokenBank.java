@@ -9,7 +9,7 @@ import org.json.simple.JSONObject;
 /**
  * Model class for a bank of Splendor tokens.
  */
-public class TokenBank implements JsonStringafiable {
+public class TokenBank {
 
   private HashMap<Token, Integer> quantities;
 
@@ -175,11 +175,6 @@ public class TokenBank implements JsonStringafiable {
    */
   public int checkQuantity(Token token) {
     return quantities.get(token);
-  }
-
-  @Override
-  public String toJsonString() {
-    return JSONObject.toJSONString(quantities);
   }
 
   /**
