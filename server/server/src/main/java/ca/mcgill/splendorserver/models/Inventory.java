@@ -1,12 +1,5 @@
 package ca.mcgill.splendorserver.models;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-
 import ca.mcgill.splendorserver.models.board.TokenBank;
 import ca.mcgill.splendorserver.models.cards.Card;
 import ca.mcgill.splendorserver.models.expansion.City;
@@ -20,7 +13,7 @@ import org.json.simple.JSONObject;
 /**
  * Model class for a Splendor player's inventory i.e. everything they've acquired.
  */
-public class Inventory implements JsonStringafiable {
+public class Inventory {
 
   private int points;
   private TokenBank tokens;
@@ -29,9 +22,7 @@ public class Inventory implements JsonStringafiable {
   private ArrayList<Noble> nobles;
   private ArrayList<Card> reservedCards;
   private ArrayList<Noble> reservedNobles;
-  private City acquiredCity;
-  private TradingPost[] tradingPosts;
-  private ArrayList<Unlockable> unlockables; //please keep cities and trading posts separate
+  private ArrayList<Unlockable> unlockables;
   private int activatedPosts;
 
   /**
@@ -44,7 +35,6 @@ public class Inventory implements JsonStringafiable {
     reservedNobles = new ArrayList<>();
     tokens = new TokenBank();
     bonuses = new TokenBank();
-    tradingPosts = new TradingPost[5];
     unlockables = new ArrayList<>();
   }
 
@@ -230,7 +220,9 @@ public class Inventory implements JsonStringafiable {
   public TokenBank getBonuses() {
     TokenBank bonuses = new TokenBank();
     for (Card card : cards) {
-      bonuses.addRepeated(card.getBonus().getType().toString(), card.getBonus().getAmount());
+      if (card.getBonus().getType() != null) {
+        bonuses.addRepeated(card.getBonus().getType().toString(), card.getBonus().getAmount());
+      }
     }
     return bonuses;
   }
@@ -244,24 +236,19 @@ public class Inventory implements JsonStringafiable {
     return (ArrayList<Card>) reservedCards.clone();
   }
 
-  public TradingPost[] getTradingPosts(){
-    return tradingPosts;
-  }
-
-  @Override
-  @SuppressWarnings("unchecked")
-  public String toJsonString() {
-    JSONObject data = new JSONObject();
-    data.put("acquiredCards", JSONArray.toJSONString(cards));
-    data.put("acquiredNobles", JSONArray.toJSONString(nobles));
-    data.put("reservedCards", JSONArray.toJSONString(reservedCards));
-    data.put("reservedNobles", JSONArray.toJSONString(reservedNobles));
-    data.put("tokens", tokens.toJsonString());
-    if (acquiredCity != null) {
-      data.put("acquiredCity", acquiredCity.getId());
+  /**
+   * Getter for the trading posts of the player.
+   *
+   * @return trading post array
+   */
+  public TradingPost[] getTradingPosts() {
+    ArrayList<TradingPost> tradingPostsList = new ArrayList<>();
+    for (Unlockable unlockable : unlockables) {
+      if (unlockable != null & unlockable.getClass() == TradingPost.class) {
+        tradingPostsList.add((TradingPost) unlockable);
+      }
     }
-
-    return data.toJSONString();
+    return tradingPostsList.toArray(new TradingPost[tradingPostsList.size()]);
   }
 
   /**
@@ -304,9 +291,9 @@ public class Inventory implements JsonStringafiable {
     json.put("bonuses", bonuses.toJson());
     //trading posts
     JSONArray tradingPostsJson = new JSONArray();
-    for (TradingPost tradingPost : tradingPosts) {
-      if (tradingPost != null) {
-        switch (tradingPost.getId()) {
+    for (Unlockable unlockable : unlockables) {
+      if (unlockable != null && unlockable.getClass() == TradingPost.class) {
+        switch (unlockable.getId()) {
           case 15:
             tradingPostsJson.add("A");
             break;
@@ -325,6 +312,8 @@ public class Inventory implements JsonStringafiable {
           default:
             break;
         }
+      } else if (unlockable != null && unlockable.getClass() == City.class) {
+        json.put("acquiredCity", unlockable.getId());
       }
     }
     if (!tradingPostsJson.isEmpty()) {
@@ -332,5 +321,9 @@ public class Inventory implements JsonStringafiable {
     }
 
     return json;
+  }
+
+  public ArrayList<Noble> getReservedNobles() {
+    return (ArrayList<Noble>) reservedNobles.clone();
   }
 }

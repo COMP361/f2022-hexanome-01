@@ -38,6 +38,11 @@ public class Dashboard : MonoBehaviour
         endDisplay.text = "purchase";
     }
 
+    public void DisplayReserve()
+    {
+        endDisplay.text = "reserve";
+    }
+
     public void DisplayWaiting()
     {
         endDisplay.text = "waiting";

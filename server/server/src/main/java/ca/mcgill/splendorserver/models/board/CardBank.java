@@ -1,6 +1,5 @@
 package ca.mcgill.splendorserver.models.board;
 
-import ca.mcgill.splendorserver.models.JsonStringafiable;
 import ca.mcgill.splendorserver.models.cards.Card;
 import ca.mcgill.splendorserver.models.cards.CardLevel;
 import ca.mcgill.splendorserver.models.registries.CardRegistry;
@@ -12,7 +11,7 @@ import org.json.simple.JSONArray;
 /**
  * Model class holding all Splendor development card decks.
  */
-public class CardBank implements JsonStringafiable {
+public class CardBank {
 
   private HashMap<CardLevel, int[]> rows = new HashMap<CardLevel, int[]>();
   private HashMap<CardLevel, Stack<Integer>> decks = new HashMap<CardLevel, Stack<Integer>>();
@@ -21,7 +20,7 @@ public class CardBank implements JsonStringafiable {
       CardLevel.LEVEL1, CardLevel.LEVEL2, CardLevel.LEVEL3
   };
   private static final CardLevel[] orientLevels = {
-      CardLevel.ORIENT_LEVEL1, CardLevel.ORIENT_LEVEL2, CardLevel.ORIENT_LEVEL3
+      CardLevel.ORIENTLEVEL1, CardLevel.ORIENTLEVEL2, CardLevel.ORIENTLEVEL3
   };
 
   private static final int REGULAR_NUM = 4;
@@ -90,11 +89,10 @@ public class CardBank implements JsonStringafiable {
   /**
    * Draws a card.
    *
-   * @param cardId the cardId of the card being replaced
+   * @param card the card being replaced
    * @return the id of the newly drawn card
    */
-  public int draw(int cardId) {
-    Card card = CardRegistry.of(cardId);
+  public int draw(Card card) {
     Stack<Integer> deck = decks.get(card.getLevel());
     if (deck.isEmpty()) {
       return -1;
@@ -111,62 +109,18 @@ public class CardBank implements JsonStringafiable {
     return -1;
   }
 
-  public int drawCardFromDeck(CardLevel level){
-    Stack<Integer> deck = decks.get(level);
-    return deck.pop();
-  }
-
-  @Override
-  public String toJsonString() {
-    JSONArray data = new JSONArray();
-    for (CardLevel level : CardLevel.values()) {
-      int[] row = rows.get(level);
-      JSONArray list = new JSONArray();
-      for (int cardId : row) {
-        list.add(cardId);
-      }
-      data.add(list.toJSONString());
-    }
-    return data.toJSONString();
-  }
-
-
   /**
-   * Returns if true if the board contains the card
-   * with the id provided.
+   * Draws a card.
    *
-   * @param id card identifier
-   * @return true if its found in board else false.
+   * @param level level of the deck being drawn from
+   * @return the id of the newly drawn card
    */
-  public boolean containsCard(int id) {
-    if (id >= 64 & id <= 103) {
-      return cardIsPartOfRow(CardLevel.LEVEL1, id);
-    } else if (id >= 20 & id <= 50) {
-      return cardIsPartOfRow(CardLevel.LEVEL2, id);
-    } else if (id >= 0 & id <= 19) {
-      return cardIsPartOfRow(CardLevel.LEVEL3, id);
-    } else {
-      if (cardIsPartOfRow(CardLevel.ORIENT_LEVEL1, id)) {
-        return true;
-      } else if (cardIsPartOfRow(CardLevel.ORIENT_LEVEL2, id)) {
-        return true;
-      } else if (cardIsPartOfRow(CardLevel.ORIENT_LEVEL3, id)) {
-        return true;
-      }
-      return false;
-      //Couldn't find card;
-
+  public int drawCardFromDeck(CardLevel level) {
+    Stack<Integer> deck = decks.get(level);
+    if (deck.isEmpty()) { 
+      return -1; 
     }
-  }
-
-  private boolean cardIsPartOfRow(CardLevel level, int id) {
-    int[] cardOnRow = rows.get(level);
-    for (int card : cardOnRow) {
-      if (card == id) {
-        return true;
-      }
-    }
-    return false;
+    return deck.pop();
   }
 
   /**
@@ -174,7 +128,8 @@ public class CardBank implements JsonStringafiable {
    *
    * @return the cards and decks on the board as an array of JSONArrays
    */
-  public JSONArray[] toJson() {
+  @SuppressWarnings("unchecked")
+public JSONArray[] toJson() {
     JSONArray cardsJson = new JSONArray();
     //rows
     for (CardLevel level : CardLevel.values()) {
@@ -195,20 +150,4 @@ public class CardBank implements JsonStringafiable {
     return new JSONArray[] {cardsJson, decksJson};
   }
 
-  public static CardLevel getCardLevelFromString(String cardLevel) {
-    if (cardLevel.equals("Level1")) {
-      return CardLevel.LEVEL1;
-    } else if (cardLevel.equals("Level2")) {
-      return CardLevel.LEVEL2;
-    } else if (cardLevel.equals("Level3")) {
-      return CardLevel.LEVEL3;
-    } else if (cardLevel.equals("OrientLevel1")) {
-      return CardLevel.ORIENT_LEVEL1;
-    } else if (cardLevel.equals("OrientLevel2")) {
-      return CardLevel.ORIENT_LEVEL2;
-    } else if (cardLevel.equals("OrientLevel3")) {
-      return CardLevel.ORIENT_LEVEL3;
-    }
-    return null;
-  }
 }
