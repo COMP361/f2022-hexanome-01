@@ -144,7 +144,7 @@ public class PlayerControl : MonoBehaviour {
         JSONObject selectedCardJson = new JSONObject(requestDict);
         selectedCardJson.Add("playerId", player.GetUsername());
         selectedCardJson.Add("cardId", selectedCardToBuy.GetCard().GetId());
-        actionManager.MakeApiRequest(currSession.id, selectedCardJson, ActionManager.ActionType.performCardPurchase, (response) => {
+        actionManager.MakeApiRequest(currSession.id, selectedCardJson, ActionManager.ActionType.performCardPurchase,ActionManager.RequestType.POST, (response) => {
 
             if(response != null){
                 string status = (string)response["status"];
@@ -168,7 +168,7 @@ public class PlayerControl : MonoBehaviour {
         JSONObject selectNobleJson = new JSONObject(requestDict);
         selectNobleJson.Add("playerId", player.GetUsername());
         selectNobleJson.Add("nobleId", chosenNoble.id);
-        actionManager.MakeApiRequest(currSession.id, selectNobleJson, ActionManager.ActionType.selectNoble, (response) => {
+        actionManager.MakeApiRequest(currSession.id, selectNobleJson, ActionManager.ActionType.selectNoble,ActionManager.RequestType.POST, (response) => {
 
             if(response != null){
                 string status = (string)response["status"];
@@ -196,7 +196,7 @@ public class PlayerControl : MonoBehaviour {
         //Text[] tokenColours = selectedTokens.colours.toArray();
         string[] tokenColours = selectedTokens.colours.Select(t => t.text).ToArray();
         chosenTokensJson.Add("tokens", tokenColours);
-        actionManager.MakeApiRequest(currSession.id, chosenTokensJson, ActionManager.ActionType.takeTokens, (response) => {
+        actionManager.MakeApiRequest(currSession.id, chosenTokensJson, ActionManager.ActionType.takeTokens, ActionManager.RequestType.POST, (response) => {
             if(response != null){
                 string status = (string)response["status"];
                 int overFlowAmount = (int)response["tokenOverFlow"];
@@ -226,7 +226,7 @@ public class PlayerControl : MonoBehaviour {
         JSONObject reserveCardJson = new JSONObject(requestDict);
         reserveCardJson.Add("playerId", player.GetUsername());
         reserveCardJson.Add("cardId", selectedCardToBuy.GetCard().GetId());
-        actionManager.MakeApiRequest(currSession.id, reserveCardJson, ActionManager.ActionType.reserveCard, (response) => {
+        actionManager.MakeApiRequest(currSession.id, reserveCardJson, ActionManager.ActionType.reserveCard, ActionManager.RequestType.POST,(response) => {
             if(response != null){
                 string status = (string)response["status"];
                 if(status == "success"){
