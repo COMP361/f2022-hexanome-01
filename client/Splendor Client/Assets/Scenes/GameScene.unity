@@ -1236,7 +1236,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -366.6162, y: -114.777176}
+  m_SizeDelta: {x: -366.6162, y: -148.34514}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &110883133
 MonoBehaviour:
@@ -2144,7 +2144,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0000095367, y: 97}
+  m_AnchoredPosition: {x: -0.0000095367, y: 114}
   m_SizeDelta: {x: 309.8147, y: 63.1557}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &239344686
@@ -2612,6 +2612,7 @@ MonoBehaviour:
   dashboard: {fileID: 288864036}
   cursor: {fileID: 242697715}
   purchaseOrReserve: {fileID: 1597933660}
+  nobleSelectButton: {fileID: 0}
   playerCamera: {fileID: 1175326242}
   player: {fileID: 288864034}
   gamePlayersData: []
@@ -2622,6 +2623,7 @@ MonoBehaviour:
   selectedCardToBuy: {fileID: 0}
   selectedCardToReserve: {fileID: 0}
   allNobles: {fileID: 1549385823}
+  selectedNoble: {fileID: 0}
   controls: {fileID: -944628639613478452, guid: 68b0984844d79b345af0ecff893baaed, type: 3}
   waiting: 0
   inOrientMenu: 0
@@ -13125,7 +13127,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000028909, y: -103}
+  m_AnchoredPosition: {x: -0.000028909, y: -124}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1267124858
@@ -13171,7 +13173,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1267124859}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 288864033}
+        m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
+        m_MethodName: selectNobleToClaim
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1267124859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17122,7 +17136,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -10}
   m_SizeDelta: {x: -22.1038, y: -157.1826}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1573382101

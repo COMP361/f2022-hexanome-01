@@ -8,7 +8,7 @@ using System.Linq;
 public class PlayerControl : MonoBehaviour {
     public Authentication mainPlayer;
     public Dashboard dashboard;
-    [SerializeField] private GameObject cursor, purchaseOrReserve;
+    [SerializeField] private GameObject cursor, purchaseOrReserve, nobleSelectButton;
     [SerializeField] private Camera playerCamera;
     [SerializeField] private Player player; //this client/player
     [SerializeField] public List<string> gamePlayersData; //can change this to a different type later, playerData is combined from LobbyPlayer and Player class
@@ -21,6 +21,8 @@ public class PlayerControl : MonoBehaviour {
     public CardSlot selectedCardToReserve;
 
     public NobleRow allNobles;
+    public NobleSlot selectedNoble;
+    private ClaimNoblePanel claimNoblePanel;
 
     private InputAction fire;
     private InputAction look;
@@ -93,6 +95,7 @@ public class PlayerControl : MonoBehaviour {
 
         selectedCardToBuy = null;
         selectedCardToReserve = null;
+        selectedNoble = null;
         _inputActionMap = controls.FindActionMap("Player");
 
         fire = _inputActionMap.FindAction("Fire");
@@ -148,7 +151,10 @@ public class PlayerControl : MonoBehaviour {
                 dashboard.DisplayWaiting();
             }*/
             // else if (go.CompareTag ...
-            
+            if (go.CompareTag("Noble")) {
+                selectedNoble = go.GetComponent<NobleSlot>();
+                nobleSelectButton.SetActive(true);
+            }
         }
     }
 
@@ -274,8 +280,20 @@ public class PlayerControl : MonoBehaviour {
         Debug.Log("select purchase");
     }
 
+    public void selectNobleToClaim() {
+        if (selectedNoble != null) {
+            //Add noble to inventory
+            claimNoblePanel.TurnOffDisplay();
+        }
+    }
+
     public void EndTurn() // Player clicks "end turn"
-    { }
+    {
+        //Check if player has impressed any noble
+        //If true, pop up claim noble panel
+        //Uncomment the following line to test functionality:
+        //claimNoblePanel.checkAvailNobles(allNobles);
+    }
 
     public void StartTurn() // Start of player's turn
     {
@@ -284,6 +302,7 @@ public class PlayerControl : MonoBehaviour {
         selectedCard = null;
         selectedCardToBuy = null;
         selectedCardToReserve = null;
+        selectedNoble = null;
         purchaseOrReserve.SetActive(false);
     }
 

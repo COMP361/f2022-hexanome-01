@@ -73,5 +73,25 @@ public class Noble : ScriptableObject {
         nobleValue.brown = this.brown;
         nobleValue.white = this.white;
     }
+
+    public int GetRed() {
+        return red;
+    }
+
+    public int GetBlue() {
+        return blue;
+    }
+
+    public int GetGreen() {
+        return green;
+    }
+
+    public int GetBrown() {
+        return brown;
+    }
+
+    public int GetWhite() {
+        return white;
+    }
 }
 
