@@ -30,12 +30,33 @@ public class ActionManager : MonoBehaviour
         selectNoble,
     }
 
-    public void MakeApiRequest(string gameId, JSONObject jsonPayload, ActionType actionType, Action<JSONObject> callback)
+    public enum RequestType
+    {
+        PUT,
+        POST,
+        DELETE,
+        GET,
+    }
+
+    public void MakeApiRequest(string gameId, JSONObject jsonPayload, ActionType actionType,RequestType requestType, Action<JSONObject> callback)
     {
         string apiEndpointUrl = GetApiEndpointUrl(gameId, actionType);
 
         // Create a new HTTP request object
-        UnityWebRequest webRequest = UnityWebRequest.Post(apiEndpointUrl, "POST");
+       UnityWebRequest webRequest;
+
+        switch (requestType)
+        {
+            case RequestType.POST:
+                webRequest = UnityWebRequest.Post(apiEndpointUrl, "POST");
+                break;
+            default:
+                webRequest = UnityWebRequest.Post(apiEndpointUrl, "POST");
+                break;
+        }
+        
+        
+        
 
         // Set the content type to "application/json"
         webRequest.SetRequestHeader("Content-Type", "application/json");
