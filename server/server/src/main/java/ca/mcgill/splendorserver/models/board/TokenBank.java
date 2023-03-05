@@ -52,8 +52,8 @@ public class TokenBank {
    * @param tokens the colours of the tokens to add
    * @return whether the addition wqs successful
    */
-  public boolean addAll(String[] tokens) {
-    for (String s : tokens) {
+  public boolean addAll(Token[] tokens) {
+    for (Token s : tokens) {
       if (!addOne(s)) {
         return false;
       }
@@ -68,10 +68,10 @@ public class TokenBank {
    * @param amount the number of tokens that should be added
    * @return whether adding the tokens was successful
    */
-  public boolean addRepeated(String token, int amount) {
+  public boolean addRepeated(Token token, int amount) {
     try {
-      Integer current = quantities.get(Token.valueOf(token));
-      quantities.put(Token.valueOf(token), current + amount);
+      Integer current = quantities.get(token);
+      quantities.put(token, current + amount);
       return true;
     } catch (Exception e) {
       return false;
@@ -84,7 +84,7 @@ public class TokenBank {
    * @param token the colour of the token to add
    * @return whether the token was added successfully
    */
-  public boolean addOne(String token) {
+  public boolean addOne(Token token) {
     return addRepeated(token, 1);
   }
 
@@ -94,8 +94,8 @@ public class TokenBank {
    * @param tokens the colours of the tokens to remove
    * @return whether the removal was successful
    */
-  public boolean removeAll(String[] tokens) {
-    for (String s : tokens) {
+  public boolean removeAll(Token[] tokens) {
+    for (Token s : tokens) {
       if (!removeOne(s)) {
         return false;
       }
@@ -109,7 +109,7 @@ public class TokenBank {
    * @param token the colour of the token to remove
    * @return whether the removal was successful
    */
-  public boolean removeOne(String token) {
+  public boolean removeOne(Token token) {
     return removeRepeated(token, 1);
   }
 
@@ -120,13 +120,13 @@ public class TokenBank {
    * @param amount the number of tokens to remove
    * @return whether the removal was successful
    */
-  public boolean removeRepeated(String token, int amount) {
+  public boolean removeRepeated(Token token, int amount) {
     try {
-      Integer current = quantities.get(Token.valueOf(token));
+      Integer current = quantities.get(token);
       if (current == 0) {
         return false;
       }
-      quantities.put(Token.valueOf(token), current - amount);
+      quantities.put(token, current - amount);
       return true;
     } catch (Exception e) {
       return false;

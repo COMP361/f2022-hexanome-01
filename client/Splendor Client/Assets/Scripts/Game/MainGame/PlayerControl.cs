@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using UnityEngine.UI;
+using System.Linq;
 public class PlayerControl : MonoBehaviour {
     public Authentication mainPlayer;
     public Dashboard dashboard;
@@ -28,6 +29,9 @@ public class PlayerControl : MonoBehaviour {
 
     [SerializeField] private bool waiting;
 
+   
+    private ActionManager actionManager;
+    public Session currSession;
     public bool inOrientMenu, inInventory, sacrificeMade, inNobleMenu, selectReserve;
 
     void Start() {
@@ -151,6 +155,112 @@ public class PlayerControl : MonoBehaviour {
     bool PurchaseAction() { //attempt to purchase a card
         return false;
     }
+
+
+    public void purchaseCardAction(){
+        Dictionary<string, object> requestDict = new Dictionary<string, object>();
+        JSONObject selectedCardJson = new JSONObject(requestDict);
+        selectedCardJson.Add("playerId", player.GetUsername());
+        selectedCardJson.Add("cardId", selectedCardToBuy.GetCard().GetId());
+        actionManager.MakeApiRequest(currSession.id, selectedCardJson, ActionManager.ActionType.performCardPurchase,ActionManager.RequestType.POST, (response) => {
+
+            if(response != null){
+                string status = (string)response["status"];
+                string action = (string)response["action"];
+                JSONArray jsonNoblesVisited = (JSONArray)response["noblesVisiting"];
+                //int[] noblesVisiting = new int[]
+
+                int[] noblesVisiting = new int[jsonNoblesVisited.Count];
+                for (int i = 0; i < jsonNoblesVisited.Count; i++) {
+                    noblesVisiting[i] = (int)jsonNoblesVisited[i];
+                }
+
+                
+
+            }
+        });
+    }
+
+    public void selectNobleAction(Noble chosenNoble){
+        Dictionary<string, object> requestDict = new Dictionary<string, object>();
+        JSONObject selectNobleJson = new JSONObject(requestDict);
+        selectNobleJson.Add("playerId", player.GetUsername());
+        selectNobleJson.Add("nobleId", chosenNoble.id);
+        actionManager.MakeApiRequest(currSession.id, selectNobleJson, ActionManager.ActionType.selectNoble,ActionManager.RequestType.POST, (response) => {
+
+            if(response != null){
+                string status = (string)response["status"];
+
+
+                if(status == "success"){
+                    // Add selectedNobleToInventory
+                }else{
+                    // Handle failed status
+                }
+
+            }else{
+                //Handle null return
+            }
+
+
+        });
+        
+    }
+
+    public void takeTokensAction(){
+        Dictionary<string, object> requestDict = new Dictionary<string, object>();
+        JSONObject chosenTokensJson = new JSONObject(requestDict);
+        chosenTokensJson.Add("player", player.GetUsername());
+        //Text[] tokenColours = selectedTokens.colours.toArray();
+        string[] tokenColours = selectedTokens.colours.Select(t => t.text).ToArray();
+        chosenTokensJson.Add("tokens", tokenColours);
+        actionManager.MakeApiRequest(currSession.id, chosenTokensJson, ActionManager.ActionType.takeTokens, ActionManager.RequestType.POST, (response) => {
+            if(response != null){
+                string status = (string)response["status"];
+                int overFlowAmount = (int)response["tokenOverFlow"];
+                if(status == "success"){
+                    if(overFlowAmount == 0){
+                        // Handle removal of selected tokens
+                    }else{
+                        // Handle too many tokens
+                    }
+                }else{
+                    // Handle Unsuccessful return
+                }
+
+            }else{
+                // Handle null response from server
+            }
+
+
+
+        });
+
+    }
+
+    public void reserveCardAction(){
+        Dictionary<string, object> requestDict = new Dictionary<string, object>();
+
+        JSONObject reserveCardJson = new JSONObject(requestDict);
+        reserveCardJson.Add("playerId", player.GetUsername());
+        reserveCardJson.Add("cardId", selectedCardToReserve.GetCard().GetId());
+        actionManager.MakeApiRequest(currSession.id, reserveCardJson, ActionManager.ActionType.reserveCard, ActionManager.RequestType.POST,(response) => {
+            if(response != null){
+                string status = (string)response["status"];
+                if(status == "success"){
+                    setReserveToFalse();
+                }else{
+                    // Handle reserve card failure
+                }
+                
+
+            }else{
+                // Handle null return
+            }
+        });
+        
+    }
+
 
     public void setReserveToTrue(){
         selectReserve = true;
