@@ -11,18 +11,18 @@ public enum CardType {
   DOMINO2("Domino2"),
   NONE("None");
 
-    public static CardType valueOfIgnoreCase(String name) {
-         return valueOf(name.toUpperCase());
-    }
+  public static CardType valueOfIgnoreCase(String name) {
+    return valueOf(name.toUpperCase());
+  }
 
-    private final String displayName; 
+  private final String displayName; 
 
-    CardType(String displayName) {
-        this.displayName = displayName;
-    }
+  CardType(String displayName) {
+    this.displayName = displayName;
+  }
 
-    @Override
-    public String toString() {
-        return this.displayName.toLowerCase(); 
-    }
+  @Override
+  public String toString() {
+    return this.displayName.toLowerCase(); 
+  }
 }

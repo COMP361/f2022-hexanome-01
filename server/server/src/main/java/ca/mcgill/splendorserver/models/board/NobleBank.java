@@ -1,14 +1,14 @@
 package ca.mcgill.splendorserver.models.board;
 
-import ca.mcgill.splendorserver.models.Inventory;
-import ca.mcgill.splendorserver.models.JsonStringafiable;
-import ca.mcgill.splendorserver.models.Noble;
-import ca.mcgill.splendorserver.models.registries.NobleRegistry;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Stack;
+
 import org.json.simple.JSONArray;
+
+import ca.mcgill.splendorserver.models.Inventory;
+import ca.mcgill.splendorserver.models.Noble;
+import ca.mcgill.splendorserver.models.registries.NobleRegistry;
 
 /**
  * Model class holding all Splendor noble tiles on the board.
