@@ -11,6 +11,7 @@ import ca.mcgill.splendorserver.controllers.GameManager;
 import ca.mcgill.splendorserver.models.Game;
 import ca.mcgill.splendorserver.models.Inventory;
 import ca.mcgill.splendorserver.models.Player;
+import ca.mcgill.splendorserver.models.Token;
 import ca.mcgill.splendorserver.models.communicationbeans.SessionData;
 import ca.mcgill.splendorserver.models.registries.CardRegistry;
 import ca.mcgill.splendorserver.models.board.Board;
@@ -61,7 +62,7 @@ public class OrientManagerTest {
 	    	fail("exception thrown");
 	    }
 	    
-	    String[] tokens = {"RED", "BLUE", "GREEN", "WHITE", "BLACK"};
+	    Token[] tokens = {Token.RED, Token.BLUE, Token.GREEN, Token.WHITE, Token.BLACK};
 	    testInventory.addTokens(tokens);
 	    testInventory.addTokens(tokens);
 	    testInventory.addTokens(tokens);
@@ -151,7 +152,7 @@ public class OrientManagerTest {
 	    Board board = game.getBoard();
 	    Inventory testInventory = board.getInventory("testCreator");
 	    
-	    String[] tokens = {"RED", "BLUE", "GREEN", "WHITE", "BLACK"};
+	    Token[] tokens = {Token.RED, Token.BLUE, Token.GREEN, Token.WHITE, Token.BLACK};
 	    testInventory.addTokens(tokens);
 	    testInventory.addTokens(tokens);
 	    testInventory.addTokens(tokens);
