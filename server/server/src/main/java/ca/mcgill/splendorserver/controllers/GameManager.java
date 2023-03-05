@@ -19,6 +19,7 @@ import ca.mcgill.splendorserver.models.registries.CardRegistry;
 import ca.mcgill.splendorserver.models.registries.NobleRegistry;
 import ca.mcgill.splendorserver.models.registries.UnlockableRegistry;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Optional;
 import org.json.simple.JSONArray;
@@ -94,11 +95,13 @@ public class GameManager {
     Board board = game.getBoard();
     Card card = CardRegistry.of(cardId);
     Inventory inventory = board.getInventory(playerId);
+    
+    int goldUsed = inventory.isCostAffordable(card.getCost());
 
-    if (!inventory.isCostAffordable(card.getCost()) || !acquireCard(card, board, inventory)) {
+    if (goldUsed != -1 || !acquireCard(card, board, inventory)) {
       return null;
     }
-    inventory.payForCard(card);
+    inventory.payForCard(card, goldUsed);
 
     JSONObject purchaseResults = determineBody(card, board, inventory);
 
@@ -177,7 +180,7 @@ public static JSONObject determineBody(Card card, Board board, Inventory invento
    * @return a JSONObject of the player's token overflow following taking tokens (max 10)
    */
   @SuppressWarnings("unchecked")
-public static JSONObject takeTokens(Game game, String playerId, String[] tokens) {
+public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) {
     Board board = game.getBoard();
     Inventory inventory = board.getInventory(playerId);
     JSONObject takeTokensResult = new JSONObject();
@@ -197,17 +200,10 @@ public static JSONObject takeTokens(Game game, String playerId, String[] tokens)
     }
   }
 
-  private static boolean checkValidityTokens(Game game, String playerId, String[] tokenStrings) {
+  private static boolean checkValidityTokens(Game game, String playerId, Token[] tokensArray) {
     //check that all given strings are valid tokens
-    ArrayList<Token> tokens = new ArrayList<>();
-    for (String tokenString : tokenStrings) {
-      try {
-        Token token = Token.valueOf(tokenString.toUpperCase());
-        tokens.add(token);
-      } catch (Exception e) {
-        return false;
-      }
-    }
+    ArrayList<Token> tokens = new ArrayList<Token>();
+    Collections.addAll(tokens, tokensArray);
 
     //check if the tokens given correspond to a valid action pattern
     Board board = game.getBoard();
