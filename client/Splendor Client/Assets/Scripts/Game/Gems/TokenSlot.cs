@@ -34,9 +34,9 @@ public class TokenSlot : MonoBehaviour
         active = selectedTokens.addOne(token.colour);
         if (active){
             //this token is the token in bank not selectedToken
-            token.amount -= 1;
+            //token.amount -= 1;
             tokenBank.removeOne(token.colour);
-            this.amount.text = token.amount.ToString();
+            //this.amount.text = token.amount.ToString();
         }
         //tokenBank.removeOne(token.colour);
     }

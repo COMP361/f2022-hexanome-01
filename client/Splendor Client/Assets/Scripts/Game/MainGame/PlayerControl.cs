@@ -8,7 +8,7 @@ using System.Linq;
 public class PlayerControl : MonoBehaviour {
     public Authentication mainPlayer;
     public Dashboard dashboard;
-    [SerializeField] private GameObject cursor;
+    [SerializeField] private GameObject cursor, purchaseOrReserve;
     [SerializeField] private Camera playerCamera;
     [SerializeField] private Player player; //this client/player
     [SerializeField] public List<string> gamePlayersData; //can change this to a different type later, playerData is combined from LobbyPlayer and Player class
@@ -16,7 +16,9 @@ public class PlayerControl : MonoBehaviour {
     [SerializeField] private SelectedTokens selectedTokens;
 
     public AllCards allCards;
+    public CardSlot selectedCard;
     public CardSlot selectedCardToBuy;
+    public CardSlot selectedCardToReserve;
 
     public NobleRow allNobles;
 
@@ -27,9 +29,10 @@ public class PlayerControl : MonoBehaviour {
 
     [SerializeField] private bool waiting;
 
-    public bool inOrientMenu, inInventory, sacrificeMade, inNobleMenu;
+   
     private ActionManager actionManager;
     public Session currSession;
+    public bool inOrientMenu, inInventory, sacrificeMade, inNobleMenu, selectReserve;
 
     void Start() {
         //the following was a test i made to make sure JSONHandler was working. ive left it here incase we find some uknown error with it
@@ -89,6 +92,7 @@ public class PlayerControl : MonoBehaviour {
         */
 
         selectedCardToBuy = null;
+        selectedCardToReserve = null;
         _inputActionMap = controls.FindActionMap("Player");
 
         fire = _inputActionMap.FindAction("Fire");
@@ -119,18 +123,32 @@ public class PlayerControl : MonoBehaviour {
             if (go.CompareTag("Card")) {
 
                 //Debug.Log("Card");
-                CardSlot cardSlotObject = go.GetComponent<CardSlot>();
-                selectedCardToBuy = cardSlotObject;
-                dashboard.DisplayPurchase();
+                //Debug.Log(selectReserve);
+                purchaseOrReserve.SetActive(true);
+                selectedCard = go.GetComponent<CardSlot>();
+                allCards.GreyOutExcept(selectedCard);
+                /*CardSlot cardSlotObject = go.GetComponent<CardSlot>();
                 allCards.GreyOutExcept(cardSlotObject);
+                if (!selectReserve){
+                    selectedCardToBuy = cardSlotObject;
+                    dashboard.DisplayPurchase();
+                    Debug.Log("select purchase");
+                }
+                else{
+                    selectedCardToReserve = cardSlotObject;
+                    dashboard.DisplayReserve();
+                    Debug.Log("select reserve");
+                }*/
             }
+            /*else{
+                allCards.UnGreyOut();
+                selectedCardToBuy = null;
+                selectedCardToReserve = null;
+                purchaseOrReserve.SetActive(false);
+                dashboard.DisplayWaiting();
+            }*/
             // else if (go.CompareTag ...
-            // else if (go.CompareTag("Token")){
-            //     Debug.Log("Token");
-            //     TokenSlot tokenSlotObject = go.GetComponent<TokenSlot>();
-            //     dashboard.DisplayTakeTokens();
-            // }
-            //else{Debug.Log(go.tag);}
+            
         }
     }
 
@@ -244,6 +262,21 @@ public class PlayerControl : MonoBehaviour {
     }
 
 
+    public void setReserveToTrue(){
+        selectReserve = true;
+        selectedCardToReserve = selectedCard;
+        selectedCardToBuy = null;
+        dashboard.DisplayReserve();
+        Debug.Log("select reserve");
+    }
+    public void setReserveToFalse(){
+        selectReserve = false;
+        selectedCardToBuy = selectedCard;
+        selectedCardToReserve = null;
+        dashboard.DisplayPurchase();
+        Debug.Log("select purchase");
+    }
+
     public void EndTurn() // Player clicks "end turn"
     { }
 
@@ -251,7 +284,10 @@ public class PlayerControl : MonoBehaviour {
     {
         dashboard.ResetEndDisplay();
         waiting = false;
+        selectedCard = null;
         selectedCardToBuy = null;
+        selectedCardToReserve = null;
+        purchaseOrReserve.SetActive(false);
     }
 
     private void UpdateCursor(InputAction.CallbackContext obj) {

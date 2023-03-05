@@ -1,19 +1,19 @@
 package ca.mcgill.splendorserver.models.board;
 
-import ca.mcgill.splendorserver.models.Inventory;
-import ca.mcgill.splendorserver.models.JsonStringafiable;
-import ca.mcgill.splendorserver.models.Noble;
-import ca.mcgill.splendorserver.models.registries.NobleRegistry;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Stack;
+
 import org.json.simple.JSONArray;
+
+import ca.mcgill.splendorserver.models.Inventory;
+import ca.mcgill.splendorserver.models.Noble;
+import ca.mcgill.splendorserver.models.registries.NobleRegistry;
 
 /**
  * Model class holding all Splendor noble tiles on the board.
  */
-public class NobleBank implements JsonStringafiable {
+public class NobleBank {
 
   private int[] nobles;
   private int size;
@@ -93,23 +93,18 @@ public class NobleBank implements JsonStringafiable {
    * @param inventory the inventory that could impress one or many nobles
    * @return the nobles that were impressed
    */
-  public ArrayList<Noble> attemptImpress(Inventory inventory) {
-    ArrayList<Noble> impressed = new ArrayList<Noble>();
+  public ArrayList<Integer> attemptImpress(Inventory inventory) {
+    ArrayList<Integer> impressed = new ArrayList<Integer>();
     for (int nobleId : getNobles()) {
       if (nobleId == -1) {
         continue;
       }
       Noble noble = NobleRegistry.of(nobleId);
       if (noble.impressed(inventory.getBonuses())) {
-        impressed.add(noble);
+        impressed.add(noble.getId());
       }
     }
     return impressed;
-  }
-
-  @Override
-  public String toJsonString() {
-    return JSONArray.toJSONString(Arrays.asList(nobles));
   }
 
   /**

@@ -1,7 +1,6 @@
 package ca.mcgill.splendorserver.models.board;
 
 import ca.mcgill.splendorserver.models.Inventory;
-import ca.mcgill.splendorserver.models.JsonStringafiable;
 import ca.mcgill.splendorserver.models.Player;
 import java.util.HashMap;
 import org.json.simple.JSONArray;
@@ -10,7 +9,7 @@ import org.json.simple.JSONObject;
 /**
  * Model class for the Splendor board.
  */
-public class Board implements JsonStringafiable {
+public class Board {
 
   private String currentPlayer;
 
@@ -24,8 +23,8 @@ public class Board implements JsonStringafiable {
   /**
    * Constructor.
    *
-   * @param creator the creator of the game
-   * @param players String array of player usernames
+   * @param creator the creator of the game.
+   * @param players String array of player usernames.
    */
   public Board(String creator, Player[] players) {
     int playerNum = players.length;
@@ -37,13 +36,14 @@ public class Board implements JsonStringafiable {
   }
 
   /**
-   * Gets the inventory of the player with the provided id
-   * @param playerId the id of player
-   * @return Inventory object
+   * Gets the inventory of the player with the provided id.
+   *
+   * @param playerId the id of player.
+   * @return Inventory object.
    */
   public Inventory getInventory(String playerId) {
-    for(Player player : players){
-      if(player.getUsername().equals(playerId)){
+    for (Player player : players) {
+      if (player.getUsername().equals(playerId)) {
         return player.getInventory();
       }
     }
@@ -56,26 +56,6 @@ public class Board implements JsonStringafiable {
 
   public TokenBank getTokens() {
     return tokens;
-  }
-
-  @SuppressWarnings("unchecked")
-  @Override
-  public String toJsonString() {
-    JSONObject data = new JSONObject();
-    data.put("currentPlayer", currentPlayer);
-
-    data.put("cards", cards.toJsonString());
-    data.put("nobles", nobles.toJsonString());
-    data.put("tokens", tokens.toJsonString());
-
-    JSONObject inventoryJson = new JSONObject();
-    for (Player player : players) {
-      inventoryJson.put(player.getUsername(), player.getInventory().toJsonString());
-    }
-
-    data.put("inventories", inventoryJson.toJSONString());
-
-    return data.toJSONString();
   }
 
   /**
@@ -95,7 +75,7 @@ public class Board implements JsonStringafiable {
 
     JSONObject inventoriesJson = new JSONObject();
     for (Player player : players) {
-      inventoriesJson.put(player.getUsername(), player.getInventory().toJsonString());
+      inventoriesJson.put(player.getUsername(), player.getInventory().toJson());
     }
     json.put("inventories", inventoriesJson);
 

@@ -6,6 +6,5 @@ package ca.mcgill.splendorserver.models.registries;
  * @param <T> the type of elements
  */
 public interface Registry<T> {
-
-
+	
 }

@@ -6,7 +6,7 @@ import java.util.LinkedList;
 
 public class ControllerTestUtils {
 
-  public SessionData createDummySessionData() {
+  public static SessionData createDummySessionData() {
     LobbyServicePlayerData creator = new LobbyServicePlayerData("testCreator", "blue");
     LobbyServicePlayerData playerTest = new LobbyServicePlayerData("testPlayer", "red");
     LinkedList<LobbyServicePlayerData> playersTest = new LinkedList<>();
