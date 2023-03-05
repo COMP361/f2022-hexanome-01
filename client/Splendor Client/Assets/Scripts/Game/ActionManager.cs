@@ -18,10 +18,10 @@ public class ActionManager : MonoBehaviour
     // The GameObject that will display the error popup
     public GameObject errorPopup;
 
-    // The text to display in the error popup
+
     public string errorPopupText = "Invalid selection";
 
-    // This enum represents the different types of actions that can be performed
+
     public enum ActionType
     {
         performCardPurchase,
@@ -67,11 +67,11 @@ public class ActionManager : MonoBehaviour
         }
         else
         {
-            string jsonResponseString = webRequest.downloadHandler.text;
-            // Create a new JSONObject
-            JSONObject jsonObject = new JSONObject();
+            
 
-            jsonObject.Parse(jsonObject);
+        JSONObject jsonObject = (JSONObject)JSONHandler.DecodeJsonRequest(webRequest.downloadHandler.text);
+ 
+
             callback(jsonObject);
 
         }

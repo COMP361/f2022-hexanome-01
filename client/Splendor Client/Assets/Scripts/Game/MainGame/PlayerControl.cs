@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using UnityEngine.UI;
+using System.Linq;
 public class PlayerControl : MonoBehaviour {
     public Authentication mainPlayer;
     public Dashboard dashboard;
@@ -139,52 +140,38 @@ public class PlayerControl : MonoBehaviour {
 
 
     public void purchaseCardAction(){
-        JSONObject selectedCardJson = new JSONObject();
-        json.Add("playerId", player.GetUsername());
-        json.Add("cardId", selectedCardToBuy.GetCard().GetId());
-        actionManager.MakeApiRequest(currSession.id, selectedCardJson, ActionType.performCardPurchase, (response) => {
+        Dictionary<string, object> requestDict = new Dictionary<string, object>();
+        JSONObject selectedCardJson = new JSONObject(requestDict);
+        selectedCardJson.Add("playerId", player.GetUsername());
+        selectedCardJson.Add("cardId", selectedCardToBuy.GetCard().GetId());
+        actionManager.MakeApiRequest(currSession.id, selectedCardJson, ActionManager.ActionType.performCardPurchase, (response) => {
 
             if(response != null){
-                string status = response.Get("status");
-                string action = response.Get("action");
-                int[] choices = response.Get("choices");
-                JSONArray jsonNoblesVisited= response.GetArray("noblesVisiting");
-                int[] noblesVisiting = jsonNoblesVisited.ToIntArray();
+                string status = (string)response["status"];
+                string action = (string)response["action"];
+                JSONArray jsonNoblesVisited = (JSONArray)response["noblesVisiting"];
+                //int[] noblesVisiting = new int[]
 
-                switch (action)
-                {
-                    case "none":
-                        Console.WriteLine("none");
-                        break;
-                    case "DOMINO1":
-                        Console.WriteLine("Domino1");
-                        break;  
-                    case "DOMINO2":
-                        Console.WriteLine("Domino2");
-                        break;
-                    case "SATCHEL":
-                        Console.WriteLine("Satchel");
-                        break;
-                    case "SACRAFICE":
-                        Console.WriteLine("Sacrafice");
-                        break;
-                    default:
-                        Console.WriteLine("Invalid Action");
-                        break;
+                int[] noblesVisiting = new int[jsonNoblesVisited.Count];
+                for (int i = 0; i < jsonNoblesVisited.Count; i++) {
+                    noblesVisiting[i] = (int)jsonNoblesVisited[i];
                 }
+
+                
 
             }
         });
     }
 
     public void selectNobleAction(Noble chosenNoble){
-        JSONObject selectNobleJson = new JSONObject();
+        Dictionary<string, object> requestDict = new Dictionary<string, object>();
+        JSONObject selectNobleJson = new JSONObject(requestDict);
         selectNobleJson.Add("playerId", player.GetUsername());
-        selectNobleJson.Add("nobleId", chosenNoble.GetId());
-        actionManager.MakeApiRequest(currSession.id, selectedCardJson, ActionType.selectNobleAction, (response) => {
+        selectNobleJson.Add("nobleId", chosenNoble.id);
+        actionManager.MakeApiRequest(currSession.id, selectNobleJson, ActionManager.ActionType.selectNoble, (response) => {
 
             if(response != null){
-                string status = response.Get("status");
+                string status = (string)response["status"];
 
 
                 if(status == "success"){
@@ -203,14 +190,16 @@ public class PlayerControl : MonoBehaviour {
     }
 
     public void takeTokensAction(){
-        JSONObject chosenTokensJson = new JSONObject();
+        Dictionary<string, object> requestDict = new Dictionary<string, object>();
+        JSONObject chosenTokensJson = new JSONObject(requestDict);
         chosenTokensJson.Add("player", player.GetUsername());
-        string[] tokenColours = selectedTokens.colours.toArray();
+        //Text[] tokenColours = selectedTokens.colours.toArray();
+        string[] tokenColours = selectedTokens.colours.Select(t => t.text).ToArray();
         chosenTokensJson.Add("tokens", tokenColours);
-        actionManager.MakeApiRequest(currSession.id, chosenTokensJson, ActionType.takeTokensAction, (response) => {
+        actionManager.MakeApiRequest(currSession.id, chosenTokensJson, ActionManager.ActionType.takeTokens, (response) => {
             if(response != null){
-                string status = response.Get("status");
-                int overFlowAmount = response.Get("tokenOverFlow");
+                string status = (string)response["status"];
+                int overFlowAmount = (int)response["tokenOverFlow"];
                 if(status == "success"){
                     if(overFlowAmount == 0){
                         // Handle removal of selected tokens
@@ -232,12 +221,14 @@ public class PlayerControl : MonoBehaviour {
     }
 
     public void reserveCardAction(){
-        JSONObject reserveCardJson = new JSONObject();
+        Dictionary<string, object> requestDict = new Dictionary<string, object>();
+
+        JSONObject reserveCardJson = new JSONObject(requestDict);
         reserveCardJson.Add("playerId", player.GetUsername());
         reserveCardJson.Add("cardId", selectedCardToBuy.GetCard().GetId());
-        actionManager.MakeApiRequest(currSession.id, reserveCardJson, ActionType.reserveCardAction, (response) => {
+        actionManager.MakeApiRequest(currSession.id, reserveCardJson, ActionManager.ActionType.reserveCard, (response) => {
             if(response != null){
-                string status = response.Get("status");
+                string status = (string)response["status"];
                 if(status == "success"){
                     // Add to reserve cards
                 }else{
