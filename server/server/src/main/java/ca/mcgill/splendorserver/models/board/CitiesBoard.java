@@ -31,6 +31,13 @@ public class CitiesBoard extends Board {
   }
 
   /**
+   * getter for list of cities.
+   *
+   */
+  public int[] getCities() {
+    return cities;
+  }
+  /**
    * Removes a city from the board.
    *
    * @param index the index of the city to remove

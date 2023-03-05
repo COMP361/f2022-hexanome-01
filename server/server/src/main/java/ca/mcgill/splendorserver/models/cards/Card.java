@@ -18,37 +18,6 @@ public class Card {
   private HashMap<Token, Integer> cost = new HashMap<Token, Integer>();
 
   /**
-   * Constructor.
-   *
-   * @param id          card's identification number as assigned in GameController's CardRegistry
-   * @param pts         the points awarded upon card acquisition
-   * @param bonusType   colour of bonus awarded upon card acquisition
-   * @param bonusAmount the amount of bonuses awarded upon card acquisition
-   * @param blue        blue tokens cost
-   * @param green       green tokens cost
-   * @param red         red tokens cost
-   * @param white       white tokens cost
-   * @param black       black tokens cost
-   * @param type        special abilities of card
-   * @param level       base game or expansion plus the level of the card
-   *                    (relevant to the card's deck)
-   */
-  public Card(int id, int pts, String bonusType, int bonusAmount, int blue, int green, int red,
-              int white, int black,
-              String type, String level) {
-    this.id = id;
-    this.pts = pts;
-    bonus = new CardBonus(Token.valueOf(bonusType), bonusAmount);
-    cost.put(Token.BLUE, blue);
-    cost.put(Token.GREEN, green);
-    cost.put(Token.RED, red);
-    cost.put(Token.WHITE, white);
-    cost.put(Token.BLACK, black);
-    this.type = CardType.valueOfIgnoreCase(type);
-    this.level = CardLevel.valueOfIgnoreCase(level);
-  }
-
-  /**
    * Constructor from a JSONObject.
    *
    * @param obj   the JSONObject with the card data
