@@ -103,16 +103,25 @@ public class Game {
    * Changes the current player to the next player.
    */
   public void nextPlayer() {
-	currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+    currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
   }
 
+  /**
+   * Get game's vairant.
+   */
   public String getVariant() {
     return variant;
   }
 
+  /**
+   * Sets current player to player with given username.
+
+   * @param username of desired player.
+   * 
+   */
   public void setCurrentPlayer(String username) {
-    for(int i = 0;i < players.length; i++) {
-      if(players[i].getUsername().equals(username)) {
+    for (int i = 0; i < players.length; i++) {
+      if (players[i].getUsername().equals(username)) {
         currentPlayerIndex = i;
         return;
       }
