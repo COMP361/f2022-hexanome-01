@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class SelectedTokens : MonoBehaviour
 {
     public List<Gem> sTokens = new List<Gem> ();
     private PlayerControl playerControl;
+    public GameObject takeTokenButton;
 
     //displayed selected tokens amount
     //Text colour1, colour2, colour3;
@@ -82,6 +84,21 @@ public class SelectedTokens : MonoBehaviour
         foreach (Text amount in nums){
             amount.text = "0";
         }
+    }
+
+    public bool checkAmount(){
+        long total = getTotalNum();
+        if (total == 3){
+            return true;
+        }
+        else if (total == 2){
+            for (int i =0; i<3; i++){
+                if (sTokens[i].amount == 2){
+                    return true;}
+            }
+            return false;
+        }
+        return false;
     }
     // Start is called before the first frame update
     /*void Start()
