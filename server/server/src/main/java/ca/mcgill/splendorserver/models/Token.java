@@ -6,6 +6,11 @@ package ca.mcgill.splendorserver.models;
 public enum Token {
   GOLD("Gold"), BLUE("Blue"), GREEN("Green"), RED("Red"), WHITE("White"), BLACK("Black");
   
+  /**
+  * converter of string to token enum.
+
+  * @param name given token name
+  */
   public static Token valueOfIgnoreCase(String name) {
     switch (name) {
       case "null": return null;
