@@ -210,22 +210,17 @@ public class PlayerControl : MonoBehaviour {
     public void takeTokensAction(){
         Dictionary<string, object> requestDict = new Dictionary<string, object>();
         JSONObject chosenTokensJson = new JSONObject(requestDict);
-        chosenTokensJson.Add("player", player.GetUsername());
+        chosenTokensJson.Add("playerId", player.GetUsername());
         //Text[] tokenColours = selectedTokens.colours.toArray();
         string[] tokenColours = selectedTokens.colours.Select(t => t.text).ToArray();
         chosenTokensJson.Add("tokens", tokenColours);
         actionManager.MakeApiRequest(currSession.id, chosenTokensJson, ActionManager.ActionType.takeTokens, ActionManager.RequestType.POST, (response) => {
             if(response != null){
-                string status = (string)response["status"];
                 int overFlowAmount = (int)response["tokenOverFlow"];
-                if(status == "success"){
-                    if(overFlowAmount == 0){
-                        // Handle removal of selected tokens
-                    }else{
-                        // Handle too many tokens
-                    }
+                if(overFlowAmount == 0){
+                    // Handle removal of selected tokens
                 }else{
-                    // Handle Unsuccessful return
+                    // Handle too many tokens
                 }
 
             }else{
