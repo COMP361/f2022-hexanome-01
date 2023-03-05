@@ -14,21 +14,6 @@ public class Noble {
   private HashMap<String, Integer> cost = new HashMap<String, Integer>();
 
   /**
-   * Sole constructor (for invocation by subclass constructors, typically implicit.)
-   *
-   * @param id    unique id of noble
-   * @param pts   points awarded upon noble visit
-   * @param blue  blue bonuses required
-   * @param green green bonuses required
-   * @param red   red bonuses required
-   * @param white white bonuses required
-   * @param black black bonuses required
-   */
-  public Noble(int id, int pts, int blue, int green, int red, int white, int black) {
-
-  }
-
-  /**
    * Constructor for noble from JSONObject.
    *
    * @param obj JSONObject containing noble data
