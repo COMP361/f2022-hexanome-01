@@ -13,7 +13,7 @@ import org.json.simple.JSONObject;
 /**
  * Model class for a Splendor player's inventory i.e. everything they've acquired.
  */
-public class Inventory implements JsonStringafiable {
+public class Inventory {
 
   private int points;
   private TokenBank tokens;
@@ -249,19 +249,6 @@ public class Inventory implements JsonStringafiable {
       }
     }
     return tradingPostsList.toArray(new TradingPost[tradingPostsList.size()]);
-  }
-
-  @Override
-  @SuppressWarnings("unchecked")
-  public String toJsonString() {
-    JSONObject data = new JSONObject();
-    data.put("acquiredCards", JSONArray.toJSONString(cards));
-    data.put("acquiredNobles", JSONArray.toJSONString(nobles));
-    data.put("reservedCards", JSONArray.toJSONString(reservedCards));
-    data.put("reservedNobles", JSONArray.toJSONString(reservedNobles));
-    data.put("tokens", tokens.toJsonString());
-
-    return data.toJSONString();
   }
 
   /**
