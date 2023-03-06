@@ -247,7 +247,7 @@ public class GameController {
         return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
       }
 
-      int cardId = Integer.parseInt((String) data.get("cardId"));
+      int cardId = (int) data.get("cardId");
       JSONObject response = GameManager.purchaseCard(game, playerId, cardId);
       if (response == null) {
         return ResponseEntity.ok().body(invalidAction.toJSONString());
@@ -285,7 +285,7 @@ public class GameController {
         return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
       }
 
-      int cardId = Integer.parseInt((String) data.get("cardId"));
+      int cardId = (int) data.get("cardId");
       JSONObject response = new JSONObject();
       Board board = game.getBoard();
       Card card = CardRegistry.of(cardId);
@@ -331,7 +331,7 @@ public class GameController {
         return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
       }
 
-      int cardId = Integer.parseInt((String) data.get("cardId"));
+      int cardId = (int) data.get("cardId");
       JSONObject response = new JSONObject();
       Board board = game.getBoard();
       Card card = CardRegistry.of(cardId);
@@ -380,7 +380,7 @@ public class GameController {
         return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
       }
 
-      int nobleId = Integer.parseInt((String) data.get("nobleId"));
+      int nobleId = (int) data.get("cardId");
       JSONObject response = new JSONObject();
       Board board = game.getBoard();
       Noble noble = NobleRegistry.of(nobleId);
@@ -429,7 +429,7 @@ public class GameController {
         return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
       }
 
-      int cardId = Integer.parseInt((String) data.get("cardId"));
+      int cardId = (int) data.get("cardId");
       Board board = game.getBoard();
       Card card = CardRegistry.of(cardId);
       Inventory inventory = board.getInventory(playerId);
@@ -518,7 +518,7 @@ public class GameController {
         return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
       }
 
-      int nobleId = Integer.parseInt((String) data.get("nobleId"));
+      int nobleId = (int) data.get("nobleId");
       Board board = game.getBoard();
       Noble noble = NobleRegistry.of(nobleId);
       Inventory inventory = board.getInventory(playerId);
