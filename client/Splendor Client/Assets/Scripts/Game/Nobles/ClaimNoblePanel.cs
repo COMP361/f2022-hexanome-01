@@ -12,19 +12,22 @@ public class ClaimNoblePanel : MonoBehaviour
     public bool hasImpressedNoble;
     
     //Check if there is any noble impressed by player
-    public void checkAvailNobles(NobleRow allNobles) {
+    public void DisplayNobleClaim(NobleRow allNobles, long[] impressedNobles) {
+
         hasImpressedNoble = false;
         List<Noble> availNobles = new List<Noble>();
-        TokenBank playerBonus = playerControl.client.GetBonusBank();
+        //TokenBank playerBonus = playerControl.client.GetBonusBank();
+
         foreach (NobleSlot nobleSlot in allNobles.GetAllNobels()) {
             Noble noble = nobleSlot.GetNoble();
-            if (playerBonus.blue >= noble.GetBlue() && playerBonus.green >= noble.GetGreen() && playerBonus.black >= noble.GetBrown() && playerBonus.red >= noble.GetRed() && playerBonus.white >= noble.GetWhite()) {
-                availNobles.Add(noble);
-                hasImpressedNoble = true;
+            for(int i = 0; i < impressedNobles.Length; i++){
+                if(noble.id == impressedNobles[i]){
+                    availNobles.Add(noble);
+                }
             }
         }
-        if (hasImpressedNoble)
-            Display(availNobles);
+        
+        Display(availNobles);
     }
 
     //Switches noble menu status
