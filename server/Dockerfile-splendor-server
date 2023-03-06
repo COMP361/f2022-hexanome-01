@@ -1,0 +1,20 @@
+FROM arm64v8/maven:3.6-amazoncorretto-11 AS serverbuild
+MAINTAINER cadin londono
+copy server/target /usr/target
+COPY server/src /usr/src/app/src
+COPY server/pom.xml /usr/src/app
+RUN mvn -f /usr/src/app/pom.xml clean package -P prod
+FROM openjdk:11-jre
+
+## Wait for the L
+ENV WAIT_VERSION 2.7.2
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/$WAIT_VERSION/wait /wait
+RUN chmod +x /wait
+
+# copy the jar from the build stage, expose the required port and run it.
+COPY --from=serverbuild /usr/target/splendorServer.jar /usr/app/splendorServer.jar
+EXPOSE 4244
+#ENTRYPOINT ["java","-jar","/usr/app/splendorServer.jar"]
+
+# allow debug if startup fails, with: docker run -it --entrypoint /bin/bash splendor-server -s
+
