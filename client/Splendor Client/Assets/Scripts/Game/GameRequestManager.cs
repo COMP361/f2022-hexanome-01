@@ -15,6 +15,7 @@ public class GameRequestManager : MonoBehaviour
         if (hash != null) url += ("?hash=" + hash); //url for GET request
         UnityWebRequest request = UnityWebRequest.Get(url);
         yield return request.SendWebRequest();
+        Debug.Log(request.downloadHandler.text);
 
         if (request.responseCode == 200)
         {
