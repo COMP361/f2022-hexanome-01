@@ -318,8 +318,7 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
       if (pickedUp != card.getId()) {
         return false;
       }
-      inventory.reserve(card);
-      return true;
+      return inventory.reserve(card);
     } else if (source.equals("deck")) {
       CardLevel level = CardLevel.valueOfIgnoreCase(deckId);
 
@@ -327,8 +326,7 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
       if (pickedUp == -1) {
         return false;
       }
-      inventory.reserve(CardRegistry.of(pickedUp));
-      return true;
+      return inventory.reserve(CardRegistry.of(pickedUp));
     }
 
     return false;
