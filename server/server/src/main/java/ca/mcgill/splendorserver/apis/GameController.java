@@ -469,7 +469,7 @@ public class GameController {
    */
   @SuppressWarnings("unchecked")
   @PostMapping("/api/action/{gameId}/reserveCard")
-  public ResponseEntity<String> reserveCardAction(@PathVariable String gameId,
+  public ResponseEntity<String> reserveCard(@PathVariable String gameId,
                                                   @RequestBody JSONObject data)
       throws JsonProcessingException {
     try {

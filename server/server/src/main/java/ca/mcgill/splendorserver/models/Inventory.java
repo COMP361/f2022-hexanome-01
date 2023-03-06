@@ -305,7 +305,7 @@ public class Inventory {
     //reserved cards
     JSONArray reservedCardsJson = new JSONArray();
     for (Card card : reservedCards) {
-      cardsJson.add(card.getId());
+      reservedCardsJson.add(card.getId());
     }
     json.put("reservedCards", reservedCardsJson);
     //reserved nobles
