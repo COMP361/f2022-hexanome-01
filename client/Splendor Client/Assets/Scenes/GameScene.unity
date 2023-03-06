@@ -2561,6 +2561,7 @@ GameObject:
   - component: {fileID: 288864033}
   - component: {fileID: 288864036}
   - component: {fileID: 288864037}
+  - component: {fileID: 288864038}
   m_Layer: 5
   m_Name: Main Player
   m_TagString: Untagged
@@ -2626,6 +2627,7 @@ MonoBehaviour:
   selectedNoble: {fileID: 0}
   controls: {fileID: -944628639613478452, guid: 68b0984844d79b345af0ecff893baaed, type: 3}
   waiting: 0
+  actionManager: {fileID: 288864038}
   currSession: {fileID: 11400000, guid: ebdd36260b1a84a6e9083efa914a8d39, type: 2}
   inOrientMenu: 0
   inInventory: 0
@@ -2747,6 +2749,18 @@ MonoBehaviour:
   black: 0
   red: 0
   white: 0
+--- !u!114 &288864038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 288864031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbe98e01c3ce45545b329ab21511dab3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &307544648
 MonoBehaviour:
   m_ObjectHideFlags: 0

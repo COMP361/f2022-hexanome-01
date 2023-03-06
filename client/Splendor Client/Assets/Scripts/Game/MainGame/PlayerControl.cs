@@ -32,7 +32,7 @@ public class PlayerControl : MonoBehaviour {
     [SerializeField] private bool waiting;
 
    
-    private ActionManager actionManager;
+    [SerializeField] private ActionManager actionManager;
     public ActiveSession currSession;
     public bool inOrientMenu, inInventory, sacrificeMade, inNobleMenu, selectReserve;
 
@@ -170,10 +170,13 @@ public class PlayerControl : MonoBehaviour {
         selectedCardJson.Add("cardId", selectedCardToBuy.GetCard().GetId());
         Debug.Log(currSession);
         Debug.Log(selectedCardJson);
-        actionManager.MakeApiRequest(currSession.id, selectedCardJson, ActionManager.ActionType.performCardPurchase,ActionManager.RequestType.POST, (response) => {
+        actionManager.MakeApiRequest(currSession.id, selectedCardJson, ActionManager.ActionType.purchaseCard,ActionManager.RequestType.POST, (response) => {
 
             if(response != null){
                 string status = (string)response["status"];
+
+                if (status.Equals("failure")) return;
+
                 string action = (string)response["action"];
                 JSONArray jsonNoblesVisited = (JSONArray)response["noblesVisiting"];
                 //int[] noblesVisiting = new int[]
@@ -182,8 +185,6 @@ public class PlayerControl : MonoBehaviour {
                 for (int i = 0; i < jsonNoblesVisited.Count; i++) {
                     noblesVisiting[i] = (int)jsonNoblesVisited[i];
                 }
-
-                
 
             }
         });
@@ -198,7 +199,6 @@ public class PlayerControl : MonoBehaviour {
 
             if(response != null){
                 string status = (string)response["status"];
-
 
                 if(status == "success"){
                     // Add selectedNobleToInventory
@@ -221,10 +221,25 @@ public class PlayerControl : MonoBehaviour {
         chosenTokensJson.Add("playerId", player.GetUsername());
         //Text[] tokenColours = selectedTokens.colours.toArray();
         string[] tokenColours = selectedTokens.colours.Select(t => t.text).ToArray();
-        chosenTokensJson.Add("tokens", tokenColours);
+        string[] tokenNums = selectedTokens.nums.Select(t => t.text).ToArray();
+
+        List<string> tokenList = new List<string>();
+
+        for (int i=0; i<3; i++) {
+            if (tokenColours[i].Equals("none") || tokenColours[i].Equals("New")) continue;
+            for (int mult=0; mult<Int16.Parse(tokenNums[i]); mult++) {
+                tokenList.Add(tokenColours[i]);
+            }
+        }
+
+        chosenTokensJson.Add("tokens", tokenList.ToArray());
         actionManager.MakeApiRequest(currSession.id, chosenTokensJson, ActionManager.ActionType.takeTokens, ActionManager.RequestType.POST, (response) => {
             if(response != null){
-                int overFlowAmount = (int)response["tokenOverFlow"];
+
+                string status = (string)response["status"];
+                if (status.Equals("failure")) return;
+
+                long overFlowAmount = (long)response["tokenOverflow"];
                 if(overFlowAmount == 0){
                     // Handle removal of selected tokens
                 }else{
