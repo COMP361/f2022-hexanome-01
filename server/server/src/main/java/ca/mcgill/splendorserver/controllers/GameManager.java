@@ -323,7 +323,9 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
       if (pickedUp != card.getId()) {
         return false;
       }
-      return inventory.reserve(card);
+      if (inventory.reserve(card)) {
+        return addGoldWithReserve(game, playerId);
+      }
     } else if (source.equals("deck")) {
       CardLevel level = CardLevel.valueOfIgnoreCase(deckId);
 
@@ -331,7 +333,31 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
       if (pickedUp == -1) {
         return false;
       }
-      return inventory.reserve(CardRegistry.of(pickedUp));
+      if (inventory.reserve(CardRegistry.of(pickedUp))) {
+        return addGoldWithReserve(game, playerId);
+      }
+    }
+
+    return false;
+  }
+
+  /**
+   * Adds a gold token to a player's inventory when reserving a card.
+   *
+   * @param game the game where this is occurring
+   * @param playerId the player reserving a card
+   * @return whether it was successful
+   */
+  private static boolean addGoldWithReserve(Game game, String playerId) {
+    Board board = game.getBoard();
+    Inventory inventory = board.getInventory(playerId);
+    TokenBank tokens = board.getTokens();
+
+    if (tokens.removeOne(Token.GOLD)) {
+      return inventory.addTokens(new Token[] {Token.GOLD});
+    }
+    else if (tokens.checkQuantity(Token.GOLD) == 0) {
+      return true; //you can still reserve a card if the bank has no gold tokens
     }
 
     return false;
