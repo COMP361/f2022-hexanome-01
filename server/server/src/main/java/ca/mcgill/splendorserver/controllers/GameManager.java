@@ -204,7 +204,9 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
     if (inventory.addTokens(tokens)) {
       //return overflow
       board.getTokens().removeAll(tokens);
-      takeTokensResult.put("tokenOverflow", inventory.getTokens().checkOverflow());
+      
+      int overflow = inventory.getTokens().checkOverflow();
+      takeTokensResult.put("tokenOverflow", overflow <= 40 ? overflow : 0);
       return takeTokensResult;
     } else { //if taking the tokens didn't go through
       return null;
