@@ -539,6 +539,33 @@ public class GameController {
     }
   }
 
+  /**
+   * Ends turn.
+   *
+   * @param gameId the id of the game
+   * @param data   the game data of the take tokens action
+   * @return success flag
+   * @throws JsonProcessingException when JSON processing error occurs
+   */
+  @SuppressWarnings("unchecked")
+  @PostMapping("/api/action/{gameId}/endTurn")
+  public ResponseEntity<String> endTurnAction(@PathVariable String gameId)
+      throws JsonProcessingException {
+    try {
+      Game game = GameManager.getGame(gameId);
+      if (game == null) {
+        return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
+      }
+      
+      GameManager.endTurn(game);
+      
+      return ResponseEntity.ok().body("{status: success}");
+    } catch (Exception e) {
+      logger.error(e.getStackTrace().toString());
+      return errorResponse(e.getMessage());
+    }
+  }
+
 
   /**
    * Removes a game from the server upon lobby service request.

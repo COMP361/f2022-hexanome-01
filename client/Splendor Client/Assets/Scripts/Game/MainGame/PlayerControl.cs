@@ -186,6 +186,20 @@ public class PlayerControl : MonoBehaviour {
                     noblesVisiting[i] = (int)jsonNoblesVisited[i];
                 }
 
+                if (noblesVisiting.Count() == 0) {
+
+                    actionManager.MakeApiRequest(currSession.id, null, ActionManager.ActionType.endTurn, ActionManager.RequestType.POST, (response) => {
+
+                        if (response != null && ((string)response["status"]).Equals("success"));
+
+                    });
+
+                }
+
+                else {
+                    // call and display claim nobles
+                }
+
             }
         });
     }
@@ -205,6 +219,12 @@ public class PlayerControl : MonoBehaviour {
                 }else{
                     // Handle failed status
                 }
+
+                actionManager.MakeApiRequest(currSession.id, null, ActionManager.ActionType.endTurn, ActionManager.RequestType.POST, (response) => {
+
+                    if (response != null && ((string)response["status"]).Equals("success"));
+
+                });
 
             }else{
                 //Handle null return
@@ -246,6 +266,12 @@ public class PlayerControl : MonoBehaviour {
                     // Handle too many tokens
                 }
 
+                actionManager.MakeApiRequest(currSession.id, null, ActionManager.ActionType.endTurn, ActionManager.RequestType.POST, (response) => {
+
+                    if (response != null && ((string)response["status"]).Equals("success"));
+
+                });
+
             }else{
                 // Handle null response from server
             }
@@ -267,6 +293,12 @@ public class PlayerControl : MonoBehaviour {
                 string status = (string)response["status"];
                 if(status == "success"){
                     setReserveToFalse();
+
+                    actionManager.MakeApiRequest(currSession.id, null, ActionManager.ActionType.endTurn, ActionManager.RequestType.POST, (response) => {
+
+                        if (response != null && ((string)response["status"]).Equals("success"));
+
+                    });
                 }else{
                     // Handle reserve card failure
                 }
