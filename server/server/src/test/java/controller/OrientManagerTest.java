@@ -14,6 +14,7 @@ import ca.mcgill.splendorserver.models.Player;
 import ca.mcgill.splendorserver.models.Token;
 import ca.mcgill.splendorserver.models.communicationbeans.SessionData;
 import ca.mcgill.splendorserver.models.registries.CardRegistry;
+import utils.ControllerTestUtils;
 import ca.mcgill.splendorserver.models.board.Board;
 import ca.mcgill.splendorserver.models.board.CardBank;
 import ca.mcgill.splendorserver.models.cards.Card;
@@ -29,7 +30,6 @@ import org.springframework.http.ResponseEntity;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
-import utils.ControllerTestUtils;
 /**
  * Tester for Orient endpoints and functionality
  */
@@ -104,7 +104,7 @@ public class OrientManagerTest {
 	    //reserve card from board
 	    request.replace("cardId", board.getCards().getRows().get(CardLevel.LEVEL1)[0]);
 	    request.put("source", "board");
-	    response = gc.reserveCardAction("TestGame", request);
+	    response = gc.reserveCard("TestGame", request);
 	    try {
 	      assertEquals(ResponseEntity.ok().body(invalidAction.toJSONString()), response);
 	      fail("expected exception not thrown");
@@ -114,7 +114,7 @@ public class OrientManagerTest {
 	    //request.replace("cardId", board.getCards().drawCardFromDeck(CardLevel.LEVEL1) + "");
 	    request.replace("source", "deck");
 	    request.put("deckId", "LEVEL1");
-	    response = gc.reserveCardAction("TestGame", request);
+	    response = gc.reserveCard("TestGame", request);
 	    try {
 	      assertEquals(ResponseEntity.ok().body(invalidAction.toJSONString()), response);
 	      fail("expected exception not thrown");
