@@ -194,6 +194,7 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
     //try adding tokens
     if (inventory.addTokens(tokens)) {
       //return overflow
+      board.getTokens().removeAll(tokens);
       takeTokensResult.put("tokenOverflow", inventory.getTokens().checkOverflow());
       return takeTokensResult;
     } else { //if taking the tokens didn't go through
@@ -365,16 +366,16 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
   /**
    * Ends a game turn by updating the current player of a game.
    *
-   * @param gameId the id of the game where the turn is ending
+   * @param game the game where the turn is ending
    */
-  public void endTurn(String gameId) {
-    Game game = getGame(gameId);
-    
+  public static void endTurn(Game game) {    
     Player currentPlayer = game.getCurrentPlayer();
     
     //if trading posts expansion enabled...
-    for (Unlockable u : UnlockableRegistry.getTradingPosts()) {
-      u.observe(currentPlayer);
+    if (game.getVariant().equals("tradingpost")) {
+      for (Unlockable u : UnlockableRegistry.getTradingPosts()) {
+        u.observe(currentPlayer);
+      }
     }
 
     //doesnt check yet if multiple get unlocked,

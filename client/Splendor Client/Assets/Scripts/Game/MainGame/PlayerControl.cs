@@ -34,8 +34,8 @@ public class PlayerControl : MonoBehaviour {
     [SerializeField] private bool waiting;
 
    
-    private ActionManager actionManager;
-    public Session currSession;
+    [SerializeField] private ActionManager actionManager;
+    public ActiveSession currSession;
     public bool inOrientMenu, inInventory, sacrificeMade, inNobleMenu, selectReserve;
 
     void Start() {
@@ -170,10 +170,15 @@ public class PlayerControl : MonoBehaviour {
         JSONObject selectedCardJson = new JSONObject(requestDict);
         selectedCardJson.Add("playerId", player.GetUsername());
         selectedCardJson.Add("cardId", selectedCardToBuy.GetCard().GetId());
-        actionManager.MakeApiRequest(currSession.id, selectedCardJson, ActionManager.ActionType.performCardPurchase,ActionManager.RequestType.POST, (response) => {
+        Debug.Log(currSession);
+        Debug.Log(selectedCardJson);
+        actionManager.MakeApiRequest(currSession.id, selectedCardJson, ActionManager.ActionType.purchaseCard,ActionManager.RequestType.POST, (response) => {
 
             if(response != null){
                 string status = (string)response["status"];
+
+                if (status.Equals("failure")) return;
+
                 string action = (string)response["action"];
                 JSONArray jsonNoblesVisited = (JSONArray)response["noblesVisiting"];
                 //int[] noblesVisiting = new int[]
@@ -182,7 +187,6 @@ public class PlayerControl : MonoBehaviour {
                 for (int i = 0; i < jsonNoblesVisited.Count; i++) {
                     noblesVisiting[i] = (int)jsonNoblesVisited[i];
                 }
-
                 if(action.Equals("Domino1") || action.Equals("Domino2")){
                     JSONArray jsonChoices = (JSONArray)response["choices"];
                     List<Card> cardChoices = new List<Card>();
@@ -191,7 +195,19 @@ public class PlayerControl : MonoBehaviour {
                     }
                     orientPanelManager.gameObject.SetActive(true);
                     orientPanelManager.Display(cardChoices, null);
+                }
+                else if (noblesVisiting.Count() == 0) {
 
+                    actionManager.MakeApiRequest(currSession.id, null, ActionManager.ActionType.endTurn, ActionManager.RequestType.POST, (response) => {
+
+                        if (response != null && ((string)response["status"]).Equals("success"));
+
+                    });
+
+                }
+
+                else {
+                    // call and display claim nobles
                 }
 
             }
@@ -208,12 +224,17 @@ public class PlayerControl : MonoBehaviour {
             if(response != null){
                 string status = (string)response["status"];
 
-
                 if(status == "success"){
                     // Add selectedNobleToInventory
                 }else{
                     // Handle failed status
                 }
+
+                actionManager.MakeApiRequest(currSession.id, null, ActionManager.ActionType.endTurn, ActionManager.RequestType.POST, (response) => {
+
+                    if (response != null && ((string)response["status"]).Equals("success"));
+
+                });
 
             }else{
                 //Handle null return
@@ -230,15 +251,36 @@ public class PlayerControl : MonoBehaviour {
         chosenTokensJson.Add("playerId", player.GetUsername());
         //Text[] tokenColours = selectedTokens.colours.toArray();
         string[] tokenColours = selectedTokens.colours.Select(t => t.text).ToArray();
-        chosenTokensJson.Add("tokens", tokenColours);
+        string[] tokenNums = selectedTokens.nums.Select(t => t.text).ToArray();
+
+        List<string> tokenList = new List<string>();
+
+        for (int i=0; i<3; i++) {
+            if (tokenColours[i].Equals("none") || tokenColours[i].Equals("New")) continue;
+            for (int mult=0; mult<Int16.Parse(tokenNums[i]); mult++) {
+                tokenList.Add(tokenColours[i]);
+            }
+        }
+
+        chosenTokensJson.Add("tokens", tokenList.ToArray());
         actionManager.MakeApiRequest(currSession.id, chosenTokensJson, ActionManager.ActionType.takeTokens, ActionManager.RequestType.POST, (response) => {
             if(response != null){
-                int overFlowAmount = (int)response["tokenOverFlow"];
+
+                string status = (string)response["status"];
+                if (status.Equals("failure")) return;
+
+                long overFlowAmount = (long)response["tokenOverflow"];
                 if(overFlowAmount == 0){
                     // Handle removal of selected tokens
                 }else{
                     // Handle too many tokens
                 }
+
+                actionManager.MakeApiRequest(currSession.id, null, ActionManager.ActionType.endTurn, ActionManager.RequestType.POST, (response) => {
+
+                    if (response != null && ((string)response["status"]).Equals("success"));
+
+                });
 
             }else{
                 // Handle null response from server
@@ -261,6 +303,12 @@ public class PlayerControl : MonoBehaviour {
                 string status = (string)response["status"];
                 if(status == "success"){
                     setReserveToFalse();
+
+                    actionManager.MakeApiRequest(currSession.id, null, ActionManager.ActionType.endTurn, ActionManager.RequestType.POST, (response) => {
+
+                        if (response != null && ((string)response["status"]).Equals("success"));
+
+                    });
                 }else{
                     // Handle reserve card failure
                 }
@@ -300,6 +348,19 @@ public class PlayerControl : MonoBehaviour {
                     orientPanelManager.gameObject.SetActive(true);
                     orientPanelManager.Display(cardChoices, null);
 
+                }
+                else if (noblesVisiting.Count() == 0) {
+
+                    actionManager.MakeApiRequest(currSession.id, null, ActionManager.ActionType.endTurn, ActionManager.RequestType.POST, (response) => {
+
+                        if (response != null && ((string)response["status"]).Equals("success"));
+
+                    });
+
+                }
+
+                else {
+                    // call and display claim nobles
                 }
                 //HANDLE EXTRA CASES
                 
