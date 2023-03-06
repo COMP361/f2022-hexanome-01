@@ -14,6 +14,7 @@ public class PlayerControl : MonoBehaviour {
     [SerializeField] public List<string> gamePlayersData; //can change this to a different type later, playerData is combined from LobbyPlayer and Player class
     [SerializeField] private TokenBank tokenBank;
     [SerializeField] private SelectedTokens selectedTokens;
+    [SerializeField] private GameObject takeTokensButton;
 
     public AllCards allCards;
     public CardSlot selectedCard;
@@ -213,7 +214,7 @@ public class PlayerControl : MonoBehaviour {
                 }
 
                 else {
-                    // call and display claim nobles
+                    claimNoblePanel.checkAvailNobles(allNobles);
                 }
 
             }
@@ -284,7 +285,10 @@ public class PlayerControl : MonoBehaviour {
 
                 actionManager.MakeApiRequest(currSession.id, null, ActionManager.ActionType.endTurn, ActionManager.RequestType.POST, (response) => {
 
-                    if (response != null && ((string)response["status"]).Equals("success"));
+                    if (response != null && ((string)response["status"]).Equals("success")) {
+                        takeTokensButton.SetActive(false);
+                        selectedTokens.reset();
+                    }
 
                 });
 
