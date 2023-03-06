@@ -44,7 +44,7 @@ public class ActionManager : MonoBehaviour
         string apiEndpointUrl = GetApiEndpointUrl(gameId, actionType);
 
         Debug.Log(apiEndpointUrl);
-        Debug.Log(jsonPayload.ToString());
+        if (jsonPayload != null) Debug.Log(jsonPayload.ToString());
 
         // Create a new HTTP request object
        UnityWebRequest webRequest;
@@ -63,8 +63,10 @@ public class ActionManager : MonoBehaviour
         webRequest.SetRequestHeader("Content-Type", "application/json");
 
         // Encode the JSON payload using the JSONHandler class and set it in the request body
-        byte[] payloadBytes = System.Text.Encoding.UTF8.GetBytes(jsonPayload.ToString());
-        webRequest.uploadHandler = new UploadHandlerRaw(payloadBytes);
+        if (jsonPayload != null) {
+            byte[] payloadBytes = System.Text.Encoding.UTF8.GetBytes(jsonPayload.ToString());
+            webRequest.uploadHandler = new UploadHandlerRaw(payloadBytes);
+        }
 
         // Start the HTTP request as a coroutine
         StartCoroutine(SendApiRequest(webRequest, callback));

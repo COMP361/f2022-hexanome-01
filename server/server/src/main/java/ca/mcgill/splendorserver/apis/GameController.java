@@ -559,7 +559,10 @@ public class GameController {
       
       GameManager.endTurn(game);
       
-      return ResponseEntity.ok().body("{status: success}");
+      JSONObject response = new JSONObject();
+      response.put("status", "success");
+      
+      return ResponseEntity.ok().body(response.toJSONString());
     } catch (Exception e) {
       logger.error(e.getStackTrace().toString());
       return errorResponse(e.getMessage());
