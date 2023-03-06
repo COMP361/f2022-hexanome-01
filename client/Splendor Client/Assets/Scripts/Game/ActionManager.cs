@@ -13,21 +13,22 @@ public class ActionManager : MonoBehaviour
     private static string HOST = Environment.GetEnvironmentVariable("SPLENDOR_HOST_IP");
 
     // The base URL of the REST API
-    public string apiBaseUrl = $"http://{HOST}:4244/splendor/api";
+    private string apiBaseUrl = $"http://{HOST}:4244/splendor/api";
 
     // The GameObject that will display the error popup
-    public GameObject errorPopup;
+    // public GameObject errorPopup;
 
 
-    public string errorPopupText = "Invalid selection";
+    // public string errorPopupText = "Invalid selection";
 
 
     public enum ActionType
     {
-        performCardPurchase,
+        purchaseCard,
         takeTokens,
         reserveCard,
         selectNoble,
+        endTurn,
     }
 
     public enum RequestType
@@ -78,12 +79,12 @@ public class ActionManager : MonoBehaviour
         if (webRequest.result != UnityWebRequest.Result.Success)
         {
             Debug.LogError("API request failed: " + webRequest.error);
-            if (errorPopup != null)
-            {
-                errorPopup.SetActive(true);
-                // Set the text of the error popup
-                errorPopup.GetComponentInChildren<Text>().text = errorPopupText;
-            }
+            // if (errorPopup != null)
+            // {
+            //     errorPopup.SetActive(true);
+            //     // Set the text of the error popup
+            //     errorPopup.GetComponentInChildren<Text>().text = errorPopupText;
+            // }
             callback(null);
         }
         else

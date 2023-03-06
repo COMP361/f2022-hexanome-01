@@ -194,6 +194,7 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
     //try adding tokens
     if (inventory.addTokens(tokens)) {
       //return overflow
+      board.getTokens().removeAll(tokens);
       takeTokensResult.put("tokenOverflow", inventory.getTokens().checkOverflow());
       return takeTokensResult;
     } else { //if taking the tokens didn't go through
