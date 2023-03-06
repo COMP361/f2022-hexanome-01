@@ -2774,7 +2774,7 @@ MonoBehaviour:
   gamePlayersData: []
   tokenBank: {fileID: 1493752223}
   selectedTokens: {fileID: 1191895568}
-  takeTokensButton: {fileID: 0}
+  takeTokensButton: {fileID: 377587216}
   allCards: {fileID: 911230083}
   selectedCard: {fileID: 0}
   selectedCardToBuy: {fileID: 0}

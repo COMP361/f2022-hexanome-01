@@ -36,7 +36,7 @@ public class Board {
   }
   
   public void setCurrentPlayer(String player) {
-	  currentPlayer = player;
+    currentPlayer = player;
   }
 
   /**
