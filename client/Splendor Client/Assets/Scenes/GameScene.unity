@@ -2766,6 +2766,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainPlayer: {fileID: 11400000, guid: f0eaca2cb6e0e48a7b2fb69740473fb7, type: 2}
   dashboard: {fileID: 288864036}
+  inventoryPanel: {fileID: 1171159220}
   cursor: {fileID: 242697715}
   purchaseOrReserve: {fileID: 1597933660}
   nobleSelectButton: {fileID: 0}
@@ -2787,7 +2788,6 @@ MonoBehaviour:
   actionManager: {fileID: 288864038}
   currSession: {fileID: 11400000, guid: ebdd36260b1a84a6e9083efa914a8d39, type: 2}
   inOrientMenu: 0
-  inInventory: 0
   sacrificeMade: 0
   inNobleMenu: 0
   selectReserve: 0
@@ -3555,7 +3555,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edc916481e343494690ce97b86ebf45b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerControl: {fileID: 288864033}
   player: {fileID: 288864034}
   inventoryPanel: {fileID: 1171159220}
   purchasedCardContent: {fileID: 1513089746}
@@ -7287,7 +7286,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edc916481e343494690ce97b86ebf45b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerControl: {fileID: 288864033}
   player: {fileID: 1296268878}
   inventoryPanel: {fileID: 1171159220}
   purchasedCardContent: {fileID: 1513089746}
@@ -8549,7 +8547,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edc916481e343494690ce97b86ebf45b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerControl: {fileID: 288864033}
   player: {fileID: 1302658991}
   inventoryPanel: {fileID: 1171159220}
   purchasedCardContent: {fileID: 1513089746}
@@ -12045,7 +12042,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edc916481e343494690ce97b86ebf45b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerControl: {fileID: 288864033}
   player: {fileID: 1814280207}
   inventoryPanel: {fileID: 1171159220}
   purchasedCardContent: {fileID: 1513089746}

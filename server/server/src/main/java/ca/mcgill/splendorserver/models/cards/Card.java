@@ -61,6 +61,10 @@ public class Card {
     return bonus;
   }
 
+  public int getPoints() {
+    return pts;
+  }
+
   /**
    * Mark this card as associated to a satchel card.
    */
