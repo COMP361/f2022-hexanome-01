@@ -366,7 +366,7 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
   /**
    * Ends a game turn by updating the current player of a game.
    *
-   * @param gameId the id of the game where the turn is ending
+   * @param game the game where the turn is ending
    */
   public static void endTurn(Game game) {    
     Player currentPlayer = game.getCurrentPlayer();
