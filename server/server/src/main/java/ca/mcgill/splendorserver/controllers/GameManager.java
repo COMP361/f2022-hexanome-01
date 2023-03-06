@@ -355,8 +355,7 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
 
     if (tokens.removeOne(Token.GOLD)) {
       return inventory.addTokens(new Token[] {Token.GOLD});
-    }
-    else if (tokens.checkQuantity(Token.GOLD) == 0) {
+    } else if (tokens.checkQuantity(Token.GOLD) == 0) {
       return true; //you can still reserve a card if the bank has no gold tokens
     }
 
