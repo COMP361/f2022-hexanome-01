@@ -187,11 +187,11 @@ public class PlayerControl : MonoBehaviour {
         });
     }
 
-    public void selectNobleAction(Noble chosenNoble){
+    public void selectNobleAction(){
         Dictionary<string, object> requestDict = new Dictionary<string, object>();
         JSONObject selectNobleJson = new JSONObject(requestDict);
         selectNobleJson.Add("playerId", player.GetUsername());
-        selectNobleJson.Add("nobleId", chosenNoble.id);
+        selectNobleJson.Add("nobleId", selectedNoble.GetNoble().id);
         actionManager.MakeApiRequest(currSession.id, selectNobleJson, ActionManager.ActionType.selectNoble,ActionManager.RequestType.POST, (response) => {
 
             if(response != null){
@@ -287,6 +287,7 @@ public class PlayerControl : MonoBehaviour {
         if (selectedNoble != null) {
             //Add noble to inventory
             claimNoblePanel.TurnOffDisplay();
+            selectNobleAction();
         }
     }
 
