@@ -156,9 +156,6 @@ public class Inventory {
    */
   public void addCard(Card card) {
     cards.add(card);
-    //TO DO: add the correct bonuses too?
-    //TO DO: add points too
-    //do not remove cost of card tho, it will mess up stuff
   }
 
   /**
@@ -166,6 +163,7 @@ public class Inventory {
    *
    * @param card the card to pay for.
    * @param goldUsed the gold the player wishes to use
+   * @return the tokens used to pay for the card.
    */
   public Token[] payForCard(Card card, int goldUsed) {
     ArrayList<Token> tokensPaid = new ArrayList<>();
