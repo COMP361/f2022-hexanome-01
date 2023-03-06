@@ -29,7 +29,8 @@ public class ActionManager : MonoBehaviour
         reserveCard,
         selectNoble,
         domino,
-        endTurn
+        endTurn,
+        satchel
     }
 
     public enum RequestType

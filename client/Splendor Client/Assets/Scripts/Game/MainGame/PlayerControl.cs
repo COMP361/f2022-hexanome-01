@@ -187,14 +187,20 @@ public class PlayerControl : MonoBehaviour {
                 for (int i = 0; i < jsonNoblesVisited.Count; i++) {
                     noblesVisiting[i] = (int)jsonNoblesVisited[i];
                 }
-                if(action.Equals("Domino1") || action.Equals("Domino2")){
+                if(action.Equals("Domino1") || action.Equals("Domino2") || action.Equals("Satchel")){
                     JSONArray jsonChoices = (JSONArray)response["choices"];
                     List<Card> cardChoices = new List<Card>();
                     for (int i = 0; i < jsonChoices.Count; i++) {
                         cardChoices.Add(allCards.GetCardFromId((long)jsonChoices[i]));
                     }
                     orientPanelManager.gameObject.SetActive(true);
-                    orientPanelManager.Display(cardChoices, null);
+                    if(action.Equals("Domino1") || action.Equals("Domino2")){
+                        orientPanelManager.Display(cardChoices, null, ActionManager.ActionType.domino);
+                    }
+                    else if(action.Equals("Satchel")){
+                        orientPanelManager.Display(cardChoices, null, ActionManager.ActionType.satchel);
+                    }
+
                 }
                 else if (noblesVisiting.Count() == 0) {
 
@@ -339,14 +345,72 @@ public class PlayerControl : MonoBehaviour {
                     noblesVisiting[i] = (int)jsonNoblesVisited[i];
                 }
 
-                if(action.Equals("Domino1") || action.Equals("Domino2")){
+                if(action.Equals("Domino1") || action.Equals("Domino2") || action.Equals("Satchel")){
                     JSONArray jsonChoices = (JSONArray)response["choices"];
                     List<Card> cardChoices = new List<Card>();
                     for (int i = 0; i < jsonChoices.Count; i++) {
                         cardChoices.Add(allCards.GetCardFromId((long)jsonChoices[i]));
                     }
                     orientPanelManager.gameObject.SetActive(true);
-                    orientPanelManager.Display(cardChoices, null);
+                    if(action.Equals("Domino1") || action.Equals("Domino2")){
+                        orientPanelManager.Display(cardChoices, null, ActionManager.ActionType.domino);
+                    }
+                    else if(action.Equals("Satchel")){
+                        orientPanelManager.Display(cardChoices, null, ActionManager.ActionType.satchel);
+                    }
+
+                }
+                else if (noblesVisiting.Count() == 0) {
+
+                    actionManager.MakeApiRequest(currSession.id, null, ActionManager.ActionType.endTurn, ActionManager.RequestType.POST, (response) => {
+
+                        if (response != null && ((string)response["status"]).Equals("success"));
+
+                    });
+
+                }
+
+                else {
+                    // call and display claim nobles
+                }
+                //HANDLE EXTRA CASES
+                
+
+            }
+        });
+    }
+
+    public void satchelAction(long cardId){
+        Dictionary<string, object> requestDict = new Dictionary<string, object>();
+        JSONObject selectedCardJson = new JSONObject(requestDict);
+        selectedCardJson.Add("playerId", player.GetUsername());
+        selectedCardJson.Add("cardId", cardId);
+        actionManager.MakeApiRequest(currSession.id, selectedCardJson, ActionManager.ActionType.satchel,ActionManager.RequestType.POST, (response) => {
+
+            if(response != null){
+                string status = (string)response["status"];
+                string action = (string)response["action"];
+                JSONArray jsonNoblesVisited = (JSONArray)response["noblesVisiting"];
+                //int[] noblesVisiting = new int[]
+
+                int[] noblesVisiting = new int[jsonNoblesVisited.Count];
+                for (int i = 0; i < jsonNoblesVisited.Count; i++) {
+                    noblesVisiting[i] = (int)jsonNoblesVisited[i];
+                }
+
+                if(action.Equals("Domino1") || action.Equals("Domino2") || action.Equals("Satchel")){
+                    JSONArray jsonChoices = (JSONArray)response["choices"];
+                    List<Card> cardChoices = new List<Card>();
+                    for (int i = 0; i < jsonChoices.Count; i++) {
+                        cardChoices.Add(allCards.GetCardFromId((long)jsonChoices[i]));
+                    }
+                    orientPanelManager.gameObject.SetActive(true);
+                    if(action.Equals("Domino1") || action.Equals("Domino2")){
+                        orientPanelManager.Display(cardChoices, null, ActionManager.ActionType.domino);
+                    }
+                    else if(action.Equals("Satchel")){
+                        orientPanelManager.Display(cardChoices, null, ActionManager.ActionType.satchel);
+                    }
 
                 }
                 else if (noblesVisiting.Count() == 0) {
