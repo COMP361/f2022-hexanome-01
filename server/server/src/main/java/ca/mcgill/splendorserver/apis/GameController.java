@@ -478,7 +478,7 @@ public class GameController {
 
       String source = (String) data.get("source");
 
-      int cardId = Integer.parseInt((String) data.get("cardId"));
+      int cardId = (int) data.get("cardId");
       String deckId = (String) data.get("deckId");
 
       boolean success = GameManager.reserveCard(game, playerId, source, cardId, deckId);
