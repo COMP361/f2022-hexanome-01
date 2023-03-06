@@ -7,6 +7,7 @@ import ca.mcgill.splendorserver.models.Player;
 import ca.mcgill.splendorserver.models.Token;
 import ca.mcgill.splendorserver.models.board.Board;
 import ca.mcgill.splendorserver.models.board.CardBank;
+import ca.mcgill.splendorserver.models.board.CitiesBoard;
 import ca.mcgill.splendorserver.models.board.NobleBank;
 import ca.mcgill.splendorserver.models.board.TokenBank;
 import ca.mcgill.splendorserver.models.cards.Card;
@@ -296,6 +297,7 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
    * they requested from.
    *
    * @param game the game that its being played
+   * @param playerId id of the player taking the action
    * @param source the data receive from the request
    * @param cardId the card being reserved
    * @param deckId id of deck the card came from (if any)
@@ -369,10 +371,20 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
     Game game = getGame(gameId);
     
     Player currentPlayer = game.getCurrentPlayer();
-    for (Unlockable u : currentPlayer.getInventory().getUnlockables()) {
+    
+    //if trading posts expansion enabled...
+    for (Unlockable u : UnlockableRegistry.getTradingPosts()) {
       u.observe(currentPlayer);
     }
-    
+
+    //doesnt check yet if multiple get unlocked,
+    //should we have it unlock the highest point-values one?
+    //or give the choice to the player?
+    if (game.getBoard() instanceof CitiesBoard) {
+      for (int c : ((CitiesBoard) game.getBoard()).getCities()) {
+        UnlockableRegistry.of(c).observe(currentPlayer);
+      }
+    }
     game.nextPlayer(); //changes the current player to the next player
   }
 }

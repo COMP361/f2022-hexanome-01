@@ -25,6 +25,8 @@ public class CardBonus {
 
   /**
    * Getter for quantity of bonus.
+
+   * @return the amount the bonus is worth
    */
   public int getAmount() {
     if (type == null) {
