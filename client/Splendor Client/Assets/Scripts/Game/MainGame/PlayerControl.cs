@@ -309,23 +309,14 @@ public class PlayerControl : MonoBehaviour {
 
         JSONObject reserveCardJson = new JSONObject(requestDict);
         reserveCardJson.Add("playerId", player.GetUsername());
+        reserveCardJson.Add("source", "board"); //TO DO: add deck source option i.e. reserve card at top of deck for some given deck
         reserveCardJson.Add("cardId", selectedCardToReserve.GetCard().GetId());
         actionManager.MakeApiRequest(currSession.id, reserveCardJson, ActionManager.ActionType.reserveCard, ActionManager.RequestType.POST,(response) => {
             if(response != null){
                 string status = (string)response["status"];
-                if(status == "success"){
-                    setReserveToFalse();
-
-                    actionManager.MakeApiRequest(currSession.id, null, ActionManager.ActionType.endTurn, ActionManager.RequestType.POST, (response) => {
-
-                        if (response != null && ((string)response["status"]).Equals("success"));
-
-                    });
-                }else{
+                if(status != "success"){
                     // Handle reserve card failure
                 }
-                
-
             }else{
                 // Handle null return
             }
