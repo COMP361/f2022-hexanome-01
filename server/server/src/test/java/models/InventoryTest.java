@@ -24,6 +24,8 @@ import ca.mcgill.splendorserver.models.board.Board;
 import ca.mcgill.splendorserver.models.cards.Card;
 import ca.mcgill.splendorserver.models.cards.CardLevel;
 import ca.mcgill.splendorserver.models.communicationbeans.SessionData;
+import ca.mcgill.splendorserver.models.expansion.City;
+import ca.mcgill.splendorserver.models.expansion.TradingPost;
 import ca.mcgill.splendorserver.models.registries.CardRegistry;
 import ca.mcgill.splendorserver.models.registries.NobleRegistry;
 import ca.mcgill.splendorserver.models.registries.UnlockableRegistry;
@@ -79,7 +81,7 @@ public class InventoryTest {
 	}
 	   
 	@Test
-	public void NobleBankTest() {
+	public void nobleBankTest() {
 	    SessionData dummy = ControllerTestUtils.createDummySessionData();
 	    GameManager gameManager = new GameManager();
 	    gameManager.launchGame("TestGame", dummy);
@@ -100,7 +102,7 @@ public class InventoryTest {
 	}
 	
 	@Test
-	public void CardBankTest() {
+	public void cardBankTest() {
 	    SessionData dummy = ControllerTestUtils.createDummySessionData();
 	    GameManager gameManager = new GameManager();
 	    gameManager.launchGame("TestGame", dummy);
@@ -117,5 +119,38 @@ public class InventoryTest {
 	    
 	    JSONArray[] json = board.getCards().toJson();
 	    assertEquals(board.getCards().getRows().get(CardLevel.LEVEL1)[0], ((JSONArray) json[0].get(0)).get(0));
+	}
+	
+	@Test
+	public void acquireingPostTest() {
+	    SessionData dummy = ControllerTestUtils.createDummySessionData();
+	    GameManager gameManager = new GameManager();
+	    gameManager.launchGame("TestGame", dummy);
+	    HashMap<String, Game> gameRegistry = gameManager.getGameRegistry();
+	    GameController gc = new GameController();
+	    Game game = gameRegistry.get("TestGame");
+	    Board board = game.getBoard();
+	    Inventory testInventory = board.getInventory("testCreator");
+	    testInventory.addNobleToInventory(NobleRegistry.of(0));
+	    
+	    for(int i = 10;i < 36;i++)
+	    	testInventory.addCard(CardRegistry.of(i));
+	    
+	    for (TradingPost tp : UnlockableRegistry.getTradingPosts())
+	    	tp.observe(game.getCurrentPlayer());
+	    
+	    for (City c : UnlockableRegistry.getCities())
+	    	c.observe(game.getCurrentPlayer());
+	    
+	    assertEquals(15, testInventory.getUnlockables().get(0).getId());
+	    assertEquals(10, testInventory.getPoints());
+	    
+	    
+	    testInventory.getCards().clear();
+	    
+	    for (TradingPost tp : UnlockableRegistry.getTradingPosts())
+	    	tp.observe(game.getCurrentPlayer());
+	    
+	    assertEquals(0, testInventory.getPoints());
 	}
 }

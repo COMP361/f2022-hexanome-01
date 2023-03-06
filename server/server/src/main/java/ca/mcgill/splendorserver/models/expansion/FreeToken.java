@@ -3,20 +3,17 @@ package ca.mcgill.splendorserver.models.expansion;
 import ca.mcgill.splendorserver.models.Player;
 
 /**
- * Trading post action that doubles the worth of gold tokens.
- * i.e. adds points according to number of posts activated.
+ * Trading post action that gets a free token after a purchase.
  */
-public class DoubleGold implements Action {
+public class FreeToken implements Action {
 
   @Override
   public void activate(Player player) {
-    player.setDoubleGold(true);
     player.getInventory().incrementPosts();
   }
 
   @Override
   public void deactivate(Player player) {
-    player.setDoubleGold(false);
     player.getInventory().decrementPosts();
   }
 
@@ -24,4 +21,5 @@ public class DoubleGold implements Action {
   public void initiate(Player player) {
 
   }
+
 }
