@@ -223,7 +223,7 @@ public class PlayerControl : MonoBehaviour {
                 }
 
                 else {
-                    claimNoblePanel.checkAvailNobles(allNobles);
+                    claimNoblePanel.DisplayNobleClaim(allNobles, noblesVisiting);
                 }
 
             }
