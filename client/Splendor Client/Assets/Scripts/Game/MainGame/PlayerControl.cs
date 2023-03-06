@@ -281,6 +281,7 @@ public class PlayerControl : MonoBehaviour {
 
                     if (response != null && ((string)response["status"]).Equals("success")) {
                         takeTokensButton.SetActive(false);
+                        selectedTokens.reset();
                     }
 
                 });
