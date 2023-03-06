@@ -9,29 +9,24 @@ using UnityEngine.UI;
  * reserved cards and nobles should not be displayed in the inventory since the inventory is public.
  */
 public class InventoryPanel : MonoBehaviour {
-    [SerializeField] private PlayerControl playerControl;
+    [SerializeField] private Player player;
     [SerializeField] private GameObject inventoryPanel; //menu do make appear/disappear through button press
-    [SerializeField] private GameObject purchasedCardContent, nobleContent; //, reservedCardContent, reservedNobleContent; //panels to display information on
+    [SerializeField] private GameObject purchasedCardContent, nobleContent; //panels to display information on
     [SerializeField] private GameObject cardSlot; //Blank card prefab
     [SerializeField] private GameObject nobleSlot; //Blank noble prefab
-    [SerializeField] private Text playerName; //the player name to whom the inventory belongs
     //Display is called by the button to open/close the panel
 
-    public void InventoryStatus() {//switches inventory status (needed for use with button)
-        playerControl.inInventory = !playerControl.inInventory;
-    }
     public void Display() { //displays/hides the menu
         if (inventoryPanel.activeInHierarchy)
             inventoryPanel.SetActive(false);
         else {
             //set inventory panel title as the inventory owner's name
             Text ownerName = inventoryPanel.transform.Find("OwnerName").gameObject.GetComponent<Text>();
-            if (ownerName != null) ownerName.text = playerName.text;
-
+            if (ownerName != null) ownerName.text = player.GetUsername();
+            
             inventoryPanel.SetActive(true);
-            DisplayPlayerCards(playerControl.client.GetAcquiredCards(), playerControl.client.GetAcquiredNobles());
+            DisplayPlayerCards(player.GetAcquiredCards(), player.GetAcquiredNobles());
         }
-        InventoryStatus();
     }
 
     public void DisplayPlayerCards(List<Card> playerCards, List<Noble> playerNobles) { //displays acquired cards/nobles
@@ -39,7 +34,7 @@ public class InventoryPanel : MonoBehaviour {
         foreach (Card card in playerCards) {
             GameObject temp = Instantiate(cardSlot, purchasedCardContent.transform.position, Quaternion.identity);
             temp.transform.SetParent(purchasedCardContent.transform);
-            //temp.transform.localScale = new Vector3(1, 1, 1);
+            temp.transform.localScale = new Vector3(1, 1, 1);
             temp.GetComponent<CardSlot>().SetupInventory(card);
         }
         foreach (Noble noble in playerNobles) {

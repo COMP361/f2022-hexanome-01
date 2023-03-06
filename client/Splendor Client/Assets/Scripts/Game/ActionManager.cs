@@ -30,7 +30,8 @@ public class ActionManager : MonoBehaviour
         selectNoble,
         domino,
         endTurn,
-        satchel
+        satchel,
+        freeTokens
     }
 
     public enum RequestType

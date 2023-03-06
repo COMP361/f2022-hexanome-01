@@ -156,9 +156,6 @@ public class Inventory {
    */
   public void addCard(Card card) {
     cards.add(card);
-    //TO DO: add the correct bonuses too?
-    //TO DO: add points too
-    //do not remove cost of card tho, it will mess up stuff
   }
 
   /**
@@ -166,17 +163,34 @@ public class Inventory {
    *
    * @param card the card to pay for.
    * @param goldUsed the gold the player wishes to use
+   * @return the tokens used to pay for the card.
    */
-  public void payForCard(Card card, int goldUsed) {
+  public Token[] payForCard(Card card, int goldUsed) {
+    ArrayList<Token> tokensPaid = new ArrayList<>();
+
     tokens.removeRepeated(Token.GOLD, goldUsed);
+    for (int i = 0; i < goldUsed; i++) {
+      tokensPaid.add(Token.GOLD);
+    }
+
     TokenBank bonuses = getBonuses();
     for (Token token : Token.values()) {
       if (token.equals(Token.GOLD)) {
         continue;
       }
-      tokens.removeRepeated(token, 
-          Math.max(0, card.getCost().get(token) - bonuses.checkAmount(token)));
+      int toRemove = Math.max(0, card.getCost().get(token) - bonuses.checkAmount(token));
+      tokens.removeRepeated(token, toRemove);
+      for (int i = 0; i < toRemove; i++) {
+        tokensPaid.add(token);
+      }
     }
+
+    return tokensPaid.toArray(new Token[0]);
+  }
+
+  public void acquireCard(Card card) {
+    points += card.getPoints();
+    bonuses.addRepeated(card.getBonus().getType(), card.getBonus().getAmount());
   }
 
   /**
@@ -289,7 +303,7 @@ public class Inventory {
     //reserved cards
     JSONArray reservedCardsJson = new JSONArray();
     for (Card card : reservedCards) {
-      cardsJson.add(card.getId());
+      reservedCardsJson.add(card.getId());
     }
     json.put("reservedCards", reservedCardsJson);
     //reserved nobles

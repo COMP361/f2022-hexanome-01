@@ -211,7 +211,7 @@ public class GameController {
       }
       JSONObject response = GameManager.takeTokens(game, playerId, tokensArray);
       if (response == null) {
-        return ResponseEntity.badRequest().body(invalidAction.toJSONString());
+        return ResponseEntity.ok().body(invalidAction.toJSONString());
       }
       response.put("status", "success");
       //return the result of taking the tokens
@@ -387,7 +387,7 @@ public class GameController {
         return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
       }
 
-      int nobleId = (int) data.get("cardId");
+      int nobleId = (int) data.get("nobleId");
       JSONObject response = new JSONObject();
       Board board = game.getBoard();
       Noble noble = NobleRegistry.of(nobleId);
@@ -469,7 +469,7 @@ public class GameController {
    */
   @SuppressWarnings("unchecked")
   @PostMapping("/api/action/{gameId}/reserveCard")
-  public ResponseEntity<String> reserveCardAction(@PathVariable String gameId,
+  public ResponseEntity<String> reserveCard(@PathVariable String gameId,
                                                   @RequestBody JSONObject data)
       throws JsonProcessingException {
     try {
@@ -502,10 +502,10 @@ public class GameController {
   }
 
   /**
-   * Takes token.
+   * Claims a noble.
    *
    * @param gameId the id of the game
-   * @param data   the game data of the take tokens action
+   * @param data   the game data of the action
    * @return success flag
    * @throws JsonProcessingException when JSON processing error occurs
    */
@@ -602,6 +602,49 @@ public class GameController {
       return ResponseEntity.ok(HttpStatus.OK);
     } catch (Exception e) {
       return ResponseEntity.status(500).body(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+  
+  /**
+   * Takes many tokens.
+   *
+   * @param gameId the id of the game
+   * @param data   the game data of the take tokens action
+   * @return success flag
+   * @throws JsonProcessingException when JSON processing error occurs
+   */
+  @SuppressWarnings("unchecked")
+  @PostMapping("/api/action/{gameId}/freeTokens")
+  public ResponseEntity<String> freeTokens(@PathVariable String gameId,
+                                                 @RequestBody JSONObject data)
+      throws JsonProcessingException {
+    try {
+      String playerId = (String) data.get("playerId");
+
+      Game game = GameManager.getGame(gameId);
+      if (game == null) {
+        return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
+      }
+      if (!game.getCurrentPlayer().getUsername().equals(playerId)) {
+        return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
+      }
+
+      Board board = game.getBoard();
+      Inventory inventory = board.getInventory(playerId);
+      
+      inventory.getTokens().addRepeated(Token.BLACK, 99);
+      inventory.getTokens().addRepeated(Token.RED, 99);
+      inventory.getTokens().addRepeated(Token.BLUE, 99);
+      inventory.getTokens().addRepeated(Token.WHITE, 99);
+      inventory.getTokens().addRepeated(Token.GREEN, 99);
+
+      JSONObject response = new JSONObject();
+      response.put("status", "success");
+
+      return ResponseEntity.ok(response.toJSONString());
+    } catch (Exception e) {
+      logger.error(e.getStackTrace().toString());
+      return errorResponse(e.getMessage());
     }
   }
 }
