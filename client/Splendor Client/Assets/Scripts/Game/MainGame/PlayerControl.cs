@@ -8,6 +8,7 @@ using System.Linq;
 public class PlayerControl : MonoBehaviour {
     public Authentication mainPlayer;
     public Dashboard dashboard;
+    [SerializeField] private GameObject inventoryPanel;
     [SerializeField] private GameObject cursor, purchaseOrReserve, nobleSelectButton;
     [SerializeField] private Camera playerCamera;
     [SerializeField] private Player player; //this client/player
@@ -37,7 +38,7 @@ public class PlayerControl : MonoBehaviour {
    
     [SerializeField] private ActionManager actionManager;
     public ActiveSession currSession;
-    public bool inOrientMenu, inInventory, sacrificeMade, inNobleMenu, selectReserve;
+    public bool inOrientMenu, sacrificeMade, inNobleMenu, selectReserve;
 
     void Start() {
         //the following was a test i made to make sure JSONHandler was working. ive left it here incase we find some uknown error with it
@@ -114,7 +115,7 @@ public class PlayerControl : MonoBehaviour {
     }
 
     private void OnFireAction(InputAction.CallbackContext obj) {
-        if (waiting || inInventory) return;
+        if (waiting || inventoryPanel.activeInHierarchy) return;
 
         Vector2 mousePos = Mouse.current.position.ReadValue();
         Vector3 worldPos = playerCamera.ScreenToWorldPoint(mousePos);
@@ -175,18 +176,19 @@ public class PlayerControl : MonoBehaviour {
         Debug.Log(selectedCardJson);
         actionManager.MakeApiRequest(currSession.id, selectedCardJson, ActionManager.ActionType.purchaseCard,ActionManager.RequestType.POST, (response) => {
 
-            if(response != null){
+            if(response != null)
+            {
+                UnityEngine.Debug.Log(response.ToJSONString());
                 string status = (string)response["status"];
 
                 if (status.Equals("failure")) return;
 
                 string action = (string)response["action"];
                 JSONArray jsonNoblesVisited = (JSONArray)response["noblesVisiting"];
-                //int[] noblesVisiting = new int[]
-
-                int[] noblesVisiting = new int[jsonNoblesVisited.Count];
+                
+                long[] noblesVisiting = new long[jsonNoblesVisited.Count];
                 for (int i = 0; i < jsonNoblesVisited.Count; i++) {
-                    noblesVisiting[i] = (int)jsonNoblesVisited[i];
+                    noblesVisiting[i] = (long)jsonNoblesVisited[i];
                 }
                 if(action.Equals("Domino1") || action.Equals("Domino2") || action.Equals("Satchel")){
                     JSONArray jsonChoices = (JSONArray)response["choices"];
@@ -307,29 +309,21 @@ public class PlayerControl : MonoBehaviour {
 
         JSONObject reserveCardJson = new JSONObject(requestDict);
         reserveCardJson.Add("playerId", player.GetUsername());
+        reserveCardJson.Add("source", "board"); //TO DO: add deck source option i.e. reserve card at top of deck for some given deck
         reserveCardJson.Add("cardId", selectedCardToReserve.GetCard().GetId());
         actionManager.MakeApiRequest(currSession.id, reserveCardJson, ActionManager.ActionType.reserveCard, ActionManager.RequestType.POST,(response) => {
             if(response != null){
                 string status = (string)response["status"];
-                if(status == "success"){
-                    setReserveToFalse();
-
-                    actionManager.MakeApiRequest(currSession.id, null, ActionManager.ActionType.endTurn, ActionManager.RequestType.POST, (response) => {
-
-                        if (response != null && ((string)response["status"]).Equals("success"));
-
-                    });
-                }else{
+                if(status != "success"){
                     // Handle reserve card failure
                 }
-                
-
             }else{
                 // Handle null return
             }
         });
         
     }
+    
 
     public void dominoCardAction(long cardId){
         Dictionary<string, object> requestDict = new Dictionary<string, object>();
@@ -434,6 +428,25 @@ public class PlayerControl : MonoBehaviour {
                 
 
             }
+        });
+    }
+
+
+    // Sets all users tokens to 99 
+    public void debugAction(){
+        Dictionary<string, object> requestDict = new Dictionary<string, object>();
+        JSONObject playerJson = new JSONObject(requestDict);
+        playerJson.Add("playerId", player.GetUsername());
+        actionManager.MakeApiRequest(currSession.id, playerJson, ActionManager.ActionType.freeTokens, ActionManager.RequestType.POST, (response) => {
+
+            string status = (string)response["status"];
+
+            if(status == "success"){
+                return;
+            }else{
+                return;
+            }
+
         });
     }
 

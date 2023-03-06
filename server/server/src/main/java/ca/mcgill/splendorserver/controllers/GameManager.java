@@ -102,7 +102,9 @@ public class GameManager {
     if (goldUsed == -1 || !acquireCard(card, board, inventory)) {
       return null;
     }
-    inventory.payForCard(card, goldUsed);
+    Token[] toAddToBank = inventory.payForCard(card, goldUsed);
+    board.getTokens().addAll(toAddToBank);
+    inventory.acquireCard(card);
 
     JSONObject purchaseResults = determineBody(card, board, inventory);
 
@@ -121,8 +123,12 @@ public class GameManager {
 public static JSONObject determineBody(Card card, Board board, Inventory inventory) {
     JSONObject response = new JSONObject();
     response.put("action", "none");
-    response.put("choices", JSONArray.toJSONString(new ArrayList<Integer>()));
+    response.put("choices", new JSONArray());
 
+    if (card.getType() == CardType.SACRIFICE) {
+      return null;
+    }
+    
     if (card.getType() != CardType.NONE) {
       if (card.getType() == CardType.SATCHEL || card.getType() == CardType.DOMINO1) {
         boolean valid = false;
@@ -142,10 +148,13 @@ public static JSONObject determineBody(Card card, Board board, Inventory invento
       String actionOptions = (String) result.get("options");
       response.replace("action", furtherAction);
       response.replace("choices", actionOptions);
-      response.put("noblesVisiting", JSONArray.toJSONString(new ArrayList<Integer>()));
+      response.put("noblesVisiting", new JSONArray());
     } else {
-      ArrayList<Integer> noblesVisiting = board.getNobles().attemptImpress(inventory);
-      response.put("noblesVisiting", JSONArray.toJSONString(noblesVisiting));
+      JSONArray noblesVisiting = new JSONArray();
+      for (int nobleId : board.getNobles().attemptImpress(inventory)) {
+        noblesVisiting.add(nobleId);
+      }
+      response.put("noblesVisiting", noblesVisiting);
     }
 
     return response;
@@ -318,8 +327,9 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
       if (pickedUp != card.getId()) {
         return false;
       }
-      inventory.reserve(card);
-      return true;
+      if (inventory.reserve(card)) {
+        return addGoldWithReserve(game, playerId);
+      }
     } else if (source.equals("deck")) {
       CardLevel level = CardLevel.valueOfIgnoreCase(deckId);
 
@@ -327,8 +337,30 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
       if (pickedUp == -1) {
         return false;
       }
-      inventory.reserve(CardRegistry.of(pickedUp));
-      return true;
+      if (inventory.reserve(CardRegistry.of(pickedUp))) {
+        return addGoldWithReserve(game, playerId);
+      }
+    }
+
+    return false;
+  }
+
+  /**
+   * Adds a gold token to a player's inventory when reserving a card.
+   *
+   * @param game the game where this is occurring
+   * @param playerId the player reserving a card
+   * @return whether it was successful
+   */
+  private static boolean addGoldWithReserve(Game game, String playerId) {
+    Board board = game.getBoard();
+    Inventory inventory = board.getInventory(playerId);
+    TokenBank tokens = board.getTokens();
+
+    if (tokens.removeOne(Token.GOLD)) {
+      return inventory.addTokens(new Token[] {Token.GOLD});
+    } else if (tokens.checkQuantity(Token.GOLD) == 0) {
+      return true; //you can still reserve a card if the bank has no gold tokens
     }
 
     return false;
@@ -372,7 +404,7 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
     Player currentPlayer = game.getCurrentPlayer();
     
     //if trading posts expansion enabled...
-    if (game.getVariant().equals("tradingpost")) {
+    if (game.getVariant().equals("tradingposts")) {
       for (Unlockable u : UnlockableRegistry.getTradingPosts()) {
         u.observe(currentPlayer);
       }

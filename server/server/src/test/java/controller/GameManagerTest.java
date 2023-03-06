@@ -2,6 +2,7 @@ package controller;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import ca.mcgill.splendorserver.apis.GameController;
 import ca.mcgill.splendorserver.controllers.GameManager;
@@ -9,6 +10,7 @@ import ca.mcgill.splendorserver.controllers.OrientManager;
 import ca.mcgill.splendorserver.models.Game;
 import ca.mcgill.splendorserver.models.Inventory;
 import ca.mcgill.splendorserver.models.Player;
+import ca.mcgill.splendorserver.models.Token;
 import ca.mcgill.splendorserver.models.communicationbeans.SessionData;
 import ca.mcgill.splendorserver.models.registries.NobleRegistry;
 import ca.mcgill.splendorserver.models.board.Board;
@@ -117,5 +119,43 @@ public class GameManagerTest extends ControllerTestUtils {
       }
     }
     //assertTrue(cardWasReserved);
+  }
+  
+  @Test
+  public void freeTokensTest() throws JsonProcessingException {
+	    SessionData dummy = createDummySessionData();
+	    GameManager gameManager = new GameManager();
+	    gameManager.launchGame("TestGame", dummy);
+	    Game game = gameManager.getGame("TestGame");
+	    GameController gc = new GameController();
+	    JSONObject data = new JSONObject();
+	    data.put("playerId", "testCreator");
+	    ResponseEntity<String> response = gc.freeTokens("TestGame", data);
+	    assertEquals(99, game.getPlayers()[0].getInventory().getTokens().checkAmount(Token.RED));
+  }
+  
+  @Test
+  public void miscTest() {
+		JSONObject invalidAction = new JSONObject();
+	    invalidAction.put("status", "failure");
+	    invalidAction.put("message", "Invalid action.");
+	  
+	    SessionData dummy = createDummySessionData();
+	    GameManager gameManager = new GameManager();
+	    gameManager.launchGame("TestGame", dummy);
+	    Game game = gameManager.getGame("TestGame");
+	    GameController gc = new GameController();
+	    
+	    ResponseEntity<String> response = gc.getBoard("TestGame");
+	    try {
+	    	assertEquals(ResponseEntity.badRequest().body("No board"), response);
+	    	fail("expected error not thrown");
+	    } catch (AssertionError e) { }
+	    
+	    response = gc.getGame("TestGame");
+	    try {
+	    	assertEquals(ResponseEntity.ok().body(invalidAction.toJSONString()), response);
+	    	fail("expected error not thrown");
+	    } catch (AssertionError e) { }
   }
 }
