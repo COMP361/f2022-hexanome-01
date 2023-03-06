@@ -108,7 +108,7 @@ public class Game {
   }
 
   /**
-   * Get game's vairant.
+   * Get game's variant.
 
    * @return the games variant
    */
