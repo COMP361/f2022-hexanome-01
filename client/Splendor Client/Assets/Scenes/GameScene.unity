@@ -641,7 +641,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &65089796
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1315,7 +1315,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -366.6162, y: -148.34514}
+  m_SizeDelta: {x: -366.6162, y: -105.333694}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &110883133
 MonoBehaviour:
@@ -3518,7 +3518,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.99215686, b: 0.9411765, a: 1}
+  m_Color: {r: 0.9490196, g: 0.9254902, b: 0.73333335, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -3555,13 +3555,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edc916481e343494690ce97b86ebf45b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerControl: {fileID: 0}
+  playerControl: {fileID: 288864033}
+  player: {fileID: 288864034}
   inventoryPanel: {fileID: 1171159220}
   purchasedCardContent: {fileID: 1513089746}
   nobleContent: {fileID: 37590555}
   cardSlot: {fileID: 3705035989739418207, guid: 61a923ecaabd179489e0ecf947ce5c0f, type: 3}
   nobleSlot: {fileID: 3705035989739418207, guid: c38d7351e39ae4076ad0ffa8924ce960, type: 3}
-  playerName: {fileID: 443974123}
 --- !u!1 &370086330
 GameObject:
   m_ObjectHideFlags: 0
@@ -4960,7 +4960,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -362.14062, y: -56.849365}
+  m_SizeDelta: {x: -1162.1406, y: -506.84937}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &510458886
 MonoBehaviour:
@@ -7287,13 +7287,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edc916481e343494690ce97b86ebf45b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerControl: {fileID: 0}
+  playerControl: {fileID: 288864033}
+  player: {fileID: 1296268878}
   inventoryPanel: {fileID: 1171159220}
   purchasedCardContent: {fileID: 1513089746}
   nobleContent: {fileID: 37590555}
   cardSlot: {fileID: 3705035989739418207, guid: 61a923ecaabd179489e0ecf947ce5c0f, type: 3}
   nobleSlot: {fileID: 3705035989739418207, guid: c38d7351e39ae4076ad0ffa8924ce960, type: 3}
-  playerName: {fileID: 357012786}
 --- !u!114 &742675259
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8549,13 +8549,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edc916481e343494690ce97b86ebf45b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerControl: {fileID: 0}
+  playerControl: {fileID: 288864033}
+  player: {fileID: 1302658991}
   inventoryPanel: {fileID: 1171159220}
   purchasedCardContent: {fileID: 1513089746}
   nobleContent: {fileID: 37590555}
   cardSlot: {fileID: 3705035989739418207, guid: 61a923ecaabd179489e0ecf947ce5c0f, type: 3}
   nobleSlot: {fileID: 3705035989739418207, guid: c38d7351e39ae4076ad0ffa8924ce960, type: 3}
-  playerName: {fileID: 1450580212}
 --- !u!114 &859237798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12045,13 +12045,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edc916481e343494690ce97b86ebf45b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerControl: {fileID: 0}
+  playerControl: {fileID: 288864033}
+  player: {fileID: 1814280207}
   inventoryPanel: {fileID: 1171159220}
   purchasedCardContent: {fileID: 1513089746}
   nobleContent: {fileID: 37590555}
   cardSlot: {fileID: 3705035989739418207, guid: 61a923ecaabd179489e0ecf947ce5c0f, type: 3}
   nobleSlot: {fileID: 3705035989739418207, guid: c38d7351e39ae4076ad0ffa8924ce960, type: 3}
-  playerName: {fileID: 1723002845}
 --- !u!114 &1153480003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15999,7 +15999,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1358427169}
   m_HandleRect: {fileID: 1358427168}
   m_Direction: 0
-  m_Value: 0
+  m_Value: 1
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -18865,7 +18865,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -362.14062, y: -56.849365}
+  m_SizeDelta: {x: -1162.1406, y: -506.84937}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1682929116
 MonoBehaviour:

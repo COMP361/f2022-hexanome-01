@@ -175,18 +175,19 @@ public class PlayerControl : MonoBehaviour {
         Debug.Log(selectedCardJson);
         actionManager.MakeApiRequest(currSession.id, selectedCardJson, ActionManager.ActionType.purchaseCard,ActionManager.RequestType.POST, (response) => {
 
-            if(response != null){
+            if(response != null)
+            {
+                UnityEngine.Debug.Log(response.ToJSONString());
                 string status = (string)response["status"];
 
                 if (status.Equals("failure")) return;
 
                 string action = (string)response["action"];
                 JSONArray jsonNoblesVisited = (JSONArray)response["noblesVisiting"];
-                //int[] noblesVisiting = new int[]
-
-                int[] noblesVisiting = new int[jsonNoblesVisited.Count];
+                
+                long[] noblesVisiting = new long[jsonNoblesVisited.Count];
                 for (int i = 0; i < jsonNoblesVisited.Count; i++) {
-                    noblesVisiting[i] = (int)jsonNoblesVisited[i];
+                    noblesVisiting[i] = (long)jsonNoblesVisited[i];
                 }
                 if(action.Equals("Domino1") || action.Equals("Domino2") || action.Equals("Satchel")){
                     JSONArray jsonChoices = (JSONArray)response["choices"];

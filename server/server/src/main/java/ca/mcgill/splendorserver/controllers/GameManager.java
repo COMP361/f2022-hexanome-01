@@ -121,7 +121,7 @@ public class GameManager {
 public static JSONObject determineBody(Card card, Board board, Inventory inventory) {
     JSONObject response = new JSONObject();
     response.put("action", "none");
-    response.put("choices", JSONArray.toJSONString(new ArrayList<Integer>()));
+    response.put("choices", new JSONArray());
 
     if (card.getType() != CardType.NONE) {
       if (card.getType() == CardType.SATCHEL || card.getType() == CardType.DOMINO1) {
@@ -142,10 +142,13 @@ public static JSONObject determineBody(Card card, Board board, Inventory invento
       String actionOptions = (String) result.get("options");
       response.replace("action", furtherAction);
       response.replace("choices", actionOptions);
-      response.put("noblesVisiting", JSONArray.toJSONString(new ArrayList<Integer>()));
+      response.put("noblesVisiting", new JSONArray());
     } else {
-      ArrayList<Integer> noblesVisiting = board.getNobles().attemptImpress(inventory);
-      response.put("noblesVisiting", JSONArray.toJSONString(noblesVisiting));
+      JSONArray noblesVisiting = new JSONArray();
+      for (int nobleId : board.getNobles().attemptImpress(inventory)) {
+        noblesVisiting.add(nobleId);
+      }
+      response.put("noblesVisiting", noblesVisiting);
     }
 
     return response;
