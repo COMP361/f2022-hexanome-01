@@ -125,6 +125,10 @@ public static JSONObject determineBody(Card card, Board board, Inventory invento
     response.put("action", "none");
     response.put("choices", new JSONArray());
 
+    if (card.getType() == CardType.SACRIFICE) {
+      return null;
+    }
+    
     if (card.getType() != CardType.NONE) {
       if (card.getType() == CardType.SATCHEL || card.getType() == CardType.DOMINO1) {
         boolean valid = false;
