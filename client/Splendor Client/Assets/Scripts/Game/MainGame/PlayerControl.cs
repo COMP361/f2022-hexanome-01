@@ -168,6 +168,8 @@ public class PlayerControl : MonoBehaviour {
         JSONObject selectedCardJson = new JSONObject(requestDict);
         selectedCardJson.Add("playerId", player.GetUsername());
         selectedCardJson.Add("cardId", selectedCardToBuy.GetCard().GetId());
+        Debug.Log(currSession);
+        Debug.Log(selectedCardJson);
         actionManager.MakeApiRequest(currSession.id, selectedCardJson, ActionManager.ActionType.performCardPurchase,ActionManager.RequestType.POST, (response) => {
 
             if(response != null){
