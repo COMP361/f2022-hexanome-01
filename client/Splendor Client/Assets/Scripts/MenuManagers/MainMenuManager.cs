@@ -202,7 +202,7 @@ public class MainMenuManager : MonoBehaviour {
                     if (session.players.Count >= 2 && session.creator.Equals(authentication.GetUsername()))
                         startSessionButton.SetActive(true); // allow the host to start the session
 
-                    else if (lobbyView.activeInHierarchy) LobbyPolling(currentSession.id);
+                    if (lobbyView.activeInHierarchy) LobbyPolling(currentSession.id);
                 }
             }
             else if (lobbyView.activeInHierarchy) LobbyPolling(currentSession.id);
