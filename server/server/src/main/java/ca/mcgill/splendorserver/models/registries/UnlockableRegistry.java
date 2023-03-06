@@ -8,6 +8,7 @@ import ca.mcgill.splendorserver.models.expansion.Unlockable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Stack;
@@ -66,5 +67,30 @@ public class UnlockableRegistry implements Registry<Unlockable> {
   public static Unlockable of(int id) {
     return data.get(id);
   }
-
+  
+  /**
+   * Getter for the city objects.
+   *
+   * @return a ArrayList of all the cities.
+   */
+  public static ArrayList<City> getCities() {
+    ArrayList<City> cities = new ArrayList<City>();
+    for (int i = 0; i < 15; i++) {
+      cities.add((City) UnlockableRegistry.of(i));
+    }
+    return cities;
+  }
+  
+  /**
+   * Getter for the trading post objects.
+   *
+   * @return a ArrayList of all the cities.
+   */
+  public static ArrayList<TradingPost> getTradingPosts() {
+    ArrayList<TradingPost> tradingPosts = new ArrayList<TradingPost>();
+    for (int i = 15; i < 20; i++) {
+      tradingPosts.add((TradingPost) UnlockableRegistry.of(i));
+    }
+    return tradingPosts;
+  }
 }

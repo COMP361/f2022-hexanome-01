@@ -165,9 +165,10 @@ public class Inventory {
    * Pay for a card using player's tokens/discounts.
    *
    * @param card the card to pay for.
+   * @param goldUsed the gold the player wishes to use
    */
   public void payForCard(Card card, int goldUsed) {
-	tokens.removeRepeated(Token.GOLD, goldUsed);
+    tokens.removeRepeated(Token.GOLD, goldUsed);
     for (Token token : Token.values()) {
       if (token.equals(Token.GOLD)) {
         continue;
@@ -183,7 +184,7 @@ public class Inventory {
    * @return whether the player can afford the cost
    */
   public int isCostAffordable(HashMap<Token, Integer> cost) {
-	int goldUsed = 0;
+    int goldUsed = 0;
     for (Token token : Token.values()) {
       if (token.equals(Token.GOLD)) {
         continue;
@@ -191,10 +192,11 @@ public class Inventory {
       int tokenAmount = tokens.checkAmount(token);
       int tokenCost = cost.get(token);
       if (tokenAmount < tokenCost) {
-    	int goldAvailable = tokens.checkAmount(Token.GOLD) - goldUsed;
-    	if (tokenCost - tokenAmount > goldAvailable)
-    		return -1;
-    	goldUsed += tokenCost - tokenAmount;
+        int goldAvailable = tokens.checkAmount(Token.GOLD) - goldUsed;
+        if (tokenCost - tokenAmount > goldAvailable) {
+          return -1;
+        }
+        goldUsed += tokenCost - tokenAmount;
       }
     }
     return goldUsed;

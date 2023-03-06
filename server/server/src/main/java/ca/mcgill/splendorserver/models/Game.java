@@ -109,6 +109,8 @@ public class Game {
 
   /**
    * Get game's vairant.
+
+   * @return the games variant
    */
   public String getVariant() {
     return variant;
