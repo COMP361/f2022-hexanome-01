@@ -15,8 +15,10 @@ public class OrientPanelManager : MonoBehaviour
 
     [SerializeField] private long selectedCard;
     [SerializeField] private long selectedNoble;
+    [SerializeField] private ActionManager.ActionType action;
 
-    public void Display(List<Card> cards, List<Noble> nobles){
+    public void Display(List<Card> cards, List<Noble> nobles, ActionManager.ActionType _action){
+        action = _action;
         panel.SetActive(true);
         DisplayPlayerCards(cards, nobles);
     }
@@ -56,8 +58,12 @@ public class OrientPanelManager : MonoBehaviour
     }
 
     public void Select(){
-        if(selectedCard != -1){
+        if(selectedCard != -1 && action == ActionManager.ActionType.domino){
             playerControl.dominoCardAction(selectedCard);
+            panel.SetActive(false);
+        }
+        else if(selectedCard != -1 && action == ActionManager.ActionType.satchel){
+            playerControl.satchelAction(selectedCard);
             panel.SetActive(false);
         }
     }
