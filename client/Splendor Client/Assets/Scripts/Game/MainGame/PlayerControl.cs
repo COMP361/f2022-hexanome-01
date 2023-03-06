@@ -24,6 +24,8 @@ public class PlayerControl : MonoBehaviour {
     public NobleSlot selectedNoble;
     private ClaimNoblePanel claimNoblePanel;
 
+    public OrientPanelManager orientPanelManager;
+
     private InputAction fire;
     private InputAction look;
     [SerializeField] private InputActionAsset controls;
@@ -181,7 +183,16 @@ public class PlayerControl : MonoBehaviour {
                     noblesVisiting[i] = (int)jsonNoblesVisited[i];
                 }
 
-                
+                if(action.Equals("Domino1") || action.Equals("Domino2")){
+                    JSONArray jsonChoices = (JSONArray)response["choices"];
+                    List<Card> cardChoices = new List<Card>();
+                    for (int i = 0; i < jsonChoices.Count; i++) {
+                        cardChoices.Add(allCards.GetCardFromId((long)jsonChoices[i]));
+                    }
+                    orientPanelManager.gameObject.SetActive(true);
+                    orientPanelManager.Display(cardChoices, null);
+
+                }
 
             }
         });
@@ -260,6 +271,41 @@ public class PlayerControl : MonoBehaviour {
             }
         });
         
+    }
+
+    public void dominoCardAction(long cardId){
+        Dictionary<string, object> requestDict = new Dictionary<string, object>();
+        JSONObject selectedCardJson = new JSONObject(requestDict);
+        selectedCardJson.Add("playerId", player.GetUsername());
+        selectedCardJson.Add("cardId", cardId);
+        actionManager.MakeApiRequest(currSession.id, selectedCardJson, ActionManager.ActionType.domino,ActionManager.RequestType.POST, (response) => {
+
+            if(response != null){
+                string status = (string)response["status"];
+                string action = (string)response["action"];
+                JSONArray jsonNoblesVisited = (JSONArray)response["noblesVisiting"];
+                //int[] noblesVisiting = new int[]
+
+                int[] noblesVisiting = new int[jsonNoblesVisited.Count];
+                for (int i = 0; i < jsonNoblesVisited.Count; i++) {
+                    noblesVisiting[i] = (int)jsonNoblesVisited[i];
+                }
+
+                if(action.Equals("Domino1") || action.Equals("Domino2")){
+                    JSONArray jsonChoices = (JSONArray)response["choices"];
+                    List<Card> cardChoices = new List<Card>();
+                    for (int i = 0; i < jsonChoices.Count; i++) {
+                        cardChoices.Add(allCards.GetCardFromId((long)jsonChoices[i]));
+                    }
+                    orientPanelManager.gameObject.SetActive(true);
+                    orientPanelManager.Display(cardChoices, null);
+
+                }
+                //HANDLE EXTRA CASES
+                
+
+            }
+        });
     }
 
 

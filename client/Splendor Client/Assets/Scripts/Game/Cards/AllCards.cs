@@ -178,4 +178,8 @@ public class AllCards : MonoBehaviour
         else return baseCards[level][index];
     }
 
+    public Card GetCardFromId(long id){
+        return cards.Find(x => x.id.Equals(id));
+    }
+
 }
