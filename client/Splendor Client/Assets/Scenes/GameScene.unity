@@ -2415,7 +2415,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 551110248}
-  m_RootOrder: 10
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2774,6 +2774,7 @@ MonoBehaviour:
   gamePlayersData: []
   tokenBank: {fileID: 1493752223}
   selectedTokens: {fileID: 1191895568}
+  takeTokensButton: {fileID: 0}
   allCards: {fileID: 911230083}
   selectedCard: {fileID: 0}
   selectedCardToBuy: {fileID: 0}
@@ -2966,7 +2967,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -2.237793, y: 24.2421}
+  m_AnchoredPosition: {x: -2.237793, y: 24.242126}
   m_SizeDelta: {x: -26.5793, y: -205.6669}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &314203348
@@ -3748,7 +3749,7 @@ RectTransform:
   m_Children:
   - {fileID: 1136855835}
   m_Father: {fileID: 551110248}
-  m_RootOrder: 13
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3814,6 +3815,18 @@ MonoBehaviour:
       - m_Target: {fileID: 288864033}
         m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
         m_MethodName: takeTokensAction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1385248819}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: Play
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5249,14 +5262,14 @@ RectTransform:
   - {fileID: 1814280206}
   - {fileID: 1302658988}
   - {fileID: 1296268875}
-  - {fileID: 1171159221}
   - {fileID: 889997259}
-  - {fileID: 242697718}
   - {fileID: 1191895567}
   - {fileID: 1562138450}
   - {fileID: 377587217}
   - {fileID: 1597933661}
   - {fileID: 881879488}
+  - {fileID: 1171159221}
+  - {fileID: 242697718}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -8814,7 +8827,7 @@ RectTransform:
   - {fileID: 926868509}
   - {fileID: 172991258}
   m_Father: {fileID: 551110248}
-  m_RootOrder: 15
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -8840,6 +8853,7 @@ MonoBehaviour:
   nobleContent: {fileID: 3705035989739418207, guid: c38d7351e39ae4076ad0ffa8924ce960, type: 3}
   selectedCard: 0
   selectedNoble: 0
+  action: 0
 --- !u!114 &881879490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9067,7 +9081,7 @@ RectTransform:
   - {fileID: 1573382100}
   - {fileID: 1267124857}
   m_Father: {fileID: 551110248}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -10173,6 +10187,18 @@ MonoBehaviour:
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: SetActive
         m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1385248819}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -12244,7 +12270,7 @@ RectTransform:
   - {fileID: 1209605456}
   - {fileID: 706501117}
   m_Father: {fileID: 551110248}
-  m_RootOrder: 8
+  m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -12863,7 +12889,7 @@ RectTransform:
   - {fileID: 1429226440}
   - {fileID: 2031549373}
   m_Father: {fileID: 551110248}
-  m_RootOrder: 11
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -13026,6 +13052,18 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: Display
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1662236565}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1209605458
@@ -15675,6 +15713,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1385248819}
+        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+        m_MethodName: Play
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1393067513
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17604,7 +17654,7 @@ RectTransform:
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 551110248}
-  m_RootOrder: 12
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -17912,7 +17962,7 @@ RectTransform:
   - {fileID: 995555034}
   - {fileID: 1393067511}
   m_Father: {fileID: 551110248}
-  m_RootOrder: 14
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
