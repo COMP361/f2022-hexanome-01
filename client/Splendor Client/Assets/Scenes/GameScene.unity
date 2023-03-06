@@ -2626,6 +2626,7 @@ MonoBehaviour:
   selectedNoble: {fileID: 0}
   controls: {fileID: -944628639613478452, guid: 68b0984844d79b345af0ecff893baaed, type: 3}
   waiting: 0
+  currSession: {fileID: 11400000, guid: ebdd36260b1a84a6e9083efa914a8d39, type: 2}
   inOrientMenu: 0
   inInventory: 0
   sacrificeMade: 0

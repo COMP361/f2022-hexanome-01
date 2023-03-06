@@ -33,7 +33,7 @@ public class PlayerControl : MonoBehaviour {
 
    
     private ActionManager actionManager;
-    public Session currSession;
+    public ActiveSession currSession;
     public bool inOrientMenu, inInventory, sacrificeMade, inNobleMenu, selectReserve;
 
     void Start() {
