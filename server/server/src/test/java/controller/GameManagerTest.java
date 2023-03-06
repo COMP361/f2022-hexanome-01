@@ -9,6 +9,7 @@ import ca.mcgill.splendorserver.controllers.OrientManager;
 import ca.mcgill.splendorserver.models.Game;
 import ca.mcgill.splendorserver.models.Inventory;
 import ca.mcgill.splendorserver.models.Player;
+import ca.mcgill.splendorserver.models.Token;
 import ca.mcgill.splendorserver.models.communicationbeans.SessionData;
 import ca.mcgill.splendorserver.models.registries.NobleRegistry;
 import ca.mcgill.splendorserver.models.board.Board;
@@ -117,5 +118,18 @@ public class GameManagerTest extends ControllerTestUtils {
       }
     }
     //assertTrue(cardWasReserved);
+  }
+  
+  @Test
+  public void freeTokensTest() throws JsonProcessingException {
+	    SessionData dummy = createDummySessionData();
+	    GameManager gameManager = new GameManager();
+	    gameManager.launchGame("TestGame", dummy);
+	    Game game = gameManager.getGame("TestGame");
+	    GameController gc = new GameController();
+	    JSONObject data = new JSONObject();
+	    data.put("playerId", "testCreator");
+	    ResponseEntity<String> response = gc.freeTokens("TestGame", data);
+	    assertEquals(99, game.getPlayers()[0].getInventory().getTokens().checkAmount(Token.RED));
   }
 }
