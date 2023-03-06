@@ -43,7 +43,7 @@ public class Game {
 
     currentPlayerIndex = 0;
   }
-
+  
   /**
    * Getter for game id.
    *
@@ -104,10 +104,11 @@ public class Game {
    */
   public void nextPlayer() {
     currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+    this.board.setCurrentPlayer(getCurrentPlayer().getUsername());
   }
 
   /**
-   * Get game's vairant.
+   * Get game's variant.
 
    * @return the games variant
    */

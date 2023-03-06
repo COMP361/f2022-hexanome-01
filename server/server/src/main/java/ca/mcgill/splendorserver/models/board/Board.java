@@ -34,6 +34,10 @@ public class Board {
     this.players = players;
     this.currentPlayer = creator;
   }
+  
+  public void setCurrentPlayer(String player) {
+	  currentPlayer = player;
+  }
 
   /**
    * Gets the inventory of the player with the provided id.

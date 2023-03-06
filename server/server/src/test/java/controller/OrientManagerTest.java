@@ -53,7 +53,7 @@ public class OrientManagerTest {
 	    Inventory testInventory = board.getInventory("testCreator");
 	    
 	    request.put("playerId", "testCreator");
-	    request.put("cardId", board.getCards().getRows().get(CardLevel.LEVEL1)[0] + "");
+	    request.put("cardId", board.getCards().getRows().get(CardLevel.LEVEL1)[0]);
 	    ResponseEntity<String> response = gc.purchaseCard("TestGame", request);
 
 	    try {
@@ -94,7 +94,7 @@ public class OrientManagerTest {
 	      fail("expected exception not thrown");
 	    } catch (AssertionError e) { }
 	    
-	    request.replace("cardId", board.getCards().getRows().get(CardLevel.LEVEL1)[0] + "");
+	    request.replace("cardId", board.getCards().getRows().get(CardLevel.LEVEL1)[0]);
 	    response = gc.domino("TestGame", request);
 	    try {
 	      assertEquals(ResponseEntity.ok().body(invalidAction.toJSONString()), response);
@@ -102,7 +102,7 @@ public class OrientManagerTest {
 	    } catch (AssertionError e) { }
 	    
 	    //reserve card from board
-	    request.replace("cardId", board.getCards().getRows().get(CardLevel.LEVEL1)[0] + "");
+	    request.replace("cardId", board.getCards().getRows().get(CardLevel.LEVEL1)[0]);
 	    request.put("source", "board");
 	    response = gc.reserveCardAction("TestGame", request);
 	    try {
@@ -120,14 +120,14 @@ public class OrientManagerTest {
 	      fail("expected exception not thrown");
 	    } catch (AssertionError e) { }
 	    
-	    request.put("nobleId", board.getNobles().getNobles()[0] + "");
+	    request.put("nobleId", board.getNobles().getNobles()[0]);
 	    response = gc.reserveNoble("TestGame", request);
 	    try {
 	      assertEquals(ResponseEntity.ok().body(invalidAction.toJSONString()), response);
 	      fail("expected exception not thrown");
 	    } catch (AssertionError e) { }
 	    
-	    request.replace("nobleId", board.getNobles().getNobles()[1] + "");
+	    request.replace("nobleId", board.getNobles().getNobles()[1]);
 	    response = gc.claimNobleAction("TestGame", request);
 	    try {
 	      assertEquals(ResponseEntity.ok().body(invalidAction.toJSONString()), response);
@@ -181,7 +181,7 @@ public class OrientManagerTest {
 	    testInventory.addTokens(tokens);
 	    
 	    request.put("playerId", "testCreator");
-	    request.put("cardId", board.getCards().getRows().get(CardLevel.ORIENTLEVEL1)[0] + "");
+	    request.put("cardId", board.getCards().getRows().get(CardLevel.ORIENTLEVEL1)[0]);
 	    gameManager.acquireCard(CardRegistry.of(0), board, testInventory);
 	    gameManager.acquireCard(CardRegistry.of(2), board, testInventory);
 	    gameManager.acquireCard(CardRegistry.of(3), board, testInventory);
@@ -195,7 +195,7 @@ public class OrientManagerTest {
 	    }
 	    catch (AssertionError e) { }
 	    
-	    request.replace("cardId", board.getCards().getRows().get(CardLevel.ORIENTLEVEL1)[0] + "");
+	    request.replace("cardId", board.getCards().getRows().get(CardLevel.ORIENTLEVEL1)[0]);
 	    response = gc.purchaseCard("TestGame", request);
 	    try {
 	      assertEquals(ResponseEntity.ok().body(invalidAction.toJSONString()), response);
@@ -203,7 +203,7 @@ public class OrientManagerTest {
 	    }
 	    catch (AssertionError e) { }
 	    
-	    request.replace("cardId", board.getCards().getRows().get(CardLevel.ORIENTLEVEL1)[0] + "");
+	    request.replace("cardId", board.getCards().getRows().get(CardLevel.ORIENTLEVEL1)[0]);
 	    response = gc.purchaseCard("TestGame", request);
 	    try {
 	      assertEquals(ResponseEntity.ok().body(invalidAction.toJSONString()), response);
@@ -211,7 +211,7 @@ public class OrientManagerTest {
 	    }
 	    catch (AssertionError e) { }
 	    
-	    request.replace("cardId", board.getCards().getRows().get(CardLevel.ORIENTLEVEL2)[0] + "");
+	    request.replace("cardId", board.getCards().getRows().get(CardLevel.ORIENTLEVEL2)[0]);
 	    response = gc.dominoSatchel("TestGame", request);
 	    try {
 	      assertEquals(ResponseEntity.ok().body(invalidAction.toJSONString()), response);
@@ -219,7 +219,7 @@ public class OrientManagerTest {
 	    }
 	    catch (AssertionError e) { }
 	    
-	    request.replace("cardId", board.getCards().getRows().get(CardLevel.ORIENTLEVEL2)[0] + "");
+	    request.replace("cardId", board.getCards().getRows().get(CardLevel.ORIENTLEVEL2)[0]);
 	    response = gc.domino("TestGame", request);
 	    try {
 	      assertEquals(ResponseEntity.ok().body(invalidAction.toJSONString()), response);
@@ -227,7 +227,7 @@ public class OrientManagerTest {
 	    }
 	    catch (AssertionError e) { }
 	    
-	    request.replace("cardId", board.getCards().getRows().get(CardLevel.ORIENTLEVEL2)[0] + "");
+	    request.replace("cardId", board.getCards().getRows().get(CardLevel.ORIENTLEVEL2)[0]);
 	    response = gc.domino("TestGame", request);
 	    try {
 	      assertEquals(ResponseEntity.ok().body(invalidAction.toJSONString()), response);

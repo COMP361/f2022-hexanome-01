@@ -85,13 +85,18 @@ public class GameController {
     return ResponseEntity.status(500).body(error.toJSONString());
   }
 
+  /**
+   * Getter for the board.
+   *
+   * @param gameId the id of the game to get the board of.
+   * @return success flag
+   */
   @GetMapping("/api/games/{gameId}/immediateBoard")
   public ResponseEntity<String> getBoard(@PathVariable String gameId) {
     Optional<Board> boardOptional = GameManager.getGameBoard(gameId);
     if (boardOptional.isPresent()) {
       return ResponseEntity.ok(boardOptional.get().toJson().toJSONString());
-    }
-    else {
+    } else {
       return ResponseEntity.badRequest().body("No board");
     }
   }
@@ -182,6 +187,7 @@ public class GameController {
    * @return success flag
    * @throws JsonProcessingException when JSON processing error occurs
    */
+  @SuppressWarnings("unchecked")
   @PostMapping("/api/action/{gameId}/takeTokens")
   public ResponseEntity<String> takeTokens(@PathVariable String gameId,
                                            @RequestBody JSONObject data)
@@ -198,7 +204,7 @@ public class GameController {
       }
 
       //perform taking the tokens
-      JSONArray tokens = (JSONArray) data.get("tokens");
+      ArrayList<String> tokens = (ArrayList<String>) data.get("tokens");
       Token[] tokensArray = new Token[tokens.size()];
       for (int i = 0; i < tokensArray.length; i++) {
         tokensArray[i] = Token.valueOfIgnoreCase((String) tokens.get(i));
@@ -207,6 +213,7 @@ public class GameController {
       if (response == null) {
         return ResponseEntity.badRequest().body(invalidAction.toJSONString());
       }
+      response.put("status", "success");
       //return the result of taking the tokens
       return ResponseEntity.ok(response.toJSONString());
     } catch (Exception e) {
@@ -247,7 +254,7 @@ public class GameController {
         return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
       }
 
-      int cardId = Integer.parseInt((String) data.get("cardId"));
+      int cardId = (int) data.get("cardId");
       JSONObject response = GameManager.purchaseCard(game, playerId, cardId);
       if (response == null) {
         return ResponseEntity.ok().body(invalidAction.toJSONString());
@@ -285,7 +292,7 @@ public class GameController {
         return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
       }
 
-      int cardId = Integer.parseInt((String) data.get("cardId"));
+      int cardId = (int) data.get("cardId");
       JSONObject response = new JSONObject();
       Board board = game.getBoard();
       Card card = CardRegistry.of(cardId);
@@ -331,7 +338,7 @@ public class GameController {
         return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
       }
 
-      int cardId = Integer.parseInt((String) data.get("cardId"));
+      int cardId = (int) data.get("cardId");
       JSONObject response = new JSONObject();
       Board board = game.getBoard();
       Card card = CardRegistry.of(cardId);
@@ -380,7 +387,7 @@ public class GameController {
         return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
       }
 
-      int nobleId = Integer.parseInt((String) data.get("nobleId"));
+      int nobleId = (int) data.get("cardId");
       JSONObject response = new JSONObject();
       Board board = game.getBoard();
       Noble noble = NobleRegistry.of(nobleId);
@@ -429,7 +436,7 @@ public class GameController {
         return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
       }
 
-      int cardId = Integer.parseInt((String) data.get("cardId"));
+      int cardId = (int) data.get("cardId");
       Board board = game.getBoard();
       Card card = CardRegistry.of(cardId);
       Inventory inventory = board.getInventory(playerId);
@@ -478,7 +485,7 @@ public class GameController {
 
       String source = (String) data.get("source");
 
-      int cardId = Integer.parseInt((String) data.get("cardId"));
+      int cardId = (int) data.get("cardId");
       String deckId = (String) data.get("deckId");
 
       boolean success = GameManager.reserveCard(game, playerId, source, cardId, deckId);
@@ -518,7 +525,7 @@ public class GameController {
         return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
       }
 
-      int nobleId = Integer.parseInt((String) data.get("nobleId"));
+      int nobleId = (int) data.get("nobleId");
       Board board = game.getBoard();
       Noble noble = NobleRegistry.of(nobleId);
       Inventory inventory = board.getInventory(playerId);
@@ -531,6 +538,35 @@ public class GameController {
       response.put("status", "success");
 
       return ResponseEntity.ok(response.toJSONString());
+    } catch (Exception e) {
+      logger.error(e.getStackTrace().toString());
+      return errorResponse(e.getMessage());
+    }
+  }
+
+  /**
+   * Ends turn.
+   *
+   * @param gameId the id of the game
+   * @return success flag
+   * @throws JsonProcessingException when JSON processing error occurs
+   */
+  @SuppressWarnings("unchecked")
+  @PostMapping("/api/action/{gameId}/endTurn")
+  public ResponseEntity<String> endTurnAction(@PathVariable String gameId)
+      throws JsonProcessingException {
+    try {
+      Game game = GameManager.getGame(gameId);
+      if (game == null) {
+        return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
+      }
+      
+      GameManager.endTurn(game);
+      
+      JSONObject response = new JSONObject();
+      response.put("status", "success");
+      
+      return ResponseEntity.ok().body(response.toJSONString());
     } catch (Exception e) {
       logger.error(e.getStackTrace().toString());
       return errorResponse(e.getMessage());

@@ -13,22 +13,23 @@ public class ActionManager : MonoBehaviour
     private static string HOST = Environment.GetEnvironmentVariable("SPLENDOR_HOST_IP");
 
     // The base URL of the REST API
-    public string apiBaseUrl = $"http://{HOST}:4244/splendor/api";
+    private string apiBaseUrl = $"http://{HOST}:4244/splendor/api";
 
     // The GameObject that will display the error popup
-    public GameObject errorPopup;
+    // public GameObject errorPopup;
 
 
-    public string errorPopupText = "Invalid selection";
+    // public string errorPopupText = "Invalid selection";
 
 
     public enum ActionType
     {
-        performCardPurchase,
+        purchaseCard,
         takeTokens,
         reserveCard,
         selectNoble,
-        domino
+        domino,
+        endTurn
     }
 
     public enum RequestType
@@ -43,6 +44,9 @@ public class ActionManager : MonoBehaviour
     {
         string apiEndpointUrl = GetApiEndpointUrl(gameId, actionType);
 
+        Debug.Log(apiEndpointUrl);
+        if (jsonPayload != null) Debug.Log(jsonPayload.ToString());
+
         // Create a new HTTP request object
        UnityWebRequest webRequest;
 
@@ -55,16 +59,15 @@ public class ActionManager : MonoBehaviour
                 webRequest = UnityWebRequest.Post(apiEndpointUrl, "POST");
                 break;
         }
-        
-        
-        
 
         // Set the content type to "application/json"
         webRequest.SetRequestHeader("Content-Type", "application/json");
 
         // Encode the JSON payload using the JSONHandler class and set it in the request body
-        byte[] payloadBytes = System.Text.Encoding.UTF8.GetBytes(jsonPayload.ToString());
-        webRequest.uploadHandler = new UploadHandlerRaw(payloadBytes);
+        if (jsonPayload != null) {
+            byte[] payloadBytes = System.Text.Encoding.UTF8.GetBytes(jsonPayload.ToString());
+            webRequest.uploadHandler = new UploadHandlerRaw(payloadBytes);
+        }
 
         // Start the HTTP request as a coroutine
         StartCoroutine(SendApiRequest(webRequest, callback));
@@ -79,20 +82,19 @@ public class ActionManager : MonoBehaviour
         if (webRequest.result != UnityWebRequest.Result.Success)
         {
             Debug.LogError("API request failed: " + webRequest.error);
-            if (errorPopup != null)
-            {
-                errorPopup.SetActive(true);
-                // Set the text of the error popup
-                errorPopup.GetComponentInChildren<Text>().text = errorPopupText;
-            }
+            // if (errorPopup != null)
+            // {
+            //     errorPopup.SetActive(true);
+            //     // Set the text of the error popup
+            //     errorPopup.GetComponentInChildren<Text>().text = errorPopupText;
+            // }
             callback(null);
         }
         else
         {
             
-
-        JSONObject jsonObject = (JSONObject)JSONHandler.DecodeJsonRequest(webRequest.downloadHandler.text);
- 
+            Debug.Log(webRequest.downloadHandler.text);
+            JSONObject jsonObject = (JSONObject)JSONHandler.DecodeJsonRequest(webRequest.downloadHandler.text);
 
             callback(jsonObject);
 
