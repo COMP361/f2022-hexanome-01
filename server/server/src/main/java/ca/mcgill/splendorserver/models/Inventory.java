@@ -167,16 +167,32 @@ public class Inventory {
    * @param card the card to pay for.
    * @param goldUsed the gold the player wishes to use
    */
-  public void payForCard(Card card, int goldUsed) {
+  public Token[] payForCard(Card card, int goldUsed) {
+    ArrayList<Token> tokensPaid = new ArrayList<>();
+
     tokens.removeRepeated(Token.GOLD, goldUsed);
+    for (int i = 0; i < goldUsed; i++) {
+      tokensPaid.add(Token.GOLD);
+    }
+
     TokenBank bonuses = getBonuses();
     for (Token token : Token.values()) {
       if (token.equals(Token.GOLD)) {
         continue;
       }
-      tokens.removeRepeated(token, 
-          Math.max(0, card.getCost().get(token) - bonuses.checkAmount(token)));
+      int toRemove = Math.max(0, card.getCost().get(token) - bonuses.checkAmount(token));
+      tokens.removeRepeated(token, toRemove);
+      for (int i = 0; i < toRemove; i++) {
+        tokensPaid.add(token);
+      }
     }
+
+    return tokensPaid.toArray(new Token[0]);
+  }
+
+  public void acquireCard(Card card) {
+    points += card.getPoints();
+    bonuses.addRepeated(card.getBonus().getType(), card.getBonus().getAmount());
   }
 
   /**

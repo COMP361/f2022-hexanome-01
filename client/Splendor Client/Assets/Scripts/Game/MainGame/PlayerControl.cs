@@ -8,6 +8,7 @@ using System.Linq;
 public class PlayerControl : MonoBehaviour {
     public Authentication mainPlayer;
     public Dashboard dashboard;
+    [SerializeField] private GameObject inventoryPanel;
     [SerializeField] private GameObject cursor, purchaseOrReserve, nobleSelectButton;
     [SerializeField] private Camera playerCamera;
     [SerializeField] private Player player; //this client/player
@@ -37,7 +38,7 @@ public class PlayerControl : MonoBehaviour {
    
     [SerializeField] private ActionManager actionManager;
     public ActiveSession currSession;
-    public bool inOrientMenu, inInventory, sacrificeMade, inNobleMenu, selectReserve;
+    public bool inOrientMenu, sacrificeMade, inNobleMenu, selectReserve;
 
     void Start() {
         //the following was a test i made to make sure JSONHandler was working. ive left it here incase we find some uknown error with it
@@ -114,7 +115,7 @@ public class PlayerControl : MonoBehaviour {
     }
 
     private void OnFireAction(InputAction.CallbackContext obj) {
-        if (waiting || inInventory) return;
+        if (waiting || inventoryPanel.activeInHierarchy) return;
 
         Vector2 mousePos = Mouse.current.position.ReadValue();
         Vector3 worldPos = playerCamera.ScreenToWorldPoint(mousePos);

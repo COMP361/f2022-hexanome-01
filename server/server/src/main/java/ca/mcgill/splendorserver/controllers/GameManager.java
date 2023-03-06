@@ -102,7 +102,9 @@ public class GameManager {
     if (goldUsed == -1 || !acquireCard(card, board, inventory)) {
       return null;
     }
-    inventory.payForCard(card, goldUsed);
+    Token[] toAddToBank = inventory.payForCard(card, goldUsed);
+    board.getTokens().addAll(toAddToBank);
+    inventory.acquireCard(card);
 
     JSONObject purchaseResults = determineBody(card, board, inventory);
 
