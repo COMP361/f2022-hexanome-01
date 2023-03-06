@@ -39,7 +39,7 @@ public class InventoryPanel : MonoBehaviour {
         foreach (Card card in playerCards) {
             GameObject temp = Instantiate(cardSlot, purchasedCardContent.transform.position, Quaternion.identity);
             temp.transform.SetParent(purchasedCardContent.transform);
-            //temp.transform.localScale = new Vector3(1, 1, 1);
+            temp.transform.localScale = new Vector3(1, 1, 1);
             temp.GetComponent<CardSlot>().SetupInventory(card);
         }
         foreach (Noble noble in playerNobles) {
