@@ -17,6 +17,8 @@ public class PlayerControl : MonoBehaviour {
     [SerializeField] private SelectedTokens selectedTokens;
     [SerializeField] private GameObject takeTokensButton;
 
+    public Text errorText;
+
     public AllCards allCards;
     public CardSlot selectedCard;
     public CardSlot selectedCardToBuy;
@@ -181,7 +183,10 @@ public class PlayerControl : MonoBehaviour {
                 UnityEngine.Debug.Log(response.ToJSONString());
                 string status = (string)response["status"];
 
-                if (status.Equals("failure")) return;
+                if (status.Equals("failure")) {
+                    errorText.GetComponent<FadeOut>().ResetFade();
+                    return;
+                };
 
                 string action = (string)response["action"];
                 JSONArray jsonNoblesVisited = (JSONArray)response["noblesVisiting"];
@@ -209,7 +214,9 @@ public class PlayerControl : MonoBehaviour {
 
                     actionManager.MakeApiRequest(currSession.id, null, ActionManager.ActionType.endTurn, ActionManager.RequestType.POST, (response) => {
 
-                        if (response != null && ((string)response["status"]).Equals("success"));
+                        if (response != null && ((string)response["status"]).Equals("success")) {
+                            errorText.GetComponent<FadeOut>().CompleteFade();
+                        }
 
                     });
 
@@ -233,15 +240,16 @@ public class PlayerControl : MonoBehaviour {
             if(response != null){
                 string status = (string)response["status"];
 
-                if(status == "success"){
-                    // Add selectedNobleToInventory
-                }else{
-                    // Handle failed status
-                }
+                if (status.Equals("failure")) {
+                    errorText.GetComponent<FadeOut>().ResetFade();
+                    return;
+                };
 
                 actionManager.MakeApiRequest(currSession.id, null, ActionManager.ActionType.endTurn, ActionManager.RequestType.POST, (response) => {
 
-                    if (response != null && ((string)response["status"]).Equals("success"));
+                    if (response != null && ((string)response["status"]).Equals("success")) {
+                        errorText.GetComponent<FadeOut>().CompleteFade();
+                    }
 
                 });
 
@@ -276,7 +284,11 @@ public class PlayerControl : MonoBehaviour {
             if(response != null){
 
                 string status = (string)response["status"];
-                if (status.Equals("failure")) return;
+
+                if (status.Equals("failure")) {
+                    errorText.GetComponent<FadeOut>().ResetFade();
+                    return;
+                };
 
                 long overFlowAmount = (long)response["tokenOverflow"];
                 if(overFlowAmount == 0){
@@ -290,6 +302,7 @@ public class PlayerControl : MonoBehaviour {
                     if (response != null && ((string)response["status"]).Equals("success")) {
                         takeTokensButton.SetActive(false);
                         selectedTokens.reset();
+                        errorText.GetComponent<FadeOut>().CompleteFade();
                     }
 
                 });
@@ -314,9 +327,19 @@ public class PlayerControl : MonoBehaviour {
         actionManager.MakeApiRequest(currSession.id, reserveCardJson, ActionManager.ActionType.reserveCard, ActionManager.RequestType.POST,(response) => {
             if(response != null){
                 string status = (string)response["status"];
-                if(status != "success"){
-                    // Handle reserve card failure
-                }
+
+                if (status.Equals("failure")) {
+                    errorText.GetComponent<FadeOut>().ResetFade();
+                    return;
+                };
+
+                actionManager.MakeApiRequest(currSession.id, null, ActionManager.ActionType.endTurn, ActionManager.RequestType.POST, (response) => {
+
+                    if (response != null && ((string)response["status"]).Equals("success")) {
+                        errorText.GetComponent<FadeOut>().CompleteFade();
+                    }
+
+                });
             }else{
                 // Handle null return
             }
@@ -334,6 +357,10 @@ public class PlayerControl : MonoBehaviour {
 
             if(response != null){
                 string status = (string)response["status"];
+                if (status.Equals("failure")) {
+                    errorText.GetComponent<FadeOut>().ResetFade();
+                    return;
+                };
                 string action = (string)response["action"];
                 JSONArray jsonNoblesVisited = (JSONArray)response["noblesVisiting"];
                 //int[] noblesVisiting = new int[]
@@ -362,7 +389,9 @@ public class PlayerControl : MonoBehaviour {
 
                     actionManager.MakeApiRequest(currSession.id, null, ActionManager.ActionType.endTurn, ActionManager.RequestType.POST, (response) => {
 
-                        if (response != null && ((string)response["status"]).Equals("success"));
+                        if (response != null && ((string)response["status"]).Equals("success")) {
+                            errorText.GetComponent<FadeOut>().CompleteFade();
+                        }
 
                     });
 
@@ -387,6 +416,10 @@ public class PlayerControl : MonoBehaviour {
 
             if(response != null){
                 string status = (string)response["status"];
+                if (status.Equals("failure")) {
+                    errorText.GetComponent<FadeOut>().ResetFade();
+                    return;
+                };
                 string action = (string)response["action"];
                 JSONArray jsonNoblesVisited = (JSONArray)response["noblesVisiting"];
                 //int[] noblesVisiting = new int[]
@@ -415,7 +448,9 @@ public class PlayerControl : MonoBehaviour {
 
                     actionManager.MakeApiRequest(currSession.id, null, ActionManager.ActionType.endTurn, ActionManager.RequestType.POST, (response) => {
 
-                        if (response != null && ((string)response["status"]).Equals("success"));
+                        if (response != null && ((string)response["status"]).Equals("success")) {
+                            errorText.GetComponent<FadeOut>().CompleteFade();
+                        }
 
                     });
 
