@@ -10,11 +10,11 @@ using UnityEngine.UI;
  */
 public class InventoryPanel : MonoBehaviour {
     [SerializeField] private PlayerControl playerControl;
+    [SerializeField] private Player player;
     [SerializeField] private GameObject inventoryPanel; //menu do make appear/disappear through button press
-    [SerializeField] private GameObject purchasedCardContent, nobleContent; //, reservedCardContent, reservedNobleContent; //panels to display information on
+    [SerializeField] private GameObject purchasedCardContent, nobleContent; //panels to display information on
     [SerializeField] private GameObject cardSlot; //Blank card prefab
     [SerializeField] private GameObject nobleSlot; //Blank noble prefab
-    [SerializeField] private Text playerName; //the player name to whom the inventory belongs
     //Display is called by the button to open/close the panel
 
     public void InventoryStatus() {//switches inventory status (needed for use with button)
@@ -26,10 +26,10 @@ public class InventoryPanel : MonoBehaviour {
         else {
             //set inventory panel title as the inventory owner's name
             Text ownerName = inventoryPanel.transform.Find("OwnerName").gameObject.GetComponent<Text>();
-            if (ownerName != null) ownerName.text = playerName.text;
-
+            if (ownerName != null) ownerName.text = player.GetUsername();
+            
             inventoryPanel.SetActive(true);
-            DisplayPlayerCards(playerControl.client.GetAcquiredCards(), playerControl.client.GetAcquiredNobles());
+            DisplayPlayerCards(player.GetAcquiredCards(), player.GetAcquiredNobles());
         }
         InventoryStatus();
     }
