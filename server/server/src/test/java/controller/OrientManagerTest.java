@@ -14,6 +14,7 @@ import ca.mcgill.splendorserver.models.Player;
 import ca.mcgill.splendorserver.models.Token;
 import ca.mcgill.splendorserver.models.communicationbeans.SessionData;
 import ca.mcgill.splendorserver.models.registries.CardRegistry;
+import ca.mcgill.splendorserver.models.registries.UnlockableRegistry;
 import utils.ControllerTestUtils;
 import ca.mcgill.splendorserver.models.board.Board;
 import ca.mcgill.splendorserver.models.board.CardBank;
@@ -257,10 +258,28 @@ public class OrientManagerTest {
 	      fail("expected exception not thrown");
 	    } catch (AssertionError e) { }
 	    
+	    
+	    testInventory.getUnlockables().add(UnlockableRegistry.of(15));
+	    testInventory.getUnlockables().add(UnlockableRegistry.of(16));
+	    testInventory.getUnlockables().add(UnlockableRegistry.of(17));
+	    testInventory.getUnlockables().add(UnlockableRegistry.of(18));
+	    testInventory.getUnlockables().add(UnlockableRegistry.of(19));
 	    tokens2.clear();
 	    tokens2.add("RED");
 	    tokens2.add("RED");
 	    tokens2.add("BLUE");
+	    request.replace("tokens", tokens2);
+	    game.setVariant("tradingposts");
+	    response = gc.takeTokens("TestGame", request);
+	    try {
+	      assertEquals(ResponseEntity.ok().body(invalidAction.toJSONString()), response);
+	      fail("expected exception not thrown");
+	    } catch (AssertionError e) { }
+	    
+	    tokens2.clear();
+	    tokens2.add("RED");
+	    tokens2.add("RED");
+	    tokens2.add("RED");
 	    request.replace("tokens", tokens2);
 	    response = gc.takeTokens("TestGame", request);
 	    try {

@@ -400,7 +400,7 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
     Player currentPlayer = game.getCurrentPlayer();
     
     //if trading posts expansion enabled...
-    if (game.getVariant().equals("tradingpost")) {
+    if (game.getVariant().equals("tradingposts")) {
       for (Unlockable u : UnlockableRegistry.getTradingPosts()) {
         u.observe(currentPlayer);
       }

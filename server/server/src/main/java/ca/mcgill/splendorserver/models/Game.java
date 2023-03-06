@@ -130,4 +130,14 @@ public class Game {
       }
     }
   }
+
+  /**
+   * Sets the variant.
+
+   * @param variant new variant for this game.
+   * 
+   */
+  public void setVariant(String variant) {
+    this.variant = variant;
+  }
 }

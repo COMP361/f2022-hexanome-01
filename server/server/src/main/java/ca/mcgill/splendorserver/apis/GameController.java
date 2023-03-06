@@ -211,7 +211,7 @@ public class GameController {
       }
       JSONObject response = GameManager.takeTokens(game, playerId, tokensArray);
       if (response == null) {
-        return ResponseEntity.badRequest().body(invalidAction.toJSONString());
+        return ResponseEntity.ok().body(invalidAction.toJSONString());
       }
       response.put("status", "success");
       //return the result of taking the tokens
