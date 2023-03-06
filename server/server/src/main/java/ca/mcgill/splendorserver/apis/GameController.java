@@ -387,7 +387,7 @@ public class GameController {
         return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
       }
 
-      int nobleId = (int) data.get("cardId");
+      int nobleId = (int) data.get("nobleId");
       JSONObject response = new JSONObject();
       Board board = game.getBoard();
       Noble noble = NobleRegistry.of(nobleId);
