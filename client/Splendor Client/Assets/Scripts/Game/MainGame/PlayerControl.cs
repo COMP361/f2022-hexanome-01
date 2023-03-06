@@ -432,6 +432,25 @@ public class PlayerControl : MonoBehaviour {
     }
 
 
+    // Sets all users tokens to 99 
+    public void debugAction(){
+        Dictionary<string, object> requestDict = new Dictionary<string, object>();
+        JSONObject playerJson = new JSONObject(requestDict);
+        playerJson.Add("playerId", player.GetUsername());
+        actionManager.MakeApiRequest(currSession.id, playerJson, ActionManager.ActionType.freeTokens, ActionManager.RequestType.POST, (response) => {
+
+            string status = (string)response["status"];
+
+            if(status == "success"){
+                return;
+            }else{
+                return;
+            }
+
+        });
+    }
+
+
     public void setReserveToTrue(){
         selectReserve = true;
         selectedCardToReserve = selectedCard;
