@@ -28,7 +28,8 @@ public class ActionManager : MonoBehaviour
         takeTokens,
         reserveCard,
         selectNoble,
-        endTurn,
+        domino,
+        endTurn
     }
 
     public enum RequestType
