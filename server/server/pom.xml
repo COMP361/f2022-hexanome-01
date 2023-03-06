@@ -224,11 +224,11 @@
 		  </properties>
 	   </profile>
 	   <profile>
-            <id>prod</id>
-            <properties>
-                <activatedProperties>prod</activatedProperties>
-                <packaging.type>jar</packaging.type>
-            </properties>
-        </profile>
+       <id>prod</id>
+       <properties>
+         <activatedProperties>prod</activatedProperties>
+         <packaging.type>jar</packaging.type>
+       </properties>
+     </profile>
     </profiles>
 </project>
