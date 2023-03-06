@@ -216,16 +216,19 @@
     </build>
     <profiles>
 	   <profile>
-		  <activation>
-			 <property>
-				  <name>debug</name>
-			 </property>
-		  </activation>
+		  <id>debug</id>
 		  <properties>
 		    <maven.javadoc.skip>true</maven.javadoc.skip>
 		    <checkstyle.skip>true</checkstyle.skip>
 		    <maven.test.skip>true</maven.test.skip>
 		  </properties>
 	   </profile>
+	   <profile>
+            <id>prod</id>
+            <properties>
+                <activatedProperties>prod</activatedProperties>
+                <packaging.type>jar</packaging.type>
+            </properties>
+        </profile>
     </profiles>
 </project>
