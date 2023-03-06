@@ -85,13 +85,18 @@ public class GameController {
     return ResponseEntity.status(500).body(error.toJSONString());
   }
 
+  /**
+   * Getter for the board.
+   *
+   * @param gameId the id of the game to get the board of.
+   * @return success flag
+   */
   @GetMapping("/api/games/{gameId}/immediateBoard")
   public ResponseEntity<String> getBoard(@PathVariable String gameId) {
     Optional<Board> boardOptional = GameManager.getGameBoard(gameId);
     if (boardOptional.isPresent()) {
       return ResponseEntity.ok(boardOptional.get().toJson().toJSONString());
-    }
-    else {
+    } else {
       return ResponseEntity.badRequest().body("No board");
     }
   }
@@ -183,7 +188,7 @@ public class GameController {
    * @throws JsonProcessingException when JSON processing error occurs
    */
   @SuppressWarnings("unchecked")
-@PostMapping("/api/action/{gameId}/takeTokens")
+  @PostMapping("/api/action/{gameId}/takeTokens")
   public ResponseEntity<String> takeTokens(@PathVariable String gameId,
                                            @RequestBody JSONObject data)
       throws JsonProcessingException {
@@ -543,7 +548,6 @@ public class GameController {
    * Ends turn.
    *
    * @param gameId the id of the game
-   * @param data   the game data of the take tokens action
    * @return success flag
    * @throws JsonProcessingException when JSON processing error occurs
    */
