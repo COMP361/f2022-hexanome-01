@@ -169,11 +169,12 @@ public class Inventory {
    */
   public void payForCard(Card card, int goldUsed) {
     tokens.removeRepeated(Token.GOLD, goldUsed);
+    TokenBank bonuses = getBonuses();
     for (Token token : Token.values()) {
       if (token.equals(Token.GOLD)) {
         continue;
       }
-      tokens.removeRepeated(token, card.getCost().get(token));
+      tokens.removeRepeated(token, Math.max(0, card.getCost().get(token) - bonuses.checkAmount(token)));
     }
   }
 
@@ -189,8 +190,9 @@ public class Inventory {
       if (token.equals(Token.GOLD)) {
         continue;
       }
+      TokenBank bonuses = getBonuses();
       int tokenAmount = tokens.checkAmount(token);
-      int tokenCost = cost.get(token);
+      int tokenCost = Math.max(0, cost.get(token) - bonuses.checkAmount(token));
       if (tokenAmount < tokenCost) {
         int goldAvailable = tokens.checkAmount(Token.GOLD) - goldUsed;
         if (tokenCost - tokenAmount > goldAvailable) {
@@ -222,7 +224,7 @@ public class Inventory {
   }
 
   /**
-   * Getter for the bonuses acquired by the player.
+   * Getter for the bonuses acquired by the player (includes satchels).
    *
    * @return TokenBank containing the player's current discount or bonus count for each token.
    */
@@ -230,7 +232,7 @@ public class Inventory {
     TokenBank bonuses = new TokenBank();
     for (Card card : cards) {
       if (card.getBonus().getType() != null) {
-        bonuses.addRepeated(card.getBonus().getType(), card.getBonus().getAmount());
+        bonuses.addRepeated(card.getBonus().getType(), card.getBonus().getAmount() + card.getSatchelCount());
       }
     }
     return bonuses;
