@@ -24,9 +24,9 @@ public class TradingPost implements Unlockable {
     condition = 
         new Condition((JSONObject) JsonHandler.decodeJsonRequest(json.get("condition").toString()));
     switch (id) {
-      case 15: action = null; 
+      case 15: action = new FreeToken(); 
                break;
-      case 16: action = null; 
+      case 16: action = new ExtraToken(); 
                break;
       case 17: action = new DoubleGold(); 
                break;
@@ -57,7 +57,7 @@ public class TradingPost implements Unlockable {
         for (Unlockable u : player.getInventory().getUnlockables()) {
           if (u instanceof TradingPost 
                 && ((TradingPost) u).getAction() instanceof DynamicPointAction) {
-            player.getInventory().incrementPosts();  
+            player.getInventory().changePoints(1);  
             return;
           }
         }
@@ -70,7 +70,7 @@ public class TradingPost implements Unlockable {
         for (Unlockable u : player.getInventory().getUnlockables()) {
           if (u instanceof TradingPost 
                   && ((TradingPost) u).getAction() instanceof DynamicPointAction) {
-            player.getInventory().decrementPosts();  
+            player.getInventory().changePoints(-1);  
             return;
           }
         }
