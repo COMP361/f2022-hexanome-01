@@ -323,6 +323,7 @@ public class PlayerControl : MonoBehaviour {
         });
         
     }
+    
 
     public void dominoCardAction(long cardId){
         Dictionary<string, object> requestDict = new Dictionary<string, object>();
