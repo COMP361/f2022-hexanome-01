@@ -207,7 +207,7 @@ public class PlayerControl : MonoBehaviour {
                 }
 
                 else {
-                    // call and display claim nobles
+                    claimNoblePanel.checkAvailNobles(allNobles);
                 }
 
             }
