@@ -368,9 +368,7 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
    *
    * @param gameId the id of the game where the turn is ending
    */
-  public void endTurn(String gameId) {
-    Game game = getGame(gameId);
-    
+  public static void endTurn(Game game) {    
     Player currentPlayer = game.getCurrentPlayer();
     
     //if trading posts expansion enabled...
