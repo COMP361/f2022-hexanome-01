@@ -44,7 +44,8 @@ public class SelectedTokens : MonoBehaviour
             }
             //when take 3 different colours
             else if (sTokens[i].colour == "none"){
-                if (sTokens[0].amount<2 & sTokens[1].amount<2 & sTokens[2].amount<2){
+                if (sTokens[0].amount<2 & sTokens[1].amount<2 & sTokens[2].amount<2
+                & sTokens[0].colour!=colour & sTokens[1].colour!=colour & sTokens[2].colour!=colour){
                     sTokens[i].colour = colour;
                     colours[i].text = colour;
                     sTokens[i].amount += 1;
