@@ -43,7 +43,7 @@ public class Game {
 
     currentPlayerIndex = 0;
   }
-
+  
   /**
    * Getter for game id.
    *
