@@ -174,7 +174,8 @@ public class Inventory {
       if (token.equals(Token.GOLD)) {
         continue;
       }
-      tokens.removeRepeated(token, Math.max(0, card.getCost().get(token) - bonuses.checkAmount(token)));
+      tokens.removeRepeated(token, 
+          Math.max(0, card.getCost().get(token) - bonuses.checkAmount(token)));
     }
   }
 
@@ -232,7 +233,8 @@ public class Inventory {
     TokenBank bonuses = new TokenBank();
     for (Card card : cards) {
       if (card.getBonus().getType() != null) {
-        bonuses.addRepeated(card.getBonus().getType(), card.getBonus().getAmount() + card.getSatchelCount());
+        bonuses.addRepeated(card.getBonus().getType(), 
+            card.getBonus().getAmount() + card.getSatchelCount());
       }
     }
     return bonuses;
