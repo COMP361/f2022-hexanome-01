@@ -42,6 +42,9 @@ public class ActionManager : MonoBehaviour
     {
         string apiEndpointUrl = GetApiEndpointUrl(gameId, actionType);
 
+        Debug.Log(apiEndpointUrl);
+        Debug.Log(jsonPayload.ToString());
+
         // Create a new HTTP request object
        UnityWebRequest webRequest;
 
@@ -54,9 +57,6 @@ public class ActionManager : MonoBehaviour
                 webRequest = UnityWebRequest.Post(apiEndpointUrl, "POST");
                 break;
         }
-        
-        
-        
 
         // Set the content type to "application/json"
         webRequest.SetRequestHeader("Content-Type", "application/json");
@@ -89,9 +89,8 @@ public class ActionManager : MonoBehaviour
         else
         {
             
-
-        JSONObject jsonObject = (JSONObject)JSONHandler.DecodeJsonRequest(webRequest.downloadHandler.text);
- 
+            Debug.Log(webRequest.downloadHandler.text);
+            JSONObject jsonObject = (JSONObject)JSONHandler.DecodeJsonRequest(webRequest.downloadHandler.text);
 
             callback(jsonObject);
 

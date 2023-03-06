@@ -104,6 +104,7 @@ public class Game {
    */
   public void nextPlayer() {
     currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+    this.board.setCurrentPlayer(getCurrentPlayer().getUsername());
   }
 
   /**
