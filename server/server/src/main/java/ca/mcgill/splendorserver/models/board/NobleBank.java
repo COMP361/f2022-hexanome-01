@@ -63,6 +63,14 @@ public class NobleBank {
     return true;
   }
 
+  public boolean removeId(int nobleId) {
+    for (int i = 0; i < size; i++) {
+      if (nobles[i] == nobleId) {
+        
+      }
+    }
+  }
+
   /**
    * Getter for all the nobles on the board.
    *
