@@ -19,50 +19,91 @@ public class OrientPanelManager : MonoBehaviour {
     [SerializeField] private List<Card> cardsDebug;
 
     public void Display(List<Card> cards, List<Noble> nobles, ActionManager.ActionType _action) {
-        cardsDebug = cards;
-        this.action = _action;
-        panel.SetActive(true);
-        Debug.Log(cards.Count);
+        if (!panel.activeInHierarchy) {
+            cardsDebug = cards;
+            this.action = _action;
+            panel.SetActive(true);
+            Debug.Log(cards.Count);
 
 #if UNITY_EDITOR
-        CardSlot[] boardCards = (CardSlot[])Resources.FindObjectsOfTypeAll(typeof(CardSlot));
-        NobleSlot[] boardNobles = (NobleSlot[])Resources.FindObjectsOfTypeAll(typeof(NobleSlot));
-        CitySlot[] cities = (CitySlot[])Resources.FindObjectsOfTypeAll(typeof(CitySlot));
+            CardSlot[] boardCards = (CardSlot[])Resources.FindObjectsOfTypeAll(typeof(CardSlot));
+            NobleSlot[] boardNobles = (NobleSlot[])Resources.FindObjectsOfTypeAll(typeof(NobleSlot));
+            CitySlot[] cities = (CitySlot[])Resources.FindObjectsOfTypeAll(typeof(CitySlot));
 #else
-        CardSlot[] boardCards = (CardSlot[])Object.FindObjectsOfType(typeof(CardSlot));
-        NobleSlot[] boardNobles = (NobleSlot[])Object.FindObjectsOfType(typeof(NobleSlot));
-        CitySlot[] cities = (CitySlot[])Object.FindObjectsOfType(typeof(CitySlot));
+            CardSlot[] boardCards = (CardSlot[])Object.FindObjectsOfType(typeof(CardSlot));
+            NobleSlot[] boardNobles = (NobleSlot[])Object.FindObjectsOfType(typeof(NobleSlot));
+            CitySlot[] cities = (CitySlot[])Object.FindObjectsOfType(typeof(CitySlot));
 #endif
 
-        foreach (CardSlot c in boardCards) {
+            foreach (CardSlot c in boardCards) {
 #if UNITY_EDITOR
-            if (PrefabUtility.GetPrefabAssetType(c) == PrefabAssetType.NotAPrefab) 
-                c.gameObject.SetActive(false);
+                if (PrefabUtility.GetPrefabAssetType(c) == PrefabAssetType.NotAPrefab)
+                    c.gameObject.SetActive(true);
 #else
-                c.gameObject.SetActive(false);
+                    c.gameObject.SetActive(true);
 #endif
-            
-        }
-        foreach (NobleSlot n in boardNobles) {
-#if UNITY_EDITOR
-            if (PrefabUtility.GetPrefabAssetType(n) == PrefabAssetType.NotAPrefab) 
-                n.gameObject.SetActive(false);
-#else
-                 n.gameObject.SetActive(false);
-#endif
-            
-        }
-        foreach (CitySlot c in cities) {
-#if UNITY_EDITOR
-            if (PrefabUtility.GetPrefabAssetType(c) == PrefabAssetType.NotAPrefab) 
-                c.gameObject.SetActive(false);
-#else
-                c.gameObject.SetActive(false);
-#endif
-            
-        }
 
-        DisplayPlayerCards(cards, nobles);
+            }
+            foreach (NobleSlot n in boardNobles) {
+#if UNITY_EDITOR
+                if (PrefabUtility.GetPrefabAssetType(n) == PrefabAssetType.NotAPrefab)
+                    n.gameObject.SetActive(true);
+#else
+                    n.gameObject.SetActive(true);
+#endif
+
+            }
+            foreach (CitySlot c in cities) {
+#if UNITY_EDITOR
+                if (PrefabUtility.GetPrefabAssetType(c) == PrefabAssetType.NotAPrefab)
+                    c.gameObject.SetActive(true);
+#else
+                    c.gameObject.SetActive(true);
+#endif
+
+            }
+
+            DisplayPlayerCards(cards, nobles);
+        }
+        else {
+#if UNITY_EDITOR
+            CardSlot[] boardCards = (CardSlot[])Resources.FindObjectsOfTypeAll(typeof(CardSlot));
+            NobleSlot[] boardNobles = (NobleSlot[])Resources.FindObjectsOfTypeAll(typeof(NobleSlot));
+            CitySlot[] cities = (CitySlot[])Resources.FindObjectsOfTypeAll(typeof(CitySlot));
+#else
+            CardSlot[] boardCards = (CardSlot[])Object.FindObjectsOfType(typeof(CardSlot));
+            NobleSlot[] boardNobles = (NobleSlot[])Object.FindObjectsOfType(typeof(NobleSlot));
+            CitySlot[] cities = (CitySlot[])Object.FindObjectsOfType(typeof(CitySlot));
+#endif
+
+            foreach (CardSlot c in boardCards) {
+#if UNITY_EDITOR
+                if (PrefabUtility.GetPrefabAssetType(c) == PrefabAssetType.NotAPrefab)
+                    c.gameObject.SetActive(false);
+#else
+                    c.gameObject.SetActive(false);
+#endif
+
+            }
+            foreach (NobleSlot n in boardNobles) {
+#if UNITY_EDITOR
+                if (PrefabUtility.GetPrefabAssetType(n) == PrefabAssetType.NotAPrefab)
+                    n.gameObject.SetActive(false);
+#else
+                    n.gameObject.SetActive(false);
+#endif
+
+            }
+            foreach (CitySlot c in cities) {
+#if UNITY_EDITOR
+                if (PrefabUtility.GetPrefabAssetType(c) == PrefabAssetType.NotAPrefab)
+                    c.gameObject.SetActive(false);
+#else
+                    c.gameObject.SetActive(false);
+#endif
+
+            }
+        }
     }
 
     public void DisplayPlayerCards(List<Card> cards, List<Noble> nobles) { //displays acquired cards/nobles
@@ -104,22 +145,22 @@ public class OrientPanelManager : MonoBehaviour {
     public void Select() {
         if (selectedCard != -1 && action == ActionManager.ActionType.domino) {
             playerControl.dominoCardAction(selectedCard);
-            ShowObjects();
+            Display(null, null, ActionManager.ActionType.satchel);
             panel.SetActive(false);
         }
         else if (selectedCard != -1 && action == ActionManager.ActionType.satchel) {
             playerControl.satchelAction(selectedCard);
-            ShowObjects();
+            Display(null, null, ActionManager.ActionType.satchel);
             panel.SetActive(false);
         }
         else if (selectedCard != -1 && action == ActionManager.ActionType.dominoSatchel) {
             playerControl.dominoSatchelAction(selectedCard);
-            ShowObjects();
+            Display(null, null, ActionManager.ActionType.satchel);
             panel.SetActive(false);
         }
         else if (selectedCard != -1 && action == ActionManager.ActionType.reserveNoble) {
             playerControl.reserveNobleAction(selectedCard);
-            ShowObjects();
+            Display(null, null, ActionManager.ActionType.satchel);
             panel.SetActive(false);
         }
     }
@@ -149,30 +190,30 @@ public class OrientPanelManager : MonoBehaviour {
 
         foreach (CardSlot c in boardCards) {
 #if UNITY_EDITOR
-            if (PrefabUtility.GetPrefabAssetType(c) == PrefabAssetType.NotAPrefab) 
+            if (PrefabUtility.GetPrefabAssetType(c) == PrefabAssetType.NotAPrefab)
                 c.gameObject.SetActive(true);
 #else
                 c.gameObject.SetActive(true);
 #endif
-            
+
         }
         foreach (NobleSlot n in boardNobles) {
 #if UNITY_EDITOR
-            if (PrefabUtility.GetPrefabAssetType(n) == PrefabAssetType.NotAPrefab) 
+            if (PrefabUtility.GetPrefabAssetType(n) == PrefabAssetType.NotAPrefab)
                 n.gameObject.SetActive(true);
 #else
                 n.gameObject.SetActive(true);
 #endif
-            
+
         }
         foreach (CitySlot c in cities) {
 #if UNITY_EDITOR
-            if (PrefabUtility.GetPrefabAssetType(c) == PrefabAssetType.NotAPrefab) 
+            if (PrefabUtility.GetPrefabAssetType(c) == PrefabAssetType.NotAPrefab)
                 c.gameObject.SetActive(true);
 #else
                 c.gameObject.SetActive(true);
 #endif
-            
+
         }
     }
 }
