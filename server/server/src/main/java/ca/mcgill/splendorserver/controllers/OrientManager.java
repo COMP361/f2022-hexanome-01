@@ -163,11 +163,46 @@ public static JSONObject reserve(Card card, Board board) {
    * @return the JSONObject response containing the action being done, and choices for user.
    */
   public static JSONObject sacrifice(Card card, Inventory inventory) {
-    return null;
     //asks player to select which cards they desire to sacrifice
     //prioritizes sacrificing cards with satchel value != 0
     //if valid cards selected (2 cards, or 1 with bonus of 2),
     //remove them from inventory and add this card
+    JSONObject response = new JSONObject();
+    response.put("type", card.getType().toString());
+    JSONArray satchels = new JSONArray();
+    JSONArray regular = new JSONArray();
+    
+    Token desiredCard;
+    
+    switch (card.getBonus().getType()) {
+      case GREEN: desiredCard = Token.BLUE; 
+        break;
+      case RED: desiredCard = Token.GREEN; 
+        break;
+      case BLUE: desiredCard = Token.WHITE;
+        break;
+      case WHITE: desiredCard = Token.BLACK;
+        break;
+      case BLACK: desiredCard = Token.RED;
+        break;
+      default: return null;
+    }
+    
+    for (Card c : inventory.getCards()) {
+      if (c.getBonus().getType() == desiredCard && c.getSatchelCount() > 0) {
+        satchels.add(c.getId());
+      } else if (c.getBonus().getType() == desiredCard) {
+        regular.add(c.getId());
+      }
+    }
+
+    if (!satchels.isEmpty()) {
+      response.put("options", JSONArray.toJSONString(satchels));
+    } else {
+      response.put("options", JSONArray.toJSONString(regular));
+    }
+
+    return response;
   } 
   
   /**
@@ -204,9 +239,24 @@ public static JSONObject reserve(Card card, Board board) {
   /**
    * Handles orient sacrifice selection.
    *
+   * @param card1 first card that we're sacrificing.
+   * @param card2 first card that we're sacrificing.
+   * @param inventory inventory the sacrifices are coming from.
    * @return whether or not the action went through
    */
-  public static boolean makeSacrifice() {
-    return true;
+  public static boolean makeSacrifice(Card card1, Card card2, Inventory inventory) {
+    if (card1 == null && card2 == null) {
+      return false;
+    } else if (card1 != null && card2 != null) {
+      boolean removed = inventory.removeCard(card1);
+      removed = removed ? inventory.removeCard(card2) : false;
+      return removed;
+    } else if (card1 != null) {
+      return card1.getBonus().getAmount() + card1.getSatchelCount() > 1 
+        ? inventory.removeCard(card1) : false;
+    } else {
+      return card2.getBonus().getAmount() + card2.getSatchelCount() > 1 
+        ? inventory.removeCard(card2) : false;
+    }
   }
 }
