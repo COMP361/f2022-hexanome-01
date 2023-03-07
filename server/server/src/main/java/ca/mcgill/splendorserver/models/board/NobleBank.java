@@ -63,12 +63,21 @@ public class NobleBank {
     return true;
   }
 
+  /**
+   * Removes a noble from the noble bank based on a noble id.
+   *
+   * @param nobleId the id of the noble to remove
+   * @return whether the noble was successfully removed
+   */
   public boolean removeId(int nobleId) {
     for (int i = 0; i < size; i++) {
       if (nobles[i] == nobleId) {
-        
+        nobles[i] = -1;
+        return true;
       }
     }
+
+    return false;
   }
 
   /**
