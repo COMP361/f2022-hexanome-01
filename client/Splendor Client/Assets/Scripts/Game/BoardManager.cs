@@ -39,6 +39,7 @@ public class BoardManager : MonoBehaviour
             
             //STEP 1: set cards
             JSONArray cardsData = (JSONArray)boardData["cards"];
+            cards.ResetAllCards();
             //for each level
             IEnumerator cardLevelEnumerator = cardsData.GetEnumerator();
             for (int level = 0; cardLevelEnumerator.MoveNext(); level++)
@@ -68,6 +69,8 @@ public class BoardManager : MonoBehaviour
             JSONArray noblesData = (JSONArray)boardData["nobles"];
             IEnumerator nobleEnumerator = noblesData.GetEnumerator();
 
+            nobles.ResetAllNobles();
+
             nobles.SetSize(noblesData.Count);
             for (int i = 0; nobleEnumerator.MoveNext(); i++)
             {
@@ -89,6 +92,7 @@ public class BoardManager : MonoBehaviour
             if (currentSession.name.Equals("cities"))
             {
                 JSONArray citiesData = (JSONArray)boardData["cities"];
+                cities.ResetAllCities();
                 IEnumerator citiesEnumerator = citiesData.GetEnumerator();
 
                 for (int i = 0; citiesEnumerator.MoveNext(); i++)

@@ -26,6 +26,8 @@ public class AllCards : MonoBehaviour
     [SerializeField] private float yLevel2;
     [SerializeField] private float yLevel3;
 
+    private List<GameObject> prefabs = new List<GameObject>();
+
     public void GreyOutExcept(CardSlot _card)
     {
         UnGreyOut();
@@ -89,6 +91,13 @@ public class AllCards : MonoBehaviour
         }
     }
 
+    public void ResetAllCards()
+    {
+        foreach (var card in prefabs) {
+            Destroy(card);
+        }
+    }
+
     public void SetCard(bool orient, int level, int index, long id)
     {
         float x = xBase;
@@ -99,6 +108,7 @@ public class AllCards : MonoBehaviour
         else if (level == 2) y = yLevel3;
 
         GameObject prefab = Instantiate(cardObject, new Vector3(x + index * 0.85F, y, 0), Quaternion.identity);
+        prefabs.Add(prefab);
         Card toSet = cards.Find(x => x.id.Equals(id)); //find card with given id
 
         if (orient) {
