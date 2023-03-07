@@ -35,7 +35,6 @@ public class NobleSlot : MonoBehaviour {
     public void SetNoble(Noble noble) { //only used when displaying nobles on board i believe
         this.noble = noble;
         gameObject.transform.localScale = new UnityEngine.Vector3(0.77f, 0.77f, 0.77f);
-        gameObject.GetComponent<Button>().interactable = false;
         m_SpriteRenderer = GetComponent<SpriteRenderer>();
         m_SpriteRenderer.sprite = noble.sprite;
         image.color = Color.clear; //sets canvas image to clear, since this method is used by playerControl and not orientMenuManager (which uses the image for display purposes)

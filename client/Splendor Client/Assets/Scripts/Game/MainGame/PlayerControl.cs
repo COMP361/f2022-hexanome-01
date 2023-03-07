@@ -26,7 +26,7 @@ public class PlayerControl : MonoBehaviour {
 
     public NobleRow allNobles;
     public NobleSlot selectedNoble;
-    private ClaimNoblePanel claimNoblePanel;
+    [SerializeField] private ClaimNoblePanel claimNoblePanel;
 
     public OrientPanelManager orientPanelManager;
 
@@ -235,7 +235,7 @@ public class PlayerControl : MonoBehaviour {
         JSONObject selectNobleJson = new JSONObject(requestDict);
         selectNobleJson.Add("playerId", player.GetUsername());
         selectNobleJson.Add("nobleId", selectedNoble.GetNoble().id);
-        actionManager.MakeApiRequest(currSession.id, selectNobleJson, ActionManager.ActionType.selectNoble,ActionManager.RequestType.POST, (response) => {
+        actionManager.MakeApiRequest(currSession.id, selectNobleJson, ActionManager.ActionType.claimNoble,ActionManager.RequestType.POST, (response) => {
 
             if(response != null){
                 string status = (string)response["status"];
