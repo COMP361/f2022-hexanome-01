@@ -17,6 +17,13 @@ public class FadeOut : MonoBehaviour
 
     public void ResetFade()
     {
+        text.text = "Nuh uh uh. You cannot make that move right now.";
+        text.color = new Color(text.color.r, text.color.g, text.color.b, 1);
+    }
+
+    public void ResetFade(bool n)
+    {
+        if (n) text.text = "Nuh uh uh. Please wait your turn.";
         text.color = new Color(text.color.r, text.color.g, text.color.b, 1);
     }
 

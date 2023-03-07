@@ -74,8 +74,9 @@ public class SelectedTokens : MonoBehaviour
         return false;
     }
 
-    public void reset(){
+    public void reset(TokenBank tokenBank){
         foreach (Gem token in sTokens){
+            tokenBank.AddAmount(token.colour, token.amount);
             token.colour = "none";
             token.amount = 0;
         }
