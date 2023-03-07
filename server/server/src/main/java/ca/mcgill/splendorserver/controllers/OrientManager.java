@@ -239,9 +239,24 @@ public static JSONObject reserve(Card card, Board board) {
   /**
    * Handles orient sacrifice selection.
    *
+   * @param card1 first card that we're sacrificing.
+   * @param card2 first card that we're sacrificing.
+   * @param inventory inventory the sacrifices are coming from.
    * @return whether or not the action went through
    */
-  public static boolean makeSacrifice() {
-    return true;
+  public static boolean makeSacrifice(Card card1, Card card2, Inventory inventory) {
+    if (card1 == null && card2 == null) {
+      return false;
+    } else if (card1 != null && card2 != null) {
+      boolean removed = inventory.removeCard(card1);
+      removed = removed ? inventory.removeCard(card2) : false;
+      return removed;
+    } else if (card1 != null) {
+      return card1.getBonus().getAmount() + card1.getSatchelCount() > 1 
+        ? inventory.removeCard(card1) : false;
+    } else {
+      return card2.getBonus().getAmount() + card2.getSatchelCount() > 1 
+        ? inventory.removeCard(card2) : false;
+    }
   }
 }
