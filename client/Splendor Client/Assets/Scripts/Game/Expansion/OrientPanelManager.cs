@@ -7,20 +7,24 @@ public class OrientPanelManager : MonoBehaviour
 {
     [SerializeField] private GameObject panel;
 
-    private PlayerControl playerControl;
+    [SerializeField] private PlayerControl playerControl;
 
     [SerializeField] private GameObject cardSlot; //Blank card prefab
     [SerializeField] private GameObject nobleSlot; //Blank noble prefab
     [SerializeField] private GameObject cardContent, nobleContent; 
 
-    [SerializeField] private long selectedCard;
-    [SerializeField] private long selectedNoble;
+    [SerializeField] private long selectedCard = -1;
+    [SerializeField] private long selectedNoble = -1;
     [SerializeField] private ActionManager.ActionType action;
+    [SerializeField] private List<Card> cardsDebug;
 
     public void Display(List<Card> cards, List<Noble> nobles, ActionManager.ActionType _action){
-        action = _action;
+        cardsDebug = cards;
+        this.action = _action;
         panel.SetActive(true);
+        Debug.Log(cards.Count);
         DisplayPlayerCards(cards, nobles);
+
     }
 
     public void DisplayPlayerCards(List<Card> cards, List<Noble> nobles) { //displays acquired cards/nobles
@@ -30,19 +34,21 @@ public class OrientPanelManager : MonoBehaviour
             foreach (Card card in cards) {
                 GameObject temp = Instantiate(cardSlot, cardContent.transform.position, Quaternion.identity);
                 long x = card.GetId();
-                temp.transform.GetComponent<Button>().onClick.AddListener(delegate {SelectCard(x);});
+                temp.transform.GetComponent<Button>().onClick.AddListener(() => SelectCard(x));
                 temp.transform.SetParent(cardContent.transform);
-                //temp.transform.localScale = new Vector3(1, 1, 1);
+                temp.transform.localScale = new Vector3(1, 1, 1);
                 temp.GetComponent<CardSlot>().SetupInventory(card);
             }
         }
         if(nobles.Count > 0){
-            nobleContent.SetActive(true);
+            cardContent.SetActive(true);
             foreach (Noble noble in nobles) {
-                GameObject nobleInstance = Instantiate(nobleSlot, nobleContent.transform.position, Quaternion.identity);
-                nobleInstance.transform.SetParent(nobleContent.transform);
-                //nobleInstance.transform.localScale = new Vector3(0.2f, 0.4f, 1f);
-                nobleInstance.GetComponent<NobleSlot>().SetupInventory(noble);
+                GameObject temp = Instantiate(nobleSlot, cardContent.transform.position, Quaternion.identity);
+                long x = noble.id;
+                temp.transform.GetComponent<Button>().onClick.AddListener(() => SelectCard(x));
+                temp.transform.SetParent(cardContent.transform);
+                temp.transform.localScale = new Vector3(1, 1, 1);
+                temp.GetComponent<NobleSlot>().SetupInventory(noble);
             }
         }
     }
@@ -64,6 +70,14 @@ public class OrientPanelManager : MonoBehaviour
         }
         else if(selectedCard != -1 && action == ActionManager.ActionType.satchel){
             playerControl.satchelAction(selectedCard);
+            panel.SetActive(false);
+        }
+        else if(selectedCard != -1 && action == ActionManager.ActionType.dominoSatchel){
+            playerControl.dominoSatchelAction(selectedCard);
+            panel.SetActive(false);
+        }
+        else if(selectedCard != -1 && action == ActionManager.ActionType.reserveNoble){
+            playerControl.reserveNobleAction(selectedCard);
             panel.SetActive(false);
         }
     }

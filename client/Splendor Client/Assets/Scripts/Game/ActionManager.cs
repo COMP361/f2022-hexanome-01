@@ -29,6 +29,8 @@ public class ActionManager : MonoBehaviour
         reserveCard,
         claimNoble,
         domino,
+        dominoSatchel,
+        reserveNoble,
         endTurn,
         satchel,
         freeTokens
