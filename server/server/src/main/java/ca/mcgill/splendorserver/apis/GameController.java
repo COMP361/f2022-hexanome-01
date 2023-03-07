@@ -683,10 +683,21 @@ public class GameController {
       if (!game.getCurrentPlayer().getUsername().equals(playerId)) {
         return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
       }
-      
+      int cardId1;
+      int cardId2;
       int originalId = (int) data.get("originalId");
-      int cardId1 = (int) data.get("cardId1");
-      int cardId2 = (int) data.get("cardId2");
+      if (data.get("cardId1") != null) {
+        cardId1 = (int) data.get("cardId1");
+      } else {
+        cardId1 = -1;
+      }
+      
+      if (data.get("cardId2") != null) {
+        cardId2 = (int) data.get("cardId2");
+      } else {
+        cardId2 = -1;
+      }
+
       Board board = game.getBoard();
       Card originalCard = CardRegistry.of(originalId);
       Card card1 = CardRegistry.of(cardId1);
@@ -712,7 +723,7 @@ public class GameController {
 
       return ResponseEntity.ok(response.toJSONString());
     } catch (Exception e) {
-      logger.error(e.getStackTrace().toString());
+      logger.error(e.getMessage());
       return errorResponse(e.getMessage());
     }
   }

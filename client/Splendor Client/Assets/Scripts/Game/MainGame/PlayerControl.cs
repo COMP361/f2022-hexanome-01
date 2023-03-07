@@ -107,7 +107,7 @@ public class PlayerControl : MonoBehaviour {
         fire = _inputActionMap.FindAction("Fire");
         fire.performed += OnFireAction;
 
-        //look = _inputActionMap.FindAction("Look");
+        look = _inputActionMap.FindAction("Look");
         //look.performed += UpdateCursor;
     }
 
