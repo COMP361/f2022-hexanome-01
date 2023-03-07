@@ -18,11 +18,17 @@ public class ClaimNoblePanel : MonoBehaviour
         List<Noble> availNobles = new List<Noble>();
         //TokenBank playerBonus = playerControl.client.GetBonusBank();
 
-        foreach (NobleSlot nobleSlot in allNobles.GetAllNobels()) {
-            Noble noble = nobleSlot.GetNoble();
-            for(int i = 0; i < impressedNobles.Length; i++){
-                if(noble.id == impressedNobles[i]){
-                    availNobles.Add(noble);
+        NobleSlot[] nobleSlots = allNobles.GetAllNobels();
+        for (int i = 0; i < nobleSlots.Length; i++) {
+            if (nobleSlots[i] != null)
+            {
+                Noble noble = nobleSlots[i].GetNoble();
+                for (int j = 0; j < impressedNobles.Length; j++)
+                {
+                    if (noble.id == impressedNobles[j])
+                    {
+                        availNobles.Add(noble);
+                    }
                 }
             }
         }
@@ -55,6 +61,10 @@ public class ClaimNoblePanel : MonoBehaviour
         ClearChildren(nobleContent);
         foreach (Noble noble in availNobles) {
             GameObject nobleInstance = Instantiate(nobleSlot, nobleContent.transform.position, Quaternion.identity);
+            nobleInstance.AddComponent<Button>().onClick.AddListener( delegate
+            {
+                playerControl.selectedNoble = nobleInstance.GetComponent<NobleSlot>();
+            });
             nobleInstance.transform.SetParent(nobleContent.transform);
             nobleInstance.GetComponent<NobleSlot>().SetupInventory(noble);
         }

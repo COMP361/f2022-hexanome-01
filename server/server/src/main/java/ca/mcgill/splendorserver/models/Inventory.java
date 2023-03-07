@@ -226,7 +226,12 @@ public class Inventory {
    * @return whether the card was successfully removed
    */
   public boolean removeCard(Card card) {
-    return cards.remove(card);
+    if (cards.contains(card)) {
+      cards.remove(card);
+      points -= card.getPoints();
+      return true;
+    }
+    return false;
   }
 
   /**
@@ -309,7 +314,7 @@ public class Inventory {
     //reserved nobles
     JSONArray reservedNoblesJson = new JSONArray();
     for (Noble noble : reservedNobles) {
-      noblesJson.add(noble.getId());
+      reservedNoblesJson.add(noble.getId());
     }
     json.put("reservedNobles", reservedNoblesJson);
     //tokens
