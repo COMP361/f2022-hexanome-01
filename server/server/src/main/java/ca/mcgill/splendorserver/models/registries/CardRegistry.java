@@ -87,6 +87,7 @@ public class CardRegistry implements Registry<Card> {
             CardLevel.ORIENTLEVEL3);
         data.put(card.getId(), card);
       }
+      
     } catch (IOException e) {
       throw new RegistryException("decks", e);
     }

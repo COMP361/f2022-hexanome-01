@@ -399,5 +399,57 @@ public class OrientManagerTest {
 	    String options1 = (String)result1.get("options");
 	    assertEquals(nobles, options1);
 	  }
+	  
+	  @Test
+	  public void sacrificeTest() throws JsonProcessingException {
+			JSONObject invalidAction = new JSONObject();
+		    invalidAction.put("status", "failure");
+		    invalidAction.put("message", "Invalid action.");
+			
+		    SessionData dummy = ControllerTestUtils.createDummySessionData();
+		    GameManager gameManager = new GameManager();
+		    gameManager.launchGame("TestGame", dummy);
+		    HashMap<String, Game> gameRegistry = gameManager.getGameRegistry();
+
+		    GameController gc = new GameController();
+		    JSONObject request = new JSONObject();
+		    Game game = gameRegistry.get("TestGame");
+		    Board board = game.getBoard();
+		    Inventory testInventory = board.getInventory("testCreator");
+		    
+		    testInventory.addCard(CardRegistry.of(4));
+		    testInventory.addCard(CardRegistry.of(5));
+		    
+		    request.put("playerId", "testCreator");
+		    request.put("cardId1", 4);
+		    request.put("cardId2", 5);
+		    request.put("originalId", 131);
+		    ResponseEntity<String> response = gc.sacrifice("TestGame", request);
+		    
+		    assertEquals(1, testInventory.getCards().size());
+		    assertEquals(131, testInventory.getCards().get(0).getId().intValue());
+		    
+		    
+		    testInventory.addCard(CardRegistry.of(125));
+		    
+		    request.replace("cardId1", 125);
+		    request.remove("cardId2");
+		    request.put("originalId", 131);
+		    response = gc.sacrifice("TestGame", request);
+		    
+		    assertEquals(2, testInventory.getCards().size());
+		    assertEquals(131, testInventory.getCards().get(1).getId().intValue());
+		    
+		    
+		    testInventory.addCard(CardRegistry.of(125));
+		    
+		    request.put("cardId2", 125);
+		    request.remove("cardId1");
+		    request.put("originalId", 131);
+		    response = gc.sacrifice("TestGame", request);
+		    
+		    assertEquals(3, testInventory.getCards().size());
+		    assertEquals(131, testInventory.getCards().get(2).getId().intValue());
+	  }
 	
 }
