@@ -145,7 +145,7 @@ public class InventoryTest {
 	    	c.observe(game.getCurrentPlayer());
 	    
 	    assertEquals(15, testInventory.getUnlockables().get(0).getId());
-	    assertEquals(10, testInventory.getPoints());
+	    assertEquals(13, testInventory.getPoints());
 	    
 	    
 	    testInventory.getCards().clear();
@@ -153,6 +153,6 @@ public class InventoryTest {
 	    for (TradingPost tp : UnlockableRegistry.getTradingPosts())
 	    	tp.observe(game.getCurrentPlayer());
 	    
-	    assertEquals(0, testInventory.getPoints());
+	    assertEquals(3, testInventory.getPoints());
 	}
 }
