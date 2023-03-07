@@ -10,10 +10,20 @@ public class CityRow : MonoBehaviour
     public List<City> allCities = new List<City>();
     [SerializeField] private GameObject cityObject;
     [SerializeField] private float x, y;
+
+    private List<GameObject> prefabs = new List<GameObject>();
+
+    public void ResetAllCities()
+    {
+        foreach (var city in prefabs) {
+            Destroy(city);
+        }
+    }
     
     public void SetCity(long id, int index)
     {
         GameObject prefab = Instantiate(cityObject, new Vector3(x, y + index * 1.6f, 0), Quaternion.identity);
+        prefabs.Add(prefab);
         if (index < cities.Length)
         {
             cities[index] = prefab.GetComponent<CitySlot>();
