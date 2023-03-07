@@ -168,6 +168,16 @@ public class PlayerControl : MonoBehaviour {
         return false;
     }
 
+    void endTurnAction() {
+        actionManager.MakeApiRequest(currSession.id, null, ActionManager.ActionType.endTurn, ActionManager.RequestType.POST, (response) => {
+
+            if (response != null && ((string)response["status"]).Equals("success")) {
+                errorText.GetComponent<FadeOut>().CompleteFade();
+            }
+
+        });
+    }
+
 
     public void purchaseCardAction(){
         Dictionary<string, object> requestDict = new Dictionary<string, object>();
@@ -211,21 +221,16 @@ public class PlayerControl : MonoBehaviour {
 
                 }
                 else if (noblesVisiting.Count() == 0) {
-
-                    actionManager.MakeApiRequest(currSession.id, null, ActionManager.ActionType.endTurn, ActionManager.RequestType.POST, (response) => {
-
-                        if (response != null && ((string)response["status"]).Equals("success")) {
-                            errorText.GetComponent<FadeOut>().CompleteFade();
-                        }
-
-                    });
-
+                    endTurnAction();
                 }
 
                 else {
                     claimNoblePanel.DisplayNobleClaim(allNobles, noblesVisiting);
                 }
 
+            }
+            else {
+                    errorText.GetComponent<FadeOut>().ResetFade(true);
             }
         });
     }
@@ -244,17 +249,11 @@ public class PlayerControl : MonoBehaviour {
                     errorText.GetComponent<FadeOut>().ResetFade();
                     return;
                 };
+                endTurnAction();
 
-                actionManager.MakeApiRequest(currSession.id, null, ActionManager.ActionType.endTurn, ActionManager.RequestType.POST, (response) => {
-
-                    if (response != null && ((string)response["status"]).Equals("success")) {
-                        errorText.GetComponent<FadeOut>().CompleteFade();
-                    }
-
-                });
-
-            }else{
-                //Handle null return
+            }
+            else {
+                errorText.GetComponent<FadeOut>().ResetFade(true);
             }
 
 
@@ -281,6 +280,10 @@ public class PlayerControl : MonoBehaviour {
 
         chosenTokensJson.Add("tokens", tokenList.ToArray());
         actionManager.MakeApiRequest(currSession.id, chosenTokensJson, ActionManager.ActionType.takeTokens, ActionManager.RequestType.POST, (response) => {
+            
+            takeTokensButton.SetActive(false);
+            selectedTokens.reset(tokenBank);
+                
             if(response != null){
 
                 string status = (string)response["status"];
@@ -296,19 +299,11 @@ public class PlayerControl : MonoBehaviour {
                 }else{
                     // Handle too many tokens
                 }
+                endTurnAction();
 
-                actionManager.MakeApiRequest(currSession.id, null, ActionManager.ActionType.endTurn, ActionManager.RequestType.POST, (response) => {
-
-                    if (response != null && ((string)response["status"]).Equals("success")) {
-                        takeTokensButton.SetActive(false);
-                        selectedTokens.reset();
-                        errorText.GetComponent<FadeOut>().CompleteFade();
-                    }
-
-                });
-
-            }else{
-                // Handle null response from server
+            }
+            else {
+                    errorText.GetComponent<FadeOut>().ResetFade(true);
             }
 
 
@@ -332,16 +327,10 @@ public class PlayerControl : MonoBehaviour {
                     errorText.GetComponent<FadeOut>().ResetFade();
                     return;
                 };
-
-                actionManager.MakeApiRequest(currSession.id, null, ActionManager.ActionType.endTurn, ActionManager.RequestType.POST, (response) => {
-
-                    if (response != null && ((string)response["status"]).Equals("success")) {
-                        errorText.GetComponent<FadeOut>().CompleteFade();
-                    }
-
-                });
-            }else{
-                // Handle null return
+                endTurnAction();
+            }
+            else {
+                    errorText.GetComponent<FadeOut>().ResetFade(true);
             }
         });
         
@@ -386,20 +375,13 @@ public class PlayerControl : MonoBehaviour {
 
                 }
                 else if (noblesVisiting.Count() == 0) {
-
-                    actionManager.MakeApiRequest(currSession.id, null, ActionManager.ActionType.endTurn, ActionManager.RequestType.POST, (response) => {
-
-                        if (response != null && ((string)response["status"]).Equals("success")) {
-                            errorText.GetComponent<FadeOut>().CompleteFade();
-                        }
-
-                    });
-
+                    endTurnAction();
                 }
 
-                else {
-                    // call and display claim nobles
-                }
+                
+            else {
+                    errorText.GetComponent<FadeOut>().ResetFade(true);
+            }
                 //HANDLE EXTRA CASES
                 
 
@@ -445,19 +427,11 @@ public class PlayerControl : MonoBehaviour {
 
                 }
                 else if (noblesVisiting.Count() == 0) {
-
-                    actionManager.MakeApiRequest(currSession.id, null, ActionManager.ActionType.endTurn, ActionManager.RequestType.POST, (response) => {
-
-                        if (response != null && ((string)response["status"]).Equals("success")) {
-                            errorText.GetComponent<FadeOut>().CompleteFade();
-                        }
-
-                    });
-
+                    endTurnAction();
                 }
 
                 else {
-                    // call and display claim nobles
+                        errorText.GetComponent<FadeOut>().ResetFade(true);
                 }
                 //HANDLE EXTRA CASES
                 
