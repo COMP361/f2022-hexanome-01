@@ -9,6 +9,7 @@ import ca.mcgill.splendorserver.controllers.GameManager;
 import ca.mcgill.splendorserver.controllers.OrientManager;
 import ca.mcgill.splendorserver.models.Game;
 import ca.mcgill.splendorserver.models.Inventory;
+import ca.mcgill.splendorserver.models.Noble;
 import ca.mcgill.splendorserver.models.Player;
 import ca.mcgill.splendorserver.models.Token;
 import ca.mcgill.splendorserver.models.communicationbeans.SessionData;
@@ -60,12 +61,14 @@ public class GameManagerTest extends ControllerTestUtils {
     JSONObject request = new JSONObject();
     Board board = game.getBoard();
     Inventory testInventory = board.getInventory("testCreator");
-    
+
+    Noble noble = NobleRegistry.of(board.getNobles().getNobles()[0]);
     gameManager.acquireNoble(NobleRegistry.of(board.getNobles().getNobles()[0]), board, testInventory);
-    assertEquals(NobleRegistry.of(board.getNobles().getNobles()[0]), testInventory.getNobles().get(0));
-    
-    OrientManager.reserveNoble(NobleRegistry.of(board.getNobles().getNobles()[0]), board, testInventory);
-    assertEquals(NobleRegistry.of(board.getNobles().getNobles()[0]), testInventory.getReservedNobles().get(0));
+    assertEquals(noble, testInventory.getNobles().get(0));
+
+    Noble nobleToReserve = NobleRegistry.of(board.getNobles().getNobles()[1]);
+    OrientManager.reserveNoble(nobleToReserve, board, testInventory);
+    assertEquals(nobleToReserve, testInventory.getReservedNobles().get(0));
   }
 
   @Test
