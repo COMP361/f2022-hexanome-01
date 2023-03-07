@@ -18,7 +18,6 @@ import org.json.simple.JSONObject;
  */
 public class CardRegistry implements Registry<Card> {
 
-  @SuppressWarnings("serial")
   private static final HashMap<Integer, Card> data = new HashMap<Integer, Card>();
 
   static {
