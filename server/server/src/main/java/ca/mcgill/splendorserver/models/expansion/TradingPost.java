@@ -30,9 +30,9 @@ public class TradingPost implements Unlockable {
                break;
       case 17: action = new DoubleGold(); 
                break;
-      case 18: action = new DynamicPointAction(); 
+      case 18: action =  new FlatPointAction(5);
                break;
-      case 19: action = new FlatPointAction(5); 
+      case 19: action = new DynamicPointAction(); 
                break;
       default: break;
     }
