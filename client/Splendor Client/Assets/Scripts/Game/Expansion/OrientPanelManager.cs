@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor;
 
 public class OrientPanelManager : MonoBehaviour
 {
@@ -23,8 +24,24 @@ public class OrientPanelManager : MonoBehaviour
         this.action = _action;
         panel.SetActive(true);
         Debug.Log(cards.Count);
-        DisplayPlayerCards(cards, nobles);
 
+        CardSlot[] boardCards = (CardSlot[])Resources.FindObjectsOfTypeAll(typeof(CardSlot));
+        NobleSlot[] boardNobles = (NobleSlot[])Resources.FindObjectsOfTypeAll(typeof(NobleSlot));
+        CitySlot[] cities = (CitySlot[])Resources.FindObjectsOfTypeAll(typeof(CitySlot));
+        foreach (CardSlot c in boardCards) {
+            if (PrefabUtility.GetPrefabAssetType(c) == PrefabAssetType.NotAPrefab)
+                c.gameObject.SetActive(false);
+        }
+        foreach (NobleSlot n in boardNobles) {
+            if (PrefabUtility.GetPrefabAssetType(n) == PrefabAssetType.NotAPrefab)
+                n.gameObject.SetActive(false);
+        }
+        foreach (CitySlot c in cities) {
+            if (PrefabUtility.GetPrefabAssetType(c) == PrefabAssetType.NotAPrefab)
+                c.gameObject.SetActive(false);
+        }
+
+        DisplayPlayerCards(cards, nobles);
     }
 
     public void DisplayPlayerCards(List<Card> cards, List<Noble> nobles) { //displays acquired cards/nobles
@@ -66,18 +83,22 @@ public class OrientPanelManager : MonoBehaviour
     public void Select(){
         if(selectedCard != -1 && action == ActionManager.ActionType.domino){
             playerControl.dominoCardAction(selectedCard);
+            ShowObjects();
             panel.SetActive(false);
         }
         else if(selectedCard != -1 && action == ActionManager.ActionType.satchel){
             playerControl.satchelAction(selectedCard);
+            ShowObjects();
             panel.SetActive(false);
         }
         else if(selectedCard != -1 && action == ActionManager.ActionType.dominoSatchel){
             playerControl.dominoSatchelAction(selectedCard);
+            ShowObjects();
             panel.SetActive(false);
         }
         else if(selectedCard != -1 && action == ActionManager.ActionType.reserveNoble){
             playerControl.reserveNobleAction(selectedCard);
+            ShowObjects();
             panel.SetActive(false);
         }
     }
@@ -92,5 +113,23 @@ public class OrientPanelManager : MonoBehaviour
 
         }
         nobleParent.SetActive(false);
+    }
+
+    private void ShowObjects() {
+        CardSlot[] boardCards = (CardSlot[])Resources.FindObjectsOfTypeAll(typeof(CardSlot));
+        NobleSlot[] boardNobles = (NobleSlot[])Resources.FindObjectsOfTypeAll(typeof(NobleSlot));
+        CitySlot[] cities = (CitySlot[])Resources.FindObjectsOfTypeAll(typeof(CitySlot));
+        foreach (CardSlot c in boardCards) {
+            if (PrefabUtility.GetPrefabAssetType(c) == PrefabAssetType.NotAPrefab)
+                c.gameObject.SetActive(true);
+        }
+        foreach (NobleSlot n in boardNobles) {
+            if (PrefabUtility.GetPrefabAssetType(n) == PrefabAssetType.NotAPrefab)
+                n.gameObject.SetActive(true);
+        }
+        foreach (CitySlot c in cities) {
+            if (PrefabUtility.GetPrefabAssetType(c) == PrefabAssetType.NotAPrefab)
+                c.gameObject.SetActive(true);
+        }
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor;
 
 /* 
  * This script it's used to display the cards and nobles that any player has in their inventory.
@@ -17,13 +18,44 @@ public class InventoryPanel : MonoBehaviour {
     //Display is called by the button to open/close the panel
 
     public void Display() { //displays/hides the menu
-        if (inventoryPanel.activeInHierarchy)
+        if (inventoryPanel.activeInHierarchy) {
             inventoryPanel.SetActive(false);
+            CardSlot[] cards = (CardSlot[])Resources.FindObjectsOfTypeAll(typeof(CardSlot));
+            NobleSlot[] nobles = (NobleSlot[])Resources.FindObjectsOfTypeAll(typeof(NobleSlot));
+            CitySlot[] cities = (CitySlot[])Resources.FindObjectsOfTypeAll(typeof(CitySlot));
+            foreach (CardSlot c in cards) {
+                if (PrefabUtility.GetPrefabAssetType(c) == PrefabAssetType.NotAPrefab)
+                    c.gameObject.SetActive(true);
+            }
+            foreach (NobleSlot n in nobles) {
+                if (PrefabUtility.GetPrefabAssetType(n) == PrefabAssetType.NotAPrefab)
+                    n.gameObject.SetActive(true);
+            }
+            foreach (CitySlot c in cities) {
+                if (PrefabUtility.GetPrefabAssetType(c) == PrefabAssetType.NotAPrefab)
+                    c.gameObject.SetActive(true);
+            }
+        }
         else {
+            CardSlot[] cards = (CardSlot[])Resources.FindObjectsOfTypeAll(typeof(CardSlot));
+            NobleSlot[] nobles = (NobleSlot[])Resources.FindObjectsOfTypeAll(typeof(NobleSlot));
+            CitySlot[] cities = (CitySlot[])Resources.FindObjectsOfTypeAll(typeof(CitySlot));
+            foreach (CardSlot c in cards) {
+                if (PrefabUtility.GetPrefabAssetType(c) == PrefabAssetType.NotAPrefab)
+                    c.gameObject.SetActive(false);
+            }
+            foreach (NobleSlot n in nobles) {
+                if (PrefabUtility.GetPrefabAssetType(n) == PrefabAssetType.NotAPrefab)
+                    n.gameObject.SetActive(false);
+            }
+            foreach (CitySlot c in cities) {
+                if (PrefabUtility.GetPrefabAssetType(c) == PrefabAssetType.NotAPrefab)
+                    c.gameObject.SetActive(false);
+            }
             //set inventory panel title as the inventory owner's name
             Text ownerName = inventoryPanel.transform.Find("OwnerName").gameObject.GetComponent<Text>();
             if (ownerName != null) ownerName.text = player.GetUsername();
-            
+
             inventoryPanel.SetActive(true);
             DisplayPlayerCards(player.GetAcquiredCards(), player.GetAcquiredNobles());
         }
