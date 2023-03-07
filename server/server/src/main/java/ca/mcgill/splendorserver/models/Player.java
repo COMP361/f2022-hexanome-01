@@ -1,5 +1,7 @@
 package ca.mcgill.splendorserver.models;
 
+import ca.mcgill.splendorserver.models.cards.Card;
+import ca.mcgill.splendorserver.models.expansion.Unlockable;
 import java.util.ArrayList;
 
 /**
@@ -7,9 +9,48 @@ import java.util.ArrayList;
  */
 public class Player {
 
+  private String username;
   private Inventory inventory;
-  private ArrayList<Unlockable> unlockables;
   private Card lastAcquired;
+  private boolean doubleGold = false;
+
+  /**
+   * Constructor to create a new player. It only takes a
+   * username and initializes it with a new inventory.
+   *
+   * @param username username assign to the player
+   */
+  public Player(String username) {
+    this.username = username;
+    this.inventory = new Inventory();
+  }
+
+  /**
+   * Getter for inventory field.
+   *
+   * @return inventory of this player.
+   */
+  public Inventory getInventory() {
+    return inventory;
+  }
+  
+  /**
+   * Getter for trading post C status.
+   *
+   * @return inventory of this player.
+   */
+  public boolean getDoubleGold() {
+    return doubleGold;
+  }
+  
+  /**
+   * Setter for trading post C status.
+   *
+   * @param doubleGold new status of trading post C.
+   */
+  public void setDoubleGold(boolean doubleGold) {
+    this.doubleGold = doubleGold;
+  }
 
   /**
    * Add the card to the player's inventory.
@@ -31,16 +72,6 @@ public class Player {
   }
 
   /**
-   * Getter for the unlockables i.e. the abilities acquired by the player from Trading Posts
-   * or the cities acquired by the payer from Cities.
-   *
-   * @return the unlockables acquired by the player
-   */
-  public ArrayList<Unlockable> getUnlockables() {
-    return unlockables;
-  }
-
-  /**
    * Getter for the card last acquired by the player.
    *
    * @return the card last acquired by the player.
@@ -48,4 +79,23 @@ public class Player {
   public Card getLastAcquired() {
     return lastAcquired;
   }
+
+  /**
+   * returns the username of the player.
+   *
+   * @return username
+   */
+  public String getUsername() {
+    return username;
+  }
+
+  /**
+   * sets the username of the player.
+   *
+   * @param username the username of the player
+   */
+  public void setUsername(String username) {
+    this.username = username;
+  }
+
 }

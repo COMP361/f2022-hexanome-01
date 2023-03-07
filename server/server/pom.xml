@@ -107,13 +107,6 @@
             <artifactId>spring-web</artifactId>
             <version>5.2.8.RELEASE</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.5.2</version>
-            <scope>test</scope>
-        </dependency>
         
         <dependency>
 			<groupId>com.googlecode.json-simple</groupId>
@@ -150,9 +143,8 @@
                 <configuration>
                     <source>8</source>
                     <javadocExecutable>${java.home}/bin/javadoc</javadocExecutable>
-                    <reportOutputDirectory>${project.reporting.outputDirectory}/docs
-                    </reportOutputDirectory>
-                    <destDir>docs</destDir>
+                    <reportOutputDirectory>${project.basedir}/docs</reportOutputDirectory>
+                    <destDir>${project.basedir}/../../docs</destDir>
                     <failOnWarnings>true</failOnWarnings>
                 </configuration>
                 <executions>
@@ -222,4 +214,21 @@
             </plugin>
         </plugins>
     </build>
+    <profiles>
+	   <profile>
+		  <id>debug</id>
+		  <properties>
+		    <maven.javadoc.skip>true</maven.javadoc.skip>
+		    <checkstyle.skip>true</checkstyle.skip>
+		    <maven.test.skip>true</maven.test.skip>
+		  </properties>
+	   </profile>
+	   <profile>
+       <id>prod</id>
+       <properties>
+         <activatedProperties>prod</activatedProperties>
+         <packaging.type>jar</packaging.type>
+       </properties>
+     </profile>
+    </profiles>
 </project>

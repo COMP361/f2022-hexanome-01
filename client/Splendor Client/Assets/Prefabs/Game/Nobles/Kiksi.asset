@@ -19,4 +19,4 @@ MonoBehaviour:
   green: 0
   brown: 0
   white: 6
-  sprite: {fileID: 21300000, guid: ea0d272d816f5a34382ab45159b28f05, type: 3}
+  sprite: {fileID: 21300000, guid: c5cbf3469fa3e461288c7385dff52023, type: 3}

@@ -5,15 +5,64 @@ using UnityEngine;
 
 public class NobleRow : MonoBehaviour
 {
-    [SerializeField] private int size;
-    public NobleDeck deck;
+    [SerializeField] private NobleSlot[] nobles = new NobleSlot[5];
+    public int size;
 
-    public NobleSlot[] nobles = new NobleSlot[5];
-
-    public float x;
-    public float y;
-
+    public List<Noble> allNobles = new List<Noble>();
     [SerializeField] private GameObject nobleObject;
+    [SerializeField] private float x;
+    [SerializeField] private float y2Players;
+    [SerializeField] private float y3Players;
+    [SerializeField] private float y4Players;
+
+    private List<GameObject> prefabs = new List<GameObject>();
+
+    public void SetSize(int size) {
+        this.size = size;
+    }
+
+    public int GetSize() {
+        return size;
+    }
+
+    public void ResetAllNobles()
+    {
+        foreach (var noble in prefabs) {
+            Destroy(noble);
+        }
+    }
+
+    public void SetNoble(long id, int index)
+    {
+        float y = y2Players;
+        if (size == 4) y = y3Players;
+        if (size == 5) y = y4Players;
+
+        GameObject prefab = Instantiate(nobleObject, new Vector3(x, y + index * 0.98f, 0), Quaternion.identity);
+        prefabs.Add(prefab);
+        if (index < size)
+        {
+            nobles[index] = prefab.GetComponent<NobleSlot>();
+            
+            //check if noble has been taken and therefore should be empty
+            Noble toSet = null;
+            if (id != -1)
+                toSet = allNobles.Find(x => x.id.Equals(id)); //find noble with given id
+
+            if (toSet == null)
+                nobles[index].EmptySlot(); //still need to remove the noble sprite if we cant find the right noble or its meant to be empty
+            else
+                nobles[index].SetNoble(toSet);
+        }
+    }
+
+    public void RemoveNoble(Noble noble) {
+        foreach (NobleSlot nobleSlot in nobles) {
+            if (nobleSlot.GetNoble().Equals(noble)) {
+                nobleSlot.EmptySlot();
+            }
+        }
+    }
 
     public bool IsEmpty() {
         foreach (NobleSlot ns in nobles)
@@ -21,9 +70,10 @@ public class NobleRow : MonoBehaviour
                 return false;
         return true; //otherwise return false
     }
+    
     public void GreyOutExcept(NobleSlot _noble)
     {
-        for (int i=0; i<size; i++) {
+        for (int i = 0; i < nobles.Length; i++) {
             if (nobles[i] != _noble) nobles[i].GreyOut();
             else nobles[i].UnGreyOut();
         }
@@ -31,64 +81,13 @@ public class NobleRow : MonoBehaviour
 
     public void GreyOut()
     {
-        for (int i=0; i<size; i++) nobles[i].GreyOut();
+        for (int i = 0; i < nobles.Length; i++) nobles[i].GreyOut();
     }
 
     public void UnGreyOut()
     {
-        for (int i=0; i<size; i++) nobles[i].UnGreyOut();
+        for (int i = 0; i < nobles.Length; i++) nobles[i].UnGreyOut();
     }
-
-    void FillEmptyNobles()
-    {
-        deck.ShuffleDeck(); // TO REMOVE: shuffling should occur at the start of the game on the server side
-        for (int i = 0; i < size; i++) {
-            if (nobles[i] == null) {
-                GameObject prefab = Instantiate(nobleObject, new Vector3(x, y + i * 0.98f, 0), Quaternion.identity);
-                nobles[i] = prefab.GetComponent<NobleSlot>();
-                nobles[i].SetNoble(deck.DrawNoble());
-            }
-        }
-    }
-
-    public void RemoveNoble(NobleSlot nobleToRemove)
-    {
-        for(int i = 0; i < nobles.Length; i++)
-        {
-            if(nobles[i] == nobleToRemove)
-            {
-                Destroy(nobles[i].gameObject);
-                nobles[i] = null;
-                // fillEmptyNobleSpot(i);
-            }
-        }
-    }
-
-    public void RemoveNoble(Noble nobleToRemove) {
-        for (int i = 0; i < nobles.Length; i++) {
-            if (nobles[i] && nobles[i].GetNoble() == nobleToRemove) {
-                Destroy(nobles[i].gameObject);
-                nobles[i] = null;
-                // fillEmptyNobleSpot(i);
-            }
-        }
-    }
-    public NobleData[] ToArray()
-    {
-        NobleData[] nobleData = new NobleData[5];
-        for(int i = 0; i < nobles.Length; i++){
-            if (nobles[i] == null) nobleData[i] = null;
-            else nobleData[i] = new NobleData(nobles[i].GetNoble());
-        }   
-        return nobleData;
-    }
-
-    // private void fillEmptyNobleSpot(int nobleIndex)
-    // {
-    //     GameObject prefab = Instantiate(nobleObject, new Vector3(x + nobleIndex*2, y, 0), Quaternion.identity);
-    //     nobles[nobleIndex] = prefab.GetComponent<NobleSlot>();
-    //     nobles[nobleIndex].SetNoble(deck.DrawNoble());
-    // }
 
     public NobleSlot GetNoble(int nobleIndex)
     {
@@ -97,12 +96,5 @@ public class NobleRow : MonoBehaviour
 
     public NobleSlot[] GetAllNobels(){
         return nobles;
-    }
-
-    void Start()
-    {
-        size = Math.Min(size, 5);
-        FillEmptyNobles();
-        //GreyOut();
     }
 }

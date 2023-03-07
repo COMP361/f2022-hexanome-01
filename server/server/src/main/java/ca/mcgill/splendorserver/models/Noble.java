@@ -1,6 +1,8 @@
 package ca.mcgill.splendorserver.models;
 
+import ca.mcgill.splendorserver.models.board.TokenBank;
 import java.util.HashMap;
+import org.json.simple.JSONObject;
 
 /**
  * Model class for Splendor noble tiles.
@@ -9,13 +11,39 @@ public class Noble {
 
   private int id;
   private int pts;
-  private HashMap<String, Integer> cost;
+  private HashMap<String, Integer> cost = new HashMap<String, Integer>();
 
   /**
-   * Sole constructor (for invocation by subclass constructors, typically implicit.)
+   * Constructor for noble from JSONObject.
+   *
+   * @param obj JSONObject containing noble data
    */
-  public Noble() {
+  public Noble(JSONObject obj) {
+    id = Integer.parseInt((String) obj.get("id"));
+    pts = Integer.parseInt((String) obj.get("points"));
+    cost.put(Token.BLUE.toString(), Integer.parseInt((String) obj.get("blue")));
+    cost.put(Token.GREEN.toString(), Integer.parseInt((String) obj.get("green")));
+    cost.put(Token.RED.toString(), Integer.parseInt((String) obj.get("red")));
+    cost.put(Token.WHITE.toString(), Integer.parseInt((String) obj.get("white")));
+    cost.put(Token.BLACK.toString(), Integer.parseInt((String) obj.get("black")));
+  }
 
+  /**
+   * Checks whether the noble will be impressed given an amount of bonuses.
+   *
+   * @param bonus the bonuses that could earn a noble visit
+   * @return whether the noble is impressed by the amount of bonuses
+   */
+  public boolean impressed(TokenBank bonus) {
+    for (Token token : Token.values()) {
+      if (token.equals(Token.GOLD)) {
+        continue;
+      }
+      if (bonus.checkAmount(token) < cost.get(token.toString())) {
+        return false;
+      }
+    }
+    return true;
   }
 
   /**

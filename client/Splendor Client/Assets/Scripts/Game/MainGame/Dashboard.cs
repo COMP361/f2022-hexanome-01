@@ -14,14 +14,21 @@ public class Dashboard : MonoBehaviour
     public Text kTokenDisplay;
     public Text rTokenDisplay;
     public Text wTokenDisplay;
+    public Text jTokenDisplay;
 
     public Text bBonusDisplay;
     public Text gBonusDisplay;
     public Text kBonusDisplay;
     public Text rBonusDisplay;
     public Text wBonusDisplay;
+    public Text jBonusDisplay;
 
-    public void UpdatePtsDisplay(int pts)
+    public Image reserveCard1, reserveCard2, reserveCard3, 
+        reserveNoble1, reserveNoble2, reserveNoble3, reserveNoble4, reserveNoble5,
+        acquiredCity;
+    public Sprite emptyReserveCard, emptyReserveNoble;
+
+    public void UpdatePtsDisplay(long pts)
     {
         ptsDisplay.text = String.Format("{0}", pts);
     }
@@ -31,9 +38,18 @@ public class Dashboard : MonoBehaviour
         endDisplay.text = "purchase";
     }
 
+    public void DisplayReserve()
+    {
+        endDisplay.text = "reserve";
+    }
+
     public void DisplayWaiting()
     {
         endDisplay.text = "waiting";
+    }
+
+    public void DisplayTakeTokens(){
+        endDisplay.text = "take tokens";
     }
 
     public void ResetEndDisplay()
@@ -61,4 +77,41 @@ public class Dashboard : MonoBehaviour
         wBonusDisplay.text = String.Format("{0}", inventory.white);
     }
     */
+
+    public void UpdateReserveCardDisplay(Sprite sprite, int index) {
+        switch (index) {
+            case 1: reserveCard1.sprite = sprite; break;
+            case 2: reserveCard2.sprite = sprite; break;
+            case 3: reserveCard3.sprite = sprite; break;
+        }
+    }
+
+    public void UpdateReserveNobleDisplay(Sprite sprite, int index)
+    {
+        switch (index)
+        {
+            case 1: reserveNoble1.sprite = sprite; break;
+            case 2: reserveNoble2.sprite = sprite; break;
+            case 3: reserveNoble3.sprite = sprite; break;
+            case 4: reserveNoble4.sprite = sprite; break;
+            case 5: reserveNoble5.sprite = sprite; break;
+        }
+    }
+
+    public void SetNobleReserveCount(int count) {
+        switch (count) {
+            case 3:
+                reserveNoble4.gameObject.SetActive(false);
+                reserveNoble5.gameObject.SetActive(false);
+                break;
+            case 4:
+                reserveNoble5.gameObject.SetActive(false);
+                break;
+        }
+    }
+
+    public void UpdateAcquiredCityDisplay(Sprite sprite)
+    {
+        acquiredCity.sprite = sprite;
+    }
 }

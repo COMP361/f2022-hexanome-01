@@ -3,75 +3,46 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
+using UnityEngine.UI;
+using System.Linq;
 public class PlayerControl : MonoBehaviour {
+    public Authentication mainPlayer;
     public Dashboard dashboard;
-    [SerializeField] private GameObject cursor;
+    [SerializeField] private GameObject inventoryPanel;
+    [SerializeField] private GameObject cursor, purchaseOrReserve, nobleSelectButton;
     [SerializeField] private Camera playerCamera;
     [SerializeField] private Player player; //this client/player
-    [SerializeField] public List<PlayerData> gamePlayersData; //can change this to a different type later, playerData is combined from LobbyPlayer and Player class
-    [SerializeField] private OrientMenuManager omm;
-    public UnlockableList unlockableList;
-    public Player client {
-        get { return player; }
-    }
+    [SerializeField] public List<string> gamePlayersData; //can change this to a different type later, playerData is combined from LobbyPlayer and Player class
+    [SerializeField] private TokenBank tokenBank;
+    [SerializeField] private SelectedTokens selectedTokens;
+    [SerializeField] private GameObject takeTokensButton;
 
-    public GlobalGameClient globalGameClient;
+    public Text errorText;
 
     public AllCards allCards;
+    public CardSlot selectedCard;
     public CardSlot selectedCardToBuy;
+    public CardSlot selectedCardToReserve;
 
     public NobleRow allNobles;
+    public NobleSlot selectedNoble;
+    [SerializeField] private ClaimNoblePanel claimNoblePanel;
+
+    public OrientPanelManager orientPanelManager;
 
     private InputAction fire;
     private InputAction look;
-
     [SerializeField] private InputActionAsset controls;
-
     private InputActionMap _inputActionMap;
 
-    public NetworkManager db;
-
-    public Authentication mainPlayer;
-
     [SerializeField] private bool waiting;
-    public bool inOrientMenu, inInventory, sacrificeMade;
+
+   
+    [SerializeField] private ActionManager actionManager;
+    public ActiveSession currSession;
+    public bool inOrientMenu, sacrificeMade, inNobleMenu, selectReserve;
 
     void Start() {
-        //following is how i printed out card/noble/post/city info to transfer it over to server
-        /*string deck1 = "deck1: ", deck2 = "deck2: ", deck3 = "deck3: ",
-            deck4 = "deck4: ", deck5 = "deck5: ", deck6 = "deck6: ";
-        string noble = "nobles: ";
-        string unlockable = "unlockables: ";*/
-       
-        //print json info of cards, nobles, etc
-        /*for(int i = 0; i < 6; i++) {
-            List<string> cards = new List<string>();
-            foreach (Card c in allCards.cards[i].deck.cards) {
-                cards.Add(c.Convert().ToString());
-            }
-            foreach (CardSlot c in allCards.cards[i].cards) {
-                cards.Add(c.GetCard().Convert().ToString());
-            }
-            Debug.Log("Deck: " + (new JSONArray(cards)).ToString());
-        }
-
-        List<string> nobles = new List<string>();
-        foreach (Noble n in allNobles.deck.nobles) {
-            nobles.Add(n.Convert().ToString());
-        }
-        *//*foreach (NobleSlot n in allNobles.nobles) {
-            nobles.Add(n.GetNoble().Convert().ToString());
-        }*//*
-        Debug.Log("nobles: " + (new JSONArray(nobles)).ToString());
-
-        List<string> unlockables = new List<string>();
-        unlockableList.Init();
-        foreach (IUnlockable u in unlockableList.List) {
-           unlockables.Add(u.Convert().ToString());
-        }
-        Debug.Log("unlockables: " + (new JSONArray(unlockables)).ToString());*/
-
         //the following was a test i made to make sure JSONHandler was working. ive left it here incase we find some uknown error with it
         /*
         Dictionary<string, string> objMapping = new Dictionary<string, string>();
@@ -93,7 +64,7 @@ public class PlayerControl : MonoBehaviour {
         JSONArray arrDecoded = (JSONArray)JSONHandler.DecodeJsonRequest(decodedJson2[1].ToString());
         Debug.Log(decodedJson2[0]);
         Debug.Log(arrDecoded[0]);
-        Debug.Log(arrDecoded[1~]);
+        Debug.Log(arrDecoded[1]);
 
         Dictionary<string, string> objMapping1 = new Dictionary<string, string>();
         Dictionary<string, string> objMapping2 = new Dictionary<string, string>();
@@ -128,16 +99,9 @@ public class PlayerControl : MonoBehaviour {
         Debug.Log(obj2Params["price"]);
         */
 
-        foreach (CardRow cr in allCards.cards) { //reset satchel values of all cards to 0, since scriptable objects remembers values between scenes, i.e. between games
-            foreach (Card c in cr.deck.cards) {
-                c.satchels = 0;
-            }
-        }
-
-        //waiting = true;
-        //db.InitializePolling(globalGameClient.id, mainPlayer, this);
-
         selectedCardToBuy = null;
+        selectedCardToReserve = null;
+        selectedNoble = null;
         _inputActionMap = controls.FindActionMap("Player");
 
         fire = _inputActionMap.FindAction("Fire");
@@ -147,183 +111,400 @@ public class PlayerControl : MonoBehaviour {
         look.performed += UpdateCursor;
     }
 
+    public Player client
+    {
+        get { return player; }
+    }
+
     private void OnFireAction(InputAction.CallbackContext obj) {
-        if (waiting || inOrientMenu || inInventory) return;
+        if (waiting || inventoryPanel.activeInHierarchy) return;
 
         Vector2 mousePos = Mouse.current.position.ReadValue();
         Vector3 worldPos = playerCamera.ScreenToWorldPoint(mousePos);
         Vector2 worldPos2D = new Vector2(worldPos.x, worldPos.y);
-        // Debug.Log(worldPos2D);
+
+        //Debug.Log(worldPos2D);
 
         RaycastHit2D hit = Physics2D.Raycast(worldPos2D, Vector2.zero);
 
         if (hit.collider != null) { // Check what was clicked (excluding UI elements)
             GameObject go = hit.collider.gameObject;
             if (go.CompareTag("Card")) {
-                // Debug.Log("Card");
-                CardSlot cardSlotObject = go.GetComponent<CardSlot>();
-                selectedCardToBuy = cardSlotObject;
-                dashboard.DisplayPurchase();
+
+                //Debug.Log("Card");
+                //Debug.Log(selectReserve);
+                purchaseOrReserve.SetActive(true);
+                selectedCard = go.GetComponent<CardSlot>();
+                allCards.GreyOutExcept(selectedCard);
+                /*CardSlot cardSlotObject = go.GetComponent<CardSlot>();
                 allCards.GreyOutExcept(cardSlotObject);
+                if (!selectReserve){
+                    selectedCardToBuy = cardSlotObject;
+                    dashboard.DisplayPurchase();
+                    Debug.Log("select purchase");
+                }
+                else{
+                    selectedCardToReserve = cardSlotObject;
+                    dashboard.DisplayReserve();
+                    Debug.Log("select reserve");
+                }*/
             }
+            /*else{
+                allCards.UnGreyOut();
+                selectedCardToBuy = null;
+                selectedCardToReserve = null;
+                purchaseOrReserve.SetActive(false);
+                dashboard.DisplayWaiting();
+            }*/
             // else if (go.CompareTag ...
+            if (go.CompareTag("Noble")) {
+                selectedNoble = go.GetComponent<NobleSlot>();
+                nobleSelectButton.SetActive(true);
+            }
         }
-    }
-
-    public void UpdateBoard(GameData game)
-    {
-        for (int i = 0; i < 4; i++)
-        {
-            allCards.cards[0].cards[i].GetCard().SetData(game.row1[i]);
-        }
-        for (int i = 0; i < 4; i++)
-        {
-            allCards.cards[1].cards[i].GetCard().SetData(game.row2[i]);
-        }
-        for (int i = 0; i < 4; i++)
-        {
-            allCards.cards[2].cards[i].GetCard().SetData(game.row3[i]);
-        }
-        for (int i = 0; i < 2; i++)
-        {
-            allCards.cards[3].cards[i].GetCard().SetData(game.exRow1[i]);
-        }
-        for (int i = 0; i < 2; i++)
-        {
-            allCards.cards[4].cards[i].GetCard().SetData(game.exRow2[i]);
-        }
-        for (int i = 0; i < 2; i++)
-        {
-            allCards.cards[5].cards[i].GetCard().SetData(game.exRow3[i]);
-        }
-        for (int i = 0; i < 5; i++)
-        {
-            allNobles.nobles[i].GetNoble().SetData(game.nobles[i]);
-        }
-    }
-
-    void UpdateDisplay() { //update display elements (might Add things to this later)
-        dashboard.UpdatePtsDisplay(player.GetPoints());
-        dashboard.UpdateTokenDisplay(player.GetTokensAquired());
-    }
-
-    public bool ReserveCard(Card card) { //Add card to players reserve inventory
-        if (player.ReserveCard(card)) {
-            UpdateDisplay();
-            allCards.RemoveCard(card);
-            return true;
-        }
-        else
-            return false;
-    }
-
-    public void ReserveNoble(Noble noble) { //Add noble to players reserve inventory
-        player.ReserveNoble(noble);
-        allNobles.RemoveNoble(noble);
-    }
-
-    public void AcquireCard(Card card) { //Add card to players purchase inventory (does not pay for the card, if paying use PurchaseAction)
-        player.AcquireCard(card);
-        UpdateDisplay();
-        allCards.RemoveCard(card);
-    }
-
-    public void RemoveCard(Card card) { //removes card from player inventory
-        player.RemoveCard(card);
-        UpdateDisplay();
     }
 
     bool PurchaseAction() { //attempt to purchase a card
-        if (selectedCardToBuy && //if a card has been selected AND if not... (i.e. if inventory is empty, cannot purchase satchel or domino1)
-            !(player.inventory.Count == 0 && //player's inventory is empty AND the selected card is a satchel or domino1 orient card
-            (selectedCardToBuy.GetCard().action == ActionType.SATCHEL || selectedCardToBuy.GetCard().action == ActionType.DOMINO1))) {
-            bool purchaseResult = false;
-            if (selectedCardToBuy.GetCard().action != ActionType.SACRIFICE) { //if purchasing card is not a sacrifice card (buying a sacrifice card is handled in OrientMenuManager), try to purchase it
-                purchaseResult = player.TriggerCardAdd(selectedCardToBuy.GetCard());
-                if (!purchaseResult) //if insufficient funds, fail purchase, otherwise update display since you have purchased it
-                    return false;
-                UpdateDisplay();
-                allCards.RemoveCard(selectedCardToBuy);
-            }
-            if ((purchaseResult || selectedCardToBuy.GetCard().action == ActionType.SACRIFICE) && selectedCardToBuy.GetCard().action != ActionType.NONE) { //if the purchased card has a corresponding action, activate OrientMenuManager and perform action
-                inOrientMenu = true;
-                omm.gameObject.SetActive(true);
-                omm.PerformAction(selectedCardToBuy.GetCard());
-            }
-            return purchaseResult; //returns true UNLESS the card is a sacrifice card or insufficient funds
-        }
-        else //fail purchase if 1) no card selected, 2) trying to buy a satchel card with an empty inventory, 3) trying to buy a domino1 card with empty inventory
-            return false;
+        return false;
     }
+
+    void endTurnAction() {
+        actionManager.MakeApiRequest(currSession.id, null, ActionManager.ActionType.endTurn, ActionManager.RequestType.POST, (response) => {
+
+            if (response != null && ((string)response["status"]).Equals("success")) {
+                errorText.GetComponent<FadeOut>().CompleteFade();
+            }
+
+        });
+    }
+
+
+    public void purchaseCardAction(){
+        Dictionary<string, object> requestDict = new Dictionary<string, object>();
+        JSONObject selectedCardJson = new JSONObject(requestDict);
+        selectedCardJson.Add("playerId", player.GetUsername());
+        selectedCardJson.Add("cardId", selectedCardToBuy.GetCard().GetId());
+        Debug.Log(currSession);
+        Debug.Log(selectedCardJson);
+        actionManager.MakeApiRequest(currSession.id, selectedCardJson, ActionManager.ActionType.purchaseCard,ActionManager.RequestType.POST, (response) => {
+
+            if(response != null)
+            {
+                UnityEngine.Debug.Log(response.ToJSONString());
+                string status = (string)response["status"];
+
+                if (status.Equals("failure")) {
+                    errorText.GetComponent<FadeOut>().ResetFade();
+                    return;
+                };
+
+                string action = (string)response["action"];
+                JSONArray jsonNoblesVisited = (JSONArray)response["noblesVisiting"];
+                
+                long[] noblesVisiting = new long[jsonNoblesVisited.Count];
+                for (int i = 0; i < jsonNoblesVisited.Count; i++) {
+                    noblesVisiting[i] = (long)jsonNoblesVisited[i];
+                }
+                if(action.Equals("Domino1") || action.Equals("Domino2") || action.Equals("Satchel")){
+                    JSONArray jsonChoices = (JSONArray)response["choices"];
+                    List<Card> cardChoices = new List<Card>();
+                    for (int i = 0; i < jsonChoices.Count; i++) {
+                        cardChoices.Add(allCards.GetCardFromId((long)jsonChoices[i]));
+                    }
+                    orientPanelManager.gameObject.SetActive(true);
+                    if(action.Equals("Domino1") || action.Equals("Domino2")){
+                        orientPanelManager.Display(cardChoices, null, ActionManager.ActionType.domino);
+                    }
+                    else if(action.Equals("Satchel")){
+                        orientPanelManager.Display(cardChoices, null, ActionManager.ActionType.satchel);
+                    }
+
+                }
+                else if (noblesVisiting.Count() == 0) {
+                    endTurnAction();
+                }
+
+                else {
+                    claimNoblePanel.DisplayNobleClaim(allNobles, noblesVisiting);
+                }
+
+            }
+            else {
+                    errorText.GetComponent<FadeOut>().ResetFade(true);
+            }
+        });
+    }
+
+    public void selectNobleAction(){
+        Dictionary<string, object> requestDict = new Dictionary<string, object>();
+        JSONObject selectNobleJson = new JSONObject(requestDict);
+        selectNobleJson.Add("playerId", player.GetUsername());
+        selectNobleJson.Add("nobleId", selectedNoble.GetNoble().id);
+        actionManager.MakeApiRequest(currSession.id, selectNobleJson, ActionManager.ActionType.claimNoble,ActionManager.RequestType.POST, (response) => {
+
+            if(response != null){
+                string status = (string)response["status"];
+
+                if (status.Equals("failure")) {
+                    errorText.GetComponent<FadeOut>().ResetFade();
+                    return;
+                };
+                endTurnAction();
+
+            }
+            else {
+                errorText.GetComponent<FadeOut>().ResetFade(true);
+            }
+
+
+        });
+        
+    }
+
+    public void takeTokensAction(){
+        Dictionary<string, object> requestDict = new Dictionary<string, object>();
+        JSONObject chosenTokensJson = new JSONObject(requestDict);
+        chosenTokensJson.Add("playerId", player.GetUsername());
+        //Text[] tokenColours = selectedTokens.colours.toArray();
+        string[] tokenColours = selectedTokens.colours.Select(t => t.text).ToArray();
+        string[] tokenNums = selectedTokens.nums.Select(t => t.text).ToArray();
+
+        List<string> tokenList = new List<string>();
+
+        for (int i=0; i<3; i++) {
+            if (tokenColours[i].Equals("none") || tokenColours[i].Equals("New")) continue;
+            for (int mult=0; mult<Int16.Parse(tokenNums[i]); mult++) {
+                tokenList.Add(tokenColours[i]);
+            }
+        }
+
+        chosenTokensJson.Add("tokens", tokenList.ToArray());
+        actionManager.MakeApiRequest(currSession.id, chosenTokensJson, ActionManager.ActionType.takeTokens, ActionManager.RequestType.POST, (response) => {
+            
+            takeTokensButton.SetActive(false);
+            selectedTokens.reset(tokenBank);
+                
+            if(response != null){
+
+                string status = (string)response["status"];
+
+                if (status.Equals("failure")) {
+                    errorText.GetComponent<FadeOut>().ResetFade();
+                    return;
+                };
+
+                long overFlowAmount = (long)response["tokenOverflow"];
+                if(overFlowAmount == 0){
+                    // Handle removal of selected tokens
+                }else{
+                    // Handle too many tokens
+                }
+                endTurnAction();
+
+            }
+            else {
+                    errorText.GetComponent<FadeOut>().ResetFade(true);
+            }
+
+
+
+        });
+
+    }
+
+    public void reserveCardAction(){
+        Dictionary<string, object> requestDict = new Dictionary<string, object>();
+
+        JSONObject reserveCardJson = new JSONObject(requestDict);
+        reserveCardJson.Add("playerId", player.GetUsername());
+        reserveCardJson.Add("source", "board"); //TO DO: add deck source option i.e. reserve card at top of deck for some given deck
+        reserveCardJson.Add("cardId", selectedCardToReserve.GetCard().GetId());
+        actionManager.MakeApiRequest(currSession.id, reserveCardJson, ActionManager.ActionType.reserveCard, ActionManager.RequestType.POST,(response) => {
+            if(response != null){
+                string status = (string)response["status"];
+
+                if (status.Equals("failure")) {
+                    errorText.GetComponent<FadeOut>().ResetFade();
+                    return;
+                };
+                endTurnAction();
+            }
+            else {
+                    errorText.GetComponent<FadeOut>().ResetFade(true);
+            }
+        });
+        
+    }
+    
+
+    public void dominoCardAction(long cardId){
+        Dictionary<string, object> requestDict = new Dictionary<string, object>();
+        JSONObject selectedCardJson = new JSONObject(requestDict);
+        selectedCardJson.Add("playerId", player.GetUsername());
+        selectedCardJson.Add("cardId", cardId);
+        actionManager.MakeApiRequest(currSession.id, selectedCardJson, ActionManager.ActionType.domino,ActionManager.RequestType.POST, (response) => {
+
+            if(response != null){
+                string status = (string)response["status"];
+                if (status.Equals("failure")) {
+                    errorText.GetComponent<FadeOut>().ResetFade();
+                    return;
+                };
+                string action = (string)response["action"];
+                JSONArray jsonNoblesVisited = (JSONArray)response["noblesVisiting"];
+                //int[] noblesVisiting = new int[]
+
+                int[] noblesVisiting = new int[jsonNoblesVisited.Count];
+                for (int i = 0; i < jsonNoblesVisited.Count; i++) {
+                    noblesVisiting[i] = (int)jsonNoblesVisited[i];
+                }
+
+                if(action.Equals("Domino1") || action.Equals("Domino2") || action.Equals("Satchel")){
+                    JSONArray jsonChoices = (JSONArray)response["choices"];
+                    List<Card> cardChoices = new List<Card>();
+                    for (int i = 0; i < jsonChoices.Count; i++) {
+                        cardChoices.Add(allCards.GetCardFromId((long)jsonChoices[i]));
+                    }
+                    orientPanelManager.gameObject.SetActive(true);
+                    if(action.Equals("Domino1") || action.Equals("Domino2")){
+                        orientPanelManager.Display(cardChoices, null, ActionManager.ActionType.domino);
+                    }
+                    else if(action.Equals("Satchel")){
+                        orientPanelManager.Display(cardChoices, null, ActionManager.ActionType.satchel);
+                    }
+
+                }
+                else if (noblesVisiting.Count() == 0) {
+                    endTurnAction();
+                }
+
+                
+            else {
+                    errorText.GetComponent<FadeOut>().ResetFade(true);
+            }
+                //HANDLE EXTRA CASES
+                
+
+            }
+        });
+    }
+
+    public void satchelAction(long cardId){
+        Dictionary<string, object> requestDict = new Dictionary<string, object>();
+        JSONObject selectedCardJson = new JSONObject(requestDict);
+        selectedCardJson.Add("playerId", player.GetUsername());
+        selectedCardJson.Add("cardId", cardId);
+        actionManager.MakeApiRequest(currSession.id, selectedCardJson, ActionManager.ActionType.satchel,ActionManager.RequestType.POST, (response) => {
+
+            if(response != null){
+                string status = (string)response["status"];
+                if (status.Equals("failure")) {
+                    errorText.GetComponent<FadeOut>().ResetFade();
+                    return;
+                };
+                string action = (string)response["action"];
+                JSONArray jsonNoblesVisited = (JSONArray)response["noblesVisiting"];
+                //int[] noblesVisiting = new int[]
+
+                int[] noblesVisiting = new int[jsonNoblesVisited.Count];
+                for (int i = 0; i < jsonNoblesVisited.Count; i++) {
+                    noblesVisiting[i] = (int)jsonNoblesVisited[i];
+                }
+
+                if(action.Equals("Domino1") || action.Equals("Domino2") || action.Equals("Satchel")){
+                    JSONArray jsonChoices = (JSONArray)response["choices"];
+                    List<Card> cardChoices = new List<Card>();
+                    for (int i = 0; i < jsonChoices.Count; i++) {
+                        cardChoices.Add(allCards.GetCardFromId((long)jsonChoices[i]));
+                    }
+                    orientPanelManager.gameObject.SetActive(true);
+                    if(action.Equals("Domino1") || action.Equals("Domino2")){
+                        orientPanelManager.Display(cardChoices, null, ActionManager.ActionType.domino);
+                    }
+                    else if(action.Equals("Satchel")){
+                        orientPanelManager.Display(cardChoices, null, ActionManager.ActionType.satchel);
+                    }
+
+                }
+                else if (noblesVisiting.Count() == 0) {
+                    endTurnAction();
+                }
+
+                else {
+                        errorText.GetComponent<FadeOut>().ResetFade(true);
+                }
+                //HANDLE EXTRA CASES
+                
+
+            }
+        });
+    }
+
+
+    // Sets all users tokens to 99 
+    public void debugAction(){
+        Dictionary<string, object> requestDict = new Dictionary<string, object>();
+        JSONObject playerJson = new JSONObject(requestDict);
+        playerJson.Add("playerId", player.GetUsername());
+        actionManager.MakeApiRequest(currSession.id, playerJson, ActionManager.ActionType.freeTokens, ActionManager.RequestType.POST, (response) => {
+
+            string status = (string)response["status"];
+
+            if(status == "success"){
+                return;
+            }else{
+                return;
+            }
+
+        });
+    }
+
+
+    public void setReserveToTrue(){
+        selectReserve = true;
+        selectedCardToReserve = selectedCard;
+        selectedCardToBuy = null;
+        dashboard.DisplayReserve();
+        allCards.UnGreyOut();
+        Debug.Log("select reserve");
+        reserveCardAction();
+    }
+    public void setReserveToFalse(){
+        selectReserve = false;
+        selectedCardToBuy = selectedCard;
+        selectedCardToReserve = null;
+        dashboard.DisplayPurchase();
+        allCards.UnGreyOut();
+        Debug.Log("select purchase");
+        purchaseCardAction();
+        
+    }
+
+    public void selectNobleToClaim() {
+        if (selectedNoble != null) {
+            //Add noble to inventory
+            claimNoblePanel.TurnOffDisplay();
+            selectNobleAction();
+        }
+    }
+
     public void EndTurn() // Player clicks "end turn"
     {
-        // Upon turn end, selected card is bought and added to inventory (points increase by card points)
-        if (!PurchaseAction() || !sacrificeMade) //i vote for having a dedicated "purchase" button that either ends your turn outright (assuming your purchase goes through)
-            return;                             // or sets a flag making it so you cannot do another action except for ending turn
-
-        // For each noble in the players reserves, check if they are impressed
-        foreach (Noble noble in player.nobleReserves) {
-            if (player.hasImpressed(noble)) {
-                player.TriggerNobleAdd(noble);
-                UpdateDisplay();
-                //we need to be able to select a Noble when there are multiple impressed at once instead of just giving the first break;
-                break;
-            }
-        }
-        // For each noble in the row check if they are impressed (will also need to check player reserves)
-        foreach (NobleSlot noble in allNobles.nobles) {
-            if (noble) {
-                if (player.hasImpressed(noble.GetNoble())) {
-                    player.TriggerNobleAdd(noble.GetNoble());
-                    UpdateDisplay();
-                    allNobles.RemoveNoble(noble);
-                    //we need to be able to select a Noble when there are multiple impressed at once instead of just giving the first break;
-                    break;
-                }
-            }
-        }
-
-        dashboard.DisplayWaiting();
-        //allCards.GreyOut();
-
-        waiting = true;
-
-        //db.endTurn(globalGameClient.id, player.turnData, mainPlayer, this);
-
-        /////// TEST SAVE GAME AFTER TURN ////////////
-        // GameData data = new GameData(this);
-
-
-        //db.UpdateGame(data);
-        ///////////////////////////////////////////////
-
-
-        // StartTurn(); // Player's turn temporarily restarts immediately after end turn
+        //Check if player has impressed any noble
+        //If true, pop up claim noble panel
+        //Uncomment the following line to test functionality:
+        //claimNoblePanel.checkAvailNobles(allNobles);
     }
-
-    // public void SetGameData(GameData data) {
-    //     gameId = data.gameId;
-
-    //     gamePlayersData = new List<PlayerData>(data.playersInGame);
-
-    //     for (int i = 0; i < data.noblesDisplayed.Length; i++)          
-    //         allNobles.nobles[i].GetNoble().SetData(data.noblesDisplayed[i]);
-
-    //     // noblesOnBoard[i].GetNoble().SetData(data.noblesDisplayed[i]);
-
-    //     for (int i = 0; i < allCards.cards.Length; i++) 
-    //         for (int j = 0; j < allCards.cards[i].deck.Count(); j++)
-    //             allCards.cards[i].deck.cards[j].SetData(data.cards[i][j]);
-    // }
 
     public void StartTurn() // Start of player's turn
     {
-        player.turnData = new TurnData();
         dashboard.ResetEndDisplay();
-        //allCards.UnGreyOut();
         waiting = false;
-        sacrificeMade = false;
+        selectedCard = null;
         selectedCardToBuy = null;
+        selectedCardToReserve = null;
+        selectedNoble = null;
+        purchaseOrReserve.SetActive(false);
     }
 
     private void UpdateCursor(InputAction.CallbackContext obj) {
