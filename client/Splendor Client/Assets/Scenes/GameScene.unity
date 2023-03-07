@@ -2550,6 +2550,9 @@ MonoBehaviour:
   sacrificeMade: 0
   inNobleMenu: 0
   selectReserve: 0
+  effectPanel: {fileID: 1150661069}
+  dimensions: {x: 25, y: 25, z: 25}
+  clickEffect: {fileID: 1102249672185300, guid: 6fdea1231ceb448449227cd286b17ecf, type: 3}
 --- !u!114 &288864034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4938,7 +4941,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: -1
+  m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!224 &551110248
 RectTransform:
@@ -8548,7 +8551,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7720539969198779282, guid: 0b991cbec0707f546bdf9bb76b14b302, type: 3}
   m_PrefabInstance: {fileID: 882211149}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1636936598}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 76a2d7ccfc5178944bef8190c06a05d4, type: 3}
@@ -8732,7 +8735,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &887787614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8807,6 +8810,8 @@ GameObject:
   - component: {fileID: 889997261}
   - component: {fileID: 889997260}
   - component: {fileID: 889997262}
+  - component: {fileID: 889997264}
+  - component: {fileID: 889997263}
   m_Layer: 5
   m_Name: Claim Noble Panel
   m_TagString: Untagged
@@ -8891,6 +8896,44 @@ MonoBehaviour:
   nobleContent: {fileID: 110883131}
   claimNoblePanel: {fileID: 889997258}
   hasImpressedNoble: 0
+--- !u!114 &889997263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 889997258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!223 &889997264
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 889997258}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 2
+  m_TargetDisplay: 0
 --- !u!1 &891074205
 GameObject:
   m_ObjectHideFlags: 0
@@ -11963,6 +12006,8 @@ GameObject:
   - component: {fileID: 1171159221}
   - component: {fileID: 1171159224}
   - component: {fileID: 1171159223}
+  - component: {fileID: 1171159225}
+  - component: {fileID: 1171159222}
   m_Layer: 5
   m_Name: Inventory Panel
   m_TagString: Untagged
@@ -11995,6 +12040,23 @@ RectTransform:
   m_AnchoredPosition: {x: -0.000030518, y: -0.00047255}
   m_SizeDelta: {x: 800, y: 450.26}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1171159222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1171159220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!114 &1171159223
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12033,6 +12095,27 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1171159220}
   m_CullTransparentMesh: 1
+--- !u!223 &1171159225
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1171159220}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 2
+  m_TargetDisplay: 0
 --- !u!1 &1175326240
 GameObject:
   m_ObjectHideFlags: 0
@@ -18197,6 +18280,49 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1626149666}
   m_CullTransparentMesh: 1
+--- !u!1 &1636936598 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7720539969198779372, guid: 0b991cbec0707f546bdf9bb76b14b302, type: 3}
+  m_PrefabInstance: {fileID: 882211149}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1636936599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1636936598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!223 &1636936600
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1636936598}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 1
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 2
+  m_TargetDisplay: 0
 --- !u!1 &1640867444
 GameObject:
   m_ObjectHideFlags: 0

@@ -42,6 +42,10 @@ public class PlayerControl : MonoBehaviour {
     public ActiveSession currSession;
     public bool inOrientMenu, sacrificeMade, inNobleMenu, selectReserve;
 
+    [SerializeField] private GameObject effectPanel;
+    [SerializeField] private Vector3 dimensions;
+    [SerializeField] GameObject clickEffect;
+
     void Start() {
         //the following was a test i made to make sure JSONHandler was working. ive left it here incase we find some uknown error with it
         /*
@@ -118,16 +122,23 @@ public class PlayerControl : MonoBehaviour {
 
     private void OnFireAction(InputAction.CallbackContext obj) {
 
-        if (waiting || inventoryPanel.activeInHierarchy) return;
-
         Vector2 mousePos = Mouse.current.position.ReadValue();
         Vector3 worldPos = playerCamera.ScreenToWorldPoint(mousePos);
         Vector2 worldPos2D = new Vector2(worldPos.x, worldPos.y);
 
         //Debug.Log(worldPos2D);
+        if (clickEffect != null) {
+            if (effectPanel.transform.childCount > 0)
+                Destroy(effectPanel.transform.GetChild(0).gameObject);
+            GameObject go = Instantiate(clickEffect, worldPos2D, Quaternion.identity);
+            go.transform.SetParent(effectPanel.transform);
+            go.transform.localScale = new Vector3(dimensions.x, dimensions.y, dimensions.z);
+            go.GetComponent<ParticleSystem>().Play();
+        }
+
+        if (waiting || inventoryPanel.activeInHierarchy) return;
 
         RaycastHit2D hit = Physics2D.Raycast(worldPos2D, Vector2.zero);
-
         if (hit.collider != null) { // Check what was clicked (excluding UI elements)
             GameObject go = hit.collider.gameObject;
             if (go.CompareTag("Card")) {

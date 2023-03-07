@@ -233,6 +233,7 @@ public static JSONObject reserve(Card card, Board board) {
       return false;
     }
     inventory.reserveNoble(noble);
+    board.getNobles().removeId(noble.getId());
     return true;
   }
   
