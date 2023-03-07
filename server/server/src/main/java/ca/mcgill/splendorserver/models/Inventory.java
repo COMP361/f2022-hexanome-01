@@ -320,7 +320,7 @@ public class Inventory {
     //tokens
     json.put("tokens", tokens.toJson());
     //bonuses
-    json.put("bonuses", bonuses.toJson());
+    json.put("bonuses", getBonuses().toJson());
     //trading posts
     JSONArray tradingPostsJson = new JSONArray();
     for (Unlockable unlockable : unlockables) {
