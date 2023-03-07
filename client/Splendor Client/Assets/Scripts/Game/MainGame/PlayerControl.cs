@@ -384,7 +384,7 @@ public class PlayerControl : MonoBehaviour {
         selectedCardJson.Add("cardId", cardId);
         actionManager.MakeApiRequest(currSession.id, selectedCardJson, ActionManager.ActionType.domino,ActionManager.RequestType.POST, (response) => {
 
-            if(response != null){
+            if (response != null) {
                 string status = (string)response["status"];
                 if (status.Equals("failure")) {
                     errorText.GetComponent<FadeOut>().ResetFade();
@@ -393,36 +393,36 @@ public class PlayerControl : MonoBehaviour {
                 string action = (string)response["action"];
                 JSONArray jsonNoblesVisited = (JSONArray)response["noblesVisiting"];//int[] noblesVisiting = new int[]
 
-                int[] noblesVisiting = new int[jsonNoblesVisited.Count];
+                long[] noblesVisiting = new long[jsonNoblesVisited.Count];
                 for (int i = 0; i < jsonNoblesVisited.Count; i++) {
                     noblesVisiting[i] = (int)jsonNoblesVisited[i];
                 }
 
-                if(action.Equals("domino1") || action.Equals("domino2") || action.Equals("satchel")|| action.Equals("reserve")){
+                if (action.Equals("domino1") || action.Equals("domino2") || action.Equals("satchel") || action.Equals("reserve")) {
                     Debug.Log("GOT TO ORIENT");
                     JSONArray jsonChoices = (JSONArray)JSONHandler.DecodeJsonRequest((string)response["choices"]);
-                    if(action.Equals("reserve")){
+                    if (action.Equals("reserve")) {
                         List<long> ids = new List<long>();
-                        for(int i = 0; i < jsonChoices.Count; i++){
+                        for (int i = 0; i < jsonChoices.Count; i++) {
                             ids.Add((long)jsonChoices[i]);
                         }
                         List<Noble> nobleChoices = getNobles(ids);
                         orientPanelManager.gameObject.SetActive(true);
                         orientPanelManager.Display(new List<Card>(), nobleChoices, ActionManager.ActionType.reserveNoble);
                     }
-                    else{
+                    else {
                         List<Card> cardChoices = new List<Card>();
                         for (int i = 0; i < jsonChoices.Count; i++) {
                             cardChoices.Add(allCards.GetCardFromId((long)jsonChoices[i]));
                         }
                         orientPanelManager.gameObject.SetActive(true);
-                        if(action.Equals("domino2")){
+                        if (action.Equals("domino2")) {
                             orientPanelManager.Display(cardChoices, new List<Noble>(), ActionManager.ActionType.domino);
                         }
-                        else if(action.Equals("domino1")){
+                        else if (action.Equals("domino1")) {
                             orientPanelManager.Display(cardChoices, new List<Noble>(), ActionManager.ActionType.dominoSatchel);
                         }
-                        else if(action.Equals("satchel")){
+                        else if (action.Equals("satchel")) {
                             Debug.Log(cardChoices.Count);
                             orientPanelManager.Display(cardChoices, new List<Noble>(), ActionManager.ActionType.satchel);
                         }
@@ -432,14 +432,13 @@ public class PlayerControl : MonoBehaviour {
                 else if (noblesVisiting.Count() == 0) {
                     endTurnAction();
                 }
+                else {
+                    claimNoblePanel.DisplayNobleClaim(allNobles, noblesVisiting);
+                }
 
-                
-            else {
-                    errorText.GetComponent<FadeOut>().ResetFade(true);
             }
-                //HANDLE EXTRA CASES
-                
-
+            else {
+                errorText.GetComponent<FadeOut>().ResetFade(true);
             }
         });
     }
