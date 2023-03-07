@@ -309,7 +309,7 @@ public class Inventory {
     //reserved nobles
     JSONArray reservedNoblesJson = new JSONArray();
     for (Noble noble : reservedNobles) {
-      noblesJson.add(noble.getId());
+      reservedNoblesJson.add(noble.getId());
     }
     json.put("reservedNobles", reservedNoblesJson);
     //tokens
