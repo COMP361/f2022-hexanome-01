@@ -59,30 +59,30 @@ public class ClaimNoblePanel : MonoBehaviour
 
             foreach (CardSlot c in boardCards) {
 #if UNITY_EDITOR
-                if (PrefabUtility.GetPrefabAssetType(c) == PrefabAssetType.NotAPrefab) {
+                if (PrefabUtility.GetPrefabAssetType(c) == PrefabAssetType.NotAPrefab) 
                     c.gameObject.SetActive(true);
 #else
                     c.gameObject.SetActive(true);
 #endif
-                }
+                
             }
             foreach (NobleSlot n in boardNobles) {
 #if UNITY_EDITOR
-                if (PrefabUtility.GetPrefabAssetType(n) == PrefabAssetType.NotAPrefab) {
+                if (PrefabUtility.GetPrefabAssetType(n) == PrefabAssetType.NotAPrefab) 
                     n.gameObject.SetActive(true);
 #else
                     n.gameObject.SetActive(true);
 #endif
-                }
+                
             }
             foreach (CitySlot c in cities) {
-                if (PrefabUtility.GetPrefabAssetType(c) == PrefabAssetType.NotAPrefab) {
 #if UNITY_EDITOR
+                if (PrefabUtility.GetPrefabAssetType(c) == PrefabAssetType.NotAPrefab) 
                     c.gameObject.SetActive(true);
 #else
                     c.gameObject.SetActive(true);
 #endif
-                }
+                
             }
         }
         else {
@@ -99,30 +99,30 @@ public class ClaimNoblePanel : MonoBehaviour
 
             foreach (CardSlot c in boardCards) {
 #if UNITY_EDITOR
-                if (PrefabUtility.GetPrefabAssetType(c) == PrefabAssetType.NotAPrefab) {
+                if (PrefabUtility.GetPrefabAssetType(c) == PrefabAssetType.NotAPrefab) 
                     c.gameObject.SetActive(false);
 #else
                     c.gameObject.SetActive(false);
 #endif
-                }
+                
             }
             foreach (NobleSlot n in boardNobles) {
 #if UNITY_EDITOR
-                if (PrefabUtility.GetPrefabAssetType(n) == PrefabAssetType.NotAPrefab) {
+                if (PrefabUtility.GetPrefabAssetType(n) == PrefabAssetType.NotAPrefab) 
                     n.gameObject.SetActive(false);
 #else
                     n.gameObject.SetActive(false);
 #endif
-                }
+                
             }
             foreach (CitySlot c in cities) {
-                if (PrefabUtility.GetPrefabAssetType(c) == PrefabAssetType.NotAPrefab) {
 #if UNITY_EDITOR
+                if (PrefabUtility.GetPrefabAssetType(c) == PrefabAssetType.NotAPrefab) 
                     c.gameObject.SetActive(false);
 #else
                     c.gameObject.SetActive(false);
 #endif
-                }
+                
             }
             DisplayAvailableNobles(availNobles);
         }
