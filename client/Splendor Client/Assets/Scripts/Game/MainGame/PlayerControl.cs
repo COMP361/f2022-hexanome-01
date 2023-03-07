@@ -208,7 +208,7 @@ public class PlayerControl : MonoBehaviour {
                 }
                 if(action.Equals("domino1") || action.Equals("domino2") || action.Equals("satchel") || action.Equals("reserve")){
                     Debug.Log("GOT TO ORIENT");
-                    JSONArray jsonChoices = (JSONArray)JSONHandler.DecodeJsonRequest((string)response["choices"]);
+                    JSONArray jsonChoices = (JSONArray)JSONHandler.DecodeJsonRequest((string)response["options"]);
                     if(action.Equals("reserve")){
                         List<long> ids = new List<long>();
                         for(int i = 0; i < jsonChoices.Count; i++){
