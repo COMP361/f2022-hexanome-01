@@ -572,7 +572,7 @@ GameObject:
   - component: {fileID: 598344308}
   - component: {fileID: 598344310}
   m_Layer: 0
-  m_Name: EffectManager
+  m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -637,7 +637,6 @@ MonoBehaviour:
   cursor: {fileID: 0}
   uiCamera: {fileID: 66130541}
   effectPanel: {fileID: 492864674}
-  dimensions: {x: 100, y: 100, z: 100}
   controls: {fileID: -944628639613478452, guid: 68b0984844d79b345af0ecff893baaed, type: 3}
   clickEffect: {fileID: 1102249672185300, guid: 6fdea1231ceb448449227cd286b17ecf, type: 3}
 --- !u!1 &636889010

@@ -8,7 +8,6 @@ import ca.mcgill.splendorserver.models.Noble;
 import ca.mcgill.splendorserver.models.Token;
 import ca.mcgill.splendorserver.models.board.Board;
 import ca.mcgill.splendorserver.models.cards.Card;
-import ca.mcgill.splendorserver.models.cards.CardType;
 import ca.mcgill.splendorserver.models.communicationbeans.SessionData;
 import ca.mcgill.splendorserver.models.registries.CardRegistry;
 import ca.mcgill.splendorserver.models.registries.NobleRegistry;
@@ -303,7 +302,7 @@ public class GameController {
       if (!OrientManager.addSatchel(card, inventory)) {
         return ResponseEntity.ok().body(invalidAction.toJSONString());
       }
-      response.put("type", CardType.DOMINO2.toString());
+      response.put("type", "DOMINO2");
       ArrayList<Integer> choices = OrientManager.getDominoOptions(board, 1);
       response.put("options", JSONArray.toJSONString(choices));
 

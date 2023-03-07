@@ -8,7 +8,6 @@ public class MouseEffects : MonoBehaviour {
     [SerializeField] private GameObject cursor;
     [SerializeField] private Camera uiCamera;
     [SerializeField] private GameObject effectPanel;
-    [SerializeField] private Vector3 dimensions;
 
     private InputAction fire;
     private InputAction look;
@@ -41,7 +40,7 @@ public class MouseEffects : MonoBehaviour {
                 Destroy(effectPanel.transform.GetChild(0).gameObject);
             GameObject go = Instantiate(clickEffect, worldPos2D, Quaternion.identity);
             go.transform.SetParent(effectPanel.transform);
-            go.transform.localScale = new Vector3(dimensions.x, dimensions.y, dimensions.z);
+            go.transform.localScale = new Vector3(100, 100, 100);
             go.GetComponent<ParticleSystem>().Play();
         }
     }
