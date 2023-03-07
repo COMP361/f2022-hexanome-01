@@ -129,7 +129,8 @@ public class NobleBank {
    *
    * @return the nobles on the board as a JSONArray
    */
-  public JSONArray toJson() {
+@SuppressWarnings("unchecked")
+public JSONArray toJson() {
     JSONArray json = new JSONArray();
     for (int i = 0; i < size; i++) {
       json.add(nobles[i]);

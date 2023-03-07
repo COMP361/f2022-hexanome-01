@@ -52,6 +52,15 @@ public class Game {
   public String getId() {
     return id;
   }
+  
+  /**
+   * Checker for if player won
+   *
+   * @return playerId of winner, empty string if none
+   */
+  public String getWinner() {
+    return "";
+  }
 
   /**
    * Flags the game as launched.
