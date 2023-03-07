@@ -127,7 +127,7 @@ public class GameManager {
 public static JSONObject determineBody(Card card, Board board, Inventory inventory) {
     JSONObject response = new JSONObject();
     response.put("action", "none");
-    response.put("choices", new JSONArray());
+    response.put("options", new JSONArray());
 
     if (card.getType() == CardType.SACRIFICE) {
       return null; //REMOVE AFTER M7, ONCE SACRIFICING IS NEEDED
@@ -151,7 +151,7 @@ public static JSONObject determineBody(Card card, Board board, Inventory invento
       String furtherAction = (String) result.get("type");
       String actionOptions = (String) result.get("options");
       response.replace("action", furtherAction);
-      response.replace("choices", actionOptions);
+      response.replace("options", actionOptions);
       response.put("noblesVisiting", new JSONArray());
     } else {
       JSONArray noblesVisiting = new JSONArray();
