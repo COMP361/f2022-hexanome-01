@@ -108,7 +108,7 @@ public class PlayerControl : MonoBehaviour {
         fire.performed += OnFireAction;
 
         look = _inputActionMap.FindAction("Look");
-        //look.performed += UpdateCursor;
+        look.performed += UpdateCursor;
     }
 
     public Player client
@@ -117,7 +117,6 @@ public class PlayerControl : MonoBehaviour {
     }
 
     private void OnFireAction(InputAction.CallbackContext obj) {
-
         if (waiting || inventoryPanel.activeInHierarchy) return;
 
         Vector2 mousePos = Mouse.current.position.ReadValue();
@@ -686,5 +685,10 @@ public class PlayerControl : MonoBehaviour {
             }
         }
         return availNobles;
+
+    }
+    private void UpdateCursor(InputAction.CallbackContext obj) {
+        Vector2 mousePos = Mouse.current.position.ReadValue();
+        cursor.transform.position = new Vector3(mousePos.x, mousePos.y, cursor.transform.position.z);
     }
 }
