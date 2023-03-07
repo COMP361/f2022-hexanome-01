@@ -147,6 +147,7 @@ public class Inventory {
    */
   public void addNobleToInventory(Noble noble) {
     nobles.add(noble);
+    points += noble.getPts();
   }
 
   /**
