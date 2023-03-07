@@ -54,7 +54,7 @@ public class Game {
   }
   
   /**
-   * Checker for if player won
+   * Checker for if player won.
    *
    * @return playerId of winner, empty string if none
    */
