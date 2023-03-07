@@ -351,8 +351,12 @@ public class GameController {
       }
       response.put("action", "none");
 
-      response.put("noblesVisiting",
-          JSONArray.toJSONString(board.getNobles().attemptImpress(inventory)));
+      JSONArray noblesVisiting = new JSONArray();
+      for (int nobleId : board.getNobles().attemptImpress(inventory)) {
+        noblesVisiting.add(nobleId);
+      }
+      
+      response.put("noblesVisiting", noblesVisiting);
 
       response.put("options", JSONArray.toJSONString(new ArrayList<Integer>()));
 
@@ -400,8 +404,12 @@ public class GameController {
       }
       response.put("action", "none");
 
-      response.put("noblesVisiting",
-          JSONArray.toJSONString(board.getNobles().attemptImpress(inventory)));
+      JSONArray noblesVisiting = new JSONArray();
+      for (int nobleId2 : board.getNobles().attemptImpress(inventory)) {
+        noblesVisiting.add(nobleId2);
+      }
+      
+      response.put("noblesVisiting", noblesVisiting);
 
       response.put("options", JSONArray.toJSONString(new ArrayList<Integer>()));
 
