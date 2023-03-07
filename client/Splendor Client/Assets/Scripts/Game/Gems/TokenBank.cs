@@ -118,12 +118,12 @@ public class TokenBank : MonoBehaviour{
     
     public void AddAmount(string colour, long amount) {
         switch (colour) {
-            case "white": white += amount; break;
-            case "red": red += amount; break;
-            case "blue": blue += amount; break;
-            case "green": green += amount; break;
-            case "black": black += amount; break;
-            case "gold": gold += amount; break;
+            case "white": white += amount; whiteAmount.text = white.ToString(); break;
+            case "red": red += amount; redAmount.text = red.ToString(); break;
+            case "blue": blue += amount; blueAmount.text = blue.ToString(); break;
+            case "green": green += amount; greenAmount.text = green.ToString(); break;
+            case "black": black += amount; blackAmount.text = black.ToString(); break;
+            case "gold": gold += amount; goldAmount.text = gold.ToString(); break;
         }
     }
 
