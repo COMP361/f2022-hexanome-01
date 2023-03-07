@@ -213,6 +213,7 @@ public class GameController {
       if (response == null) {
         return ResponseEntity.ok().body(invalidAction.toJSONString());
       }
+      
       response.put("status", "success");
       //return the result of taking the tokens
       return ResponseEntity.ok(response.toJSONString());
@@ -632,13 +633,72 @@ public class GameController {
       Board board = game.getBoard();
       Inventory inventory = board.getInventory(playerId);
       
-      inventory.getTokens().addRepeated(Token.BLACK, 99);
-      inventory.getTokens().addRepeated(Token.RED, 99);
-      inventory.getTokens().addRepeated(Token.BLUE, 99);
-      inventory.getTokens().addRepeated(Token.WHITE, 99);
-      inventory.getTokens().addRepeated(Token.GREEN, 99);
-
+      for (Token token : Token.values()) {
+        if (token.equals(Token.GOLD)) {
+          continue;
+        }
+        inventory.getTokens().removeRepeated(token, inventory.getTokens().checkAmount(token));
+        inventory.getTokens().addRepeated(token, 9999);
+      }
+      
       JSONObject response = new JSONObject();
+      response.put("status", "success");
+
+      return ResponseEntity.ok(response.toJSONString());
+    } catch (Exception e) {
+      logger.error(e.getStackTrace().toString());
+      return errorResponse(e.getMessage());
+    }
+  }
+  
+  /**
+   * Attaches a satchel to the selected card.
+   *
+   * @param gameId the id of the game
+   * @param data   the game data of the take tokens action
+   * @return success flag
+   * @throws JsonProcessingException when JSON processing error occurs
+   */
+  @SuppressWarnings("unchecked")
+  @PostMapping("/api/action/{gameId}/sacrifice")
+  public ResponseEntity<String> sacrifice(@PathVariable String gameId,
+                                        @RequestBody JSONObject data)
+      throws JsonProcessingException {
+    try {
+      String playerId = (String) data.get("playerId");
+
+      Game game = GameManager.getGame(gameId);
+      if (game == null) {
+        return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
+      }
+      if (!game.getCurrentPlayer().getUsername().equals(playerId)) {
+        return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
+      }
+      
+      int originalId = (int) data.get("originalId");
+      int cardId1 = (int) data.get("cardId1");
+      int cardId2 = (int) data.get("cardId2");
+      Board board = game.getBoard();
+      Card originalCard = CardRegistry.of(originalId);
+      Card card1 = CardRegistry.of(cardId1);
+      Card card2 = CardRegistry.of(cardId2);
+      Inventory inventory = board.getInventory(playerId);
+
+      if (originalCard == null || !OrientManager.makeSacrifice(card1, card2, inventory)) {
+        return ResponseEntity.ok().body(invalidAction.toJSONString());
+      }
+      
+      inventory.acquireCard(originalCard);
+      inventory.addCard(originalCard);
+      
+      JSONObject response = new JSONObject();
+      response.put("action", "none");
+
+      response.put("noblesVisiting",
+          JSONArray.toJSONString(board.getNobles().attemptImpress(inventory)));
+
+      response.put("options", JSONArray.toJSONString(new ArrayList<Integer>()));
+
       response.put("status", "success");
 
       return ResponseEntity.ok(response.toJSONString());

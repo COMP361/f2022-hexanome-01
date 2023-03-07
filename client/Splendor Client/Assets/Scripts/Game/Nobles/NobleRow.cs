@@ -15,12 +15,21 @@ public class NobleRow : MonoBehaviour
     [SerializeField] private float y3Players;
     [SerializeField] private float y4Players;
 
+    private List<GameObject> prefabs = new List<GameObject>();
+
     public void SetSize(int size) {
         this.size = size;
     }
 
     public int GetSize() {
         return size;
+    }
+
+    public void ResetAllNobles()
+    {
+        foreach (var noble in prefabs) {
+            Destroy(noble);
+        }
     }
 
     public void SetNoble(long id, int index)
@@ -30,6 +39,7 @@ public class NobleRow : MonoBehaviour
         if (size == 5) y = y4Players;
 
         GameObject prefab = Instantiate(nobleObject, new Vector3(x, y + index * 0.98f, 0), Quaternion.identity);
+        prefabs.Add(prefab);
         if (index < size)
         {
             nobles[index] = prefab.GetComponent<NobleSlot>();

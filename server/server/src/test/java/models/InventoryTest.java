@@ -99,6 +99,8 @@ public class InventoryTest {
 	    
 	    JSONArray json = board.getNobles().toJson();
 	    assertEquals(originalNoble, json.get(0));
+	    gameManager.acquireNoble(NobleRegistry.of(originalNoble), board, testInventory);
+	    assertEquals(originalNoble, testInventory.getNobles().get(0).getId());
 	}
 	
 	@Test
