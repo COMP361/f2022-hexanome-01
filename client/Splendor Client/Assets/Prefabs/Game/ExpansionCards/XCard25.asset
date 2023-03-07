@@ -14,13 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 129
   points: 0
-  bonus: 88
+  bonus: 83
   bonusAmount: 1
   red: 2
   blue: 0
   green: 0
   brown: 0
   white: 3
-  satchels: 0
-  action: 2
   sprite: {fileID: -7697856873077533532, guid: 610d06418fe70dd4dae948b974baa749, type: 3}

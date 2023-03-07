@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8978679233596308972
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5145952858865974805}
+  - component: {fileID: 3292616329652295063}
+  m_Layer: 0
+  m_Name: CityRow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5145952858865974805
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8978679233596308972}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3292616329652295063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8978679233596308972}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 12a29647aca644352861c4d8e4023b7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allCities:
+  - {fileID: 11400000, guid: 72c388cda1609f547814a55b7182bd0a, type: 2}
+  - {fileID: 11400000, guid: 57b270fe82aacda4882fc1b60de5027e, type: 2}
+  - {fileID: 11400000, guid: 09f853968b5ecd54f9acabdbdf54a405, type: 2}
+  - {fileID: 11400000, guid: 91176cc3c163f7c45b5d4809545930e3, type: 2}
+  - {fileID: 11400000, guid: 4863ac1bc849cd84891302f84ac2cf53, type: 2}
+  - {fileID: 11400000, guid: c9df00e60bfbf5d49ac9937adb34aef1, type: 2}
+  - {fileID: 11400000, guid: 1fa662b965a713640ad11df79ae1b927, type: 2}
+  - {fileID: 11400000, guid: cbdbd3cbf270912499a650ab2f5fd47c, type: 2}
+  - {fileID: 11400000, guid: 1cc2c301dbfd73c44ba5e2f95041fbc3, type: 2}
+  - {fileID: 11400000, guid: 360e63ee79e6d1b4390e05b3a6d29356, type: 2}
+  - {fileID: 11400000, guid: 85e37aee87786e744a3837493068363d, type: 2}
+  - {fileID: 11400000, guid: 8e78a4034e19ade4982c38a35698a55e, type: 2}
+  - {fileID: 11400000, guid: f3e45ad011409a4448ead9c3790ba195, type: 2}
+  - {fileID: 11400000, guid: af65c53cfc323c84088221d955e67142, type: 2}
+  - {fileID: 11400000, guid: 73bc416a3dbf740d382590f5d4bf868e, type: 2}
+  cityObject: {fileID: 5186656952557023847, guid: beec2335aa50a4271804afb0586619c3, type: 3}
+  x: -6
+  y: -1.96

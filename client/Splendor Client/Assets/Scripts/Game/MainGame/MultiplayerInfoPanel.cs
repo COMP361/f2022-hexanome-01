@@ -8,14 +8,31 @@ public class MultiplayerInfoPanel : MonoBehaviour
 {
     public Text nameField;
     public Text pointsField;
+    public Text reservedCardsCount;
+    public Text reservedNoblesCount;
+    public Image acquiredCity;
 
     public void UpdatePlayerName(string name)
     {
         nameField.text = name;
     }
 
-    public void UpdatePlayerPoints(int pts)
+    public void UpdatePlayerPoints(long pts)
     {
         pointsField.text = String.Format("{0}", pts);
+    }
+
+    public void UpdateReservedCardsCount(int count) {
+        reservedCardsCount.text = String.Format("{0}", count);
+    }
+
+    public void UpdateReservedNoblesCount(int count)
+    {
+        reservedNoblesCount.text = String.Format("{0}", count);
+    }
+
+    public void UpdateAcquiredCityDisplay(Sprite sprite)
+    {
+        acquiredCity.sprite = sprite;
     }
 }

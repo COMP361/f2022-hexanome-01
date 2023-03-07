@@ -115,7 +115,7 @@ public class CardGemValue {
 
 [CreateAssetMenu]
 public class Card : ScriptableObject {
-    [SerializeField] public int id;
+    [SerializeField] public long id;
     [SerializeField] private int points;
     [SerializeField] private char bonus;
     [SerializeField] private int bonusAmount = 1;
@@ -128,45 +128,14 @@ public class Card : ScriptableObject {
 
     [SerializeField] public CardGemValue gemValue = new CardGemValue();
 
-    public int satchels = 0;
-    public ActionType action;
-
     private bool active = true;
 
     public Sprite sprite;
 
     private SpriteRenderer m_SpriteRenderer;
 
-    public JSONObject Convert() {
-        Dictionary<string, string> pairs = new Dictionary<string, string>();
-        pairs.Add("id", id.ToString());
-        pairs.Add("points", points.ToString());
-        pairs.Add("bonus", bonus.ToString());
-        pairs.Add("bonusAmount", bonusAmount.ToString());
-        pairs.Add("red", red.ToString());
-        pairs.Add("blue", blue.ToString());
-        pairs.Add("green", green.ToString());
-        pairs.Add("brown", brown.ToString());
-        pairs.Add("white", white.ToString());
-        pairs.Add("satchels", satchels.ToString());
-        pairs.Add("action", action.ToString());
-        pairs.Add("active", active.ToString()); //why do we have an active bool????
-        return new JSONObject(pairs);
-    }
-    public void SetData(CardData data) {
-        id = data.id;
-        points = data.points;
-        bonus = data.bonus;
-        bonusAmount = data.bonusAmount;
-        red = data.red;
-        blue = data.blue;
-        green = data.green;
-        brown = data.brown;
-        white = data.white;
-    }
-
-    public void AddSatchel() {
-        satchels++;
+    public long GetId() {
+        return id;
     }
 
     public int GetPoints() {
@@ -203,4 +172,8 @@ public class Card : ScriptableObject {
         }
     }
 
+    public bool Equals(Card card) {
+        if (card.GetId() == id) return true;
+        return false;
+    }
 }

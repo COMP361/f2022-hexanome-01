@@ -1,335 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2495688006980451457
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2495688006980451458}
-  - component: {fileID: 2495688006980451468}
-  - component: {fileID: 2495688006980451459}
-  m_Layer: 0
-  m_Name: ExpansionCardRow1
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2495688006980451458
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2495688006980451457}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2495688007317858118}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2495688006980451468
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2495688006980451457}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef9ee1615705b734a8079f0bdea16a67, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  size: 2
-  level: 1
-  deckSprite: {fileID: 0}
-  deck: {fileID: 2495688006980451459}
-  x: 2
-  y: -2.5
-  cardObject: {fileID: 3705035989739418207, guid: 61a923ecaabd179489e0ecf947ce5c0f, type: 3}
---- !u!114 &2495688006980451459
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2495688006980451457}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7d1d9c6a22de6447b7a849ed9dd37b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  level: 1
-  cards:
-  - {fileID: 11400000, guid: 830affbebcbac95469ca202c9bac9d5c, type: 2}
-  - {fileID: 11400000, guid: 71f6c5a1f93584e4ab64c45719cb8401, type: 2}
-  - {fileID: 11400000, guid: c6fff4ebd76c88e4ca53a00579a6bc93, type: 2}
-  - {fileID: 11400000, guid: 50e8c2b6dbdb95d42827e01f7c73ed0c, type: 2}
-  - {fileID: 11400000, guid: 0e0aee9f556442b4786192034780e113, type: 2}
-  - {fileID: 11400000, guid: 5638de76e5090f04697d58993692cc55, type: 2}
-  - {fileID: 11400000, guid: 4887829aabad0bc45a9046926f81f949, type: 2}
-  - {fileID: 11400000, guid: 93d19d135bb376b4697447f15497f656, type: 2}
-  - {fileID: 11400000, guid: 900592f7d7c7e844e8ccb5b223eff79d, type: 2}
-  - {fileID: 11400000, guid: 938a3d57c85803e40bf835550fc2fcec, type: 2}
---- !u!1 &2495688007165243064
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2495688007165243065}
-  - component: {fileID: 2495688007165243067}
-  - component: {fileID: 2495688007165243066}
-  m_Layer: 0
-  m_Name: ExpansionCardRow2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2495688007165243065
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2495688007165243064}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2495688007317858118}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2495688007165243067
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2495688007165243064}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef9ee1615705b734a8079f0bdea16a67, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  size: 2
-  level: 1
-  deckSprite: {fileID: 0}
-  deck: {fileID: 2495688007165243066}
-  x: 2
-  y: -0.5
-  cardObject: {fileID: 3705035989739418207, guid: 61a923ecaabd179489e0ecf947ce5c0f, type: 3}
---- !u!114 &2495688007165243066
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2495688007165243064}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7d1d9c6a22de6447b7a849ed9dd37b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  level: 1
-  cards:
-  - {fileID: 11400000, guid: 7935de97deb5a5043bba1d01e25f4316, type: 2}
-  - {fileID: 11400000, guid: 80b8778625d9b794980f7674f25fbdab, type: 2}
-  - {fileID: 11400000, guid: 072182d70fb57764d9ff7f87ca185970, type: 2}
-  - {fileID: 11400000, guid: 6fbd31a1cfa59d741a9fa97109891fa8, type: 2}
-  - {fileID: 11400000, guid: 10b677c11799ce24983a62d96dad0981, type: 2}
-  - {fileID: 11400000, guid: df02e5566e98250498a907a28a9c0f76, type: 2}
-  - {fileID: 11400000, guid: cf78a6ba3b1a1294c8c7f1389df8f7be, type: 2}
-  - {fileID: 11400000, guid: c3600aa6060b7df4eb7bf60d170d4c23, type: 2}
-  - {fileID: 11400000, guid: 3e5108c306936cd47b3b912839ef7da2, type: 2}
-  - {fileID: 11400000, guid: 42b4b82395af17a41a7d69ada2e65277, type: 2}
---- !u!1 &2495688007175836801
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2495688007175836803}
-  - component: {fileID: 2495688007175836802}
-  - component: {fileID: 2495688007175836812}
-  m_Layer: 0
-  m_Name: CardRow2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2495688007175836803
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2495688007175836801}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2495688007317858118}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2495688007175836802
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2495688007175836801}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef9ee1615705b734a8079f0bdea16a67, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  size: 4
-  level: 2
-  deckSprite: {fileID: 0}
-  deck: {fileID: 2495688007175836812}
-  x: -4.5
-  y: -0.5
-  cardObject: {fileID: 3705035989739418207, guid: 61a923ecaabd179489e0ecf947ce5c0f, type: 3}
---- !u!114 &2495688007175836812
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2495688007175836801}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7d1d9c6a22de6447b7a849ed9dd37b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  level: 2
-  cards:
-  - {fileID: 11400000, guid: 471fc12f2d8e07d448d6ffff2d4cf57d, type: 2}
-  - {fileID: 11400000, guid: 37d4aeae85b0f5e43b11d84b43fdaf28, type: 2}
-  - {fileID: 11400000, guid: a61ddb0f7b3e9d644a58b58b72d94691, type: 2}
-  - {fileID: 11400000, guid: e67008a715ef5c94e8e7f7ab5c2fc555, type: 2}
-  - {fileID: 11400000, guid: 33086cef198254c4ba6cfad9fff7fa9f, type: 2}
-  - {fileID: 11400000, guid: acd91182644ac2d439e1c8e2a5873fd4, type: 2}
-  - {fileID: 11400000, guid: aa4bc0b6c3352eb4eaf553c6d9d82d44, type: 2}
-  - {fileID: 11400000, guid: b230a7e8afd8e5a48b885718a243c35a, type: 2}
-  - {fileID: 11400000, guid: fecf183664cbc934f9eae1542ab772d7, type: 2}
-  - {fileID: 11400000, guid: 8dd6c8133e045fb4b89dc1b69f8bc748, type: 2}
-  - {fileID: 11400000, guid: dfa36dee93b431d419a6e7b72bb46f20, type: 2}
-  - {fileID: 11400000, guid: 9d277b9948717c44893da27717074bed, type: 2}
-  - {fileID: 11400000, guid: 8313405b81277aa4ab6b2a0ff728abb3, type: 2}
-  - {fileID: 11400000, guid: e1389393eebb73743a4aae3b1f4b5ce3, type: 2}
-  - {fileID: 11400000, guid: d1f88c3c9a176ab44a7842f7b95f07d3, type: 2}
-  - {fileID: 11400000, guid: 6d028e4370303fb4a89f3e69105b2ed2, type: 2}
-  - {fileID: 11400000, guid: 950b89bc9fe4dbf4f8292b666cb2221f, type: 2}
-  - {fileID: 11400000, guid: 45ac41c91dccdef4aa8f29375d8f72be, type: 2}
-  - {fileID: 11400000, guid: c68b8f4dde55b8041bbd9be406c56b36, type: 2}
-  - {fileID: 11400000, guid: 042f56e4f822bb4499aa5f85958b6ced, type: 2}
-  - {fileID: 11400000, guid: 5555b4a0c2586304baed0a4f59751318, type: 2}
-  - {fileID: 11400000, guid: 277d67ef2f11ac44da705ebdc03370c5, type: 2}
-  - {fileID: 11400000, guid: 31b58122916812141aea7e469d0a538e, type: 2}
-  - {fileID: 11400000, guid: 5a684e329cfa0c14e97b90d520e770be, type: 2}
-  - {fileID: 11400000, guid: e2800ac8c26e8a14cafce740cf813641, type: 2}
-  - {fileID: 11400000, guid: 5ca18f509b80e894491e7f70d708eb03, type: 2}
-  - {fileID: 11400000, guid: 4d27b1ebca2b49643a409f636bcb477c, type: 2}
-  - {fileID: 11400000, guid: cb63d7ed701ed7b4eb6149e3c6c4a126, type: 2}
-  - {fileID: 11400000, guid: b63ee7f50ef2cce45ade22d975f4fb2d, type: 2}
-  - {fileID: 11400000, guid: 4d58d265e2e0059428b61621e1663bdb, type: 2}
---- !u!1 &2495688007303950847
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2495688007303950841}
-  - component: {fileID: 2495688007303950840}
-  - component: {fileID: 2495688007303950842}
-  m_Layer: 0
-  m_Name: CardRow3
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2495688007303950841
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2495688007303950847}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2495688007317858118}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2495688007303950840
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2495688007303950847}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef9ee1615705b734a8079f0bdea16a67, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  size: 4
-  level: 3
-  deckSprite: {fileID: 0}
-  deck: {fileID: 2495688007303950842}
-  x: -4.5
-  y: 1.5
-  cardObject: {fileID: 3705035989739418207, guid: 61a923ecaabd179489e0ecf947ce5c0f, type: 3}
---- !u!114 &2495688007303950842
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2495688007303950847}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7d1d9c6a22de6447b7a849ed9dd37b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  level: 3
-  cards:
-  - {fileID: 11400000, guid: b7c8ca5898e0164409a805df734be064, type: 2}
-  - {fileID: 11400000, guid: b1f0745ba30c50747985853b29c0ec6a, type: 2}
-  - {fileID: 11400000, guid: 4ab9a957640b725409903cf1ebc0f14a, type: 2}
-  - {fileID: 11400000, guid: d78d3b5697af6dc4f960992e29935093, type: 2}
-  - {fileID: 11400000, guid: 31891f8702233354bab6258187f6b4aa, type: 2}
-  - {fileID: 11400000, guid: 720970469695c844292d176fcb83311f, type: 2}
-  - {fileID: 11400000, guid: 438ee524a10124c4da0f79c98d8b7d1d, type: 2}
-  - {fileID: 11400000, guid: 6c0384e1e2dcad4489d9a8bc30f3926f, type: 2}
-  - {fileID: 11400000, guid: 160a587fdc9d08245bd03e478e9eeca1, type: 2}
-  - {fileID: 11400000, guid: 736fd240eedb31b49bea217b921b6a89, type: 2}
-  - {fileID: 11400000, guid: 189aaf5f5919da14a80cbbd1b50f56cf, type: 2}
-  - {fileID: 11400000, guid: 4fd1dda3974f98440a7f53a84dd1d7ad, type: 2}
-  - {fileID: 11400000, guid: 437dbdfa396850d4e8c9c140ce692bf0, type: 2}
-  - {fileID: 11400000, guid: 4efd4e7e10ee90e489c018858a70bb27, type: 2}
-  - {fileID: 11400000, guid: 4e454d3553a46e84d927b0ed15d5e33a, type: 2}
-  - {fileID: 11400000, guid: 5377cd8d798de9e44879c4ed5e156977, type: 2}
-  - {fileID: 11400000, guid: d03ab75ff6fb6084595de4598b0eace8, type: 2}
-  - {fileID: 11400000, guid: 174ef3960a8d7e648b8b2f1dc6e5298a, type: 2}
-  - {fileID: 11400000, guid: ece7611246f75d747b9a977f76cbf9b2, type: 2}
-  - {fileID: 11400000, guid: 5417bc04a8e39924b8ea0c9cb0f725da, type: 2}
 --- !u!1 &2495688007317858117
 GameObject:
   m_ObjectHideFlags: 0
@@ -357,13 +27,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 439.8121, y: 189.89742, z: 1.8988037}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 2495688007303950841}
-  - {fileID: 2495688007175836803}
-  - {fileID: 2495688007353309438}
-  - {fileID: 2495688006980451458}
-  - {fileID: 2495688007165243065}
-  - {fileID: 2495688007380577493}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -380,78 +44,56 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cards:
-  - {fileID: 2495688007353309437}
-  - {fileID: 2495688007175836802}
-  - {fileID: 2495688007303950840}
-  - {fileID: 2495688006980451468}
-  - {fileID: 2495688007165243067}
-  - {fileID: 2495688007380577495}
-  rows: 6
---- !u!1 &2495688007353309436
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2495688007353309438}
-  - component: {fileID: 2495688007353309437}
-  - component: {fileID: 2495688007353309439}
-  m_Layer: 0
-  m_Name: CardRow1
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2495688007353309438
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2495688007353309436}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2495688007317858118}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2495688007353309437
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2495688007353309436}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef9ee1615705b734a8079f0bdea16a67, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  size: 4
-  level: 1
-  deckSprite: {fileID: 0}
-  deck: {fileID: 2495688007353309439}
-  x: -4.5
-  y: -2.5
-  cardObject: {fileID: 3705035989739418207, guid: 61a923ecaabd179489e0ecf947ce5c0f, type: 3}
---- !u!114 &2495688007353309439
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2495688007353309436}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7d1d9c6a22de6447b7a849ed9dd37b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  level: 1
-  cards:
+  - {fileID: 11400000, guid: b7c8ca5898e0164409a805df734be064, type: 2}
+  - {fileID: 11400000, guid: b1f0745ba30c50747985853b29c0ec6a, type: 2}
+  - {fileID: 11400000, guid: 4ab9a957640b725409903cf1ebc0f14a, type: 2}
+  - {fileID: 11400000, guid: d78d3b5697af6dc4f960992e29935093, type: 2}
+  - {fileID: 11400000, guid: 31891f8702233354bab6258187f6b4aa, type: 2}
+  - {fileID: 11400000, guid: 720970469695c844292d176fcb83311f, type: 2}
+  - {fileID: 11400000, guid: 438ee524a10124c4da0f79c98d8b7d1d, type: 2}
+  - {fileID: 11400000, guid: 6c0384e1e2dcad4489d9a8bc30f3926f, type: 2}
+  - {fileID: 11400000, guid: 160a587fdc9d08245bd03e478e9eeca1, type: 2}
+  - {fileID: 11400000, guid: 736fd240eedb31b49bea217b921b6a89, type: 2}
+  - {fileID: 11400000, guid: 189aaf5f5919da14a80cbbd1b50f56cf, type: 2}
+  - {fileID: 11400000, guid: 4fd1dda3974f98440a7f53a84dd1d7ad, type: 2}
+  - {fileID: 11400000, guid: 437dbdfa396850d4e8c9c140ce692bf0, type: 2}
+  - {fileID: 11400000, guid: 4efd4e7e10ee90e489c018858a70bb27, type: 2}
+  - {fileID: 11400000, guid: 4e454d3553a46e84d927b0ed15d5e33a, type: 2}
+  - {fileID: 11400000, guid: 5377cd8d798de9e44879c4ed5e156977, type: 2}
+  - {fileID: 11400000, guid: d03ab75ff6fb6084595de4598b0eace8, type: 2}
+  - {fileID: 11400000, guid: 174ef3960a8d7e648b8b2f1dc6e5298a, type: 2}
+  - {fileID: 11400000, guid: ece7611246f75d747b9a977f76cbf9b2, type: 2}
+  - {fileID: 11400000, guid: 5417bc04a8e39924b8ea0c9cb0f725da, type: 2}
+  - {fileID: 11400000, guid: b63ee7f50ef2cce45ade22d975f4fb2d, type: 2}
+  - {fileID: 11400000, guid: cb63d7ed701ed7b4eb6149e3c6c4a126, type: 2}
+  - {fileID: 11400000, guid: 4d27b1ebca2b49643a409f636bcb477c, type: 2}
+  - {fileID: 11400000, guid: 5ca18f509b80e894491e7f70d708eb03, type: 2}
+  - {fileID: 11400000, guid: e2800ac8c26e8a14cafce740cf813641, type: 2}
+  - {fileID: 11400000, guid: 5a684e329cfa0c14e97b90d520e770be, type: 2}
+  - {fileID: 11400000, guid: 31b58122916812141aea7e469d0a538e, type: 2}
+  - {fileID: 11400000, guid: 277d67ef2f11ac44da705ebdc03370c5, type: 2}
+  - {fileID: 11400000, guid: 5555b4a0c2586304baed0a4f59751318, type: 2}
+  - {fileID: 11400000, guid: 042f56e4f822bb4499aa5f85958b6ced, type: 2}
+  - {fileID: 11400000, guid: c68b8f4dde55b8041bbd9be406c56b36, type: 2}
+  - {fileID: 11400000, guid: 45ac41c91dccdef4aa8f29375d8f72be, type: 2}
+  - {fileID: 11400000, guid: 950b89bc9fe4dbf4f8292b666cb2221f, type: 2}
+  - {fileID: 11400000, guid: 6d028e4370303fb4a89f3e69105b2ed2, type: 2}
+  - {fileID: 11400000, guid: d1f88c3c9a176ab44a7842f7b95f07d3, type: 2}
+  - {fileID: 11400000, guid: 4d58d265e2e0059428b61621e1663bdb, type: 2}
+  - {fileID: 11400000, guid: e1389393eebb73743a4aae3b1f4b5ce3, type: 2}
+  - {fileID: 11400000, guid: 8313405b81277aa4ab6b2a0ff728abb3, type: 2}
+  - {fileID: 11400000, guid: 9d277b9948717c44893da27717074bed, type: 2}
+  - {fileID: 11400000, guid: dfa36dee93b431d419a6e7b72bb46f20, type: 2}
+  - {fileID: 11400000, guid: 8dd6c8133e045fb4b89dc1b69f8bc748, type: 2}
+  - {fileID: 11400000, guid: fecf183664cbc934f9eae1542ab772d7, type: 2}
+  - {fileID: 11400000, guid: b230a7e8afd8e5a48b885718a243c35a, type: 2}
+  - {fileID: 11400000, guid: aa4bc0b6c3352eb4eaf553c6d9d82d44, type: 2}
+  - {fileID: 11400000, guid: acd91182644ac2d439e1c8e2a5873fd4, type: 2}
+  - {fileID: 11400000, guid: 33086cef198254c4ba6cfad9fff7fa9f, type: 2}
+  - {fileID: 11400000, guid: e67008a715ef5c94e8e7f7ab5c2fc555, type: 2}
+  - {fileID: 11400000, guid: a61ddb0f7b3e9d644a58b58b72d94691, type: 2}
+  - {fileID: 11400000, guid: 37d4aeae85b0f5e43b11d84b43fdaf28, type: 2}
+  - {fileID: 11400000, guid: 471fc12f2d8e07d448d6ffff2d4cf57d, type: 2}
   - {fileID: 11400000, guid: a29e908e325168940ba3d76ea2da6ab6, type: 2}
   - {fileID: 11400000, guid: 1ed6a5a6b54b36044b832c5eeb062b5e, type: 2}
   - {fileID: 11400000, guid: 33072f2a89bb6f848a614c914b55a754, type: 2}
@@ -492,78 +134,39 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 12d80459f8ec5c24b87a482c09b3d98e, type: 2}
   - {fileID: 11400000, guid: dcf2cbbc9428195499037cc3b3cd49c7, type: 2}
   - {fileID: 11400000, guid: f65b11239274cf5488bdafecb12d56fa, type: 2}
---- !u!1 &2495688007380577492
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2495688007380577493}
-  - component: {fileID: 2495688007380577495}
-  - component: {fileID: 2495688007380577494}
-  m_Layer: 0
-  m_Name: ExpansionCardRow3
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2495688007380577493
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2495688007380577492}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2495688007317858118}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2495688007380577495
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2495688007380577492}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef9ee1615705b734a8079f0bdea16a67, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  size: 2
-  level: 1
-  deckSprite: {fileID: 0}
-  deck: {fileID: 2495688007380577494}
-  x: 2
-  y: 1.5
-  cardObject: {fileID: 3705035989739418207, guid: 61a923ecaabd179489e0ecf947ce5c0f, type: 3}
---- !u!114 &2495688007380577494
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2495688007380577492}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7d1d9c6a22de6447b7a849ed9dd37b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  level: 1
-  cards:
+  - {fileID: 11400000, guid: 830affbebcbac95469ca202c9bac9d5c, type: 2}
+  - {fileID: 11400000, guid: 71f6c5a1f93584e4ab64c45719cb8401, type: 2}
+  - {fileID: 11400000, guid: c6fff4ebd76c88e4ca53a00579a6bc93, type: 2}
+  - {fileID: 11400000, guid: 50e8c2b6dbdb95d42827e01f7c73ed0c, type: 2}
   - {fileID: 11400000, guid: eeda70225a22d1f4fbf49d4faf781101, type: 2}
   - {fileID: 11400000, guid: 1dd5045dea637a144afe9faffbdcf503, type: 2}
   - {fileID: 11400000, guid: ff3a3e36c3c26d3418fe3aab298fd83b, type: 2}
   - {fileID: 11400000, guid: 9b22f55823d2e724a998dc452fbac841, type: 2}
+  - {fileID: 11400000, guid: 7935de97deb5a5043bba1d01e25f4316, type: 2}
+  - {fileID: 11400000, guid: 80b8778625d9b794980f7674f25fbdab, type: 2}
+  - {fileID: 11400000, guid: 072182d70fb57764d9ff7f87ca185970, type: 2}
+  - {fileID: 11400000, guid: 6fbd31a1cfa59d741a9fa97109891fa8, type: 2}
+  - {fileID: 11400000, guid: 0e0aee9f556442b4786192034780e113, type: 2}
+  - {fileID: 11400000, guid: 5638de76e5090f04697d58993692cc55, type: 2}
+  - {fileID: 11400000, guid: 4887829aabad0bc45a9046926f81f949, type: 2}
+  - {fileID: 11400000, guid: 93d19d135bb376b4697447f15497f656, type: 2}
   - {fileID: 11400000, guid: 003e898aa73314b45b7a089e331dcc74, type: 2}
   - {fileID: 11400000, guid: 5f84d0a715c47cf4f90123a1bb33da85, type: 2}
   - {fileID: 11400000, guid: 76c8542b96a84ed4383621fee0310fdf, type: 2}
   - {fileID: 11400000, guid: 20cf90d40872eb744a631b17852f4ccd, type: 2}
+  - {fileID: 11400000, guid: 10b677c11799ce24983a62d96dad0981, type: 2}
+  - {fileID: 11400000, guid: df02e5566e98250498a907a28a9c0f76, type: 2}
+  - {fileID: 11400000, guid: cf78a6ba3b1a1294c8c7f1389df8f7be, type: 2}
+  - {fileID: 11400000, guid: c3600aa6060b7df4eb7bf60d170d4c23, type: 2}
+  - {fileID: 11400000, guid: 900592f7d7c7e844e8ccb5b223eff79d, type: 2}
+  - {fileID: 11400000, guid: 938a3d57c85803e40bf835550fc2fcec, type: 2}
   - {fileID: 11400000, guid: 8c4a8529047b2f746aa57a274abb98da, type: 2}
   - {fileID: 11400000, guid: c81fa1c42a122244cbf8c7060fd756a4, type: 2}
+  - {fileID: 11400000, guid: 3e5108c306936cd47b3b912839ef7da2, type: 2}
+  - {fileID: 11400000, guid: 42b4b82395af17a41a7d69ada2e65277, type: 2}
+  cardObject: {fileID: 3705035989739418207, guid: 61a923ecaabd179489e0ecf947ce5c0f, type: 3}
+  xBase: -2.4
+  xOrient: 2
+  yLevel1: -1.4
+  yLevel2: 0
+  yLevel3: 1.4

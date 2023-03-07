@@ -45,7 +45,7 @@ public class NobleGemValue {
 
 [CreateAssetMenu]
 public class Noble : ScriptableObject {
-    [SerializeField] public int id;
+    [SerializeField] public long id;
     [SerializeField] private int points;
     [SerializeField] private int red;
     [SerializeField] private int blue;
@@ -56,41 +56,12 @@ public class Noble : ScriptableObject {
 
     [SerializeField] public NobleGemValue nobleValue = new NobleGemValue();
 
-    //private bool active = true;
+    private bool active = true;
 
     public Sprite sprite;
 
     private SpriteRenderer m_SpriteRenderer;
 
-    public JSONObject Convert() {
-        Dictionary<string, string> pairs = new Dictionary<string, string>();
-        pairs.Add("id", id.ToString());
-        pairs.Add("points", points.ToString());
-        pairs.Add("red", red.ToString());
-        pairs.Add("blue", blue.ToString());
-        pairs.Add("green", green.ToString());
-        pairs.Add("brown", brown.ToString());
-        pairs.Add("white", white.ToString());
-        return new JSONObject(pairs);
-    }
-    public void SetData(NobleData data) {
-        id = data.id;
-        points = data.points;
-        red = data.red;
-        blue = data.blue;
-        green = data.green;
-        brown = data.brown;
-        white = data.white;
-    }
-    public void SetValuesFromData(NobleData data) {
-        id = data.id;
-        points = data.points;
-        nobleValue.red = data.red;
-        nobleValue.green = data.green;
-        nobleValue.blue = data.blue;
-        nobleValue.brown = data.brown;
-        nobleValue.white = data.white;
-    }
     public int GetPoints() {
         return points;
     }
@@ -101,6 +72,26 @@ public class Noble : ScriptableObject {
         nobleValue.green = this.green;
         nobleValue.brown = this.brown;
         nobleValue.white = this.white;
+    }
+
+    public int GetRed() {
+        return red;
+    }
+
+    public int GetBlue() {
+        return blue;
+    }
+
+    public int GetGreen() {
+        return green;
+    }
+
+    public int GetBrown() {
+        return brown;
+    }
+
+    public int GetWhite() {
+        return white;
     }
 }
 
