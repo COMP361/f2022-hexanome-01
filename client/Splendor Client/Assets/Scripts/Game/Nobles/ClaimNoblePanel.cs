@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor;
 
 public class ClaimNoblePanel : MonoBehaviour
 {
@@ -44,10 +45,41 @@ public class ClaimNoblePanel : MonoBehaviour
     //Displays the pop-up window when a player reaches requirements to get a noble
     public void Display(List<Noble> availNobles) {
         //TOCheck
-        if (claimNoblePanel.activeInHierarchy)
+        if (claimNoblePanel.activeInHierarchy) {
             claimNoblePanel.SetActive(false);
+            CardSlot[] boardCards = (CardSlot[])Resources.FindObjectsOfTypeAll(typeof(CardSlot));
+            NobleSlot[] boardNobles = (NobleSlot[])Resources.FindObjectsOfTypeAll(typeof(NobleSlot));
+            CitySlot[] cities = (CitySlot[])Resources.FindObjectsOfTypeAll(typeof(CitySlot));
+            foreach (CardSlot c in boardCards) {
+                if (PrefabUtility.GetPrefabAssetType(c) == PrefabAssetType.NotAPrefab)
+                    c.gameObject.SetActive(true);
+            }
+            foreach (NobleSlot n in boardNobles) {
+                if (PrefabUtility.GetPrefabAssetType(n) == PrefabAssetType.NotAPrefab)
+                    n.gameObject.SetActive(true);
+            }
+            foreach (CitySlot c in cities) {
+                if (PrefabUtility.GetPrefabAssetType(c) == PrefabAssetType.NotAPrefab)
+                    c.gameObject.SetActive(true);
+            }
+        }
         else {
             claimNoblePanel.SetActive(true);
+            CardSlot[] boardCards = (CardSlot[])Resources.FindObjectsOfTypeAll(typeof(CardSlot));
+            NobleSlot[] boardNobles = (NobleSlot[])Resources.FindObjectsOfTypeAll(typeof(NobleSlot));
+            CitySlot[] cities = (CitySlot[])Resources.FindObjectsOfTypeAll(typeof(CitySlot));
+            foreach (CardSlot c in boardCards) {
+                if (PrefabUtility.GetPrefabAssetType(c) == PrefabAssetType.NotAPrefab)
+                    c.gameObject.SetActive(false);
+            }
+            foreach (NobleSlot n in boardNobles) {
+                if (PrefabUtility.GetPrefabAssetType(n) == PrefabAssetType.NotAPrefab)
+                    n.gameObject.SetActive(false);
+            }
+            foreach (CitySlot c in cities) {
+                if (PrefabUtility.GetPrefabAssetType(c) == PrefabAssetType.NotAPrefab)
+                    c.gameObject.SetActive(false);
+            }
             DisplayAvailableNobles(availNobles);
         }
     }
