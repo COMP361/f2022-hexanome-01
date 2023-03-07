@@ -131,7 +131,7 @@ public class GameManagerTest extends ControllerTestUtils {
 	    JSONObject data = new JSONObject();
 	    data.put("playerId", "testCreator");
 	    ResponseEntity<String> response = gc.freeTokens("TestGame", data);
-	    assertEquals(99, game.getPlayers()[0].getInventory().getTokens().checkAmount(Token.RED));
+	    assertEquals(9999, game.getPlayers()[0].getInventory().getTokens().checkAmount(Token.RED));
   }
   
   @Test

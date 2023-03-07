@@ -97,6 +97,10 @@ public class GameManager {
     Card card = CardRegistry.of(cardId);
     Inventory inventory = board.getInventory(playerId);
     
+    if (card.getType() == CardType.SACRIFICE) {
+      return determineBody(card, board, inventory);
+    }
+    
     int goldUsed = inventory.isCostAffordable(card.getCost());
 
     if (goldUsed == -1 || !acquireCard(card, board, inventory)) {
@@ -126,7 +130,7 @@ public static JSONObject determineBody(Card card, Board board, Inventory invento
     response.put("choices", new JSONArray());
 
     if (card.getType() == CardType.SACRIFICE) {
-      return null;
+      return null; //REMOVE AFTER M7, ONCE SACRIFICING IS NEEDED
     }
     
     if (card.getType() != CardType.NONE) {
@@ -204,7 +208,9 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
     if (inventory.addTokens(tokens)) {
       //return overflow
       board.getTokens().removeAll(tokens);
-      takeTokensResult.put("tokenOverflow", inventory.getTokens().checkOverflow());
+      
+      int overflow = inventory.getTokens().checkOverflow();
+      takeTokensResult.put("tokenOverflow", overflow <= 40 ? overflow : 0);
       return takeTokensResult;
     } else { //if taking the tokens didn't go through
       return null;
