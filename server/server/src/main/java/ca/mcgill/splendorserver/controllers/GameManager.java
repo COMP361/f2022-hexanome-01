@@ -392,10 +392,11 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
       return false;
     }
 
-    if (nobles.remove()) {
+    if (nobles.removeId(noble.getId())) {
       inventory.addNobleToInventory(noble);
+      return true;
     }
-    return true;
+    return false;
   }
 
   /**
