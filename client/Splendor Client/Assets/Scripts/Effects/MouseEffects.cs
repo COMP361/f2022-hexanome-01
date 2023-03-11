@@ -7,15 +7,13 @@ public class MouseEffects : MonoBehaviour {
 
     [SerializeField] private GameObject cursor;
     [SerializeField] private Camera uiCamera;
-    [SerializeField] private GameObject effectPanel;
-    [SerializeField] private Vector3 dimensions;
 
     private InputAction fire;
     private InputAction look;
     [SerializeField] private InputActionAsset controls;
     private InputActionMap _inputActionMap;
 
-    [SerializeField] GameObject clickEffect;
+    [SerializeField] ObjectPool effectPool;
 
     void Start() {
         uiCamera.gameObject.SetActive(true);
@@ -36,13 +34,10 @@ public class MouseEffects : MonoBehaviour {
         Vector2 worldPos2D = new Vector2(worldPos.x, worldPos.y);
 
         RaycastHit2D hit = Physics2D.Raycast(worldPos2D, Vector2.zero);
-        if (clickEffect != null) {
-            if(effectPanel.transform.childCount > 0)
-                Destroy(effectPanel.transform.GetChild(0).gameObject);
-            GameObject go = Instantiate(clickEffect, worldPos2D, Quaternion.identity);
-            go.transform.SetParent(effectPanel.transform);
-            go.transform.localScale = new Vector3(dimensions.x, dimensions.y, dimensions.z);
-            go.GetComponent<ParticleSystem>().Play();
+        if (effectPool != null) {
+            GameObject effect = effectPool.GetObject();
+            effect.transform.position = worldPos2D;
+            effect.SetActive(true);
         }
     }
 }

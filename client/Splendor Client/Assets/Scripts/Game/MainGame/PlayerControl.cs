@@ -42,9 +42,7 @@ public class PlayerControl : MonoBehaviour {
     public ActiveSession currSession;
     public bool inOrientMenu, sacrificeMade, inNobleMenu, selectReserve;
 
-    [SerializeField] private GameObject effectPanel;
-    [SerializeField] private Vector3 dimensions;
-    [SerializeField] GameObject clickEffect;
+    [SerializeField] ObjectPool effectPool;
 
     void Start() {
         //the following was a test i made to make sure JSONHandler was working. ive left it here incase we find some uknown error with it
@@ -127,13 +125,10 @@ public class PlayerControl : MonoBehaviour {
         Vector2 worldPos2D = new Vector2(worldPos.x, worldPos.y);
 
         //Debug.Log(worldPos2D);
-        if (clickEffect != null) {
-            if (effectPanel.transform.childCount > 0)
-                Destroy(effectPanel.transform.GetChild(0).gameObject);
-            GameObject go = Instantiate(clickEffect, worldPos2D, Quaternion.identity);
-            go.transform.SetParent(effectPanel.transform);
-            go.transform.localScale = new Vector3(dimensions.x, dimensions.y, dimensions.z);
-            go.GetComponent<ParticleSystem>().Play();
+        if (effectPool != null) {
+            GameObject effect = effectPool.GetObject();
+            effect.transform.position = worldPos2D;
+            effect.SetActive(true);
         }
 
         if (waiting || inventoryPanel.activeInHierarchy) return;
