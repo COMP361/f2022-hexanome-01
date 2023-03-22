@@ -27,6 +27,7 @@ public class MainMenuManager : MonoBehaviour {
     [SerializeField] private ActiveSession currentSession;
     private string sessionsHash = null;
     private string sessionHash = null;
+	private string savesHash = null;
 
     //******************************** MAIN MENU ********************************
 
@@ -69,13 +70,18 @@ public class MainMenuManager : MonoBehaviour {
     /// and sends the data to "BaseLoad".
     /// </summary>
     public void OnBaseLoadClick() {
-        StartCoroutine(LSRequestManager.GetSaves((List<Save> saves) => {
-            if (saves != null && saves.Count > 0){
-                List<Save> relevant = determineRelevant(saves);
+        StartCoroutine(LSRequestManager.GetSaves(savesHash, (string hash, List<Save> saves) => {
+			if (hash != null) {            
+				if (saves != null && saves.Count > 0){
+                	List<Save> relevant = determineRelevant(saves);
 
-                if (relevant != null && relevant.Count > 0) MakeSaves(relevant); //displays relevant saved games
-                else ClearChildren(saveContent); //clear saved games display
-            } else ClearChildren(saveContent); //clear saved games display
+                	if (relevant != null && relevant.Count > 0) MakeSaves(relevant); //displays relevant saved games
+                	else ClearChildren(saveContent); //clear saved games display
+            	} else ClearChildren(saveContent); //clear saved games display
+				
+				savesHash = hash;
+				if (saveContent.activeInHierarchy) OnBaseLoadClick();
+			} else if (saveContent.activeInHierarchy) OnBaseLoadClick();
         }));
     }
 

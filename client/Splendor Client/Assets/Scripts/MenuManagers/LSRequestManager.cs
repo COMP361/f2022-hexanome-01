@@ -114,14 +114,13 @@ public class LSRequestManager : MonoBehaviour
             string newHash = sBuilder.ToString();
 
             JSONObject json = (JSONObject)JSONHandler.DecodeJsonRequest(request.downloadHandler.text);
+            List<Session> sessions = new List<Session>();
             if (!json.Equals("{\"sessions\":{}}"))
             {
-                List<Session> sessions = new List<Session>();
                 foreach (DictionaryEntry de in (IDictionary)json["sessions"])
                     sessions.Add(new Session(de.Key.ToString(), (IDictionary)de.Value));
-
-                result(newHash, sessions); //to imitate returning the session list
             }
+            result(newHash, sessions); //return session list
         }
         else if (request.responseCode == 408) result(null, null);
     }
@@ -236,61 +235,32 @@ public class LSRequestManager : MonoBehaviour
     /// <param name="HOST">IP address to send the request to</param>
     /// <param name="result">method that will receive the list of saved games as a parameter</param>
     /// <returns></returns>
-    public static IEnumerator GetSaves(Action<List<Save>> result)
+    public static IEnumerator GetSaves(string hash, Action<string, List<Save>> result)
     {
         string url = "http://" + HOST + ":4242/api/gameservices/splendor/savegames"; //url for GET request
+        if (hash != null) url += ("?hash=" + hash); //url for GET request
         UnityWebRequest request = UnityWebRequest.Get(url);
-        request.SetRequestHeader("Authorization", "Bearer " + mainPlayer.GetAccessToken());
         yield return request.SendWebRequest();
 
-        if (request.result == UnityWebRequest.Result.Success)
+        if (request.responseCode == 200)
         {
+            //get hash of result
+            byte[] newHashBytes = MD5.Create().ComputeHash(request.downloadHandler.data);
+            var sBuilder = new StringBuilder();
+            foreach (byte b in newHashBytes) sBuilder.Append(b.ToString("x2"));
+            string newHash = sBuilder.ToString();
+
             JSONArray json = (JSONArray)JSONHandler.DecodeJsonRequest(request.downloadHandler.text);
-            IEnumerator enumerator = json.GetEnumerator();
-            List<Save> allSaves = new List<Save>();
-            while (enumerator.MoveNext())
-                allSaves.Add(new Save((JSONObject)enumerator.Current));
-
-            result(allSaves);
+            List<Save> saves = new List<Save>();
+            if (json.Count > 0)
+            {
+                foreach (JSONObject save in json)
+                    saves.Add(new Save(save));
+            }
+            result(newHash, saves); //return save list
         }
+        else if (request.responseCode == 408) result(null, null);
     }
-
-    /*
-    /// <summary>
-    /// Allows PUT request to create a savegame in the LobbyService.
-    /// </summary>
-    public void CreateSaveStart()
-    {
-        StartCoroutine(CreateSave());
-    }
-
-    /// <summary>
-    /// Creates a savegame in the LobbyService.
-    /// </summary>
-    /// <returns>Allows PUT request</returns>
-    public IEnumerator CreateSave()
-    {
-        Session session = mmm.currentSession;
-        string savegameid = session.creator + "0" + session.variant; //must be changed eventually when we have a better system for creating savegameids
-        string url = "http://" + HOST + ":4242/api/gameservices/splendor/savegames/" + savegameid ; //url for PUT request
-        //LobbyService requires UTF8 encoded json NOT UnityWebRequest's default of URL encoded
-        UnityWebRequest create = new UnityWebRequest(url);
-        create.method = "PUT";
-        create.SetRequestHeader("Authorization", "Bearer " + mainPlayer.access_token);
-        create.SetRequestHeader("Content-Type", "application/json");
-        string body = "{\"gamename\":\"splendor\", \"players\":" + session.PlayersToJSONString() + ", \"savegameid\":\"" + savegameid + "\"}";
-        create.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(body));
-        create.downloadHandler = new DownloadHandlerBuffer();
-
-        yield return create.SendWebRequest();
-
-        if (create.result != UnityWebRequest.Result.Success)
-        {
-            UnityEngine.Debug.Log("ERROR: SAVE NOT CREATED");
-        }
-    }
-
-    */
 
     /// <summary>
     /// Creates a session in the LobbyService from a saved game and gets back its id,
