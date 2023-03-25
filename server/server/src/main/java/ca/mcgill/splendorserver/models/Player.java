@@ -1,14 +1,15 @@
 package ca.mcgill.splendorserver.models;
 
+import java.io.Serializable;
+
 import ca.mcgill.splendorserver.models.cards.Card;
-import ca.mcgill.splendorserver.models.expansion.Unlockable;
-import java.util.ArrayList;
 
 /**
  * Model class for a Splendor player.
  */
-public class Player {
+public class Player implements Serializable {
 
+  private static final long serialVersionUID = 5868176809531230694L;
   private String username;
   private Inventory inventory;
   private Card lastAcquired;
@@ -58,6 +59,7 @@ public class Player {
    * @param card the card to add
    */
   public void acquireCard(Card card) {
+	lastAcquired = card;
     inventory.addCard(card);
   }
 

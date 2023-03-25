@@ -1,11 +1,14 @@
 package ca.mcgill.splendorserver.models.cards;
 
+import java.io.Serializable;
+
 import ca.mcgill.splendorserver.models.Token;
 
 /**
  * Model class for bonuses from Splendor development cards.
  */
-public class CardBonus {
+public class CardBonus implements Serializable {
+  private static final long serialVersionUID = 6152342591496563415L;
   Token type;
   int amount;
 

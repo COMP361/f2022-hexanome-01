@@ -1,15 +1,19 @@
 package ca.mcgill.splendorserver.models.board;
 
-import ca.mcgill.splendorserver.models.Inventory;
-import ca.mcgill.splendorserver.models.Player;
-import java.util.HashMap;
+import java.io.Serializable;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+
+import ca.mcgill.splendorserver.models.Inventory;
+import ca.mcgill.splendorserver.models.Player;
 
 /**
  * Model class for the Splendor board.
  */
-public class Board {
+public class Board implements Serializable {
+
+  private static final long serialVersionUID = 1977163128205559350L;
 
   private String currentPlayer;
 

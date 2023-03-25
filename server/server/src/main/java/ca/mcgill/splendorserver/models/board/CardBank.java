@@ -3,6 +3,8 @@ package ca.mcgill.splendorserver.models.board;
 import ca.mcgill.splendorserver.models.cards.Card;
 import ca.mcgill.splendorserver.models.cards.CardLevel;
 import ca.mcgill.splendorserver.models.registries.CardRegistry;
+
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Stack;
@@ -11,8 +13,10 @@ import org.json.simple.JSONArray;
 /**
  * Model class holding all Splendor development card decks.
  */
-public class CardBank {
+public class CardBank implements Serializable {
 
+  private static final long serialVersionUID = 4250728141496188403L;
+  
   private HashMap<CardLevel, int[]> rows = new HashMap<CardLevel, int[]>();
   private HashMap<CardLevel, Stack<Integer>> decks = new HashMap<CardLevel, Stack<Integer>>();
 

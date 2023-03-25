@@ -2,6 +2,7 @@ package ca.mcgill.splendorserver.apis;
 
 import ca.mcgill.splendorserver.controllers.GameManager;
 import ca.mcgill.splendorserver.controllers.OrientManager;
+import ca.mcgill.splendorserver.controllers.SaveManager;
 import ca.mcgill.splendorserver.models.Game;
 import ca.mcgill.splendorserver.models.Inventory;
 import ca.mcgill.splendorserver.models.Noble;
@@ -76,6 +77,8 @@ public class GameController {
     noUpdates = new JSONObject();
     noUpdates.put("status", "timeout");
     noUpdates.put("message", "No new updates.");
+
+    SaveManager.init();
   }
 
   @SuppressWarnings("unchecked")
@@ -607,7 +610,9 @@ public class GameController {
       @RequestBody SessionData session) {
     try {
       System.out.println("launching: " + gameId);
-      GameManager.launchGame(gameId, session);
+      if (!GameManager.launchGame(gameId, session)) {
+    	  throw new Exception();
+      }
 
       return ResponseEntity.ok(HttpStatus.OK);
     } catch (Exception e) {

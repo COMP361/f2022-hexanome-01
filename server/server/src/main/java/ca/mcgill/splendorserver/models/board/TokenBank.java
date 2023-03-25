@@ -2,14 +2,17 @@ package ca.mcgill.splendorserver.models.board;
 
 import ca.mcgill.splendorserver.models.Token;
 import ca.mcgill.splendorserver.models.cards.Card;
+
+import java.io.Serializable;
 import java.util.HashMap;
 import org.json.simple.JSONObject;
 
 /**
  * Model class for a bank of Splendor tokens.
  */
-public class TokenBank {
+public class TokenBank implements Serializable {
 
+  private static final long serialVersionUID = -5907002568660843280L;
   private HashMap<Token, Integer> quantities;
 
   /**

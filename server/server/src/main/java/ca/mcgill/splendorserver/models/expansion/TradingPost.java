@@ -1,15 +1,18 @@
 package ca.mcgill.splendorserver.models.expansion;
 
+import java.io.Serializable;
+
+import org.json.simple.JSONObject;
+
 import ca.mcgill.splendorserver.apis.JsonHandler;
 import ca.mcgill.splendorserver.models.Player;
-import java.util.ArrayList;
-import org.json.simple.JSONObject;
 
 /**
  * Model class for trading post from Splendor trading post extension.
  */
-public class TradingPost implements Unlockable {
+public class TradingPost implements Unlockable, Serializable {
 
+  private static final long serialVersionUID = -3196160135947464174L;
   private int id;
   private Condition condition; //condition to unlock this post
   private Action action;

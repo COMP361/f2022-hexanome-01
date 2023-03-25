@@ -1,5 +1,14 @@
 package ca.mcgill.splendorserver.controllers;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Optional;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.springframework.stereotype.Component;
+
 import ca.mcgill.splendorserver.models.Game;
 import ca.mcgill.splendorserver.models.Inventory;
 import ca.mcgill.splendorserver.models.Noble;
@@ -17,15 +26,8 @@ import ca.mcgill.splendorserver.models.communicationbeans.SessionData;
 import ca.mcgill.splendorserver.models.expansion.TradingPost;
 import ca.mcgill.splendorserver.models.expansion.Unlockable;
 import ca.mcgill.splendorserver.models.registries.CardRegistry;
-import ca.mcgill.splendorserver.models.registries.NobleRegistry;
 import ca.mcgill.splendorserver.models.registries.UnlockableRegistry;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Optional;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.springframework.stereotype.Component;
+import ca.mcgill.splendorserver.models.saves.SaveSession;
 
 /**
  * This is the controller for all game managing functionality.
@@ -46,13 +48,16 @@ public class GameManager {
    * @param gameId  the unique id of the game
    * @param session the data about the session
    */
-  public static void launchGame(String gameId, SessionData session) {
+  public static boolean launchGame(String gameId, SessionData session) {
     String saveId = session.getSavegame();
 
     if (!saveId.equals("")) {
-      Game save = saves.get(saveId);
-      gameRegistry.put(gameId, save);
-      save.setLaunched();
+      SaveSession save = SaveManager.loadGame(gameId, session.getCreator());
+      if (save != null && save.isValidLaunch(session.getVariant(), session.getPlayers())) {
+    	gameRegistry.put(gameId, save.getGame());
+    	return true;
+      }
+      return false;
     } else {
       //players
       String[] playersUsernames = session.getPlayers();
@@ -67,6 +72,7 @@ public class GameManager {
       String creator = session.getCreator();
       //create new game
       gameRegistry.put(gameId, new Game(gameId, creator, players, variant));
+      return true;
     }
   }
 
