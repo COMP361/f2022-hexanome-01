@@ -7,6 +7,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import ca.mcgill.splendorserver.models.Game;
 import ca.mcgill.splendorserver.models.saves.SaveSession;
@@ -14,6 +16,7 @@ import ca.mcgill.splendorserver.models.saves.SaveSession;
 public class SaveManager {
 	
 	private final static Path saveDir = (Paths.get(System.getProperty("user.home"))).resolve("splendorsaves");
+	private final static DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
 	
 	public static void init() {
 		File dir = new File(saveDir.toString());
@@ -29,11 +32,11 @@ public class SaveManager {
 		}
 	}
 	
-	public static SaveSession loadGame(String id, String playerId) {
+	public static SaveSession loadGame(String saveId, String playerId) {
 		FileInputStream fileIn;
 		try {
 	        initPlayer(playerId);
-			fileIn = new FileInputStream(saveDir.resolve(playerId).resolve(id + ".save").toString());
+			fileIn = new FileInputStream(saveDir.resolve(playerId).resolve(saveId + ".save").toString());
 	        ObjectInputStream objectIn = new ObjectInputStream(fileIn);
 
 	        Game game = (Game) objectIn.readObject();
@@ -50,19 +53,26 @@ public class SaveManager {
 		}
 	}
 	
-	public static boolean saveGame(Game game) {
+	public static String saveGame(Game game) {
 		FileOutputStream fileOut;
 		try {
 			initPlayer(game.getCreatorId());
-			fileOut = new FileOutputStream(saveDir.resolve(game.getCreatorId()).resolve(game.getId() + ".save").toString());
+			LocalDateTime now = LocalDateTime.now();  
+	        String saveId = game.getId() + "_" + dtf.format(now);
+			fileOut = new FileOutputStream(saveDir.resolve(game.getCreatorId()).resolve(saveId + ".save").toString());
 	        ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
 	        objectOut.writeObject(game);
 	        objectOut.close();
-			return true;
+			return saveId;
 		} catch (Exception e) {
 			e.printStackTrace();
-			return false;
+			return null;
 		}
+	}
+	
+	public static void deleteTestSavefile(String saveId, String playerId) {
+		File file = new File(saveDir.resolve(playerId).resolve(saveId + ".save").toString());
+		file.delete();
 	}
 
 }
