@@ -23,6 +23,8 @@ import ca.mcgill.splendorserver.models.cards.Card;
 import ca.mcgill.splendorserver.models.cards.CardLevel;
 import ca.mcgill.splendorserver.models.cards.CardType;
 import ca.mcgill.splendorserver.models.communicationbeans.SessionData;
+import ca.mcgill.splendorserver.models.expansion.ExtraToken;
+import ca.mcgill.splendorserver.models.expansion.FreeToken;
 import ca.mcgill.splendorserver.models.expansion.TradingPost;
 import ca.mcgill.splendorserver.models.expansion.Unlockable;
 import ca.mcgill.splendorserver.models.registries.CardRegistry;
@@ -134,10 +136,6 @@ public static JSONObject determineBody(Card card, Board board, Inventory invento
     JSONObject response = new JSONObject();
     response.put("action", "none");
     response.put("options", new JSONArray());
-
-    if (card.getType() == CardType.SACRIFICE) {
-      return null; //REMOVE AFTER M7, ONCE SACRIFICING IS NEEDED
-    }
     
     if (card.getType() != CardType.NONE) {
       if (card.getType() == CardType.SATCHEL || card.getType() == CardType.DOMINO1) {
@@ -164,7 +162,19 @@ public static JSONObject determineBody(Card card, Board board, Inventory invento
       for (int nobleId : board.getNobles().attemptImpress(inventory)) {
         noblesVisiting.add(nobleId);
       }
+      for (Noble noble : inventory.getReservedNobles()) {
+        if (noble.impressed(inventory.getBonuses())) {
+          noblesVisiting.add(noble.getId());
+        }
+      }
       response.put("noblesVisiting", noblesVisiting);
+      ArrayList<Unlockable> unlockables = inventory.getUnlockables();
+      for (Unlockable u : unlockables) {
+        if (u instanceof TradingPost && ((TradingPost) u).getAction() instanceof FreeToken) {
+          response.replace("action", "token");
+          break;
+        }
+      }
     }
 
     return response;
@@ -185,6 +195,8 @@ public static JSONObject determineBody(Card card, Board board, Inventory invento
     CardBank cards = board.getCards();
     int pickedUp = cards.draw(card);
     if (pickedUp != card.getId()) {
+      return false;
+    } else if (!inventory.getReservedCards().contains(card)) {
       return false;
     }
     inventory.addCard(card);
@@ -235,11 +247,12 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
     boolean tradingPostA = false;
     boolean tradingPostB = false;
     if (game.getVariant().equals("tradingposts")) {
-      TradingPost[] tradingPosts = board.getInventory(playerId).getTradingPosts();
-      for (TradingPost tradingPost : tradingPosts) {
-        if (tradingPost.getId() == 15) { //trading post id 15 is trading post A
+      ArrayList<Unlockable> unlockables = board.getInventory(playerId).getUnlockables();
+      for (Unlockable u : unlockables) {
+        if (u instanceof TradingPost && ((TradingPost) u).getAction() instanceof FreeToken) { 
           tradingPostA = true;
-        } else if (tradingPost.getId() == 16) { //trading post id 16 is trading post B
+        } else if (u instanceof TradingPost
+                && ((TradingPost) u).getAction() instanceof ExtraToken) { 
           tradingPostB = true;
         }
       }
@@ -400,8 +413,13 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
       return false;
     }
     NobleBank nobles = board.getNobles();
-    if (!nobles.contains(noble.getId())) {
+    if (!nobles.contains(noble.getId()) && !inventory.getReservedNobles().contains(noble)) {
       return false;
+    }
+    if (inventory.getReservedNobles().contains(noble))  {
+      inventory.getNobles().add(noble);
+      inventory.getReservedNobles().remove(noble);
+      return true;
     }
 
     if (nobles.removeId(noble.getId())) {
@@ -434,6 +452,12 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
         UnlockableRegistry.of(c).observe(currentPlayer);
       }
     }
+    
+    //for citites, if it becomes host's turn and someone has a city, end game
+    //player with city wins
+    //if multiple city owners, one with highest point worth city wins
+    //if still tie (both vanilla and with expansions), player with fewest cards wins
+    
     game.nextPlayer(); //changes the current player to the next player
   }
 }

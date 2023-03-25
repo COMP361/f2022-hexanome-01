@@ -198,8 +198,10 @@ public static JSONObject reserve(Card card, Board board) {
 
     if (!satchels.isEmpty()) {
       response.put("options", JSONArray.toJSONString(satchels));
-    } else {
+    } else if (regular.size() > 2) {
       response.put("options", JSONArray.toJSONString(regular));
+    } else {
+      return null;
     }
 
     return response;
