@@ -439,6 +439,12 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
         UnlockableRegistry.of(c).observe(currentPlayer);
       }
     }
+    
+    //for citites, if it becomes host's turn and someone has a city, end game
+    //player with city wins
+    //if multiple city owners, one with highest point worth city wins
+    //if still tie (both vanilla and with expansions), player with fewest cards wins
+    
     game.nextPlayer(); //changes the current player to the next player
   }
 }
