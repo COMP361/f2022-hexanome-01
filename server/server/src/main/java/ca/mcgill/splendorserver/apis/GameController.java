@@ -256,11 +256,23 @@ public class GameController {
         return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
       }
 
+      //check validity of chosen card
       int cardId = (int) data.get("cardId");
       JSONObject response = GameManager.purchaseCard(game, playerId, cardId);
       if (response == null) {
         return ResponseEntity.ok().body(invalidAction.toJSONString());
       }
+      
+      //if player has selected a token, i.e. for that trading post
+      ArrayList<String> tokens = (ArrayList<String>) data.get("tokens");
+      Token[] tokensArray = new Token[tokens.size()];
+      for (int i = 0; i < tokensArray.length; i++) {
+        tokensArray[i] = Token.valueOfIgnoreCase((String) tokens.get(i));
+      }
+      if (GameManager.takeTokens(game, playerId, tokensArray) == null) {
+        return ResponseEntity.ok().body(invalidAction.toJSONString());
+      }
+      
       response.put("status", "success");
 
       return ResponseEntity.ok(response.toJSONString());
@@ -355,6 +367,11 @@ public class GameController {
       for (int nobleId : board.getNobles().attemptImpress(inventory)) {
         noblesVisiting.add(nobleId);
       }
+      for (Noble noble: inventory.getReservedNobles()) {
+        if (noble.impressed(inventory.getBonuses())) {
+          noblesVisiting.add(noble.getId());
+        }
+      }
       
       response.put("noblesVisiting", noblesVisiting);
 
@@ -407,6 +424,11 @@ public class GameController {
       JSONArray noblesVisiting = new JSONArray();
       for (int nobleId2 : board.getNobles().attemptImpress(inventory)) {
         noblesVisiting.add(nobleId2);
+      }
+      for (Noble nobleinv: inventory.getReservedNobles()) {
+        if (nobleinv.impressed(inventory.getBonuses())) {
+          noblesVisiting.add(nobleinv.getId());
+        }
       }
       
       response.put("noblesVisiting", noblesVisiting);
@@ -714,8 +736,18 @@ public class GameController {
       JSONObject response = new JSONObject();
       response.put("action", "none");
 
-      response.put("noblesVisiting",
-          JSONArray.toJSONString(board.getNobles().attemptImpress(inventory)));
+      JSONArray noblesVisiting = new JSONArray();
+      for (int nobleId2 : board.getNobles().attemptImpress(inventory)) {
+        noblesVisiting.add(nobleId2);
+      }
+      for (Noble nobleinv: inventory.getReservedNobles()) {
+        if (nobleinv.impressed(inventory.getBonuses())) {
+          noblesVisiting.add(nobleinv.getId());
+        }
+      }
+      
+      response.put("noblesVisiting", noblesVisiting);
+      
 
       response.put("options", JSONArray.toJSONString(new ArrayList<Integer>()));
 
