@@ -11,6 +11,9 @@ import ca.mcgill.splendorserver.models.board.Board;
 import ca.mcgill.splendorserver.models.cards.Card;
 import ca.mcgill.splendorserver.models.cards.CardType;
 import ca.mcgill.splendorserver.models.communicationbeans.SessionData;
+import ca.mcgill.splendorserver.models.expansion.FreeToken;
+import ca.mcgill.splendorserver.models.expansion.TradingPost;
+import ca.mcgill.splendorserver.models.expansion.Unlockable;
 import ca.mcgill.splendorserver.models.registries.CardRegistry;
 import ca.mcgill.splendorserver.models.registries.NobleRegistry;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -259,11 +262,13 @@ public class GameController {
         return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
       }
 
+      //check validity of chosen card
       int cardId = (int) data.get("cardId");
       JSONObject response = GameManager.purchaseCard(game, playerId, cardId);
       if (response == null) {
         return ResponseEntity.ok().body(invalidAction.toJSONString());
       }
+      
       response.put("status", "success");
 
       return ResponseEntity.ok(response.toJSONString());
@@ -358,6 +363,19 @@ public class GameController {
       for (int nobleId : board.getNobles().attemptImpress(inventory)) {
         noblesVisiting.add(nobleId);
       }
+      for (Noble noble: inventory.getReservedNobles()) {
+        if (noble.impressed(inventory.getBonuses())) {
+          noblesVisiting.add(noble.getId());
+        }
+      }
+      
+      ArrayList<Unlockable> unlockables = inventory.getUnlockables();
+      for (Unlockable u : unlockables) {
+        if (u instanceof TradingPost && ((TradingPost) u).getAction() instanceof FreeToken) {
+          response.replace("action", "token");
+          break;
+        }
+      }
       
       response.put("noblesVisiting", noblesVisiting);
 
@@ -410,6 +428,19 @@ public class GameController {
       JSONArray noblesVisiting = new JSONArray();
       for (int nobleId2 : board.getNobles().attemptImpress(inventory)) {
         noblesVisiting.add(nobleId2);
+      }
+      for (Noble nobleinv: inventory.getReservedNobles()) {
+        if (nobleinv.impressed(inventory.getBonuses())) {
+          noblesVisiting.add(nobleinv.getId());
+        }
+      }
+      
+      ArrayList<Unlockable> unlockables = inventory.getUnlockables();
+      for (Unlockable u : unlockables) {
+        if (u instanceof TradingPost && ((TradingPost) u).getAction() instanceof FreeToken) {
+          response.replace("action", "token");
+          break;
+        }
       }
       
       response.put("noblesVisiting", noblesVisiting);
@@ -719,8 +750,25 @@ public class GameController {
       JSONObject response = new JSONObject();
       response.put("action", "none");
 
-      response.put("noblesVisiting",
-          JSONArray.toJSONString(board.getNobles().attemptImpress(inventory)));
+      JSONArray noblesVisiting = new JSONArray();
+      for (int nobleId2 : board.getNobles().attemptImpress(inventory)) {
+        noblesVisiting.add(nobleId2);
+      }
+      for (Noble nobleinv: inventory.getReservedNobles()) {
+        if (nobleinv.impressed(inventory.getBonuses())) {
+          noblesVisiting.add(nobleinv.getId());
+        }
+      }
+      
+      ArrayList<Unlockable> unlockables = inventory.getUnlockables();
+      for (Unlockable u : unlockables) {
+        if (u instanceof TradingPost && ((TradingPost) u).getAction() instanceof FreeToken) {
+          response.replace("action", "token");
+          break;
+        }
+      }
+      
+      response.put("noblesVisiting", noblesVisiting);
 
       response.put("options", JSONArray.toJSONString(new ArrayList<Integer>()));
 

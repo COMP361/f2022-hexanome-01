@@ -3,6 +3,7 @@ package ca.mcgill.splendorserver.models;
 import ca.mcgill.splendorserver.models.board.TokenBank;
 import ca.mcgill.splendorserver.models.cards.Card;
 import ca.mcgill.splendorserver.models.expansion.City;
+import ca.mcgill.splendorserver.models.expansion.DoubleGold;
 import ca.mcgill.splendorserver.models.expansion.TradingPost;
 import ca.mcgill.splendorserver.models.expansion.Unlockable;
 
@@ -204,23 +205,50 @@ public class Inventory implements Serializable {
    * @return whether the player can afford the cost
    */
   public int isCostAffordable(HashMap<Token, Integer> cost) {
-    int goldUsed = 0;
-    for (Token token : Token.values()) {
+    int goldUsed = 0; //gold tokens being used
+    int leftOver = 0; //rollover from gold orient cards
+    int cardsUsed = 0; //gold orient cards being used
+    for (Token token : Token.values()) { //for each token type
       if (token.equals(Token.GOLD)) {
         continue;
       }
       TokenBank bonuses = getBonuses();
       int tokenAmount = tokens.checkAmount(token);
       int tokenCost = Math.max(0, cost.get(token) - bonuses.checkAmount(token));
-      if (tokenAmount < tokenCost) {
+      
+      if (tokenAmount < tokenCost) { //if insufficient funds
         int goldAvailable = tokens.checkAmount(Token.GOLD) - goldUsed;
-        if (tokenCost - tokenAmount > goldAvailable) {
-          return -1;
+        boolean doubleGold = false;
+        for (Unlockable u : unlockables) { //check for trading post
+          if (u instanceof TradingPost 
+                && ((TradingPost) u).getAction() instanceof DoubleGold) {
+            doubleGold = true;
+            break;
+          }
         }
-        goldUsed += tokenCost - tokenAmount;
+        
+        int goldNeeded = doubleGold ? tokenCost - tokenAmount : (tokenCost - tokenAmount) / 2;
+        if (goldNeeded > goldAvailable 
+            + getBonuses().checkAmount(Token.GOLD) + leftOver - cardsUsed * 2) {
+          return -1;
+        } else if (goldNeeded > goldAvailable + leftOver) {
+          int remaining = goldNeeded - goldAvailable - leftOver;
+          cardsUsed += remaining / 2;
+          leftOver = remaining % 2;
+          goldNeeded = goldNeeded - remaining; //adjust needed goldTokens by removing goldCards
+        } 
+        goldUsed += goldNeeded;
       }
     }
-    return goldUsed;
+    for (Card c : cards) { //iterate over inventory cards
+      if (cardsUsed == 0) { //if no more gold cards used, break
+        break;
+      } else if (c.getBonus().getType() == Token.GOLD) {
+        cards.remove(c); //if this is gold card, remove it decrement cards used
+        cardsUsed--;
+      }
+    }
+    return goldUsed; //return gold tokens used
   }
 
   /**
