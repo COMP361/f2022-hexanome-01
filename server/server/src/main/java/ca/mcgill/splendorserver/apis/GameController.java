@@ -10,6 +10,9 @@ import ca.mcgill.splendorserver.models.board.Board;
 import ca.mcgill.splendorserver.models.cards.Card;
 import ca.mcgill.splendorserver.models.cards.CardType;
 import ca.mcgill.splendorserver.models.communicationbeans.SessionData;
+import ca.mcgill.splendorserver.models.expansion.FreeToken;
+import ca.mcgill.splendorserver.models.expansion.TradingPost;
+import ca.mcgill.splendorserver.models.expansion.Unlockable;
 import ca.mcgill.splendorserver.models.registries.CardRegistry;
 import ca.mcgill.splendorserver.models.registries.NobleRegistry;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -263,16 +266,6 @@ public class GameController {
         return ResponseEntity.ok().body(invalidAction.toJSONString());
       }
       
-      //if player has selected a token, i.e. for that trading post
-      ArrayList<String> tokens = (ArrayList<String>) data.get("tokens");
-      Token[] tokensArray = new Token[tokens.size()];
-      for (int i = 0; i < tokensArray.length; i++) {
-        tokensArray[i] = Token.valueOfIgnoreCase((String) tokens.get(i));
-      }
-      if (GameManager.takeTokens(game, playerId, tokensArray) == null) {
-        return ResponseEntity.ok().body(invalidAction.toJSONString());
-      }
-      
       response.put("status", "success");
 
       return ResponseEntity.ok(response.toJSONString());
@@ -373,6 +366,14 @@ public class GameController {
         }
       }
       
+      ArrayList<Unlockable> unlockables = inventory.getUnlockables();
+      for (Unlockable u : unlockables) {
+        if (u instanceof TradingPost && ((TradingPost) u).getAction() instanceof FreeToken) {
+          response.replace("action", "token");
+          break;
+        }
+      }
+      
       response.put("noblesVisiting", noblesVisiting);
 
       response.put("options", JSONArray.toJSONString(new ArrayList<Integer>()));
@@ -428,6 +429,14 @@ public class GameController {
       for (Noble nobleinv: inventory.getReservedNobles()) {
         if (nobleinv.impressed(inventory.getBonuses())) {
           noblesVisiting.add(nobleinv.getId());
+        }
+      }
+      
+      ArrayList<Unlockable> unlockables = inventory.getUnlockables();
+      for (Unlockable u : unlockables) {
+        if (u instanceof TradingPost && ((TradingPost) u).getAction() instanceof FreeToken) {
+          response.replace("action", "token");
+          break;
         }
       }
       
@@ -746,8 +755,15 @@ public class GameController {
         }
       }
       
-      response.put("noblesVisiting", noblesVisiting);
+      ArrayList<Unlockable> unlockables = inventory.getUnlockables();
+      for (Unlockable u : unlockables) {
+        if (u instanceof TradingPost && ((TradingPost) u).getAction() instanceof FreeToken) {
+          response.replace("action", "token");
+          break;
+        }
+      }
       
+      response.put("noblesVisiting", noblesVisiting);
 
       response.put("options", JSONArray.toJSONString(new ArrayList<Integer>()));
 
