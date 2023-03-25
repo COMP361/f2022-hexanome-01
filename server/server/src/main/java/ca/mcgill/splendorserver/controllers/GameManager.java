@@ -162,6 +162,13 @@ public static JSONObject determineBody(Card card, Board board, Inventory invento
         }
       }
       response.put("noblesVisiting", noblesVisiting);
+      ArrayList<Unlockable> unlockables = inventory.getUnlockables();
+      for (Unlockable u : unlockables) {
+        if (u instanceof TradingPost && ((TradingPost) u).getAction() instanceof FreeToken) {
+          response.replace("action", "token");
+          break;
+        }
+      }
     }
 
     return response;
