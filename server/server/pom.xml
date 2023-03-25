@@ -113,6 +113,13 @@
 			<artifactId>json-simple</artifactId>
 			<version>1.1.1</version>
 		</dependency>
+		
+		<dependency>
+	    <groupId>org.apache.maven.plugins</groupId>
+		  <artifactId>maven-checkstyle-plugin</artifactId>
+		  <version>3.0.0</version>
+		  <type>maven-plugin</type>
+		</dependency>
         
     </dependencies>
 
@@ -223,6 +230,13 @@
 		    <maven.test.skip>true</maven.test.skip>
 		  </properties>
 	   </profile>
+     <profile>
+      <id>test</id>
+      <properties>
+        <maven.javadoc.skip>true</maven.javadoc.skip>
+        <checkstyle.skip>true</checkstyle.skip>
+      </properties>
+     </profile>
 	   <profile>
        <id>prod</id>
        <properties>

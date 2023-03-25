@@ -1,12 +1,18 @@
 package ca.mcgill.splendorserver.models;
 
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+
 import ca.mcgill.splendorserver.models.board.Board;
 import ca.mcgill.splendorserver.models.board.CitiesBoard;
 
 /**
  * Models one game.
  */
-public class Game {
+public class Game implements Serializable {
+	
+  private static final long serialVersionUID = 1L;
 
   private String id;
   private String variant;
@@ -22,8 +28,6 @@ public class Game {
 
   private Board board;
 
-  private boolean launched;
-
   /**
    * Constructor.
    *
@@ -37,10 +41,16 @@ public class Game {
     this.variant = variant;
     this.creator = creator;
     this.players = players;
-
-    launched = false;
-    setLaunched();
-
+    
+    switch (variant) {
+    case "cities":
+    	board = new CitiesBoard(creator, players);
+    	break;
+    default:
+    	board = new Board(creator, players);
+    	break;
+    }
+    
     currentPlayerIndex = 0;
   }
   
@@ -66,15 +76,6 @@ public class Game {
    * Flags the game as launched.
    */
   public void setLaunched() {
-    switch (variant) {
-      case "cities":
-        board = new CitiesBoard(creator, players);
-        break;
-      default:
-        board = new Board(creator, players);
-        break;
-    }
-    launched = true;
   }
 
   /**
@@ -149,4 +150,17 @@ public class Game {
   public void setVariant(String variant) {
     this.variant = variant;
   }
+
+public String getCreatorId() {
+	return creator;
+}
+
+public Set<String> playerIdSet() {
+	Set<String> set = new HashSet<String>();
+	for (Player player : getPlayers()) {
+		set.add(player.getUsername());
+	}
+	return set;
+}
+  
 }

@@ -1,14 +1,17 @@
 package ca.mcgill.splendorserver.models.cards;
 
 import ca.mcgill.splendorserver.models.Token;
+
+import java.io.Serializable;
 import java.util.HashMap;
 import org.json.simple.JSONObject;
 
 /**
  * Model class for a Splendor development card.
  */
-public class Card {
+public class Card implements Serializable {
 
+  private static final long serialVersionUID = -4044194965826569425L;
   private int id; //uniquely identify a card
   private int pts;
   private CardBonus bonus = new CardBonus();

@@ -3,6 +3,8 @@ package ca.mcgill.splendorserver.models.board;
 import ca.mcgill.splendorserver.models.Inventory;
 import ca.mcgill.splendorserver.models.Noble;
 import ca.mcgill.splendorserver.models.registries.NobleRegistry;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Stack;
@@ -12,8 +14,9 @@ import org.json.simple.JSONArray;
 /**
  * Model class holding all Splendor noble tiles on the board.
  */
-public class NobleBank {
+public class NobleBank implements Serializable {
 
+  private static final long serialVersionUID = -446383944835732663L;
   private int[] nobles;
   private int size;
 

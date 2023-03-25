@@ -5,6 +5,8 @@ import ca.mcgill.splendorserver.models.cards.Card;
 import ca.mcgill.splendorserver.models.expansion.City;
 import ca.mcgill.splendorserver.models.expansion.TradingPost;
 import ca.mcgill.splendorserver.models.expansion.Unlockable;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.json.simple.JSONArray;
@@ -13,8 +15,9 @@ import org.json.simple.JSONObject;
 /**
  * Model class for a Splendor player's inventory i.e. everything they've acquired.
  */
-public class Inventory {
+public class Inventory implements Serializable {
 
+  private static final long serialVersionUID = -8218270563314325614L;
   private int points;
   private TokenBank tokens;
   private TokenBank bonuses;

@@ -1,5 +1,7 @@
 package ca.mcgill.splendorserver.models.expansion;
 
+import java.io.Serializable;
+
 import ca.mcgill.splendorserver.models.Player;
 
 /**
