@@ -227,27 +227,29 @@ public class Inventory implements Serializable {
           }
         }
         
-        int goldNeeded = doubleGold ? (tokenCost - tokenAmount) / 2 : tokenCost - tokenAmount ;
+        int goldNeeded = doubleGold ? (tokenCost - tokenAmount) / 2 : tokenCost - tokenAmount;
         if (goldNeeded > goldAvailable 
             + getBonuses().checkAmount(Token.GOLD) + leftOver - cardsUsed * 2) {
           return -1;
         } else if (goldNeeded > goldAvailable + leftOver) {
           int remaining = goldNeeded - goldAvailable - leftOver;
-          cardsUsed += remaining / 2;
+          cardsUsed += (int) ((((double) remaining) / 2) + 0.5);
           leftOver = remaining % 2;
           goldNeeded = goldNeeded - remaining; //adjust needed goldTokens by removing goldCards
         } 
         goldUsed += goldNeeded;
       }
     }
-    for (Card c : cards) { //iterate over inventory cards
-      if (cardsUsed == 0) { //if no more gold cards used, break
-        break;
-      } else if (c.getBonus().getType() == Token.GOLD) {
-        cards.remove(c); //if this is gold card, remove it decrement cards used
-        cardsUsed--;
-      }
+    
+    while (cardsUsed > 0) {
+        for (int i = 0;i < cards.size(); i++) {
+        	if (cards.get(i).getBonus().getType() == Token.GOLD) {
+                cards.remove(i); //if this is gold card, remove it decrement cards used
+                cardsUsed--;
+            }
+        }
     }
+
     return goldUsed; //return gold tokens used
   }
 
