@@ -63,7 +63,7 @@ public class OrientManagerTest {
 	    	fail("exception thrown");
 	    }
 	    
-	    Token[] tokens = {Token.RED, Token.BLUE, Token.GREEN, Token.WHITE, Token.BLACK};
+	    Token[] tokens = {Token.RED, Token.BLUE, Token.GREEN, Token.WHITE, Token.BLACK, Token.GOLD};
 	    testInventory.addTokens(tokens);
 	    testInventory.addTokens(tokens);
 	    testInventory.addTokens(tokens);
@@ -153,7 +153,7 @@ public class OrientManagerTest {
 	    Board board = game.getBoard();
 	    Inventory testInventory = board.getInventory("testCreator");
 	    
-	    Token[] tokens = {Token.RED, Token.BLUE, Token.GREEN, Token.WHITE, Token.BLACK};
+	    Token[] tokens = {Token.RED, Token.BLUE, Token.GREEN, Token.WHITE, Token.BLACK, Token.GOLD};
 	    testInventory.addTokens(tokens);
 	    testInventory.addTokens(tokens);
 	    testInventory.addTokens(tokens);

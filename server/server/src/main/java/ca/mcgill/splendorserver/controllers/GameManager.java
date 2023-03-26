@@ -194,11 +194,14 @@ public static JSONObject determineBody(Card card, Board board, Inventory invento
     }
     CardBank cards = board.getCards();
     int pickedUp = cards.draw(card);
-    if (pickedUp != card.getId()) {
+    if (pickedUp != card.getId() && !inventory.getReservedCards().contains(card)) {
       return false;
-    } else if (!inventory.getReservedCards().contains(card)) {
-      return false;
+    } 
+    
+    if (inventory.getReservedCards().contains(card)) {
+      inventory.getReservedCards().remove(card);
     }
+
     inventory.addCard(card);
     return true;
   }

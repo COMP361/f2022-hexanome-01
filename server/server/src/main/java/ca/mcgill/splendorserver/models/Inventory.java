@@ -227,7 +227,7 @@ public class Inventory implements Serializable {
           }
         }
         
-        int goldNeeded = doubleGold ? tokenCost - tokenAmount : (tokenCost - tokenAmount) / 2;
+        int goldNeeded = doubleGold ? (tokenCost - tokenAmount) / 2 : tokenCost - tokenAmount ;
         if (goldNeeded > goldAvailable 
             + getBonuses().checkAmount(Token.GOLD) + leftOver - cardsUsed * 2) {
           return -1;
