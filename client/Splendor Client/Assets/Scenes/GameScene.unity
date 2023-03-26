@@ -22579,6 +22579,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: EffectPool
       objectReference: {fileID: 0}
+    - target: {fileID: 667427132343333127, guid: 1241d8cba251b634e8966f075d56ddd8, type: 3}
+      propertyPath: obj
+      value: 
+      objectReference: {fileID: 1102249672185300, guid: 6fdea1231ceb448449227cd286b17ecf, type: 3}
+    - target: {fileID: 667427132343333127, guid: 1241d8cba251b634e8966f075d56ddd8, type: 3}
+      propertyPath: scale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 667427132343333127, guid: 1241d8cba251b634e8966f075d56ddd8, type: 3}
+      propertyPath: scale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 667427132343333127, guid: 1241d8cba251b634e8966f075d56ddd8, type: 3}
+      propertyPath: scale.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 667427132343333127, guid: 1241d8cba251b634e8966f075d56ddd8, type: 3}
+      propertyPath: amountToPool
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1241d8cba251b634e8966f075d56ddd8, type: 3}
 --- !u!1001 &2495688007616717764

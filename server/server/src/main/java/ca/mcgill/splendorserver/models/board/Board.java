@@ -1,12 +1,11 @@
 package ca.mcgill.splendorserver.models.board;
 
-import java.io.Serializable;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 import ca.mcgill.splendorserver.models.Inventory;
 import ca.mcgill.splendorserver.models.Player;
+import java.io.Serializable;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
  * Model class for the Splendor board.
