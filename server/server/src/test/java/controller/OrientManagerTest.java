@@ -63,7 +63,7 @@ public class OrientManagerTest {
 	    	fail("exception thrown");
 	    }
 	    
-	    Token[] tokens = {Token.RED, Token.BLUE, Token.GREEN, Token.WHITE, Token.BLACK};
+	    Token[] tokens = {Token.RED, Token.BLUE, Token.GREEN, Token.WHITE, Token.BLACK, Token.GOLD};
 	    testInventory.addTokens(tokens);
 	    testInventory.addTokens(tokens);
 	    testInventory.addTokens(tokens);
@@ -153,7 +153,7 @@ public class OrientManagerTest {
 	    Board board = game.getBoard();
 	    Inventory testInventory = board.getInventory("testCreator");
 	    
-	    Token[] tokens = {Token.RED, Token.BLUE, Token.GREEN, Token.WHITE, Token.BLACK};
+	    Token[] tokens = {Token.RED, Token.BLUE, Token.GREEN, Token.WHITE, Token.BLACK, Token.GOLD};
 	    testInventory.addTokens(tokens);
 	    testInventory.addTokens(tokens);
 	    testInventory.addTokens(tokens);
@@ -401,7 +401,7 @@ public class OrientManagerTest {
 	  }
 	  
 	  @Test
-	  public void sacrificeTest() throws JsonProcessingException {
+	  public void sacrificeChoiceTest() throws JsonProcessingException {
 			JSONObject invalidAction = new JSONObject();
 		    invalidAction.put("status", "failure");
 		    invalidAction.put("message", "Invalid action.");
@@ -452,4 +452,88 @@ public class OrientManagerTest {
 		    assertEquals(131, testInventory.getCards().get(2).getId().intValue());
 	  }
 	
+	  @Test
+	  public void sacrificeActionTest() throws JsonProcessingException {
+			JSONObject invalidAction = new JSONObject();
+		    invalidAction.put("status", "failure");
+		    invalidAction.put("message", "Invalid action.");
+			
+		    SessionData dummy = ControllerTestUtils.createDummySessionData();
+		    GameManager gameManager = new GameManager();
+		    gameManager.launchGame("TestGame", dummy);
+		    HashMap<String, Game> gameRegistry = gameManager.getGameRegistry();
+
+		    GameController gc = new GameController();
+		    JSONObject request = new JSONObject();
+		    Game game = gameRegistry.get("TestGame");
+		    Board board = game.getBoard();
+		    Inventory testInventory = board.getInventory("testCreator");
+		    
+		    testInventory.addCard(CardRegistry.of(4));
+		    testInventory.addCard(CardRegistry.of(5));
+		    testInventory.addCard(CardRegistry.of(1));
+		    testInventory.addCard(CardRegistry.of(3));
+		    
+		    request.put("playerId", "testCreator");
+		    request.put("cardId", 131);
+		    ResponseEntity<String> response = gc.purchaseCard("TestGame", request); 
+		    try { //test trying to buy sacrifice card with 2 valid cards
+			      assertEquals(ResponseEntity.ok().body(invalidAction.toJSONString()), response);
+			      fail("expected exception not thrown");
+			    } catch (AssertionError e) { }
+		    
+		    testInventory.removeCard(CardRegistry.of(4));
+		    testInventory.getCards().get(0).addSatchel();
+		    
+		    response = gc.purchaseCard("TestGame", request);
+		    try { //test trying to buy sacrifice card with 1 valid card with satchel
+			      assertEquals(ResponseEntity.ok().body(invalidAction.toJSONString()), response);
+			      fail("expected exception not thrown");
+			    } catch (AssertionError e) { }
+		    
+		    testInventory.removeCard(CardRegistry.of(5));
+		    
+		    response = gc.purchaseCard("TestGame", request);
+		    try { //test invalid purchase attempt
+			      assertEquals(ResponseEntity.ok().body(invalidAction.toJSONString()), response);
+			    } catch (AssertionError e) { 
+			    	fail("exception thrown");
+			    }
+		    
+		    testInventory.removeCard(CardRegistry.of(1));
+		    testInventory.removeCard(CardRegistry.of(3));
+		    
+		    //following tests are invalid purchases, but for other necessary colours
+		    request.replace("cardId", 120);
+		    response = gc.purchaseCard("TestGame", request);
+		    try { //test invalid purchase attempt
+			      assertEquals(ResponseEntity.ok().body(invalidAction.toJSONString()), response);
+			    } catch (AssertionError e) { 
+			    	fail("exception thrown");
+			    }
+		    
+		    request.replace("cardId", 121);
+		    response = gc.purchaseCard("TestGame", request);
+		    try { //test invalid purchase attempt
+			      assertEquals(ResponseEntity.ok().body(invalidAction.toJSONString()), response);
+			    } catch (AssertionError e) { 
+			    	fail("exception thrown");
+			    }
+		    
+		    request.replace("cardId", 122);
+		    response = gc.purchaseCard("TestGame", request);
+		    try { //test invalid purchase attempt
+			      assertEquals(ResponseEntity.ok().body(invalidAction.toJSONString()), response);
+			    } catch (AssertionError e) { 
+			    	fail("exception thrown");
+			    }
+		    
+		    request.replace("cardId", 130);
+		    response = gc.purchaseCard("TestGame", request);
+		    try { //test invalid purchase attempt
+			      assertEquals(ResponseEntity.ok().body(invalidAction.toJSONString()), response);
+			    } catch (AssertionError e) { 
+			    	fail("exception thrown");
+			    }
+	  }
 }
