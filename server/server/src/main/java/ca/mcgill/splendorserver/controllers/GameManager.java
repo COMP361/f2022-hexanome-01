@@ -56,8 +56,8 @@ public class GameManager {
     if (!saveId.equals("")) {
       SaveSession save = SaveManager.loadGame(gameId, session.getCreator());
       if (save != null && save.isValidLaunch(session.getVariant(), session.getPlayers())) {
-    	gameRegistry.put(gameId, save.getGame());
-    	return true;
+        gameRegistry.put(gameId, save.getGame());
+        return true;
       }
       return false;
     } else {
@@ -152,6 +152,9 @@ public static JSONObject determineBody(Card card, Board board, Inventory invento
         }
       }
       JSONObject result = OrientManager.handleCard(card, board, inventory);
+      if (result == null) {
+        return null;
+      }
       String furtherAction = (String) result.get("type");
       String actionOptions = (String) result.get("options");
       response.replace("action", furtherAction);
@@ -194,11 +197,14 @@ public static JSONObject determineBody(Card card, Board board, Inventory invento
     }
     CardBank cards = board.getCards();
     int pickedUp = cards.draw(card);
-    if (pickedUp != card.getId()) {
+    if (pickedUp != card.getId() && !inventory.getReservedCards().contains(card)) {
       return false;
-    } else if (!inventory.getReservedCards().contains(card)) {
-      return false;
+    } 
+    
+    if (inventory.getReservedCards().contains(card)) {
+      inventory.getReservedCards().remove(card);
     }
+
     inventory.addCard(card);
     return true;
   }

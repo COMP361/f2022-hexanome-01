@@ -14,7 +14,7 @@ public class ObjectPool : MonoBehaviour {
     void Start() {
         objectPool = new List<GameObject>();
         GameObject temp;
-        for(int i = 0;i < amountToPool;i++) {
+        for(int i = 0;i < amountToPool && obj;i++) {
             temp = Instantiate(obj);
             temp.SetActive(false);
             temp.transform.SetParent(transform);
@@ -29,6 +29,6 @@ public class ObjectPool : MonoBehaviour {
                 return objectPool[i];
         }
 
-        return objectPool[0];
+        return amountToPool == 0 ? null : objectPool[0];
     }
 }

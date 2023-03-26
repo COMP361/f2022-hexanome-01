@@ -155,4 +155,77 @@ public class InventoryTest {
 	    
 	    assertEquals(3, testInventory.getPoints());
 	}
+	
+	@Test
+	public void goldPurchaseTest() {
+	    SessionData dummy = ControllerTestUtils.createDummySessionData();
+	    GameManager gameManager = new GameManager();
+	    gameManager.launchGame("TestGame", dummy);
+	    HashMap<String, Game> gameRegistry = gameManager.getGameRegistry();
+	    GameController gc = new GameController();
+	    Game game = gameRegistry.get("TestGame");
+	    Board board = game.getBoard();
+	    Inventory testInventory = board.getInventory("testCreator");
+
+	    testInventory.getTokens().addRepeated(Token.GOLD, 20);
+	    int card = board.getCards().getRows().get(CardLevel.LEVEL1)[0];
+	    GameManager.purchaseCard(game, "testCreator", card);
+	    assertTrue(card == testInventory.getCards().get(0).getId());
+	}
+	
+	@Test
+	public void goldCardTest() {
+	    SessionData dummy = ControllerTestUtils.createDummySessionData();
+	    GameManager gameManager = new GameManager();
+	    gameManager.launchGame("TestGame", dummy);
+	    HashMap<String, Game> gameRegistry = gameManager.getGameRegistry();
+	    GameController gc = new GameController();
+	    Game game = gameRegistry.get("TestGame");
+	    Board board = game.getBoard();
+	    Inventory testInventory = board.getInventory("testCreator");
+	    
+	    testInventory.addCard(CardRegistry.of(1));
+	    testInventory.addCard(CardRegistry.of(104));
+	    testInventory.addCard(CardRegistry.of(104));
+	    testInventory.addCard(CardRegistry.of(104));
+	    testInventory.addCard(CardRegistry.of(104));
+	    testInventory.addCard(CardRegistry.of(104));
+	    testInventory.addCard(CardRegistry.of(104));
+	    testInventory.addCard(CardRegistry.of(104));
+	    testInventory.addCard(CardRegistry.of(104));
+	    testInventory.addCard(CardRegistry.of(104));
+	    testInventory.addCard(CardRegistry.of(104));
+	    
+	    int card = board.getCards().getRows().get(CardLevel.LEVEL1)[0];
+	    GameManager.purchaseCard(game, "testCreator", card);
+	    assertTrue(card == testInventory.getCards().get(testInventory.getCards().size() - 1).getId());
+	}
+	
+	@Test
+	public void goldPostTest() {
+	    SessionData dummy = ControllerTestUtils.createDummySessionData();
+	    GameManager gameManager = new GameManager();
+	    gameManager.launchGame("TestGame", dummy);
+	    HashMap<String, Game> gameRegistry = gameManager.getGameRegistry();
+	    GameController gc = new GameController();
+	    Game game = gameRegistry.get("TestGame");
+	    Board board = game.getBoard();
+	    Inventory testInventory = board.getInventory("testCreator");
+
+	    testInventory.addCard(CardRegistry.of(1));
+	    testInventory.addCard(CardRegistry.of(104));
+	    testInventory.addCard(CardRegistry.of(104));
+	    testInventory.addCard(CardRegistry.of(104));
+	    testInventory.getTokens().addRepeated(Token.GOLD, 4);
+
+	    testInventory.getUnlockables().add(UnlockableRegistry.of(15));
+	    testInventory.getUnlockables().add(UnlockableRegistry.of(16));
+	    testInventory.getUnlockables().add(UnlockableRegistry.of(17));
+	    testInventory.getUnlockables().add(UnlockableRegistry.of(18));
+	    testInventory.getUnlockables().add(UnlockableRegistry.of(19));
+	    
+	    int card = board.getCards().getRows().get(CardLevel.LEVEL1)[0];
+	    GameManager.purchaseCard(game, "testCreator", card);
+	    assertTrue(card == testInventory.getCards().get(testInventory.getCards().size() - 1).getId());
+	}
 }
