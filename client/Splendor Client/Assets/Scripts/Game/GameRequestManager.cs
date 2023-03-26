@@ -9,7 +9,12 @@ using UnityEngine.Networking;
 public class GameRequestManager : MonoBehaviour
 {
     private static string HOST = Environment.GetEnvironmentVariable("SPLENDOR_HOST_IP");
+    [SerializeField] private Authentication scenePlayer;
     private static Authentication mainPlayer;
+
+    private void Start() {
+        mainPlayer = scenePlayer;    
+    }
 
     public static IEnumerator GetBoard(string id, string hash, Action<string, JSONObject> result) {
         string url = "http://" + HOST + ":4244/splendor/api/games/" + id + "/board"; //url for GET request
@@ -46,7 +51,7 @@ public class GameRequestManager : MonoBehaviour
         JSONArray playersJson = new JSONArray();
         foreach (string player in players)
             playersJson.Add(player);
-        body.Add("players", playersJson);
+        body.Add("players", playersJson.ToJSONString());
 
         body.Add("savegameid", savegameid);
 
@@ -57,7 +62,6 @@ public class GameRequestManager : MonoBehaviour
         add.SetRequestHeader("Content-Type", "application/json");
         add.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(body.ToJSONString()));
         add.downloadHandler = new DownloadHandlerBuffer();
-        
         yield return add.SendWebRequest();
 
         //TO BE WARNED IF THE REQUEST WAS NOT SUCCESSFUL, UNCOMMENT THE FOLLOWING LINES
