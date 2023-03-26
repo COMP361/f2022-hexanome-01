@@ -56,8 +56,8 @@ public class GameManager {
     if (!saveId.equals("")) {
       SaveSession save = SaveManager.loadGame(gameId, session.getCreator());
       if (save != null && save.isValidLaunch(session.getVariant(), session.getPlayers())) {
-    	gameRegistry.put(gameId, save.getGame());
-    	return true;
+        gameRegistry.put(gameId, save.getGame());
+        return true;
       }
       return false;
     } else {
