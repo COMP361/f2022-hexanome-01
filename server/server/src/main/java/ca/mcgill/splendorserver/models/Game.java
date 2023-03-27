@@ -176,8 +176,8 @@ public Set<String> playerIdSet() {
     int numPlayerTieRes = 0;
     Player potentialWinner = null;
     for (Player player: players) {
-      // 2 is the hard coded win rule
-      if (player.getInventory().getPoints() >= 2) {
+      // 1 is the hard coded win rule
+      if (player.getInventory().getPoints() >= 1) {
         if (player.getInventory().getPoints() == winPoints){ numPlayerTiePoints += 1; potentialWinner = null; }
         else if (player.getInventory().getPoints() > winPoints) {
           winPoints = player.getInventory().getPoints();
