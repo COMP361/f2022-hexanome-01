@@ -212,7 +212,7 @@ public class PlayerControl : MonoBehaviour {
                 for (int i = 0; i < jsonNoblesVisited.Count; i++) {
                     noblesVisiting[i] = (long)jsonNoblesVisited[i];
                 }
-                if(action.Equals("domino1") || action.Equals("domino2") || action.Equals("satchel") || action.Equals("reserve")){
+                if(action.Equals("domino1") || action.Equals("domino2") || action.Equals("satchel") || action.Equals("reserve") || action.Equals("sacrifice")) {
                     Debug.Log("GOT TO ORIENT");
                     JSONArray jsonChoices = (JSONArray)JSONHandler.DecodeJsonRequest((string)response["options"]);
                     if(action.Equals("reserve")){
@@ -239,6 +239,11 @@ public class PlayerControl : MonoBehaviour {
                         else if(action.Equals("satchel")){
                             Debug.Log(cardChoices.Count);
                             orientPanelManager.Display(cardChoices, new List<Noble>(), ActionManager.ActionType.satchel);
+                        }
+                        else if (action.Equals("sacrifice")) {
+                            Debug.Log(cardChoices.Count);
+                            orientPanelManager.PassOriginalCard(selectedCard.GetCard().GetId());
+                            orientPanelManager.Display(cardChoices, new List<Noble>(), ActionManager.ActionType.sacrifice);
                         }
                     }
 
@@ -599,5 +604,18 @@ public class PlayerControl : MonoBehaviour {
             }
         }
         return availNobles;
+    }
+
+    public void sacrificeCardAction(long cardId1, long cardId2, long originalId) {
+        Dictionary<string, object> requestDict = new Dictionary<string, object>();
+        JSONObject selectedCardJson = new JSONObject(requestDict);
+        selectedCardJson.Add("playerId", player.GetUsername());
+        selectedCardJson.Add("cardId1", cardId1);
+        selectedCardJson.Add("cardId2", cardId2);
+        selectedCardJson.Add("originalId", originalId);
+        actionManager.MakeApiRequest(currSession.id, selectedCardJson, ActionManager.ActionType.sacrifice, ActionManager.RequestType.POST, (response) => {
+
+            orientActionHandler(response);
+        });
     }
 }
