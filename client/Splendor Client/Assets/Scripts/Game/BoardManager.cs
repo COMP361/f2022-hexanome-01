@@ -15,6 +15,7 @@ public class BoardManager : MonoBehaviour
 	[SerializeField] private TokenBank tokens;
     [SerializeField] private CityRow cities;
     [SerializeField] private GameObject tradingPostsDisplay;
+    [SerializeField] private WinnerScript winner;
     private Player[] players;
 
     private string currentPlayer;

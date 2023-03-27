@@ -11,12 +11,14 @@ import ca.mcgill.splendorserver.models.board.CitiesBoard;
  * Models one game.
  */
 public class Game implements Serializable {
-	
+
   private static final long serialVersionUID = 1L;
 
   private String id;
   private String variant;
   private String creator;
+
+  private String winner;
 
   private Player[] players;
 
@@ -41,7 +43,7 @@ public class Game implements Serializable {
     this.variant = variant;
     this.creator = creator;
     this.players = players;
-    
+
     switch (variant) {
     case "cities":
     	board = new CitiesBoard(creator, players);
@@ -50,10 +52,10 @@ public class Game implements Serializable {
     	board = new Board(creator, players);
     	break;
     }
-    
+
     currentPlayerIndex = 0;
   }
-  
+
   /**
    * Getter for game id.
    *
@@ -62,14 +64,14 @@ public class Game implements Serializable {
   public String getId() {
     return id;
   }
-  
+
   /**
    * Checker for if player won.
    *
    * @return playerId of winner, empty string if none
    */
   public String getWinner() {
-    return "";
+    return winner;
   }
 
   /**
@@ -130,7 +132,7 @@ public class Game implements Serializable {
    * Sets current player to player with given username.
 
    * @param username of desired player.
-   * 
+   *
    */
   public void setCurrentPlayer(String username) {
     for (int i = 0; i < players.length; i++) {
@@ -145,11 +147,13 @@ public class Game implements Serializable {
    * Sets the variant.
 
    * @param variant new variant for this game.
-   * 
+   *
    */
   public void setVariant(String variant) {
     this.variant = variant;
   }
+
+  public void setWinner(String winner) {this.winner = winner;}
 
 public String getCreatorId() {
 	return creator;
@@ -162,5 +166,30 @@ public Set<String> playerIdSet() {
 	}
 	return set;
 }
-  
+
+  public Player checkWinState() {
+    int winPoints = 0;
+    int winCards = 0;
+    int winReserve = 0;
+    int numPlayerTiePoints = 0;
+    int numPlayerTieCards = 0;
+    int numPlayerTieRes = 0;
+    Player potentialWinner = null;
+    for (Player player: players) {
+      // 2 is the hard coded win rule
+      if (player.getInventory().getPoints() >= 2) {
+        if (player.getInventory().getPoints() == winPoints){ numPlayerTiePoints += 1; potentialWinner = null; }
+        else if (player.getInventory().getPoints() > winPoints) {
+          winPoints = player.getInventory().getPoints();
+          if(numPlayerTiePoints != 0) { numPlayerTiePoints -= 1; }
+          else { potentialWinner = player; }
+        }
+      }
+
+    }
+      //when some players have tie points, check least number of cards
+    // if ( winPoints > 0 & numPlayerTiePoints > 0) {}
+    return potentialWinner;
+  }
+
 }
