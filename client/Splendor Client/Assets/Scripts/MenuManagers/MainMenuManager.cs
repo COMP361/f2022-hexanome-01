@@ -343,4 +343,7 @@ public class MainMenuManager : MonoBehaviour {
     public void StartJoinedGame() {
         SceneManager.LoadScene(2);
     }
+    public void Winning() {
+        SceneManager.LoadScene("WinScene");
+    }
 }

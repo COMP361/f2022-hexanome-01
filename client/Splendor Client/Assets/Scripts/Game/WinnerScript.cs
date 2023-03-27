@@ -8,9 +8,8 @@ public class WinnerScript : MonoBehaviour
     public Winner winner;
     public Text message;
 
-    public void setMessage(string winnerName) { 
-        winner.playerName = winnerName; 
-        message.text = winner.playerName + "wins the game!"; 
-        }
+    void Start(){
+        message.text = winner.playerName + " wins the game!"; 
+    }
 
 }

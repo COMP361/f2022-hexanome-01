@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class BoardManager : MonoBehaviour
 {
@@ -15,7 +16,7 @@ public class BoardManager : MonoBehaviour
 	[SerializeField] private TokenBank tokens;
     [SerializeField] private CityRow cities;
     [SerializeField] private GameObject tradingPostsDisplay;
-    [SerializeField] private WinnerScript winner;
+    [SerializeField] private Winner winner;
     private Player[] players;
 
     private string currentPlayer;
@@ -251,6 +252,14 @@ public class BoardManager : MonoBehaviour
             //display trading posts if variant is trading posts
             if (currentSession.name.Equals("tradingposts"))
                 tradingPostsDisplay.SetActive(true);
+
+            //takes everyone to WinScene when there's a winner
+            Debug.Log((string)boardData["winner"]);
+            if ((string)boardData["winner"] != null) {
+                winner.playerName = ((string)boardData["winner"]);
+                SceneManager.LoadScene("WinScene");
+                //return;
+            }
         }
 
         BoardPolling();
