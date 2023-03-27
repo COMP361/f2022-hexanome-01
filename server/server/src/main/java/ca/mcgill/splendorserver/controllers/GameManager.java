@@ -1,14 +1,5 @@
 package ca.mcgill.splendorserver.controllers;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Optional;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.springframework.stereotype.Component;
-
 import ca.mcgill.splendorserver.models.Game;
 import ca.mcgill.splendorserver.models.Inventory;
 import ca.mcgill.splendorserver.models.Noble;
@@ -30,6 +21,13 @@ import ca.mcgill.splendorserver.models.expansion.Unlockable;
 import ca.mcgill.splendorserver.models.registries.CardRegistry;
 import ca.mcgill.splendorserver.models.registries.UnlockableRegistry;
 import ca.mcgill.splendorserver.models.saves.SaveSession;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Optional;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.springframework.stereotype.Component;
 
 /**
  * This is the controller for all game managing functionality.
@@ -139,15 +137,7 @@ public static JSONObject determineBody(Card card, Board board, Inventory invento
     
     if (card.getType() != CardType.NONE) {
       if (card.getType() == CardType.SATCHEL || card.getType() == CardType.DOMINO1) {
-        boolean valid = false;
-        for (int i = 0; i < inventory.getCards().size(); i++) {
-          if (inventory.getCards().get(i).getBonus().getType() != null
-              && inventory.getCards().get(i).getBonus().getType() != Token.GOLD) {
-            valid = true;
-            break;
-          }
-        }
-        if (!valid) {
+        if (!checkValidPairing(inventory)) {
           return null;
         }
       }
@@ -161,22 +151,12 @@ public static JSONObject determineBody(Card card, Board board, Inventory invento
       response.replace("options", actionOptions);
       response.put("noblesVisiting", new JSONArray());
     } else {
-      JSONArray noblesVisiting = new JSONArray();
-      for (int nobleId : board.getNobles().attemptImpress(inventory)) {
-        noblesVisiting.add(nobleId);
-      }
-      for (Noble noble : inventory.getReservedNobles()) {
-        if (noble.impressed(inventory.getBonuses())) {
-          noblesVisiting.add(noble.getId());
-        }
-      }
+
+      JSONArray noblesVisiting = GameManager.checkImpressedNobles(inventory, board);
+
       response.put("noblesVisiting", noblesVisiting);
-      ArrayList<Unlockable> unlockables = inventory.getUnlockables();
-      for (Unlockable u : unlockables) {
-        if (u instanceof TradingPost && ((TradingPost) u).getAction() instanceof FreeToken) {
-          response.replace("action", "token");
-          break;
-        }
+      if (checkFreeToken(inventory)) {
+        response.replace("action", "token");
       }
     }
 
@@ -434,7 +414,7 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
     }
     return false;
   }
-
+  
   /**
    * Ends a game turn by updating the current player of a game.
    *
@@ -467,13 +447,70 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
     game.nextPlayer(); //changes the current player to the next player
 
     //game.getBoard().setWinner("winner test");
-    //at the endturn, check if an entire round is finished(goes back to host), then check if there's winner(s)
+    //at the endturn, check if an entire round is finished(goes back to host), 
+    //then check if there's winner(s)
     if (game.getCurrentPlayer().getUsername().equals(game.getCreatorId())) {
       //game.getBoard().setWinner("winner test");
       String temp = game.checkWinState();
       if (temp != null) {
         game.setWinner(temp);
-        game.getBoard().setWinner(game.getWinner()); }
+        game.getBoard().setWinner(game.getWinner()); 
+      }
     }
+  }
+
+  
+  /**
+   * Checks to see if player gets free token after a purchase.
+   *
+   * @param inventory of the player
+   * @return boolean of if they deserve a token
+   */
+  public static boolean checkFreeToken(Inventory inventory) {
+    for (Unlockable u : inventory.getUnlockables()) {
+      if (u instanceof TradingPost && ((TradingPost) u).getAction() instanceof FreeToken) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  
+  /**
+   * Checks to see which nobles the player has impressed.
+   *
+   * @param inventory of the player
+   * @param board of the current game
+   * @return JSONArray of noble ids
+   */
+  public static JSONArray checkImpressedNobles(Inventory inventory, Board board) {
+    JSONArray noblesVisiting = new JSONArray();
+    for (int nobleId : board.getNobles().attemptImpress(inventory)) {
+      noblesVisiting.add(nobleId);
+    }
+    for (Noble noble : inventory.getReservedNobles()) {
+      if (noble.impressed(inventory.getBonuses())) {
+        noblesVisiting.add(noble.getId());
+      }
+    }
+    return noblesVisiting;
+  }
+  
+  /**
+   * Checks to see if player can correctly pair a satchel card.
+   *
+   * @param inventory of the player
+   * @return boolean of if they can pair it
+   */
+  public static boolean checkValidPairing(Inventory inventory) {
+      boolean valid = false;
+      for (int i = 0; i < inventory.getCards().size(); i++) {
+        if (inventory.getCards().get(i).getBonus().getType() != null
+            && inventory.getCards().get(i).getBonus().getType() != Token.GOLD) {
+          valid = true;
+          break;
+        }
+      }
+      return valid;
   }
 }
