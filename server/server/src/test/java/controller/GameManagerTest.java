@@ -166,4 +166,41 @@ public class GameManagerTest extends ControllerTestUtils {
 	    	fail("expected error not thrown");
 	    } catch (AssertionError e) { }
   }
+  
+  @Test
+  public void longPollingTest() {
+	    SessionData dummy = createDummySessionData();
+	    GameManager gameManager = new GameManager();
+	    gameManager.launchGame("TestGame", dummy);
+	    Game game = gameManager.getGame("TestGame");
+	    GameController gc = new GameController();
+	    Optional<Board> board = gameManager.getGameBoard("TestGame");
+	    
+	    DeferredResult<String> response = gc.getBoard("TestGame", ""); //first call to long poll
+	    while (!response.hasResult()) { //wait for return value
+	    	
+	    }
+	    String hash = board.get().toJson().toJSONString();
+	    assertEquals(response.getResult().toString(), hash); //validate return
+	    
+	    response = gc.getBoard("TestGame", hash); //pass it same as last hash
+	    while (!response.hasResult()) { //wait for return value
+	    	
+	    }
+	    assertEquals(response.getResult().toString(), hash); //validate return
+	    
+	    board.get().getCards().draw(CardLevel.LEVEL1, 0);
+	    response = gc.getBoard("TestGame", hash); //pass it same as last hash
+	    while (!response.hasResult()) { //wait for return value
+	    	
+	    }
+	    assertEquals(response.getResult().toString(), board.get().toJson().toJSONString()); //validate return
+	    
+	    gameManager.deleteGame("TestGame"); //test pass lack of a board
+	    response = gc.getBoard("TestGame", hash); //pass it same as last hash
+	    while (!response.hasResult()) { //wait for return value
+	    	
+	    }
+	    assertEquals(response.getResult().toString(), ""); //validate return
+  }
 }

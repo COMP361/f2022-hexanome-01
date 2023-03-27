@@ -118,13 +118,13 @@ public class GameController {
   @GetMapping("/api/games/{gameId}/board")
   public DeferredResult<String> getBoard(@PathVariable String gameId, @RequestParam(value = "hash",
       defaultValue = "") String lastHash) {
-    System.out.println("received request");
+    //System.out.println("received request");
     DeferredResult<String> result = new DeferredResult<>(5000L);
     //timeout should result in a 408 error
     result.onTimeout(() ->
         result.setErrorResult(ResponseEntity.status(408).body(noUpdates.toJSONString())));
     threads.execute(() -> {
-      System.out.println("before try block");
+      //System.out.println("before try block");
       try {
         //TO DO: investigate whether thread pool can be timed to end
         //SEE: point 3.3 in https://www.baeldung.com/java-stop-execution-after-certain-time
@@ -132,16 +132,16 @@ public class GameController {
         Optional<Board> boardOptional;
         //return the board as soon as there is a board if this is the first request
         if (lastHash.isEmpty()) {
-          System.out.println("last hash is empty");
+          //System.out.println("last hash is empty");
           do {
             boardOptional = GameManager.getGameBoard(gameId);
             if (boardOptional.isPresent()) {
-              System.out.println("board is present");
+              //System.out.println("board is present");
               result.setResult(boardOptional.get().toJson().toJSONString());
             }
           } while (!boardOptional.isPresent() && System.currentTimeMillis() < end);
         } else { //return the board if there's been an update since this isn't the first request
-          System.out.println("last hash is not empty:" + lastHash);
+          //System.out.println("last hash is not empty:" + lastHash);
           do {
             boardOptional = GameManager.getGameBoard(gameId);
             //check if there's been an update on the board
@@ -359,22 +359,10 @@ public class GameController {
       }
       response.put("action", "none");
 
-      JSONArray noblesVisiting = new JSONArray();
-      for (int nobleId : board.getNobles().attemptImpress(inventory)) {
-        noblesVisiting.add(nobleId);
-      }
-      for (Noble noble: inventory.getReservedNobles()) {
-        if (noble.impressed(inventory.getBonuses())) {
-          noblesVisiting.add(noble.getId());
-        }
-      }
+      JSONArray noblesVisiting = GameManager.checkImpressedNobles(inventory, board);
       
-      ArrayList<Unlockable> unlockables = inventory.getUnlockables();
-      for (Unlockable u : unlockables) {
-        if (u instanceof TradingPost && ((TradingPost) u).getAction() instanceof FreeToken) {
-          response.replace("action", "token");
-          break;
-        }
+      if (GameManager.checkFreeToken(inventory)) {
+        response.replace("action", "token");
       }
       
       response.put("noblesVisiting", noblesVisiting);
@@ -425,22 +413,10 @@ public class GameController {
       }
       response.put("action", "none");
 
-      JSONArray noblesVisiting = new JSONArray();
-      for (int nobleId2 : board.getNobles().attemptImpress(inventory)) {
-        noblesVisiting.add(nobleId2);
-      }
-      for (Noble nobleinv: inventory.getReservedNobles()) {
-        if (nobleinv.impressed(inventory.getBonuses())) {
-          noblesVisiting.add(nobleinv.getId());
-        }
-      }
+      JSONArray noblesVisiting = GameManager.checkImpressedNobles(inventory, board);
       
-      ArrayList<Unlockable> unlockables = inventory.getUnlockables();
-      for (Unlockable u : unlockables) {
-        if (u instanceof TradingPost && ((TradingPost) u).getAction() instanceof FreeToken) {
-          response.replace("action", "token");
-          break;
-        }
+      if (GameManager.checkFreeToken(inventory)) {
+        response.replace("action", "token");
       }
       
       response.put("noblesVisiting", noblesVisiting);
@@ -642,7 +618,7 @@ public class GameController {
     try {
       System.out.println("launching: " + gameId);
       if (!GameManager.launchGame(gameId, session)) {
-    	  throw new Exception();
+        throw new Exception();
       }
 
       return ResponseEntity.ok(HttpStatus.OK);
@@ -750,22 +726,10 @@ public class GameController {
       JSONObject response = new JSONObject();
       response.put("action", "none");
 
-      JSONArray noblesVisiting = new JSONArray();
-      for (int nobleId2 : board.getNobles().attemptImpress(inventory)) {
-        noblesVisiting.add(nobleId2);
-      }
-      for (Noble nobleinv: inventory.getReservedNobles()) {
-        if (nobleinv.impressed(inventory.getBonuses())) {
-          noblesVisiting.add(nobleinv.getId());
-        }
-      }
+      JSONArray noblesVisiting = GameManager.checkImpressedNobles(inventory, board);
       
-      ArrayList<Unlockable> unlockables = inventory.getUnlockables();
-      for (Unlockable u : unlockables) {
-        if (u instanceof TradingPost && ((TradingPost) u).getAction() instanceof FreeToken) {
-          response.replace("action", "token");
-          break;
-        }
+      if (GameManager.checkFreeToken(inventory)) {
+        response.replace("action", "token");
       }
       
       response.put("noblesVisiting", noblesVisiting);
