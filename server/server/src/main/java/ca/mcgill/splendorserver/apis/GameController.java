@@ -273,7 +273,7 @@ public class GameController {
 
       return ResponseEntity.ok(response.toJSONString());
     } catch (Exception e) {
-      logger.error(e.toString());
+      logger.error(e.getMessage());
       return errorResponse(e.getMessage());
     }
   }

@@ -13,10 +13,14 @@ public class OrientPanelManager : MonoBehaviour {
     [SerializeField] private GameObject nobleSlot; //Blank noble prefab
     [SerializeField] private GameObject cardContent, nobleContent;
 
-    [SerializeField] private long selectedCard = -1;
+    [SerializeField] private long selectedCard = -1, secondCard = -1, purchasingCard = -1;
     [SerializeField] private long selectedNoble = -1;
     [SerializeField] private ActionManager.ActionType action;
     [SerializeField] private List<Card> cardsDebug;
+
+    public void PassOriginalCard(long cardId) {
+        purchasingCard = cardId;
+    }
 
     public void Display(List<Card> cards, List<Noble> nobles, ActionManager.ActionType _action) {
             cardsDebug = cards;
@@ -53,7 +57,18 @@ public class OrientPanelManager : MonoBehaviour {
     }
 
     public void SelectCard(long selected) {
-        selectedCard = selected;
+        if (purchasingCard != -1) { //if doing sacrifice action
+            if (secondCard == selected) //if reselect the second option, deselect it
+                secondCard = -1;
+            else if (selectedCard == selected) //if reselect first option, deselect it
+                selectedCard = -1;
+            else if (selectedCard == -1) //if no first card selected, it becomes selected
+                selectedCard = selected;
+            else if (secondCard == -1) //if no second card selected, it becomes selected
+                secondCard = selected;
+        } //if both options already selected, need to deselect one first
+        else //if not sacrifice, do same thing as it was doing before my changes
+            selectedCard = selected;
         selectedNoble = -1;
     }
 
@@ -79,6 +94,11 @@ public class OrientPanelManager : MonoBehaviour {
             playerControl.reserveNobleAction(selectedCard);
             panel.SetActive(false);
         }
+        else if ((selectedCard != -1 || secondCard != -1 ) && action == ActionManager.ActionType.sacrifice) {
+            playerControl.sacrificeCardAction(selectedCard, secondCard, purchasingCard);
+            purchasingCard = -1; //this may lead to an error somewhere, might need to be moved
+            panel.SetActive(false);
+        }
     }
 
     private void ClearChildren(GameObject parent, GameObject nobleParent) { //Need to clear children to not repeat cards everytime we open and close the panel
@@ -91,45 +111,5 @@ public class OrientPanelManager : MonoBehaviour {
 
         }
         nobleParent.SetActive(false);
-    }
-
-    private void ShowObjects() {
-#if UNITY_EDITOR
-        CardSlot[] boardCards = (CardSlot[])Resources.FindObjectsOfTypeAll(typeof(CardSlot));
-        NobleSlot[] boardNobles = (NobleSlot[])Resources.FindObjectsOfTypeAll(typeof(NobleSlot));
-        CitySlot[] cities = (CitySlot[])Resources.FindObjectsOfTypeAll(typeof(CitySlot));
-#else
-        CardSlot[] boardCards = (CardSlot[])Object.FindObjectsOfType(typeof(CardSlot));
-        NobleSlot[] boardNobles = (NobleSlot[])Object.FindObjectsOfType(typeof(NobleSlot));
-        CitySlot[] cities = (CitySlot[])Object.FindObjectsOfType(typeof(CitySlot));
-#endif
-
-        foreach (CardSlot c in boardCards) {
-#if UNITY_EDITOR
-            if (PrefabUtility.GetPrefabAssetType(c) == PrefabAssetType.NotAPrefab)
-                c.gameObject.SetActive(true);
-#else
-                c.gameObject.SetActive(true);
-#endif
-
-        }
-        foreach (NobleSlot n in boardNobles) {
-#if UNITY_EDITOR
-            if (PrefabUtility.GetPrefabAssetType(n) == PrefabAssetType.NotAPrefab)
-                n.gameObject.SetActive(true);
-#else
-                n.gameObject.SetActive(true);
-#endif
-
-        }
-        foreach (CitySlot c in cities) {
-#if UNITY_EDITOR
-            if (PrefabUtility.GetPrefabAssetType(c) == PrefabAssetType.NotAPrefab)
-                c.gameObject.SetActive(true);
-#else
-                c.gameObject.SetActive(true);
-#endif
-
-        }
     }
 }

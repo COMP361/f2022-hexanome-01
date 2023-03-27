@@ -33,7 +33,8 @@ public class ActionManager : MonoBehaviour
         reserveNoble,
         endTurn,
         satchel,
-        freeTokens
+        freeTokens,
+        sacrifice
     }
 
     public enum RequestType

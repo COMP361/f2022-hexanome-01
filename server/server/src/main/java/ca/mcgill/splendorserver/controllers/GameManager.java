@@ -152,6 +152,9 @@ public static JSONObject determineBody(Card card, Board board, Inventory invento
         }
       }
       JSONObject result = OrientManager.handleCard(card, board, inventory);
+      if (result == null) {
+        return null;
+      }
       String furtherAction = (String) result.get("type");
       String actionOptions = (String) result.get("options");
       response.replace("action", furtherAction);
