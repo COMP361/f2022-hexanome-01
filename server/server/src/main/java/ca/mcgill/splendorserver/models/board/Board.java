@@ -16,6 +16,10 @@ public class Board implements Serializable {
 
   private String currentPlayer;
 
+  private String host;
+
+  private String winner;
+
   private Player[] players;
   private TokenBank tokens;
 
@@ -36,6 +40,7 @@ public class Board implements Serializable {
     nobles = new NobleBank(playerNum + 1);
     this.players = players;
     this.currentPlayer = creator;
+    this.host = creator;
   }
   
   public void setCurrentPlayer(String player) {
@@ -79,6 +84,8 @@ public class Board implements Serializable {
     json.put("decks", cardsAndDecks[1]);
     json.put("nobles", nobles.toJson());
     json.put("tokens", tokens.toJson());
+    json.put("host", host);
+    json.put("winner", winner);
 
     JSONObject inventoriesJson = new JSONObject();
     for (Player player : players) {
@@ -106,5 +113,10 @@ public class Board implements Serializable {
   public void setCards(CardBank cards) {
     this.cards = cards;
   }
+
+  public String getHost() { return host; }
+
+  public void setWinner(String winner) { this.winner = winner; }
+
 
 }
