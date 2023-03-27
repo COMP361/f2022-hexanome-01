@@ -467,11 +467,12 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
     game.nextPlayer(); //changes the current player to the next player
 
     //game.getBoard().setWinner("winner test");
+    //at the endturn, check if an entire round is finished(goes back to host), then check if there's winner(s)
     if (game.getCurrentPlayer().getUsername().equals(game.getCreatorId())) {
       //game.getBoard().setWinner("winner test");
-      Player temp = game.checkWinState();
+      String temp = game.checkWinState();
       if (temp != null) {
-        game.setWinner(temp.getUsername());
+        game.setWinner(temp);
         game.getBoard().setWinner(game.getWinner()); }
     }
   }

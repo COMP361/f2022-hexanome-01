@@ -1,7 +1,9 @@
 package ca.mcgill.splendorserver.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import ca.mcgill.splendorserver.models.board.Board;
@@ -167,29 +169,73 @@ public Set<String> playerIdSet() {
 	return set;
 }
 
-  public Player checkWinState() {
+  public String checkWinState() {
     int winPoints = 0;
-    int winCards = 0;
-    int winReserve = 0;
-    int numPlayerTiePoints = 0;
-    int numPlayerTieCards = 0;
-    int numPlayerTieRes = 0;
+    //some large number of cards that mostly likely no one can have
+    int winCards = 100;
+    int winReserve = 100;
     Player potentialWinner = null;
+    List<Player> tiePlayers = new ArrayList<Player>();
+    List<Player> tiePlayers2 = new ArrayList<Player>();
+
     for (Player player: players) {
-      // 1 is the hard coded win rule
-      if (player.getInventory().getPoints() >= 1) {
-        if (player.getInventory().getPoints() == winPoints){ numPlayerTiePoints += 1; potentialWinner = null; }
+      // 5 is the hard coded win rule
+      if (player.getInventory().getPoints() >= 5) {
+        if (player.getInventory().getPoints() == winPoints){
+          tiePlayers.add(player);
+          if(potentialWinner != null) {tiePlayers.add(potentialWinner);}
+          potentialWinner = null; }
         else if (player.getInventory().getPoints() > winPoints) {
           winPoints = player.getInventory().getPoints();
-          if(numPlayerTiePoints != 0) { numPlayerTiePoints -= 1; }
-          else { potentialWinner = player; }
+          potentialWinner = player;
+          if (tiePlayers.size() != 0) {
+            tiePlayers.clear();
+            tiePlayers = new ArrayList<Player>(); }
         }
       }
 
     }
       //when some players have tie points, check least number of cards
-    // if ( winPoints > 0 & numPlayerTiePoints > 0) {}
-    return potentialWinner;
+    if ( winPoints > 0 & tiePlayers.size() != 0) {
+      for (Player player : tiePlayers) {
+        int numCards = player.getInventory().getCards().size();
+        if (numCards == winCards) {
+          if(potentialWinner != null) {tiePlayers2.add(potentialWinner);}
+          potentialWinner = null;
+          tiePlayers2.add(player);}
+        else if (numCards < winCards) {
+          winCards = numCards;
+          potentialWinner = player;
+          tiePlayers2.clear();
+          tiePlayers2 = new ArrayList<Player>();}
+      }
+    }
+
+    String multiWinners = "";
+    //when some players have tied number of cards in hand, check least number of reserved cards
+    if ( potentialWinner == null & tiePlayers2.size() != 0) {
+      //test
+      //potentialWinner = new Player("num of players with tied amount of purchased cards "+Integer.toString(tiePlayers2.size()));
+      for (Player player : tiePlayers2) {
+        int numRes = player.getInventory().getReservedCards().size();
+        if (numRes == winReserve) {
+          if (potentialWinner != null) {multiWinners = potentialWinner.getUsername()+", "+player.getUsername();}
+          else {multiWinners = multiWinners+", "+player.getUsername();}
+          potentialWinner = null;
+        }
+        else if (numRes < winReserve) {
+          winReserve = numRes;
+          potentialWinner = player;
+          multiWinners = "";}
+      }
+    }
+
+    if (multiWinners.equals("")) {
+      if (potentialWinner == null) {return null;}
+      else {return potentialWinner.getUsername();}
+      }
+    else {return multiWinners;}
+
   }
 
 }
