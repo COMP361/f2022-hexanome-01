@@ -465,5 +465,12 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
     //if still tie (both vanilla and with expansions), player with fewest cards wins
     
     game.nextPlayer(); //changes the current player to the next player
+    if (game.getCurrentPlayer().getUsername() == game.getCreatorId()) {
+      if (game.checkWinState() != null) {
+        game.setWinner(game.checkWinState().getUsername());
+        game.getBoard().setWinner(game.getWinner());
+      }
+    }
+    
   }
 }
