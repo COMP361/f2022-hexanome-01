@@ -1,5 +1,9 @@
 package ca.mcgill.splendorserver;
 
+import ca.mcgill.splendorserver.controllers.SaveManager;
+import ca.mcgill.splendorserver.models.Game;
+import ca.mcgill.splendorserver.models.saves.LobbyServiceSaveData;
+import ca.mcgill.splendorserver.models.saves.SaveSession;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -7,6 +11,7 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -35,6 +40,8 @@ public class Registrator {
   private String serviceOauthPassword;
   private final String[] expansionsServiceName =
         {"cities", "tradingposts"};
+
+  private SaveManager saveManager = new SaveManager();
 
   /**
    * This is the constructor that will get its value provided by spring from the
@@ -72,6 +79,9 @@ public class Registrator {
       for (String expansionName : expansionsServiceName) {
         registerGameService(accessToken, expansionName);
       }
+
+      // Register all saved games
+      registerAllSavedGames(accessToken);
     } catch (UnirestException unirestException) {
       String errorMessage = "Failed to connect to Lobby Service";
       logger.error(errorMessage);
@@ -190,5 +200,48 @@ public class Registrator {
       logger.error(e.getMessage());
     }
   }
+
+  /**
+   * Registers all saved games to the lobby service
+   */
+  private void registerAllSavedGames(String accessToken) {
+    List<SaveSession> savedGames = saveManager.getAllSavedGames();
+
+    for (SaveSession saveSession : savedGames) {
+      Game game = saveSession.getGame();
+      LobbyServiceSaveData saveData = new LobbyServiceSaveData(game);
+
+      try {
+        registerSavedGameWithLobbyService(gameServiceName, saveData, accessToken);
+      } catch (UnirestException e) {
+        logger.error("Failed to register saved game with id: " + game.getId(), e);
+      }
+    }
+  }
+
+  /**
+   * Registers a saved game to the LS.
+   */
+  private void registerSavedGameWithLobbyService(String gameservice, LobbyServiceSaveData saveData, String accessToken) throws UnirestException {
+    String url = lobbyLocation + "/api/gameservices/" + gameservice + "/savegames/" + saveData.getSavegameid();
+
+    HttpResponse<String> response = Unirest
+            .put(url)
+            .header("Authorization", "Bearer " + accessToken)
+            .header("Content-Type", "application/json")
+            .body(new Gson().toJson(saveData))
+            .asString();
+
+    if (response.getStatus() != 200) {
+      logger.error("Failed to register saved game. Response: " + response.getBody());
+      throw new RuntimeException("Failed to register saved game. Response: " + response.getBody());
+    }
+
+    logger.info("Successfully registered saved game with id: " + saveData.getGamename());
+  }
+
+
+
+
 }
 
