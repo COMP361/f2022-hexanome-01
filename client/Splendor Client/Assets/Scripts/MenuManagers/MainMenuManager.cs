@@ -243,7 +243,9 @@ public class MainMenuManager : MonoBehaviour {
 
         foreach (Save save in saves)
         {
-            if (save.players.Contains(authentication.GetUsername())) relevantSaves.Add(save);
+            //if (save.players.Contains(authentication.GetUsername())) relevantSaves.Add(save);
+            if (save.players[0].Equals(authentication.GetUsername())) //only show saves where the player was the creator
+                relevantSaves.Add(save); 
         }
 
         return relevantSaves; 
