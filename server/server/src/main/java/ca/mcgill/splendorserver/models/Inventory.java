@@ -242,12 +242,12 @@ public class Inventory implements Serializable {
     }
     
     while (cardsUsed > 0) {
-        for (int i = 0;i < cards.size(); i++) {
-        	if (cards.get(i).getBonus().getType() == Token.GOLD) {
-                cards.remove(i); //if this is gold card, remove it decrement cards used
-                cardsUsed--;
-            }
+      for (int i = 0; i < cards.size(); i++) {
+        if (cards.get(i).getBonus().getType() == Token.GOLD) {
+          cards.remove(i); //if this is gold card, remove it decrement cards used
+          cardsUsed--;
         }
+      }
     }
 
     return goldUsed; //return gold tokens used
@@ -389,7 +389,40 @@ public class Inventory implements Serializable {
     return json;
   }
 
+  /**
+   * Getter for reserved nobles.
+   *
+   * @return list of claimed nobles
+   */
   public ArrayList<Noble> getReservedNobles() {
     return (ArrayList<Noble>) reservedNobles.clone();
+  }
+
+  /**
+   * Checker for city containment.
+   *
+   * @return whether this inventory contains a city
+   */
+  public boolean containsCity() {
+    for (Unlockable u : unlockables) {
+      if (u instanceof City) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * getter for city.
+   *
+   * @return this inventory's city card
+   */
+  public City getCity() {
+    for (Unlockable u : unlockables) {
+      if (u instanceof City) {
+        return (City) u;
+      }
+	}
+	return null;
   }
 }

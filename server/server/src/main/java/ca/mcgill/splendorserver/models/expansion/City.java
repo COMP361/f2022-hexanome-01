@@ -2,9 +2,7 @@ package ca.mcgill.splendorserver.models.expansion;
 
 import ca.mcgill.splendorserver.apis.JsonHandler;
 import ca.mcgill.splendorserver.models.Player;
-
 import java.io.Serializable;
-
 import org.json.simple.JSONObject;
 
 /**
@@ -47,6 +45,15 @@ public class City implements Unlockable, Serializable {
   @Override
   public int getId() {
     return id;
+  }
+
+  /**
+   * Getter for this city's point requirement.
+   *
+   * @return point threshold
+   */
+  public int getPoints() {
+    return condition.getPoints();
   }
 
 }
