@@ -9,6 +9,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 
 import ca.mcgill.splendorserver.models.Game;
 import ca.mcgill.splendorserver.models.saves.SaveSession;
@@ -69,7 +71,35 @@ public class SaveManager {
 			return null;
 		}
 	}
-	
+
+	public static List<SaveSession> getAllSavedGames() {
+		File saveDirectory = new File(saveDir.toString());
+		File[] playerDirectories = saveDirectory.listFiles(File::isDirectory);
+		List<SaveSession> savedGames = new ArrayList<>();
+
+		for (File playerDir : playerDirectories) {
+			String playerId = playerDir.getName();
+			File[] saveFiles = playerDir.listFiles((dir, name) -> name.endsWith(".save"));
+
+			for (File saveFile : saveFiles) {
+				try {
+					FileInputStream fileIn = new FileInputStream(saveFile);
+					ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+
+					Game game = (Game) objectIn.readObject();
+					objectIn.close();
+
+					savedGames.add(new SaveSession(game));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		return savedGames;
+	}
+
+
 	public static void deleteTestSavefile(String saveId, String playerId) {
 		File file = new File(saveDir.resolve(playerId).resolve(saveId + ".save").toString());
 		file.delete();
