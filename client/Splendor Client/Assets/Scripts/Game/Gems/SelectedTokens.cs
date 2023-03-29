@@ -102,6 +102,15 @@ public class SelectedTokens : MonoBehaviour
         }
         return false;
     }
+
+    public bool CheckReturnAmount() {
+        long selectTotal = getTotalNum();
+        long ownTotal = playerControl.client.GetTokenBank().GetTotalAmount();
+        if (selectTotal == ownTotal - 10) {
+            return true;
+        }
+        return false;
+    }
     // Start is called before the first frame update
     /*void Start()
     {
