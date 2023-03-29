@@ -17,6 +17,7 @@ public class PlayerControl : MonoBehaviour {
     [SerializeField] private TokenBank tokenBank;
     [SerializeField] private SelectedTokens selectedTokens;
     [SerializeField] private GameObject takeTokensButton;
+    [SerializeField] private ReturnTokenPanel returnTokenPanel;
 
     public Text errorText;
 
@@ -41,7 +42,7 @@ public class PlayerControl : MonoBehaviour {
    
     [SerializeField] private ActionManager actionManager;
     public ActiveSession currSession;
-    public bool inOrientMenu, sacrificeMade, inNobleMenu, selectReserve;
+    public bool inOrientMenu, sacrificeMade, inNobleMenu, selectReserve, inTokenMenu;
 
     [SerializeField] ObjectPool effectPool;
 
@@ -538,6 +539,11 @@ public class PlayerControl : MonoBehaviour {
         });
     }
 
+    public void returnTokenAction() {
+
+        returnTokenPanel.TurnOffDisplay();
+    }
+
 
     public void setReserveToTrue(){
         selectReserve = true;
@@ -568,12 +574,7 @@ public class PlayerControl : MonoBehaviour {
     }
 
     public void EndTurn() // Player clicks "end turn"
-    {
-        //Check if player has impressed any noble
-        //If true, pop up claim noble panel
-        //Uncomment the following line to test functionality:
-        //claimNoblePanel.checkAvailNobles(allNobles);
-    }
+    {    }
 
     public void StartTurn() // Start of player's turn
     {

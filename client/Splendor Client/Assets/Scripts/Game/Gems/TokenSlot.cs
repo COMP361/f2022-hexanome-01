@@ -63,6 +63,36 @@ public class TokenSlot : MonoBehaviour
         }
     }
 
+    public void passToSelectRemove() {
+        bool active = false;
+        string tempColour = token.colour;
+        active = selectedTokens.removeOne(tempColour);
+        if (active) {
+            tokenBank.removeOne(tempColour);
+            confirm = selectedTokens.CheckReturnAmount();
+            if (confirm) {
+                takeTokenButton.SetActive(true);
+            } else {
+                takeTokenButton.SetActive(false);
+            }
+        }
+    }
+
+    public void passToWallet() {
+        bool active = false;
+        string tempColour = token.colour;
+        active = selectedTokens.addOne(tempColour);
+        if (active) {
+            tokenBank.addOne(tempColour);
+            confirm = selectedTokens.CheckReturnAmount();
+            if (confirm) {
+                takeTokenButton.SetActive(true);
+            } else {
+                takeTokenButton.SetActive(false);
+            }
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
