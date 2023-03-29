@@ -60,4 +60,13 @@ public class Condition {
         || genericGemCost <= inventory.getBonuses().checkAmount(Token.BLACK));
     }
   }
+
+  /**
+   * Getter for this condition's point requirement.
+   *
+   * @return point threshold
+   */
+  public int getPoints() {
+    return points;
+  }
 }
