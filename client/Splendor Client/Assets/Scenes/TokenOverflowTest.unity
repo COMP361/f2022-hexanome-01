@@ -12906,7 +12906,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ca7456fcd8ed4914b039412b910fb51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scenePlayer: {fileID: 0}
 --- !u!225 &1017150896
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -14706,7 +14705,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 489084173}
         m_TargetAssemblyTypeName: PlayerControl, Assembly-CSharp
-        m_MethodName: returnTokenAction
+        m_MethodName: confirmReturnToken
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

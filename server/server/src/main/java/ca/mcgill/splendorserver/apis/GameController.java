@@ -242,6 +242,51 @@ public class GameController {
   }
 
   /**
+   * Returns token.
+   *
+   * @param gameId the id of the game
+   * @param data   the game data of the return tokens action
+   * @return success flag
+   * @throws JsonProcessingException when JSON processing error occurs
+   */
+  @SuppressWarnings("unchecked")
+  @PostMapping("/api/action/{gameId}/returnTokens")
+  public ResponseEntity<String> returnTokens(@PathVariable String gameId,
+                                             @RequestBody JSONObject data)
+          throws JsonProcessingException {
+    try {
+      //check validity of request
+      String playerId = (String) data.get("playerId");
+      Game game = GameManager.getGame(gameId);
+      if (game == null) {
+        return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
+      }
+      if (!game.getCurrentPlayer().getUsername().equals(playerId)) {
+        return ResponseEntity.badRequest().body(playerNotTurn.toJSONString());
+      }
+
+      //perform returning the tokens
+      ArrayList<String> tokens = (ArrayList<String>) data.get("tokens");
+      Token[] tokensArray = new Token[tokens.size()];
+      for (int i = 0; i < tokensArray.length; i++) {
+        tokensArray[i] = Token.valueOfIgnoreCase((String) tokens.get(i));
+      }
+      boolean success = GameManager.returnTokens(game, playerId, tokensArray);
+      if (success) {
+        return ResponseEntity.ok().body(invalidAction.toJSONString());
+      }
+
+      JSONObject response = new JSONObject();
+      response.put("status", "success");
+      //return the result of taking the tokens
+      return ResponseEntity.ok(response.toJSONString());
+    } catch (Exception e) {
+      logger.error(e.getMessage());
+      return errorResponse(e.getMessage());
+    }
+  }
+
+  /**
    * Purchases a card.
    *
    * @param gameId the id of the game

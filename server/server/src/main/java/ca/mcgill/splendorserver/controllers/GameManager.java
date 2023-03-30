@@ -223,6 +223,28 @@ public class GameManager {
     }
   }
 
+  /**
+   * Action of return tokens
+   *
+   * @param game     the game in which the action takes place
+   * @param playerId the player returning the tokens
+   * @param tokens   the tokens to return
+   * @return whether the tokens are returned successfully
+   */
+  public static boolean returnTokens(Game game, String playerId, Token[] tokens) {
+    Board board = game.getBoard();
+    Inventory inventory = board.getInventory(playerId);
+
+    //try removing tokens from inventory
+    if (inventory.removeTokens(tokens)) {
+      //return overflow
+      board.getTokens().addAll(tokens);
+      return true;
+    } else { //if returning the tokens didn't go through
+      return false;
+    }
+  }
+
   private static boolean checkValidityTokens(Game game, String playerId, Token[] tokensArray) {
     //check that all given strings are valid tokens
     ArrayList<Token> tokens = new ArrayList<Token>();

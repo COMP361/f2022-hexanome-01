@@ -63,6 +63,7 @@ public class TokenSlot : MonoBehaviour
         }
     }
 
+    // Select token to be removed from the inventory
     public void passToSelectRemove() {
         bool active = false;
         string tempColour = token.colour;
@@ -78,6 +79,7 @@ public class TokenSlot : MonoBehaviour
         }
     }
 
+    // Unselect token to have it return to inventory
     public void passToWallet() {
         bool active = false;
         string tempColour = token.colour;
