@@ -14,6 +14,7 @@ import ca.mcgill.splendorserver.models.cards.Card;
 import ca.mcgill.splendorserver.models.cards.CardLevel;
 import ca.mcgill.splendorserver.models.cards.CardType;
 import ca.mcgill.splendorserver.models.communicationbeans.SessionData;
+import ca.mcgill.splendorserver.models.expansion.City;
 import ca.mcgill.splendorserver.models.expansion.ExtraToken;
 import ca.mcgill.splendorserver.models.expansion.FreeToken;
 import ca.mcgill.splendorserver.models.expansion.TradingPost;
@@ -418,10 +419,12 @@ public class GameManager {
 
   /**
    * Ends a game turn by updating the current player of a game.
+   * Checks for City and TradingPost unlocks.
    *
    * @param game the game where the turn is ending
+   * @return JSONObject of relevant info
    */
-  public static void endTurn(Game game) {
+  public static JSONObject endTurn(Game game) {
     Player currentPlayer = game.getCurrentPlayer();
 
     //if trading posts expansion enabled...
@@ -438,6 +441,22 @@ public class GameManager {
       for (int c : ((CitiesBoard) game.getBoard()).getCities()) {
         UnlockableRegistry.of(c).observe(currentPlayer);
       }
+      
+      //check if multiple city unlocks
+      JSONArray acquiredCities = new JSONArray();
+      for (Unlockable u : currentPlayer.getInventory().getUnlockables()) {
+        if (u instanceof City) {
+          acquiredCities.add(u.getId());
+        }
+      }
+      
+      //if multiple cities unlocked, give player choice
+      if (acquiredCities.size() > 1) {
+    	  JSONObject response = new JSONObject();
+          response.replace("action", "city");
+          response.replace("options", acquiredCities.toJSONString());
+          return response;
+      }
     }
 
     //for citites, if it becomes host's turn and someone has a city, end game
@@ -445,6 +464,18 @@ public class GameManager {
     //if multiple city owners, one with highest point worth city wins
     //if still tie (both vanilla and with expansions), player with fewest cards wins
 
+    //go to next players turn, check winner
+    changeTurn(game);
+    
+    return new JSONObject();
+  }
+  
+  /**
+   * Updates current player, checks for win.
+   *
+   * @param game the game where the turn is ending
+   */
+  public static void changeTurn(Game game) {
     game.nextPlayer(); //changes the current player to the next player
 
     //game.getBoard().setWinner("winner test");
