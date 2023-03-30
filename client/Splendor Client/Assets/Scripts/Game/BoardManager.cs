@@ -240,6 +240,8 @@ public class BoardManager : MonoBehaviour
             foreach (Player player in players)
             {
                 player.gameObject.SetActive(true);
+                //player.GetComponent<Dashboard>().SetActive(true);
+                //player.GetComponent<MultiplayerInfoPanel>().SetActive(true);
 
                 //display city slot if variant is cities
                 if (currentSession.name.Equals("cities"))
