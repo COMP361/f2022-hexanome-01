@@ -28,11 +28,12 @@ public class LobbyServiceSaveData {
    * Parametric constructor.
    *
    * @param game the game to save from which the required information will be extracted
+   * @param savegameid the id of the save
    */
-  public LobbyServiceSaveData(Game game) {
+  public LobbyServiceSaveData(Game game, String savegameid) {
     this.setGamename(game.getVariant());
-    this.setPlayers((String[]) game.playerIdSet().toArray());
-    this.setSavegameid(game.getId());
+    this.setPlayers(game.getPlayerIds());
+    this.setSavegameid(savegameid);
   }
 
   public String getGamename() {

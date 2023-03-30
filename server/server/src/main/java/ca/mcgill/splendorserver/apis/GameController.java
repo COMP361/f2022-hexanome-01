@@ -760,6 +760,7 @@ public class GameController {
    */
   @PostMapping("/api/action/{gameId}/save")
   public ResponseEntity<String> save(@PathVariable String gameId) {
+    System.out.println("Saving: " + gameId);
     JSONObject response = new JSONObject();
     //get the game to save
     Game game = gameManager.getGame(gameId);

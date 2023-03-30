@@ -2678,6 +2678,7 @@ MonoBehaviour:
   tokenBank: {fileID: 1493752223}
   selectedTokens: {fileID: 1191895568}
   takeTokensButton: {fileID: 377587216}
+  returnTokenPanel: {fileID: 0}
   errorText: {fileID: 388194041}
   allCards: {fileID: 911230083}
   selectedCard: {fileID: 0}
@@ -2695,6 +2696,7 @@ MonoBehaviour:
   sacrificeMade: 0
   inNobleMenu: 0
   selectReserve: 0
+  inTokenMenu: 0
   effectPool: {fileID: 2113461001}
 --- !u!114 &288864034
 MonoBehaviour:
@@ -5152,6 +5154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentSession: {fileID: 11400000, guid: ebdd36260b1a84a6e9083efa914a8d39, type: 2}
+  mainPlayer: {fileID: 11400000, guid: f0eaca2cb6e0e48a7b2fb69740473fb7, type: 2}
 --- !u!114 &551110251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5164,7 +5167,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ca7456fcd8ed4914b039412b910fb51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scenePlayer: {fileID: 11400000, guid: f0eaca2cb6e0e48a7b2fb69740473fb7, type: 2}
 --- !u!114 &551110252
 MonoBehaviour:
   m_ObjectHideFlags: 0

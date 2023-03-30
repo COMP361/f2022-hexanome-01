@@ -254,7 +254,7 @@ public class BoardManager : MonoBehaviour
                 tradingPostsDisplay.SetActive(true);
 
             //takes everyone to WinScene when there's a winner
-            Debug.Log((string)boardData["winner"]);
+            //Debug.Log((string)boardData["winner"]);
             if ((string)boardData["winner"] != null) {
                 winner.playerName = ((string)boardData["winner"]);
                 SceneManager.LoadScene("WinScene");

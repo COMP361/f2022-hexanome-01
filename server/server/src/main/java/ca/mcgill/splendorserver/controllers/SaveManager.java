@@ -68,7 +68,7 @@ public class SaveManager {
         return null;
       }
 
-      return new SaveSession(game);
+      return new SaveSession(game, saveId);
     } catch (Exception e) {
       e.printStackTrace();
       return null;
@@ -121,7 +121,7 @@ public class SaveManager {
           Game game = (Game) objectIn.readObject();
           objectIn.close();
 
-          savedGames.add(new SaveSession(game));
+          savedGames.add(new SaveSession(game, saveFile.getName().replace(".save", "")));
         } catch (Exception e) {
           e.printStackTrace();
         }
