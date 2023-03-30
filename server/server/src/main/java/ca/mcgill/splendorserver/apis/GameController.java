@@ -768,12 +768,11 @@ public class GameController {
       return ResponseEntity.ok(gameNotFound.toJSONString());
     }
     //save and get the savegameid of the save
-    String savegameid = saveManager.saveGame(game);
-    if (savegameid == null) {
+    boolean successfulSave = saveManager.saveGame(game);
+    if (!successfulSave) {
       return ResponseEntity.ok(saveException.toJSONString());
     }
     response.put("status", "success");
-    response.put("savegameid", savegameid);
     return ResponseEntity.ok().body(response.toJSONString());
   }
 }

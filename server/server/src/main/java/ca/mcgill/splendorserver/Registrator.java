@@ -81,7 +81,7 @@ public class Registrator {
       }
 
       // Register all saved games
-      registerAllSavedGames(accessToken);
+      registerAllSavedGames();
     } catch (UnirestException unirestException) {
       String errorMessage = "Failed to connect to Lobby Service";
       logger.error(errorMessage);
@@ -204,7 +204,7 @@ public class Registrator {
   /**
    * Registers all saved games to the lobby service.
    */
-  private void registerAllSavedGames(String accessToken) {
+  private void registerAllSavedGames() {
     List<SaveSession> savedGames = saveManager.getAllSavedGames();
 
     for (SaveSession saveSession : savedGames) {
@@ -212,7 +212,7 @@ public class Registrator {
       LobbyServiceSaveData saveData = new LobbyServiceSaveData(game, saveSession.getSavegameid());
 
       try {
-        registerSavedGameWithLobbyService(gameServiceName, saveData, accessToken);
+        registerSavedGameWithLobbyService(gameServiceName, saveData);
       } catch (UnirestException e) {
         logger.error("Failed to register saved game with id: " + game.getId(), e);
       }
@@ -221,15 +221,19 @@ public class Registrator {
 
   /**
    * Registers a saved game to the LS.
+   *
+   * @param gameservice the variant of the game
+   * @param saveData the save
+   * @throws UnirestException when things go wrong with the LS request
    */
-  private void registerSavedGameWithLobbyService(String gameservice, LobbyServiceSaveData saveData,
-                                                 String accessToken) throws UnirestException {
+  public void registerSavedGameWithLobbyService(String gameservice, LobbyServiceSaveData saveData)
+      throws UnirestException {
     String url = lobbyLocation + "/api/gameservices/" + gameservice + "/savegames/"
         + saveData.getSavegameid();
 
     HttpResponse<String> response = Unirest
         .put(url)
-        .header("Authorization", "Bearer " + accessToken)
+        .header("Authorization", "Bearer " + getAccessToken())
         .header("Content-Type", "application/json")
         .body(new Gson().toJson(saveData))
         .asString();
@@ -241,7 +245,7 @@ public class Registrator {
           + ". Response: " + response.getBody());
     }
 
-    logger.info("Successfully registered saved game with id: " + saveData.getGamename());
+    logger.info("Successfully registered saved game with id: " + saveData.getSavegameid());
   }
 
 

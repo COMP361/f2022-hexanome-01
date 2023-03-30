@@ -240,6 +240,7 @@ public class LSRequestManager : MonoBehaviour
         string url = "http://" + HOST + ":4242/api/gameservices/splendor/savegames"; //url for GET request
         if (hash != null) url += ("?hash=" + hash); //url for GET request
         UnityWebRequest request = UnityWebRequest.Get(url);
+        request.SetRequestHeader("Authorization", "Bearer " + mainPlayer.GetAccessToken());
         yield return request.SendWebRequest();
 
         if (request.responseCode == 200)
@@ -260,6 +261,8 @@ public class LSRequestManager : MonoBehaviour
             result(newHash, saves); //return save list
         }
         else if (request.responseCode == 408) result(null, null);
+        else
+            UnityEngine.Debug.Log("GET SAVES FAILED");
     }
 
     /// <summary>
