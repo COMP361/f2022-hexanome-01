@@ -452,10 +452,10 @@ public class GameManager {
       
       //if multiple cities unlocked, give player choice
       if (acquiredCities.size() > 1) {
-    	  JSONObject response = new JSONObject();
-          response.replace("action", "city");
-          response.replace("options", acquiredCities.toJSONString());
-          return response;
+        JSONObject response = new JSONObject();
+        response.replace("action", "city");
+        response.replace("options", acquiredCities.toJSONString());
+        return response;
       }
     }
 
