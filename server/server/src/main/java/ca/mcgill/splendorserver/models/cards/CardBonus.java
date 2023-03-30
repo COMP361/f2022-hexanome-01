@@ -1,8 +1,7 @@
 package ca.mcgill.splendorserver.models.cards;
 
-import java.io.Serializable;
-
 import ca.mcgill.splendorserver.models.Token;
+import java.io.Serializable;
 
 /**
  * Model class for bonuses from Splendor development cards.

@@ -102,11 +102,11 @@ public class GameManager {
     Board board = game.getBoard();
     Card card = CardRegistry.of(cardId);
     Inventory inventory = board.getInventory(playerId);
-    
+
     if (card.getType() == CardType.SACRIFICE) {
       return determineBody(card, board, inventory);
     }
-    
+
     int goldUsed = inventory.isCostAffordable(card.getCost());
 
     if (goldUsed == -1 || !acquireCard(card, board, inventory)) {
@@ -120,21 +120,21 @@ public class GameManager {
 
     return purchaseResults;
   }
-  
+
   /**
    * Creates the body for http responses.
    *
-   * @param card that was purchased/acquired.
-   * @param board of the game in question.
+   * @param card      that was purchased/acquired.
+   * @param board     of the game in question.
    * @param inventory of the player acquiring the card.
    * @return the JSONObject response containing the action being done, and choices for user.
    */
   @SuppressWarnings("unchecked")
-public static JSONObject determineBody(Card card, Board board, Inventory inventory) {
+  public static JSONObject determineBody(Card card, Board board, Inventory inventory) {
     JSONObject response = new JSONObject();
     response.put("action", "none");
     response.put("options", new JSONArray());
-    
+
     if (card.getType() != CardType.NONE) {
       if (card.getType() == CardType.SATCHEL || card.getType() == CardType.DOMINO1) {
         if (!checkValidPairing(inventory)) {
@@ -179,8 +179,8 @@ public static JSONObject determineBody(Card card, Board board, Inventory invento
     int pickedUp = cards.draw(card);
     if (pickedUp != card.getId() && !inventory.getReservedCards().contains(card)) {
       return false;
-    } 
-    
+    }
+
     if (inventory.getReservedCards().contains(card)) {
       inventory.getReservedCards().remove(card);
     }
@@ -192,13 +192,13 @@ public static JSONObject determineBody(Card card, Board board, Inventory invento
   /**
    * Action of taking tokens.
    *
-   * @param game the game in which the action takes place
+   * @param game     the game in which the action takes place
    * @param playerId the player taking the tokens
-   * @param tokens the tokens to take
+   * @param tokens   the tokens to take
    * @return a JSONObject of the player's token overflow following taking tokens (max 10)
    */
   @SuppressWarnings("unchecked")
-public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) {
+  public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) {
     Board board = game.getBoard();
     Inventory inventory = board.getInventory(playerId);
     JSONObject takeTokensResult = new JSONObject();
@@ -212,7 +212,7 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
     if (inventory.addTokens(tokens)) {
       //return overflow
       board.getTokens().removeAll(tokens);
-      
+
       int overflow = inventory.getTokens().checkOverflow();
       takeTokensResult.put("tokenOverflow", overflow <= 40 ? overflow : 0);
       return takeTokensResult;
@@ -235,10 +235,10 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
     if (game.getVariant().equals("tradingposts")) {
       ArrayList<Unlockable> unlockables = board.getInventory(playerId).getUnlockables();
       for (Unlockable u : unlockables) {
-        if (u instanceof TradingPost && ((TradingPost) u).getAction() instanceof FreeToken) { 
+        if (u instanceof TradingPost && ((TradingPost) u).getAction() instanceof FreeToken) {
           tradingPostA = true;
         } else if (u instanceof TradingPost
-                && ((TradingPost) u).getAction() instanceof ExtraToken) { 
+            && ((TradingPost) u).getAction() instanceof ExtraToken) {
           tradingPostB = true;
         }
       }
@@ -317,15 +317,15 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
    * It makes sure that the player is part of the game
    * they requested from.
    *
-   * @param game the game that its being played
+   * @param game     the game that its being played
    * @param playerId id of the player taking the action
-   * @param source the data receive from the request
-   * @param cardId the card being reserved
-   * @param deckId id of deck the card came from (if any)
+   * @param source   the data receive from the request
+   * @param cardId   the card being reserved
+   * @param deckId   id of deck the card came from (if any)
    * @return true or false depending if the player can or cannot reserve card
    */
-  public static boolean reserveCard(Game game, String playerId, 
-      String source, int cardId, String deckId) {
+  public static boolean reserveCard(Game game, String playerId,
+                                    String source, int cardId, String deckId) {
 
     Board board = game.getBoard();
     Inventory inventory = board.getInventory(playerId);
@@ -359,7 +359,7 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
   /**
    * Adds a gold token to a player's inventory when reserving a card.
    *
-   * @param game the game where this is occurring
+   * @param game     the game where this is occurring
    * @param playerId the player reserving a card
    * @return whether it was successful
    */
@@ -389,7 +389,7 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
   /**
    * Adds a card to a players inventory. does not pay for the card.
    *
-   * @param noble      the noble the player wishes to acquire.
+   * @param noble     the noble the player wishes to acquire.
    * @param board     the board on which the card resides.
    * @param inventory the inventory we wish to add the card to.
    * @return whether the acquisition was successful.
@@ -402,7 +402,7 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
     if (!nobles.contains(noble.getId()) && !inventory.getReservedNobles().contains(noble)) {
       return false;
     }
-    if (inventory.getReservedNobles().contains(noble))  {
+    if (inventory.getReservedNobles().contains(noble)) {
       inventory.getNobles().add(noble);
       inventory.getReservedNobles().remove(noble);
       return true;
@@ -414,15 +414,15 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
     }
     return false;
   }
-  
+
   /**
    * Ends a game turn by updating the current player of a game.
    *
    * @param game the game where the turn is ending
    */
-  public static void endTurn(Game game) {    
+  public static void endTurn(Game game) {
     Player currentPlayer = game.getCurrentPlayer();
-    
+
     //if trading posts expansion enabled...
     if (game.getVariant().equals("tradingposts")) {
       for (Unlockable u : UnlockableRegistry.getTradingPosts()) {
@@ -438,12 +438,12 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
         UnlockableRegistry.of(c).observe(currentPlayer);
       }
     }
-    
+
     //for citites, if it becomes host's turn and someone has a city, end game
     //player with city wins
     //if multiple city owners, one with highest point worth city wins
     //if still tie (both vanilla and with expansions), player with fewest cards wins
-    
+
     game.nextPlayer(); //changes the current player to the next player
 
     //game.getBoard().setWinner("winner test");
@@ -454,12 +454,12 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
       String temp = game.checkWinState();
       if (temp != null) {
         game.setWinner(temp);
-        game.getBoard().setWinner(game.getWinner()); 
+        game.getBoard().setWinner(game.getWinner());
       }
     }
   }
 
-  
+
   /**
    * Checks to see if player gets free token after a purchase.
    *
@@ -475,12 +475,12 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
     return false;
   }
 
-  
+
   /**
    * Checks to see which nobles the player has impressed.
    *
    * @param inventory of the player
-   * @param board of the current game
+   * @param board     of the current game
    * @return JSONArray of noble ids
    */
   public static JSONArray checkImpressedNobles(Inventory inventory, Board board) {
@@ -495,7 +495,7 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
     }
     return noblesVisiting;
   }
-  
+
   /**
    * Checks to see if player can correctly pair a satchel card.
    *
@@ -503,14 +503,14 @@ public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) 
    * @return boolean of if they can pair it
    */
   public static boolean checkValidPairing(Inventory inventory) {
-      boolean valid = false;
-      for (int i = 0; i < inventory.getCards().size(); i++) {
-        if (inventory.getCards().get(i).getBonus().getType() != null
-            && inventory.getCards().get(i).getBonus().getType() != Token.GOLD) {
-          valid = true;
-          break;
-        }
+    boolean valid = false;
+    for (int i = 0; i < inventory.getCards().size(); i++) {
+      if (inventory.getCards().get(i).getBonus().getType() != null
+          && inventory.getCards().get(i).getBonus().getType() != Token.GOLD) {
+        valid = true;
+        break;
       }
-      return valid;
+    }
+    return valid;
   }
 }

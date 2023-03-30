@@ -1,8 +1,7 @@
 package ca.mcgill.splendorserver.models;
 
-import java.io.Serializable;
-
 import ca.mcgill.splendorserver.models.cards.Card;
+import java.io.Serializable;
 
 /**
  * Model class for a Splendor player.
@@ -34,7 +33,7 @@ public class Player implements Serializable {
   public Inventory getInventory() {
     return inventory;
   }
-  
+
   /**
    * Getter for trading post C status.
    *
@@ -43,7 +42,7 @@ public class Player implements Serializable {
   public boolean getDoubleGold() {
     return doubleGold;
   }
-  
+
   /**
    * Setter for trading post C status.
    *
@@ -59,7 +58,7 @@ public class Player implements Serializable {
    * @param card the card to add
    */
   public void acquireCard(Card card) {
-	lastAcquired = card;
+    lastAcquired = card;
     inventory.addCard(card);
   }
 

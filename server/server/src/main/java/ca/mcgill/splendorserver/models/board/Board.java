@@ -42,7 +42,7 @@ public class Board implements Serializable {
     this.currentPlayer = creator;
     this.host = creator;
   }
-  
+
   public void setCurrentPlayer(String player) {
     currentPlayer = player;
   }
@@ -114,9 +114,13 @@ public class Board implements Serializable {
     this.cards = cards;
   }
 
-  public String getHost() { return host; }
+  public String getHost() {
+    return host;
+  }
 
-  public void setWinner(String winner) { this.winner = winner; }
+  public void setWinner(String winner) {
+    this.winner = winner;
+  }
 
 
 }

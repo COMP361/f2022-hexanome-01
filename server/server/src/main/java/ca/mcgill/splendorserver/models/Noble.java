@@ -1,7 +1,6 @@
 package ca.mcgill.splendorserver.models;
 
 import ca.mcgill.splendorserver.models.board.TokenBank;
-
 import java.io.Serializable;
 import java.util.HashMap;
 import org.json.simple.JSONObject;

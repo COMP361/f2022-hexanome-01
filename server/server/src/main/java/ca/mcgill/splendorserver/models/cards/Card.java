@@ -1,7 +1,6 @@
 package ca.mcgill.splendorserver.models.cards;
 
 import ca.mcgill.splendorserver.models.Token;
-
 import java.io.Serializable;
 import java.util.HashMap;
 import org.json.simple.JSONObject;

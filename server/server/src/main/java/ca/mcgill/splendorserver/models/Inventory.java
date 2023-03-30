@@ -6,7 +6,6 @@ import ca.mcgill.splendorserver.models.expansion.City;
 import ca.mcgill.splendorserver.models.expansion.DoubleGold;
 import ca.mcgill.splendorserver.models.expansion.TradingPost;
 import ca.mcgill.splendorserver.models.expansion.Unlockable;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -166,7 +165,7 @@ public class Inventory implements Serializable {
   /**
    * Pay for a card using player's tokens/discounts.
    *
-   * @param card the card to pay for.
+   * @param card     the card to pay for.
    * @param goldUsed the gold the player wishes to use
    * @return the tokens used to pay for the card.
    */
@@ -215,20 +214,20 @@ public class Inventory implements Serializable {
       TokenBank bonuses = getBonuses();
       int tokenAmount = tokens.checkAmount(token);
       int tokenCost = Math.max(0, cost.get(token) - bonuses.checkAmount(token));
-      
+
       if (tokenAmount < tokenCost) { //if insufficient funds
         int goldAvailable = tokens.checkAmount(Token.GOLD) - goldUsed;
         boolean doubleGold = false;
         for (Unlockable u : unlockables) { //check for trading post
-          if (u instanceof TradingPost 
-                && ((TradingPost) u).getAction() instanceof DoubleGold) {
+          if (u instanceof TradingPost
+              && ((TradingPost) u).getAction() instanceof DoubleGold) {
             doubleGold = true;
             break;
           }
         }
-        
+
         int goldNeeded = doubleGold ? (tokenCost - tokenAmount) / 2 : tokenCost - tokenAmount;
-        if (goldNeeded > goldAvailable 
+        if (goldNeeded > goldAvailable
             + getBonuses().checkAmount(Token.GOLD) + leftOver - cardsUsed * 2) {
           return -1;
         } else if (goldNeeded > goldAvailable + leftOver) {
@@ -236,11 +235,11 @@ public class Inventory implements Serializable {
           cardsUsed += (int) ((((double) remaining) / 2) + 0.5);
           leftOver = remaining % 2;
           goldNeeded = goldNeeded - remaining; //adjust needed goldTokens by removing goldCards
-        } 
+        }
         goldUsed += goldNeeded;
       }
     }
-    
+
     while (cardsUsed > 0) {
       for (int i = 0; i < cards.size(); i++) {
         if (cards.get(i).getBonus().getType() == Token.GOLD) {
@@ -286,7 +285,7 @@ public class Inventory implements Serializable {
     TokenBank bonuses = new TokenBank();
     for (Card card : cards) {
       if (card.getBonus().getType() != null) {
-        bonuses.addRepeated(card.getBonus().getType(), 
+        bonuses.addRepeated(card.getBonus().getType(),
             card.getBonus().getAmount() + card.getSatchelCount());
       }
     }
@@ -422,7 +421,7 @@ public class Inventory implements Serializable {
       if (u instanceof City) {
         return (City) u;
       }
-	}
-	return null;
+    }
+    return null;
   }
 }

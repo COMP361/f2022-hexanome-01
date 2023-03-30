@@ -1,11 +1,9 @@
 package ca.mcgill.splendorserver.models.expansion;
 
-import java.io.Serializable;
-
-import org.json.simple.JSONObject;
-
 import ca.mcgill.splendorserver.apis.JsonHandler;
 import ca.mcgill.splendorserver.models.Player;
+import java.io.Serializable;
+import org.json.simple.JSONObject;
 
 /**
  * Model class for trading post from Splendor trading post extension.
