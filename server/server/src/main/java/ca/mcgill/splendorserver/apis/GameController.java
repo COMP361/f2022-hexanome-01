@@ -8,14 +8,18 @@ import ca.mcgill.splendorserver.models.Inventory;
 import ca.mcgill.splendorserver.models.Noble;
 import ca.mcgill.splendorserver.models.Token;
 import ca.mcgill.splendorserver.models.board.Board;
+import ca.mcgill.splendorserver.models.board.CitiesBoard;
 import ca.mcgill.splendorserver.models.cards.Card;
 import ca.mcgill.splendorserver.models.cards.CardType;
 import ca.mcgill.splendorserver.models.communicationbeans.SessionData;
+import ca.mcgill.splendorserver.models.expansion.City;
 import ca.mcgill.splendorserver.models.expansion.FreeToken;
 import ca.mcgill.splendorserver.models.expansion.TradingPost;
 import ca.mcgill.splendorserver.models.expansion.Unlockable;
 import ca.mcgill.splendorserver.models.registries.CardRegistry;
 import ca.mcgill.splendorserver.models.registries.NobleRegistry;
+import ca.mcgill.splendorserver.models.registries.UnlockableRegistry;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -572,10 +576,10 @@ public class GameController {
   }
 
   /**
-   * Ends turn.
+   * Ends turn, or returns city choices if multiple cities are unlocked.
    *
    * @param gameId the id of the game
-   * @return success flag
+   * @return success flag or list of cities
    * @throws JsonProcessingException when JSON processing error occurs
    */
   @SuppressWarnings("unchecked")
@@ -588,9 +592,7 @@ public class GameController {
         return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
       }
       
-      GameManager.endTurn(game);
-      
-      JSONObject response = new JSONObject();
+      JSONObject response = GameManager.endTurn(game);
       response.put("status", "success");
       
       return ResponseEntity.ok().body(response.toJSONString());
@@ -631,6 +633,47 @@ public class GameController {
       return ResponseEntity.ok(HttpStatus.OK);
     } catch (Exception e) {
       return ResponseEntity.status(500).body(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+  
+  /**
+   * Sets chosen city for current player, then ends turn.
+   *
+   * @param gameId the id of the game
+   * @return success flag
+   * @throws JsonProcessingException when JSON processing error occurs
+   */
+  @SuppressWarnings("unchecked")
+  @PostMapping("/api/action/{gameId}/chooseCity")
+  public ResponseEntity<String> chooseCity(@PathVariable String gameId,
+                                           @RequestBody JSONObject data)
+      throws JsonProcessingException {
+    try {
+      Game game = GameManager.getGame(gameId);
+      if (game == null) {
+        return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
+      }
+      
+      int cityId = (int) data.get("cityId");
+      for (int i : ((CitiesBoard) game.getBoard()).getCities()) {
+        if (i == cityId) { 
+           UnlockableRegistry.of(cityId).observe(game.getCurrentPlayer());
+        }
+      }
+      
+      if (!game.getCurrentPlayer().getInventory().containsCity()) {
+        return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
+      }
+      
+      GameManager.changeTurn(game);
+      
+      JSONObject response = new JSONObject(); 
+      response.put("status", "success");
+      
+      return ResponseEntity.ok().body(response.toJSONString());
+    } catch (Exception e) {
+      logger.error(e.getStackTrace().toString());
+      return errorResponse(e.getMessage());
     }
   }
   
