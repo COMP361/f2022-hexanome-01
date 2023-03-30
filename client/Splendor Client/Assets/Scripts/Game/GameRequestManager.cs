@@ -21,7 +21,6 @@ public class GameRequestManager : MonoBehaviour
         if (hash != null) url += ("?hash=" + hash); //url for GET request
         UnityWebRequest request = UnityWebRequest.Get(url);
         yield return request.SendWebRequest();
-        // Debug.Log(request.downloadHandler.text);
 
         if (request.responseCode == 200)
         {
@@ -42,7 +41,7 @@ public class GameRequestManager : MonoBehaviour
         }
     }
 
-    public static IEnumerator SaveGame(string gamename, List<string> players, string savegameid)
+    public static IEnumerator SaveGameLS(string gamename, List<string> players, string savegameid)
     {
         //set up PUT request body
         JSONObject body = new JSONObject(new Dictionary<string, string>());
@@ -69,5 +68,24 @@ public class GameRequestManager : MonoBehaviour
         //{
         //    UnityEngine.Debug.Log("ERROR: GAME NOT SAVED");
         //}
+    }
+
+    public static IEnumerator SaveGameServer(string gameid, Action<string> result)
+    {
+        string url = "http://" + HOST + ":4244/splendor/api/games/" + id + "/save"; //url for POST request
+        UnityWebRequest request = UnityWebRequest.Post(url, "body"); //body of POST cannot be empty
+        yield return request.SendWebRequest();
+
+        if (auth.result == UnityWebRequest.Result.Success)
+        {
+            JSONObject json = (JSONObject)JSONHandler.DecodeJsonRequest(request.downloadHandler.text);
+            result((string)json["savegameid"]);
+        }
+        else
+        {
+            //TO BE WARNED IF THE REQUEST WAS NOT SUCCESSFUL, UNCOMMENT THE FOLLOWING LINES
+            //UnityEngine.Debug.Log(result((string)json["message"]));
+            result(null);
+        }
     }
 }

@@ -9,10 +9,13 @@ public class GameMenuManager : MonoBehaviour
 
     public void OnSaveClick()
     {
-        //TO DO: replace savegameid with response from server
-        //(send request to save to server and get back savegameid)
-        string savegameid = "";
-        StartCoroutine(GameRequestManager.SaveGame(currentSession.name, currentSession.players, savegameid));
+        StartCoroutine(GameRequestManager.SaveGameServer(currentSession.id, (string savegameid) =>
+        {
+            if (savegameid != null)
+            {
+                StartCoroutine(GameRequestManager.SaveGameLS(currentSession.name, currentSession.players, savegameid));
+            }
+        }));
     }
 
     public void OnExitClick()
