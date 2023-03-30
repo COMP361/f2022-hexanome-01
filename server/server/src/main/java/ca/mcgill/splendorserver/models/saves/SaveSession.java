@@ -1,6 +1,7 @@
 package ca.mcgill.splendorserver.models.saves;
 
 import ca.mcgill.splendorserver.models.Game;
+import java.util.Arrays;
 import java.util.Set;
 
 /**
@@ -9,19 +10,31 @@ import java.util.Set;
 public class SaveSession {
 
   private Game game;
-  private Set<String> playersRequired;
+  private String[] playersRequired;
+  private String savegameid;
 
-  public SaveSession(Game game) {
+  /**
+   * Parameterized constructor.
+   *
+   * @param game the game to save
+   * @param savegameid the id of the save
+   */
+  public SaveSession(Game game, String savegameid) {
     this.game = game;
-    playersRequired = game.playerIdSet();
+    playersRequired = game.getPlayerIds();
+    this.savegameid = savegameid;
   }
 
   public boolean isValidLaunch(String variant, String[] players) {
-    return variant.equals(game.getVariant()) && Set.of(players).equals(playersRequired);
+    return variant.equals(game.getVariant()) && Arrays.equals(players, playersRequired);
   }
 
   public Game getGame() {
     return game;
+  }
+
+  public String getSavegameid() {
+    return savegameid;
   }
 
 }

@@ -47,6 +47,7 @@ public class GameManager {
    *
    * @param gameId  the unique id of the game
    * @param session the data about the session
+   * @return whether the game was successfully launched
    */
   public static boolean launchGame(String gameId, SessionData session) {
     String saveId = session.getSavegame();

@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameMenuManager : MonoBehaviour
 {
     [SerializeField] private ActiveSession currentSession;
+    [SerializeField] private Authentication mainPlayer;
 
     public void OnSaveClick()
     {
@@ -13,7 +14,8 @@ public class GameMenuManager : MonoBehaviour
         {
             if (savegameid != null)
             {
-                StartCoroutine(GameRequestManager.SaveGameLS(currentSession.name, currentSession.players, savegameid));
+                StartCoroutine(GameRequestManager.SaveGameLS(currentSession.name, mainPlayer.GetAccessToken(), 
+                    currentSession.players, savegameid));
             }
         }));
     }
@@ -29,8 +31,14 @@ public class GameMenuManager : MonoBehaviour
     }
 
     IEnumerator saveAndExitRoutine(){
-        string savegameid = "";
-        yield return StartCoroutine(GameRequestManager.SaveGame(currentSession.name, currentSession.players, savegameid));
+        yield return StartCoroutine(GameRequestManager.SaveGameServer(currentSession.id, (string savegameid) =>
+        {
+            if (savegameid != null)
+            {
+                StartCoroutine(GameRequestManager.SaveGameLS(currentSession.name, mainPlayer.GetAccessToken(), 
+                    currentSession.players, savegameid));
+            }
+        }));
         Debug.Log("saved game");
         yield return StartCoroutine(LSRequestManager.DeleteSession(currentSession.id));
         SceneManager.LoadScene(1);

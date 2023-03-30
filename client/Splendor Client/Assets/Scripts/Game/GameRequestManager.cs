@@ -9,12 +9,6 @@ using UnityEngine.Networking;
 public class GameRequestManager : MonoBehaviour
 {
     private static string HOST = Environment.GetEnvironmentVariable("SPLENDOR_HOST_IP");
-    [SerializeField] private Authentication scenePlayer;
-    private static Authentication mainPlayer;
-
-    private void Start() {
-        mainPlayer = scenePlayer;    
-    }
 
     public static IEnumerator GetBoard(string id, string hash, Action<string, JSONObject> result) {
         string url = "http://" + HOST + ":4244/splendor/api/games/" + id + "/board"; //url for GET request
@@ -41,50 +35,59 @@ public class GameRequestManager : MonoBehaviour
         }
     }
 
-    public static IEnumerator SaveGameLS(string gamename, List<string> players, string savegameid)
+    public static IEnumerator SaveGameLS(string gamename, String accessToken, List<string> players, string savegameid)
     {
         //set up PUT request body
-        JSONObject body = new JSONObject(new Dictionary<string, string>());
+        JSONObject body = new JSONObject(new Dictionary<string, object>());
         body.Add("gamename", gamename);
         
         JSONArray playersJson = new JSONArray();
         foreach (string player in players)
             playersJson.Add(player);
-        body.Add("players", playersJson.ToJSONString());
+        body.Add("players", playersJson);
 
         body.Add("savegameid", savegameid);
 
         string url = "http://" + HOST + ":4242/api/gameservices/" + gamename + "/savegames/" + savegameid; //url for PUT request
         UnityWebRequest add = new UnityWebRequest(url);
         add.method = "PUT";
-        add.SetRequestHeader("Authorization", "Bearer " + mainPlayer.GetAccessToken());
+        add.SetRequestHeader("Authorization", "Bearer " + accessToken);
         add.SetRequestHeader("Content-Type", "application/json");
         add.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(body.ToJSONString()));
         add.downloadHandler = new DownloadHandlerBuffer();
         yield return add.SendWebRequest();
 
         //TO BE WARNED IF THE REQUEST WAS NOT SUCCESSFUL, UNCOMMENT THE FOLLOWING LINES
-        //if (add.result != UnityWebRequest.Result.Success)
-        //{
-        //    UnityEngine.Debug.Log("ERROR: GAME NOT SAVED");
-        //}
+        if (add.result != UnityWebRequest.Result.Success)
+        {
+            UnityEngine.Debug.Log("ERROR: GAME NOT SAVED");
+            UnityEngine.Debug.Log(add.result);
+        }
+        else
+        {
+            UnityEngine.Debug.Log("LS save success");
+        }
     }
 
     public static IEnumerator SaveGameServer(string gameid, Action<string> result)
     {
-        string url = "http://" + HOST + ":4244/splendor/api/games/" + id + "/save"; //url for POST request
+        string url = "http://" + HOST + ":4244/splendor/api/action/" + gameid + "/save"; //url for POST request
         UnityWebRequest request = UnityWebRequest.Post(url, "body"); //body of POST cannot be empty
         yield return request.SendWebRequest();
 
-        if (auth.result == UnityWebRequest.Result.Success)
+        if (request.result == UnityWebRequest.Result.Success)
         {
             JSONObject json = (JSONObject)JSONHandler.DecodeJsonRequest(request.downloadHandler.text);
-            result((string)json["savegameid"]);
+            UnityEngine.Debug.Log("Server save: " + (string)json["status"]);
+            if (((string)json["status"]).Equals("success"))
+                result((string)json["savegameid"]);
+            else
+                result(null);
         }
         else
         {
             //TO BE WARNED IF THE REQUEST WAS NOT SUCCESSFUL, UNCOMMENT THE FOLLOWING LINES
-            //UnityEngine.Debug.Log(result((string)json["message"]));
+            UnityEngine.Debug.Log("Server save fail");
             result(null);
         }
     }

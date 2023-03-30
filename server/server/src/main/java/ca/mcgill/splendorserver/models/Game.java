@@ -169,20 +169,19 @@ public class Game implements Serializable {
    * @return set of player ids.
    *
    */
-  public Set<String> playerIdSet() {
-    Set<String> set = new HashSet<String>();
-    for (Player player : getPlayers()) {
-      set.add(player.getUsername());
+  public String[] getPlayerIds() {
+    String[] playerIds = new String[players.length];
+    for (int i = 0; i < players.length; i++) {
+      playerIds[i] = players[i].getUsername();
     }
-    return set;
+    return playerIds;
   }
 
   
   /**
-   * checks if game has been won.
-
-   * 
+   * Checks if game has been won.
    *
+   * @return username of the winner if the game has been won, null if no winner yet
    */
   public String checkWinState() {
     int winPoints = 0;

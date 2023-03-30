@@ -209,7 +209,7 @@ public class Registrator {
 
     for (SaveSession saveSession : savedGames) {
       Game game = saveSession.getGame();
-      LobbyServiceSaveData saveData = new LobbyServiceSaveData(game);
+      LobbyServiceSaveData saveData = new LobbyServiceSaveData(game, saveSession.getSavegameid());
 
       try {
         registerSavedGameWithLobbyService(gameServiceName, saveData, accessToken);
@@ -235,8 +235,10 @@ public class Registrator {
         .asString();
 
     if (response.getStatus() != 200) {
-      logger.error("Failed to register saved game. Response: " + response.getBody());
-      throw new RuntimeException("Failed to register saved game. Response: " + response.getBody());
+      logger.error("Failed to register saved game: " + saveData.getSavegameid() + ". Response: "
+          + response.getBody());
+      throw new RuntimeException("Failed to register saved game: " + saveData.getSavegameid()
+          + ". Response: " + response.getBody());
     }
 
     logger.info("Successfully registered saved game with id: " + saveData.getGamename());
