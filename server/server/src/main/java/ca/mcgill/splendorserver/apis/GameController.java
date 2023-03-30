@@ -657,7 +657,7 @@ public class GameController {
       int cityId = (int) data.get("cityId");
       for (int i : ((CitiesBoard) game.getBoard()).getCities()) {
         if (i == cityId) { 
-           UnlockableRegistry.of(cityId).observe(game.getCurrentPlayer());
+          UnlockableRegistry.of(cityId).observe(game.getCurrentPlayer());
         }
       }
       
