@@ -55,6 +55,12 @@ public class Player : MonoBehaviour
         reservedCards = new List<Card>();
         acquiredNobles = new List<Noble>();
         reservedNobles = new List<Noble>();
+        Dashboard dashboard = this.GetComponent<Dashboard>();
+        if (dashboard != null){
+            dashboard.resetReservedCardDisplay();}
+        MultiplayerInfoPanel infoPanel = this.GetComponent<MultiplayerInfoPanel>();
+        if (infoPanel != null)
+            infoPanel.UpdateReservedCardsCount(0);
         // foreach (TradingPostSlot tradingPost in acquiredTradingPosts)
         // {
         //     tradingPost.gameObject.SetActive(false);
@@ -103,6 +109,10 @@ public class Player : MonoBehaviour
 
     public List<Card> GetAcquiredCards() {
         return acquiredCards;
+    }
+
+    public List<Card> GetReservedCards() {
+        return reservedCards;
     }
 
     public List<Noble> GetAcquiredNobles() {
