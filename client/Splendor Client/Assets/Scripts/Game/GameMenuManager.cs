@@ -10,14 +10,7 @@ public class GameMenuManager : MonoBehaviour
 
     public void OnSaveClick()
     {
-        StartCoroutine(GameRequestManager.SaveGameServer(currentSession.id, (string savegameid) =>
-        {
-            if (savegameid != null)
-            {
-                StartCoroutine(GameRequestManager.SaveGameLS(currentSession.name, mainPlayer.GetAccessToken(), 
-                    currentSession.players, savegameid));
-            }
-        }));
+        StartCoroutine(GameRequestManager.SaveGameServer(currentSession.id));
     }
 
     public void OnExitClick()
@@ -31,14 +24,7 @@ public class GameMenuManager : MonoBehaviour
     }
 
     IEnumerator saveAndExitRoutine(){
-        yield return StartCoroutine(GameRequestManager.SaveGameServer(currentSession.id, (string savegameid) =>
-        {
-            if (savegameid != null)
-            {
-                StartCoroutine(GameRequestManager.SaveGameLS(currentSession.name, mainPlayer.GetAccessToken(), 
-                    currentSession.players, savegameid));
-            }
-        }));
+        yield return StartCoroutine(GameRequestManager.SaveGameServer(currentSession.id));
         Debug.Log("saved game");
         yield return StartCoroutine(LSRequestManager.DeleteSession(currentSession.id));
         SceneManager.LoadScene(1);

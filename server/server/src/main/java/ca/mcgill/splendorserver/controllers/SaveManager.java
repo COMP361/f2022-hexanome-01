@@ -1,6 +1,8 @@
 package ca.mcgill.splendorserver.controllers;
 
+import ca.mcgill.splendorserver.Registrator;
 import ca.mcgill.splendorserver.models.Game;
+import ca.mcgill.splendorserver.models.saves.LobbyServiceSaveData;
 import ca.mcgill.splendorserver.models.saves.SaveSession;
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,6 +15,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -24,6 +27,9 @@ public class SaveManager {
   private static final Path saveDir =
       (Paths.get(System.getProperty("user.home"))).resolve("splendorsaves");
   private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
+
+  @Autowired
+  private static Registrator registrator;
 
   /**
    * Runs at server start up.
@@ -81,21 +87,25 @@ public class SaveManager {
    * @param game the game to save
    * @return the id of the save, or null if an exception was thrown
    */
-  public static String saveGame(Game game) {
+  public static boolean saveGame(Game game) {
     FileOutputStream fileOut;
     try {
       initPlayer(game.getCreatorId());
       LocalDateTime now = LocalDateTime.now();
       String saveId = game.getId() + "_" + dtf.format(now);
-      fileOut = new FileOutputStream(
-          saveDir.resolve(game.getCreatorId()).resolve(saveId + ".save").toString());
+      fileOut = new FileOutputStream(saveDir.resolve(
+          game.getCreatorId()).resolve(saveId + ".save").toString());
       ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
       objectOut.writeObject(game);
       objectOut.close();
-      return saveId;
+
+      registrator.registerSavedGameWithLobbyService(game.getVariant(),
+          new LobbyServiceSaveData(game, saveId));
+
+      return true;
     } catch (Exception e) {
       e.printStackTrace();
-      return null;
+      return false;
     }
   }
 

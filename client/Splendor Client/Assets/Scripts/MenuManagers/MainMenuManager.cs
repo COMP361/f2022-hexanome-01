@@ -73,11 +73,8 @@ public class MainMenuManager : MonoBehaviour {
         StartCoroutine(LSRequestManager.GetSaves(savesHash, (string hash, List<Save> saves) => {
 			if (hash != null) {            
 				if (saves != null && saves.Count > 0){
-                	List<Save> relevant = determineRelevant(saves);
-
-                	if (relevant != null && relevant.Count > 0) MakeSaves(relevant); //displays relevant saved games
-                	else ClearChildren(saveContent); //clear saved games display
-            	} else ClearChildren(saveContent); //clear saved games display
+                	MakeSaves(saves);
+                } else ClearChildren(saveContent); //clear saved games display
 				
 				savesHash = hash;
 				if (saveContent.activeInHierarchy) OnBaseLoadClick();
