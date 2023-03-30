@@ -3,7 +3,6 @@ package ca.mcgill.splendorserver.models.board;
 import ca.mcgill.splendorserver.models.cards.Card;
 import ca.mcgill.splendorserver.models.cards.CardLevel;
 import ca.mcgill.splendorserver.models.registries.CardRegistry;
-
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;

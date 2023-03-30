@@ -2,7 +2,6 @@ package ca.mcgill.splendorserver.models.board;
 
 import ca.mcgill.splendorserver.models.Player;
 import ca.mcgill.splendorserver.models.registries.UnlockableRegistry;
-
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Stack;

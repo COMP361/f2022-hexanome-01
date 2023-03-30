@@ -202,7 +202,7 @@ public class Registrator {
   }
 
   /**
-   * Registers all saved games to the lobby service
+   * Registers all saved games to the lobby service.
    */
   private void registerAllSavedGames(String accessToken) {
     List<SaveSession> savedGames = saveManager.getAllSavedGames();
@@ -222,15 +222,17 @@ public class Registrator {
   /**
    * Registers a saved game to the LS.
    */
-  private void registerSavedGameWithLobbyService(String gameservice, LobbyServiceSaveData saveData, String accessToken) throws UnirestException {
-    String url = lobbyLocation + "/api/gameservices/" + gameservice + "/savegames/" + saveData.getSavegameid();
+  private void registerSavedGameWithLobbyService(String gameservice, LobbyServiceSaveData saveData,
+                                                 String accessToken) throws UnirestException {
+    String url = lobbyLocation + "/api/gameservices/" + gameservice + "/savegames/"
+        + saveData.getSavegameid();
 
     HttpResponse<String> response = Unirest
-            .put(url)
-            .header("Authorization", "Bearer " + accessToken)
-            .header("Content-Type", "application/json")
-            .body(new Gson().toJson(saveData))
-            .asString();
+        .put(url)
+        .header("Authorization", "Bearer " + accessToken)
+        .header("Content-Type", "application/json")
+        .body(new Gson().toJson(saveData))
+        .asString();
 
     if (response.getStatus() != 200) {
       logger.error("Failed to register saved game. Response: " + response.getBody());
@@ -239,8 +241,6 @@ public class Registrator {
 
     logger.info("Successfully registered saved game with id: " + saveData.getGamename());
   }
-
-
 
 
 }

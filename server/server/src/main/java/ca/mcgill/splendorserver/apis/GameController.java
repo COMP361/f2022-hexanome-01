@@ -51,9 +51,12 @@ public class GameController {
   private JSONObject playerNotTurn;
   private JSONObject invalidAction;
   private JSONObject noUpdates;
+  private JSONObject saveException;
 
   @Autowired
   private GameManager gameManager;
+  @Autowired
+  private SaveManager saveManager;
 
   private ExecutorService threads = Executors.newFixedThreadPool(5);
 
@@ -80,6 +83,10 @@ public class GameController {
     noUpdates = new JSONObject();
     noUpdates.put("status", "timeout");
     noUpdates.put("message", "No new updates.");
+
+    saveException = new JSONObject();
+    saveException.put("status", "failure");
+    saveException.put("message", "Save threw an exception.");
 
     SaveManager.init();
   }
@@ -743,5 +750,29 @@ public class GameController {
       logger.error(e.getMessage());
       return errorResponse(e.getMessage());
     }
+  }
+
+  /**
+   * Saves a game with a specified gameId.
+   *
+   * @param gameId the id of the game to save
+   * @return the id of the save if successful, the error message otherwise
+   */
+  @PostMapping("/api/action/{gameId}/save")
+  public ResponseEntity<String> save(@PathVariable String gameId) {
+    JSONObject response = new JSONObject();
+    //get the game to save
+    Game game = gameManager.getGame(gameId);
+    if (game == null) {
+      return ResponseEntity.ok(gameNotFound.toJSONString());
+    }
+    //save and get the savegameid of the save
+    String savegameid = saveManager.saveGame(game);
+    if (savegameid == null) {
+      return ResponseEntity.ok(saveException.toJSONString());
+    }
+    response.put("status", "success");
+    response.put("savegameid", savegameid);
+    return ResponseEntity.ok().body(response.toJSONString());
   }
 }

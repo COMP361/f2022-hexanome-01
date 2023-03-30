@@ -3,7 +3,6 @@ package ca.mcgill.splendorserver.models.board;
 import ca.mcgill.splendorserver.models.Inventory;
 import ca.mcgill.splendorserver.models.Noble;
 import ca.mcgill.splendorserver.models.registries.NobleRegistry;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
