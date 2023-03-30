@@ -23,6 +23,7 @@ public class PlayerControl : MonoBehaviour {
 
     public AllCards allCards;
     public CardSlot selectedCard;
+    public Card selectedReserve;
     public CardSlot selectedCardToBuy;
     public CardSlot selectedCardToReserve;
 
@@ -192,7 +193,10 @@ public class PlayerControl : MonoBehaviour {
         Dictionary<string, object> requestDict = new Dictionary<string, object>();
         JSONObject selectedCardJson = new JSONObject(requestDict);
         selectedCardJson.Add("playerId", player.GetUsername());
-        selectedCardJson.Add("cardId", selectedCardToBuy.GetCard().GetId());
+        if (selectedReserve != null) {
+            selectedCardJson.Add("cardId", selectedCardToBuy.GetCard().GetId());
+        }
+        else {selectedCardJson.Add("cardId", selectedReserve.GetId());}
         Debug.Log(currSession);
         Debug.Log(selectedCardJson);
         actionManager.MakeApiRequest(currSession.id, selectedCardJson, ActionManager.ActionType.purchaseCard,ActionManager.RequestType.POST, (response) => {
@@ -565,6 +569,30 @@ public class PlayerControl : MonoBehaviour {
         
     }
 
+    public void buyReserve1() {
+        if (player.GetReservedCards().Count > 0 ) {
+            selectedReserve = player.GetReservedCards()[0];
+            purchaseOrReserve.SetActive(true);
+            purchaseOrReserve.transform.GetChild(1).gameObject.SetActive(false);
+        }
+    }
+
+    public void buyReserve2() {
+        if (player.GetReservedCards().Count > 1 ) {
+            selectedReserve = player.GetReservedCards()[1];
+            purchaseOrReserve.SetActive(true);
+            purchaseOrReserve.transform.GetChild(1).gameObject.SetActive(false);
+        }
+    }
+
+    public void buyReserve3() {
+        if (player.GetReservedCards().Count > 2 ) {
+            selectedReserve = player.GetReservedCards()[2];
+            purchaseOrReserve.SetActive(true);
+            purchaseOrReserve.transform.GetChild(1).gameObject.SetActive(false);
+        }
+    }
+
     public void selectNobleToClaim() {
         if (selectedNoble != null) {
             //Add noble to inventory
@@ -584,6 +612,7 @@ public class PlayerControl : MonoBehaviour {
         selectedCardToBuy = null;
         selectedCardToReserve = null;
         selectedNoble = null;
+        selectedReserve = null;
         purchaseOrReserve.SetActive(false);
     }
 
