@@ -193,7 +193,7 @@ public class PlayerControl : MonoBehaviour {
         Dictionary<string, object> requestDict = new Dictionary<string, object>();
         JSONObject selectedCardJson = new JSONObject(requestDict);
         selectedCardJson.Add("playerId", player.GetUsername());
-        if (selectedReserve != null) {
+        if (selectedReserve == null) {
             selectedCardJson.Add("cardId", selectedCardToBuy.GetCard().GetId());
         }
         else {selectedCardJson.Add("cardId", selectedReserve.GetId());}
