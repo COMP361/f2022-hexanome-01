@@ -86,6 +86,13 @@ public class Dashboard : MonoBehaviour
         }
     }
 
+    public void resetReservedCardDisplay(){
+        Sprite sprite = Resources.Load<Sprite>("game_reservedcard");
+        reserveCard1.sprite = sprite;
+        reserveCard2.sprite = sprite;
+        reserveCard3.sprite = sprite;
+    }
+
     public void UpdateReserveNobleDisplay(Sprite sprite, int index)
     {
         switch (index)
