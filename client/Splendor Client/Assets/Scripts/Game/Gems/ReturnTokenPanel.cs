@@ -11,10 +11,7 @@ public class ReturnTokenPanel : MonoBehaviour
     [SerializeField] private GameObject returnTokenPanel; // Menu make appear under condition after end turn/disappear after selection
     public bool needToReturn;
 
-    public void ReturnMenuStatus() {
-        playerControl.inTokenMenu = !playerControl.inTokenMenu;
-    }
-
+    // Will display this panel when the player has more than 10 tokens after: take tokens and reserve cards
     public void Display() {
         if (returnTokenPanel.activeInHierarchy) {
             returnTokenPanel.SetActive(false);

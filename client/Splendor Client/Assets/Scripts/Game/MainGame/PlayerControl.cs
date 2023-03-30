@@ -544,7 +544,30 @@ public class PlayerControl : MonoBehaviour {
     }
 
     public void returnTokenAction() {
+        // TODO
+        Dictionary<string, object> requestDict = new Dictionary<string, object>();
+        JSONObject chosenTokensJson = new JSONObject(requestDict);
+        chosenTokensJson.Add("playerId", player.GetUsername());
+        string[] tokenColours = selectedTokens.colours.Select(t => t.text).ToArray();
+        string[] tokenNums = selectedTokens.nums.Select(t => t.text).ToArray();
 
+        List<string> tokenList = new List<string>();
+
+        for (int i=0; i<3; i++) {
+            if (tokenColours[i].Equals("none") || tokenColours[i].Equals("New")) continue;
+            for (int mult=0; mult<Int16.Parse(tokenNums[i]); mult++) {
+                tokenList.Add(tokenColours[i]);
+            }
+        }
+
+        chosenTokensJson.Add("tokens", tokenList.ToArray());
+        actionManager.MakeApiRequest(currSession.id, chosenTokensJson, ActionManager.ActionType.returnTokens, ActionManager.RequestType.POST, (response) => {
+
+            // TODO
+        })
+    }
+
+    public void confirmReturnToken() {
         returnTokenPanel.TurnOffDisplay();
     }
 

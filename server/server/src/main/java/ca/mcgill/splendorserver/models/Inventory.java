@@ -111,6 +111,16 @@ public class Inventory implements Serializable {
   }
 
   /**
+   * Remove an array of tokens from the player's inventory.
+   *
+   * @param selectedTokens an array of String representing the colors of the tokens to remove
+   * @return whether the tokens were successfully removed
+   */
+  public boolean removeTokens(Token[] selectedTokens) {
+    return tokens.removeAll(selectedTokens);
+  }
+
+  /**
    * Add a card to the player's reserved cards,
    * assuming they haven't reached the limit of 3 reserved cards yet.
    *
