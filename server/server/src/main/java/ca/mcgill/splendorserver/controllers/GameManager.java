@@ -224,7 +224,7 @@ public class GameManager {
   }
 
   /**
-   * Action of return tokens
+   * Action of return tokens.
    *
    * @param game     the game in which the action takes place
    * @param playerId the player returning the tokens

@@ -18,6 +18,9 @@ public class PlayerControl : MonoBehaviour {
     [SerializeField] private SelectedTokens selectedTokens;
     [SerializeField] private GameObject takeTokensButton;
     [SerializeField] private ReturnTokenPanel returnTokenPanel;
+    [SerializeField] private GameObject returnTokenButton;
+
+    public long tokenOverflow;
 
     public Text errorText;
 
@@ -328,10 +331,11 @@ public class PlayerControl : MonoBehaviour {
                 };
 
                 long overFlowAmount = (long)response["tokenOverflow"];
+                tokenOverflow = overFlowAmount;
                 if(overFlowAmount == 0){
                     // Handle removal of selected tokens
                 }else{
-                    // Handle too many tokens
+                    returnTokenPanel.Display(overFlowAmount);
                 }
                 endTurnAction();
 
@@ -544,7 +548,6 @@ public class PlayerControl : MonoBehaviour {
     }
 
     public void returnTokenAction() {
-        // TODO
         Dictionary<string, object> requestDict = new Dictionary<string, object>();
         JSONObject chosenTokensJson = new JSONObject(requestDict);
         chosenTokensJson.Add("playerId", player.GetUsername());
@@ -563,12 +566,23 @@ public class PlayerControl : MonoBehaviour {
         chosenTokensJson.Add("tokens", tokenList.ToArray());
         actionManager.MakeApiRequest(currSession.id, chosenTokensJson, ActionManager.ActionType.returnTokens, ActionManager.RequestType.POST, (response) => {
 
-            // TODO
-        })
+            returnTokenButton.SetActive(false);
+            selectedTokens.reset(player.GetTokenBank());
+
+            if(response != null) {
+                string status = (string)response["status"];
+
+                if (status.Equals("failure")) {
+                    errorText.GetComponent<FadeOut>().ResetFade();
+                    return;
+                }
+            }
+        });
     }
 
     public void confirmReturnToken() {
         returnTokenPanel.TurnOffDisplay();
+        returnTokenAction();
     }
 
 
