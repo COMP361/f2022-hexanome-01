@@ -4,11 +4,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
-public class SelectedTokens : MonoBehaviour
+public class SelectedReturnTokens : MonoBehaviour
 {
     public List<Gem> sTokens = new List<Gem> ();
     private PlayerControl playerControl;
-    public GameObject takeTokenButton;
+    public GameObject returnTokenButton;
 
     //displayed selected tokens amount
     //Text colour1, colour2, colour3;
@@ -88,29 +88,13 @@ public class SelectedTokens : MonoBehaviour
         }
     }
 
-    public bool checkAmount(){
-        long total = getTotalNum();
-        if (total == 3){
+    public bool CheckReturnAmount() {
+        long selectTotal = getTotalNum();
+        if (selectTotal == playerControl.tokenOverflow) {
             return true;
-        }
-        else if (total == 2){
-            for (int i =0; i<3; i++){
-                if (sTokens[i].amount == 2){
-                    return true;}
-            }
-            return false;
         }
         return false;
     }
-
-    // public bool CheckReturnAmount() {
-    //     long selectTotal = getTotalNum();
-    //     long ownTotal = playerControl.client.GetTokenBank().GetTotalAmount();
-    //     if (selectTotal == ownTotal - 10) {
-    //         return true;
-    //     }
-    //     return false;
-    // }
     // Start is called before the first frame update
     /*void Start()
     {

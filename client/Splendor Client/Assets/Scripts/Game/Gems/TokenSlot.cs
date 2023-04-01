@@ -11,6 +11,7 @@ public class TokenSlot : MonoBehaviour
     public Text amount;
     public Image image;
     [SerializeField] private SelectedTokens selectedTokens;
+    [SerializeField] private SelectedReturnTokens selectedReturnTokens;
     [SerializeField] private TokenBank tokenBank;
     public GameObject takeTokenButton;
     private bool confirm;
@@ -70,7 +71,7 @@ public class TokenSlot : MonoBehaviour
         active = selectedTokens.removeOne(tempColour);
         if (active) {
             tokenBank.removeOne(tempColour);
-            confirm = selectedTokens.CheckReturnAmount();
+            confirm = selectedReturnTokens.CheckReturnAmount();
             if (confirm) {
                 takeTokenButton.SetActive(true);
             } else {
@@ -86,7 +87,7 @@ public class TokenSlot : MonoBehaviour
         active = selectedTokens.addOne(tempColour);
         if (active) {
             tokenBank.addOne(tempColour);
-            confirm = selectedTokens.CheckReturnAmount();
+            confirm = selectedReturnTokens.CheckReturnAmount();
             if (confirm) {
                 takeTokenButton.SetActive(true);
             } else {
