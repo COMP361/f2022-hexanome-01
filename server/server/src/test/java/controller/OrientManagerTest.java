@@ -36,6 +36,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
  */
 public class OrientManagerTest {
 
+	@SuppressWarnings("unchecked")
 	@Test
 	  public void requestResponseTestNormal() throws JsonProcessingException {
 		JSONObject invalidAction = new JSONObject();
@@ -136,6 +137,7 @@ public class OrientManagerTest {
 	    } catch (AssertionError e) { }
 	  }
 	
+	@SuppressWarnings("unchecked")
 	@Test
 	  public void requestResponseTestOrient() throws JsonProcessingException {
 		JSONObject invalidAction = new JSONObject();
@@ -293,7 +295,6 @@ public class OrientManagerTest {
 	    SessionData dummy = ControllerTestUtils.createDummySessionData();
 	    GameManager gameManager = new GameManager();
 	    gameManager.launchGame("TestGame", dummy);
-	    HashMap<String, Game> gameRegistry = gameManager.getGameRegistry();
 
 	    Inventory testInventory = new Inventory();
 	    testInventory.addCard(CardRegistry.of(1));
@@ -346,7 +347,6 @@ public class OrientManagerTest {
 	    for (int i : board.getCards().getRows().get(CardLevel.ORIENTLEVEL1)) {
 	    	list.add(i);
 	    }
-	    String cards = JSONArray.toJSONString(list);
 	    
 	    ArrayList<Integer> result1 = OrientManager.getDominoOptions(board, 1);
 	    assertEquals(list, result1);
@@ -386,7 +386,6 @@ public class OrientManagerTest {
 	    gameManager.launchGame("TestGame", dummy);
 	    HashMap<String, Game> gameRegistry = gameManager.getGameRegistry();
 
-	    Inventory testInventory = new Inventory();
 	    Game game = gameRegistry.get("TestGame");
 	    Board board = game.getBoard();
 	    ArrayList<Integer> list = new ArrayList<Integer>();
@@ -400,6 +399,7 @@ public class OrientManagerTest {
 	    assertEquals(nobles, options1);
 	  }
 	  
+	  @SuppressWarnings("unchecked")
 	  @Test
 	  public void sacrificeChoiceTest() throws JsonProcessingException {
 			JSONObject invalidAction = new JSONObject();
@@ -424,7 +424,7 @@ public class OrientManagerTest {
 		    request.put("cardId1", 4);
 		    request.put("cardId2", 5);
 		    request.put("originalId", 131);
-		    ResponseEntity<String> response = gc.sacrifice("TestGame", request);
+		    gc.sacrifice("TestGame", request);
 		    
 		    assertEquals(1, testInventory.getCards().size());
 		    assertEquals(131, testInventory.getCards().get(0).getId().intValue());
@@ -435,7 +435,7 @@ public class OrientManagerTest {
 		    request.replace("cardId1", 125);
 		    request.remove("cardId2");
 		    request.put("originalId", 131);
-		    response = gc.sacrifice("TestGame", request);
+		    gc.sacrifice("TestGame", request);
 		    
 		    assertEquals(2, testInventory.getCards().size());
 		    assertEquals(131, testInventory.getCards().get(1).getId().intValue());
@@ -446,12 +446,13 @@ public class OrientManagerTest {
 		    request.put("cardId2", 125);
 		    request.remove("cardId1");
 		    request.put("originalId", 131);
-		    response = gc.sacrifice("TestGame", request);
+		    gc.sacrifice("TestGame", request);
 		    
 		    assertEquals(3, testInventory.getCards().size());
 		    assertEquals(131, testInventory.getCards().get(2).getId().intValue());
 	  }
 	
+	  @SuppressWarnings("unchecked")
 	  @Test
 	  public void sacrificeActionTest() throws JsonProcessingException {
 			JSONObject invalidAction = new JSONObject();

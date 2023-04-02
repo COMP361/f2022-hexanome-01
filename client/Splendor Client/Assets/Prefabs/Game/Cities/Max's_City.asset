@@ -17,11 +17,11 @@ MonoBehaviour:
   effectType: 0
   acquired: 0
   condition:
-    red: 0
+    red: 5
     blue: 0
-    green: 0
+    green: 2
     white: 0
-    brown: 0
+    black: 5
     generic: 0
-    points: 0
+    points: 9
     nobleRequired: 0

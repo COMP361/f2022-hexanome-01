@@ -488,8 +488,8 @@ public class GameManager {
         }
             
         JSONObject response = new JSONObject();
-        response.replace("action", "city");
-        response.replace("options", acquiredCities.toJSONString());
+        response.put("action", "city");
+        response.put("options", acquiredCities.toJSONString());
         return response;
       }
     }
