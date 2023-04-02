@@ -14,9 +14,12 @@ import ca.mcgill.splendorserver.models.Noble;
 import ca.mcgill.splendorserver.models.Player;
 import ca.mcgill.splendorserver.models.Token;
 import ca.mcgill.splendorserver.models.communicationbeans.SessionData;
+import ca.mcgill.splendorserver.models.registries.CardRegistry;
 import ca.mcgill.splendorserver.models.registries.NobleRegistry;
+import ca.mcgill.splendorserver.models.registries.UnlockableRegistry;
 import ca.mcgill.splendorserver.models.board.Board;
 import ca.mcgill.splendorserver.models.board.CardBank;
+import ca.mcgill.splendorserver.models.board.CitiesBoard;
 import ca.mcgill.splendorserver.models.cards.Card;
 import ca.mcgill.splendorserver.models.cards.CardLevel;
 import java.util.HashMap;
@@ -64,7 +67,6 @@ public class GameManagerTest extends ControllerTestUtils {
     GameManager gameManager = new GameManager();
     gameManager.launchGame("TestGame", dummy);
     Game game = gameManager.getGame("TestGame");
-    JSONObject request = new JSONObject();
     Board board = game.getBoard();
     Inventory testInventory = board.getInventory("testCreator");
 
@@ -76,60 +78,8 @@ public class GameManagerTest extends ControllerTestUtils {
     OrientManager.reserveNoble(nobleToReserve, board, testInventory);
     assertEquals(nobleToReserve, testInventory.getReservedNobles().get(0));
   }
-
-  @Test
-  public void reserveCardTest() throws JsonProcessingException {
-    SessionData dummy = createDummySessionData();
-    GameManager gameManager = new GameManager();
-    gameManager.launchGame("TestGame", dummy);
-    Game game = gameManager.getGame("TestGame");
-    GameController gc = new GameController(gameManager);
-    CardBank cards = game.getBoard().getCards();
-    int cardId = cards.getRows().get(CardLevel.LEVEL1)[0];
-    
-    JSONObject request = new JSONObject();
-    request.put("cardId", cardId + "");
-    request.put("playerId", "testCreator");
-
-    //ResponseEntity<String> response = gc.reserveCardAction("TestGame", request);
-
-    boolean cardWasReserved = false;
-    for (Player player : game.getPlayers()) {
-      if (player.getUsername().equals("testPlayer")) {
-        for (Card card : player.getInventory().getReservedCards()) {
-          //if (card.getId() == reserveCardData.getCard()) {
-            //cardWasReserved = true;
-          //}
-        }
-      }
-    }
-    //assertTrue("Player didn't reserve card", cardWasReserved);
-    //assertTrue("Invalid Game", !gameManager.reserveCard("FakeGame", reserveCardData));
-    //game.getBoard().setCards(new CardBank());
-    //assertTrue("Empty Deck", !gameManager.reserveCard("TestGame", reserveCardData));
-  }
-
-  @Test
-  public void reserveCardFromDeck() {
-    SessionData dummy = createDummySessionData();
-    GameManager gameManager = new GameManager();
-    gameManager.launchGame("TestGame", dummy);
-    Game game = gameManager.getGame("TestGame");
-    String reserveCardData;
-	//gameManager.reserveCard("TestGame", reserveCardData);
-
-    boolean cardWasReserved = false;
-    for (Player player : game.getPlayers()) {
-      if (player.getUsername().equals("testPlayer")) {
-        System.out.println(player.getInventory().getReservedCards().size());
-        if (!player.getInventory().getReservedCards().isEmpty()) {
-          cardWasReserved = true;
-        }
-      }
-    }
-    //assertTrue(cardWasReserved);
-  }
   
+  @SuppressWarnings("unchecked")
   @Test
   public void freeTokensTest() throws JsonProcessingException {
 	    SessionData dummy = createDummySessionData();
@@ -139,10 +89,31 @@ public class GameManagerTest extends ControllerTestUtils {
 	    GameController gc = new GameController(gameManager);
 	    JSONObject data = new JSONObject();
 	    data.put("playerId", "testCreator");
-	    ResponseEntity<String> response = gc.freeTokens("TestGame", data);
+	    gc.freeTokens("TestGame", data);
 	    assertEquals(9999, game.getPlayers()[0].getInventory().getTokens().checkAmount(Token.RED));
   }
   
+  @SuppressWarnings("unchecked")
+  @Test
+  public void selectCityTest() throws JsonProcessingException {
+	    SessionData dummy = createDummyCities();
+	    GameManager gameManager = new GameManager();
+	    gameManager.launchGame("TestGame", dummy);
+	    Game game = gameManager.getGame("TestGame");
+	    GameController gc = new GameController(gameManager);
+	    JSONObject data = new JSONObject();
+	    data.put("playerId", "testCreator");
+	    data.put("cityId", ((CitiesBoard) game.getBoard()).getCities()[0]);
+	    game.getCurrentPlayer().getInventory().getUnlockables().add(UnlockableRegistry.of(((CitiesBoard) game.getBoard()).getCities()[0]));
+	     
+	    gc.chooseCity("TestGame", data);
+	    
+	    assertTrue("player has a city when it should have remvoed it", game.getCurrentPlayer().getInventory().getUnlockables().isEmpty());
+	    
+
+  }
+  
+  @SuppressWarnings("unchecked")
   @Test
   public void miscTest() {
 		JSONObject invalidAction = new JSONObject();
@@ -152,7 +123,6 @@ public class GameManagerTest extends ControllerTestUtils {
 	    SessionData dummy = createDummySessionData();
 	    GameManager gameManager = new GameManager();
 	    gameManager.launchGame("TestGame", dummy);
-	    Game game = gameManager.getGame("TestGame");
 	    GameController gc = new GameController(gameManager);
 	    
 	    
@@ -174,7 +144,6 @@ public class GameManagerTest extends ControllerTestUtils {
 	    SessionData dummy = createDummySessionData();
 	    GameManager gameManager = new GameManager();
 	    gameManager.launchGame("TestGame", dummy);
-	    Game game = gameManager.getGame("TestGame");
 	    GameController gc = new GameController(gameManager);
 	    Optional<Board> board = gameManager.getGameBoard("TestGame");
 	    
@@ -205,4 +174,79 @@ public class GameManagerTest extends ControllerTestUtils {
 	    }
 	    assertEquals(response.getResult().toString(), ""); //validate return
   }
+
+  @SuppressWarnings("unchecked")
+  @Test
+  public void endTurnTest() throws JsonProcessingException {
+	    SessionData dummyOrient = createDummySessionData();
+	    SessionData dummyTP = createDummyTradingPost();
+	    SessionData dummyCity = createDummyCities();
+	    GameManager gameManager = new GameManager();
+	    gameManager.launchGame("TestOrient", dummyOrient);
+	    gameManager.launchGame("TestTP", dummyTP);
+	    gameManager.launchGame("TestCity", dummyCity);
+	    Game gameOrient = gameManager.getGame("TestOrient");
+	    Game gameTP = gameManager.getGame("TestTP");
+	    Game gameCity = gameManager.getGame("TestCity");
+	    GameController gc = new GameController(gameManager);
+	    JSONObject data = new JSONObject();
+	    data.put("status", "success");
+	    
+	    ResponseEntity<String> response = gc.endTurnAction("TestOrient");
+	    assertEquals(data.toString(), response.getBody().toString());
+	    assertTrue("wrongPlayer", !gameOrient.getCurrentPlayer().getUsername().equals("testCreator"));
+	    
+	    response = gc.endTurnAction("TestTP");
+	    assertEquals(data.toString(), response.getBody().toString());
+	    assertTrue("wrongPlayer", !gameTP.getCurrentPlayer().getUsername().equals("testCreator"));
+	    
+	    response = gc.endTurnAction("TestCity");
+	    assertEquals(data.toString(), response.getBody().toString());
+	    
+	    gameCity.getCurrentPlayer().getInventory().getUnlockables().add(UnlockableRegistry.of(14));
+	    response = gc.endTurnAction("TestCity");
+	    assertEquals(data.toString(), response.getBody().toString());
+	    
+	    gameCity.getCurrentPlayer().getInventory().getUnlockables().add(UnlockableRegistry.of(0));
+	    gameCity.getCurrentPlayer().getInventory().getUnlockables().add(UnlockableRegistry.of(1));
+	    response = gc.endTurnAction("TestCity");
+	    assertTrue("didnt understand multiple city unlocks", !data.toString().equals(response.getBody().toString()));  
+  }
+  
+  @SuppressWarnings("unchecked")
+  @Test
+  public void winTest() throws JsonProcessingException {
+	    SessionData dummyOrient = createDummySessionData();
+	    SessionData dummyCity = createDummyCities();
+	    GameManager gameManager = new GameManager();
+	    gameManager.launchGame("TestOrient", dummyOrient);
+	    gameManager.launchGame("TestCity", dummyCity);
+	    Game gameOrient = gameManager.getGame("TestOrient");
+	    Game gameCity = gameManager.getGame("TestCity");
+	    GameController gc = new GameController(gameManager);
+	    JSONObject data = new JSONObject();
+	    data.put("status", "success");
+	    
+	    //test regular win conditions
+	    gameOrient.getPlayers()[0].getInventory().changePoints(200);
+	    gameOrient.getPlayers()[1].getInventory().changePoints(100);
+	    assertEquals(gameOrient.getPlayerIds()[0], gameOrient.checkWinState());
+	    gameOrient.getPlayers()[1].getInventory().changePoints(100);
+	    assertEquals(gameOrient.getPlayerIds()[1] + ", " + gameOrient.getPlayerIds()[0], gameOrient.checkWinState());
+	    gameOrient.getPlayers()[1].getInventory().addCard(CardRegistry.of(0));
+	    gameOrient.getPlayers()[1].getInventory().changePoints(-CardRegistry.of(0).getPoints());
+	    assertEquals(gameOrient.getPlayerIds()[0], gameOrient.checkWinState());
+	    
+	    //test city win conditions
+	    gameCity.getPlayers()[0].getInventory().getUnlockables().add(UnlockableRegistry.of(0));
+	    assertEquals(gameCity.getPlayerIds()[0], gameCity.checkWinState());
+	    gameCity.getPlayers()[1].getInventory().getUnlockables().add(UnlockableRegistry.of(0));
+	    assertEquals(gameCity.getPlayerIds()[0] + ", " + gameCity.getPlayerIds()[1], gameCity.checkWinState());
+	    gameCity.getPlayers()[1].getInventory().addCard(CardRegistry.of(0));
+	    assertEquals(gameCity.getPlayerIds()[0], gameCity.checkWinState());
+	    gameCity.getPlayers()[1].getInventory().getUnlockables().clear();
+	    gameCity.getPlayers()[1].getInventory().getUnlockables().add(UnlockableRegistry.of(14));
+	    assertEquals(gameCity.getPlayerIds()[0], gameCity.checkWinState());
+  }
+
 }
