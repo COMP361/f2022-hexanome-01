@@ -474,6 +474,15 @@ public class GameManager {
       
       //if multiple cities unlocked, give player choice
       if (acquiredCities.size() > 1) {
+    	//remove all cities from player inventory
+        ArrayList<Unlockable> unlockables = currentPlayer.getInventory().getUnlockables();
+        for (int i = 0; i < unlockables.size(); i++) {
+          if (unlockables.get(i) instanceof City) {
+            unlockables.remove(i);
+            i--;
+          }
+        }
+            
         JSONObject response = new JSONObject();
         response.replace("action", "city");
         response.replace("options", acquiredCities.toJSONString());

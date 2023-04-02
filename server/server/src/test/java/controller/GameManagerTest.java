@@ -34,7 +34,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import utils.ControllerTestUtils;
 
 /**
- * Tester for Game controller endpoints and functionality
+ * Tester for Game controller endpoints and functionality.
  */
 public class GameManagerTest extends ControllerTestUtils {
 
