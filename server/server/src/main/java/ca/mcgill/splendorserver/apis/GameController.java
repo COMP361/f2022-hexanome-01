@@ -299,8 +299,8 @@ public class GameController {
       for (int i = 0; i < tokensArray.length; i++) {
         tokensArray[i] = Token.valueOfIgnoreCase((String) tokens.get(i));
       }
-      boolean success = gameManager.returnTokens(game, playerId, tokensArray);
-      if (success) {
+
+      if (!gameManager.returnTokens(game, playerId, tokensArray)) {
         return ResponseEntity.ok().body(invalidAction.toJSONString());
       }
 
