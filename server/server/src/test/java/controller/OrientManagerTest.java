@@ -47,7 +47,7 @@ public class OrientManagerTest {
 	    gameManager.launchGame("TestGame", dummy);
 	    HashMap<String, Game> gameRegistry = gameManager.getGameRegistry();
 
-	    GameController gc = new GameController();
+	    GameController gc = new GameController(gameManager);
 	    JSONObject request = new JSONObject();
 	    Game game = gameRegistry.get("TestGame");
 	    Board board = game.getBoard();
@@ -147,7 +147,7 @@ public class OrientManagerTest {
 	    gameManager.launchGame("TestGame", dummy);
 	    HashMap<String, Game> gameRegistry = gameManager.getGameRegistry();
 
-	    GameController gc = new GameController();
+	    GameController gc = new GameController(gameManager);
 	    JSONObject request = new JSONObject();
 	    Game game = gameRegistry.get("TestGame");
 	    Board board = game.getBoard();
@@ -411,7 +411,7 @@ public class OrientManagerTest {
 		    gameManager.launchGame("TestGame", dummy);
 		    HashMap<String, Game> gameRegistry = gameManager.getGameRegistry();
 
-		    GameController gc = new GameController();
+		    GameController gc = new GameController(gameManager);
 		    JSONObject request = new JSONObject();
 		    Game game = gameRegistry.get("TestGame");
 		    Board board = game.getBoard();
@@ -463,7 +463,7 @@ public class OrientManagerTest {
 		    gameManager.launchGame("TestGame", dummy);
 		    HashMap<String, Game> gameRegistry = gameManager.getGameRegistry();
 
-		    GameController gc = new GameController();
+		    GameController gc = new GameController(gameManager);
 		    JSONObject request = new JSONObject();
 		    Game game = gameRegistry.get("TestGame");
 		    Board board = game.getBoard();

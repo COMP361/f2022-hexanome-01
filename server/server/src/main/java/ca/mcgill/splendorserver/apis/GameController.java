@@ -64,11 +64,42 @@ public class GameController {
   private ExecutorService threads = Executors.newFixedThreadPool(5);
 
   /**
-   * Sole constructor.
+   * Main constructor.
    * (For invocation by subclass constructors, typically implicit.)
    */
   @SuppressWarnings("unchecked")
   public GameController() {
+    logger = LoggerFactory.getLogger(GameController.class);
+
+    gameNotFound = new JSONObject();
+    gameNotFound.put("status", "failure");
+    gameNotFound.put("message", "Game not found.");
+
+    playerNotTurn = new JSONObject();
+    playerNotTurn.put("status", "failure");
+    playerNotTurn.put("message", "Cannot make move outside of turn.");
+
+    invalidAction = new JSONObject();
+    invalidAction.put("status", "failure");
+    invalidAction.put("message", "Invalid action.");
+
+    noUpdates = new JSONObject();
+    noUpdates.put("status", "timeout");
+    noUpdates.put("message", "No new updates.");
+
+    saveException = new JSONObject();
+    saveException.put("status", "failure");
+    saveException.put("message", "Save threw an exception.");
+  }
+  
+  /**
+   * Constructor for tests, where autowiring isnt a thing.
+   * (For invocation by subclass constructors, typically implicit.)
+   */
+  @SuppressWarnings("unchecked")
+  public GameController(GameManager gm) {
+	gameManager = gm;
+	//saveManager = sm;
     logger = LoggerFactory.getLogger(GameController.class);
 
     gameNotFound = new JSONObject();
