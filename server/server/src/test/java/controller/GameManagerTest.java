@@ -22,6 +22,8 @@ import ca.mcgill.splendorserver.models.board.CardBank;
 import ca.mcgill.splendorserver.models.board.CitiesBoard;
 import ca.mcgill.splendorserver.models.cards.Card;
 import ca.mcgill.splendorserver.models.cards.CardLevel;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Optional;
 import java.util.concurrent.ExecutorService;
@@ -248,5 +250,29 @@ public class GameManagerTest extends ControllerTestUtils {
 	    gameCity.getPlayers()[1].getInventory().getUnlockables().add(UnlockableRegistry.of(14));
 	    assertEquals(gameCity.getPlayerIds()[0], gameCity.checkWinState());
   }
-
+  
+  @SuppressWarnings("unchecked")
+  @Test
+  public void tokenReturnTest() throws JsonProcessingException {
+	    SessionData dummy = createDummySessionData();
+	    GameManager gameManager = new GameManager();
+	    gameManager.launchGame("TestGame", dummy);
+	    Game game = gameManager.getGame("TestGame");
+	    GameController gc = new GameController(gameManager);
+	    
+	    Token[] add = {Token.RED};
+	    ArrayList<String> tokens = new ArrayList<String>();
+	    tokens.add(Token.RED.toString());
+	    game.getCurrentPlayer().getInventory().addTokens(add);
+	    
+	    JSONObject data = new JSONObject(), success = new JSONObject();
+	    success.put("status", "success");
+	    data.put("playerId", "testCreator");
+	    data.put("tokens", tokens);
+	    
+	    gc.returnTokens("TestGame", data);
+	    assertEquals(0, game.getCurrentPlayer().getInventory().getTokens().checkAmount(Token.RED));
+	    ResponseEntity<String> response = gc.returnTokens("TestGame", data);
+	    assertTrue("returned tokens when it shouldnt have", !success.toString().equals(response.getBody().toString()));
+  }
 }
