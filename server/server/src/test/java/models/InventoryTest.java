@@ -169,7 +169,7 @@ public class InventoryTest {
 
 	    testInventory.getTokens().addRepeated(Token.GOLD, 20);
 	    int card = board.getCards().getRows().get(CardLevel.LEVEL1)[0];
-	    GameManager.purchaseCard(game, "testCreator", card);
+	    gameManager.purchaseCard(game, "testCreator", card);
 	    assertTrue(card == testInventory.getCards().get(0).getId());
 	}
 	
@@ -197,7 +197,7 @@ public class InventoryTest {
 	    testInventory.addCard(CardRegistry.of(104));
 	    
 	    int card = board.getCards().getRows().get(CardLevel.LEVEL1)[0];
-	    GameManager.purchaseCard(game, "testCreator", card);
+	    gameManager.purchaseCard(game, "testCreator", card);
 	    assertTrue(card == testInventory.getCards().get(testInventory.getCards().size() - 1).getId());
 	}
 	
@@ -225,7 +225,7 @@ public class InventoryTest {
 	    testInventory.getUnlockables().add(UnlockableRegistry.of(19));
 	    
 	    int card = board.getCards().getRows().get(CardLevel.LEVEL1)[0];
-	    GameManager.purchaseCard(game, "testCreator", card);
+	    gameManager.purchaseCard(game, "testCreator", card);
 	    assertTrue(card == testInventory.getCards().get(testInventory.getCards().size() - 1).getId());
 	}
 }

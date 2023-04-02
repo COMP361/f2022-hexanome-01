@@ -7,6 +7,7 @@ import static org.junit.Assert.fail;
 import ca.mcgill.splendorserver.apis.GameController;
 import ca.mcgill.splendorserver.controllers.GameManager;
 import ca.mcgill.splendorserver.controllers.OrientManager;
+import ca.mcgill.splendorserver.controllers.SaveManager;
 import ca.mcgill.splendorserver.models.Game;
 import ca.mcgill.splendorserver.models.Inventory;
 import ca.mcgill.splendorserver.models.Noble;
@@ -78,11 +79,11 @@ public class GameManagerTest extends ControllerTestUtils {
 
   @Test
   public void reserveCardTest() throws JsonProcessingException {
-    GameController gc = new GameController();
     SessionData dummy = createDummySessionData();
     GameManager gameManager = new GameManager();
     gameManager.launchGame("TestGame", dummy);
     Game game = gameManager.getGame("TestGame");
+    GameController gc = new GameController(gameManager);
     CardBank cards = game.getBoard().getCards();
     int cardId = cards.getRows().get(CardLevel.LEVEL1)[0];
     
@@ -135,7 +136,7 @@ public class GameManagerTest extends ControllerTestUtils {
 	    GameManager gameManager = new GameManager();
 	    gameManager.launchGame("TestGame", dummy);
 	    Game game = gameManager.getGame("TestGame");
-	    GameController gc = new GameController();
+	    GameController gc = new GameController(gameManager);
 	    JSONObject data = new JSONObject();
 	    data.put("playerId", "testCreator");
 	    ResponseEntity<String> response = gc.freeTokens("TestGame", data);
@@ -152,7 +153,8 @@ public class GameManagerTest extends ControllerTestUtils {
 	    GameManager gameManager = new GameManager();
 	    gameManager.launchGame("TestGame", dummy);
 	    Game game = gameManager.getGame("TestGame");
-	    GameController gc = new GameController();
+	    GameController gc = new GameController(gameManager);
+	    
 	    
 	    ResponseEntity<String> response = gc.getBoard("TestGame");
 	    try {
@@ -173,7 +175,7 @@ public class GameManagerTest extends ControllerTestUtils {
 	    GameManager gameManager = new GameManager();
 	    gameManager.launchGame("TestGame", dummy);
 	    Game game = gameManager.getGame("TestGame");
-	    GameController gc = new GameController();
+	    GameController gc = new GameController(gameManager);
 	    Optional<Board> board = gameManager.getGameBoard("TestGame");
 	    
 	    DeferredResult<String> response = gc.getBoard("TestGame", ""); //first call to long poll
