@@ -3,6 +3,7 @@ package ca.mcgill.splendorserver.controllers;
 import ca.mcgill.splendorserver.Registrator;
 import ca.mcgill.splendorserver.models.Game;
 import ca.mcgill.splendorserver.models.saves.LobbyServiceSaveData;
+import ca.mcgill.splendorserver.models.saves.SaveRegistrator;
 import ca.mcgill.splendorserver.models.saves.SaveSession;
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,17 +25,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class SaveManager {
 
-  private static final Path saveDir =
+  private final Path saveDir =
       (Paths.get(System.getProperty("user.home"))).resolve("splendorsaves");
-  private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
+  private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd_HH-mm-ss");
 
   @Autowired
-  private static Registrator registrator;
+  private SaveRegistrator saveRegistrator;
 
   /**
-   * Runs at server start up.
+   * Constructor that sets folders up.
    */
-  public static void init() {
+  SaveManager() {
     File dir = new File(saveDir.toString());
     if (!dir.exists()) {
       dir.mkdirs();
@@ -46,7 +47,7 @@ public class SaveManager {
    *
    * @param playerId the id of the game to save's creator
    */
-  public static void initPlayer(String playerId) {
+  public void initPlayer(String playerId) {
     File dir = new File(saveDir.resolve(playerId).toString());
     if (!dir.exists()) {
       dir.mkdirs();
@@ -60,7 +61,7 @@ public class SaveManager {
    * @param playerId the id of the game creator
    * @return the session created from the save
    */
-  public static SaveSession loadGame(String saveId, String playerId) {
+  public SaveSession loadGame(String saveId, String playerId) {
     FileInputStream fileIn;
     try {
       initPlayer(playerId);
@@ -87,7 +88,7 @@ public class SaveManager {
    * @param game the game to save
    * @return the id of the save, or null if an exception was thrown
    */
-  public static boolean saveGame(Game game) {
+  public boolean saveGame(Game game) {
     FileOutputStream fileOut;
     try {
       initPlayer(game.getCreatorId());
@@ -99,7 +100,7 @@ public class SaveManager {
       objectOut.writeObject(game);
       objectOut.close();
 
-      registrator.registerSavedGameWithLobbyService(game.getVariant(),
+      saveRegistrator.registerSavedGameWithLobbyService(game.getVariant(),
           new LobbyServiceSaveData(game, saveId));
 
       return true;
@@ -114,7 +115,7 @@ public class SaveManager {
    *
    * @return the list of all saves as SaveSessions
    */
-  public static List<SaveSession> getAllSavedGames() {
+  public List<SaveSession> getAllSavedGames() {
     File saveDirectory = new File(saveDir.toString());
     File[] playerDirectories = saveDirectory.listFiles(File::isDirectory);
     List<SaveSession> savedGames = new ArrayList<>();
@@ -147,7 +148,7 @@ public class SaveManager {
    * @param saveId the is of the tester save
    * @param playerId the creator of the game whose save is being deleted
    */
-  public static void deleteTestSavefile(String saveId, String playerId) {
+  public void deleteTestSavefile(String saveId, String playerId) {
     File file = new File(saveDir.resolve(playerId).resolve(saveId + ".save").toString());
     file.delete();
   }

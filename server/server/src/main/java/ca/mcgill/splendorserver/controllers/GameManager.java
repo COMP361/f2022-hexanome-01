@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.Optional;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -42,6 +43,9 @@ public class GameManager {
 
   private static HashMap<String, Game> saves = new HashMap<>();
 
+  @Autowired
+  private SaveManager saveManager;
+
   /**
    * Provides functionality of launching a game.
    * This function is called by the launchGame endpoint(PUT /api/splendor/{gameId})
@@ -50,11 +54,11 @@ public class GameManager {
    * @param session the data about the session
    * @return whether the game was successfully launched
    */
-  public static boolean launchGame(String gameId, SessionData session) {
+  public boolean launchGame(String gameId, SessionData session) {
     String saveId = session.getSavegame();
 
     if (!saveId.equals("")) {
-      SaveSession save = SaveManager.loadGame(gameId, session.getCreator());
+      SaveSession save = saveManager.loadGame(gameId, session.getCreator());
       if (save != null && save.isValidLaunch(session.getVariant(), session.getPlayers())) {
         gameRegistry.put(gameId, save.getGame());
         return true;
@@ -84,7 +88,7 @@ public class GameManager {
    * @param gameId the id of the game we want to find.
    * @return the game object saved
    */
-  public static Game getGame(String gameId) {
+  public Game getGame(String gameId) {
     if (gameRegistry.containsKey(gameId)) {
       return gameRegistry.get(gameId);
     } else {
@@ -100,7 +104,7 @@ public class GameManager {
    * @param cardId   the card the player wishes to acquire.
    * @return the JSONObject response containing the action being done, and choices for user.
    */
-  public static JSONObject purchaseCard(Game game, String playerId, int cardId) {
+  public JSONObject purchaseCard(Game game, String playerId, int cardId) {
     Board board = game.getBoard();
     Card card = CardRegistry.of(cardId);
     Inventory inventory = board.getInventory(playerId);
@@ -132,7 +136,7 @@ public class GameManager {
    * @return the JSONObject response containing the action being done, and choices for user.
    */
   @SuppressWarnings("unchecked")
-  public static JSONObject determineBody(Card card, Board board, Inventory inventory) {
+  public JSONObject determineBody(Card card, Board board, Inventory inventory) {
     JSONObject response = new JSONObject();
     response.put("action", "none");
     response.put("options", new JSONArray());
@@ -154,7 +158,7 @@ public class GameManager {
       response.put("noblesVisiting", new JSONArray());
     } else {
 
-      JSONArray noblesVisiting = GameManager.checkImpressedNobles(inventory, board);
+      JSONArray noblesVisiting = checkImpressedNobles(inventory, board);
 
       response.put("noblesVisiting", noblesVisiting);
       if (checkFreeToken(inventory)) {
@@ -173,7 +177,7 @@ public class GameManager {
    * @param inventory the inventory we wish to add the card to.
    * @return whether the acquisition was successful.
    */
-  public static boolean acquireCard(Card card, Board board, Inventory inventory) {
+  public boolean acquireCard(Card card, Board board, Inventory inventory) {
     if (card == null) {
       return false;
     }
@@ -200,7 +204,7 @@ public class GameManager {
    * @return a JSONObject of the player's token overflow following taking tokens (max 10)
    */
   @SuppressWarnings("unchecked")
-  public static JSONObject takeTokens(Game game, String playerId, Token[] tokens) {
+  public JSONObject takeTokens(Game game, String playerId, Token[] tokens) {
     Board board = game.getBoard();
     Inventory inventory = board.getInventory(playerId);
     JSONObject takeTokensResult = new JSONObject();
@@ -231,7 +235,7 @@ public class GameManager {
    * @param tokens   the tokens to return
    * @return whether the tokens are returned successfully
    */
-  public static boolean returnTokens(Game game, String playerId, Token[] tokens) {
+  public boolean returnTokens(Game game, String playerId, Token[] tokens) {
     Board board = game.getBoard();
     Inventory inventory = board.getInventory(playerId);
 
@@ -245,7 +249,7 @@ public class GameManager {
     }
   }
 
-  private static boolean checkValidityTokens(Game game, String playerId, Token[] tokensArray) {
+  private boolean checkValidityTokens(Game game, String playerId, Token[] tokensArray) {
     //check that all given strings are valid tokens
     ArrayList<Token> tokens = new ArrayList<Token>();
     Collections.addAll(tokens, tokensArray);
@@ -319,7 +323,7 @@ public class GameManager {
    * @param gameId id of game
    * @return Optional is used in this case as we might not have found the game
    */
-  public static Optional<Board> getGameBoard(String gameId) {
+  public Optional<Board> getGameBoard(String gameId) {
     if (gameRegistry.containsKey(gameId)) {
       return Optional.of(gameRegistry.get(gameId).getBoard());
     } else {
@@ -332,7 +336,7 @@ public class GameManager {
    *
    * @param gameId the id of the games
    */
-  public static void deleteGame(String gameId) {
+  public void deleteGame(String gameId) {
     gameRegistry.remove(gameId);
   }
 
@@ -348,7 +352,7 @@ public class GameManager {
    * @param deckId   id of deck the card came from (if any)
    * @return true or false depending if the player can or cannot reserve card
    */
-  public static boolean reserveCard(Game game, String playerId,
+  public boolean reserveCard(Game game, String playerId,
                                     String source, int cardId, String deckId) {
 
     Board board = game.getBoard();
@@ -387,7 +391,7 @@ public class GameManager {
    * @param playerId the player reserving a card
    * @return whether it was successful
    */
-  private static boolean addGoldWithReserve(Game game, String playerId) {
+  private boolean addGoldWithReserve(Game game, String playerId) {
     Board board = game.getBoard();
     Inventory inventory = board.getInventory(playerId);
     TokenBank tokens = board.getTokens();
@@ -418,7 +422,7 @@ public class GameManager {
    * @param inventory the inventory we wish to add the card to.
    * @return whether the acquisition was successful.
    */
-  public static boolean acquireNoble(Noble noble, Board board, Inventory inventory) {
+  public boolean acquireNoble(Noble noble, Board board, Inventory inventory) {
     if (noble == null) {
       return false;
     }
@@ -446,7 +450,7 @@ public class GameManager {
    * @param game the game where the turn is ending
    * @return JSONObject of relevant info
    */
-  public static JSONObject endTurn(Game game) {
+  public JSONObject endTurn(Game game) {
     Player currentPlayer = game.getCurrentPlayer();
 
     //if trading posts expansion enabled...
@@ -497,7 +501,7 @@ public class GameManager {
    *
    * @param game the game where the turn is ending
    */
-  public static void changeTurn(Game game) {
+  public void changeTurn(Game game) {
     game.nextPlayer(); //changes the current player to the next player
 
     //game.getBoard().setWinner("winner test");
@@ -520,7 +524,7 @@ public class GameManager {
    * @param inventory of the player
    * @return boolean of if they deserve a token
    */
-  public static boolean checkFreeToken(Inventory inventory) {
+  public boolean checkFreeToken(Inventory inventory) {
     for (Unlockable u : inventory.getUnlockables()) {
       if (u instanceof TradingPost && ((TradingPost) u).getAction() instanceof FreeToken) {
         return true;
@@ -537,7 +541,7 @@ public class GameManager {
    * @param board     of the current game
    * @return JSONArray of noble ids
    */
-  public static JSONArray checkImpressedNobles(Inventory inventory, Board board) {
+  public JSONArray checkImpressedNobles(Inventory inventory, Board board) {
     JSONArray noblesVisiting = new JSONArray();
     for (int nobleId : board.getNobles().attemptImpress(inventory)) {
       noblesVisiting.add(nobleId);
@@ -556,7 +560,7 @@ public class GameManager {
    * @param inventory of the player
    * @return boolean of if they can pair it
    */
-  public static boolean checkValidPairing(Inventory inventory) {
+  public boolean checkValidPairing(Inventory inventory) {
     boolean valid = false;
     for (int i = 0; i < inventory.getCards().size(); i++) {
       if (inventory.getCards().get(i).getBonus().getType() != null
