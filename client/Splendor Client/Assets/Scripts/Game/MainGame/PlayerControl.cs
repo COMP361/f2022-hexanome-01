@@ -148,6 +148,7 @@ public class PlayerControl : MonoBehaviour {
                 //Debug.Log(selectReserve);
                 purchaseOrReserve.SetActive(true);
                 purchaseOrReserve.transform.GetChild(1).gameObject.SetActive(true);
+                selectedReserve = null;
                 selectedCard = go.GetComponent<CardSlot>();
                 allCards.GreyOutExcept(selectedCard);
                 /*CardSlot cardSlotObject = go.GetComponent<CardSlot>();
@@ -615,6 +616,7 @@ public class PlayerControl : MonoBehaviour {
             Debug.Log(selectedReserve);
             purchaseOrReserve.SetActive(true);
             purchaseOrReserve.transform.GetChild(1).gameObject.SetActive(false);
+            allCards.UnGreyOut();
         }
     }
 
@@ -623,6 +625,7 @@ public class PlayerControl : MonoBehaviour {
             selectedReserve = player.GetReservedCards()[1];
             purchaseOrReserve.SetActive(true);
             purchaseOrReserve.transform.GetChild(1).gameObject.SetActive(false);
+            allCards.UnGreyOut();
         }
     }
 
@@ -631,6 +634,7 @@ public class PlayerControl : MonoBehaviour {
             selectedReserve = player.GetReservedCards()[2];
             purchaseOrReserve.SetActive(true);
             purchaseOrReserve.transform.GetChild(1).gameObject.SetActive(false);
+            allCards.UnGreyOut();
         }
     }
 
