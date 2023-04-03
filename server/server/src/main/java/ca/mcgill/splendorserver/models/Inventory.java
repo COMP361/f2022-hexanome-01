@@ -308,7 +308,7 @@ public class Inventory implements Serializable {
    * @return reservedCards
    */
   public ArrayList<Card> getReservedCards() {
-    return (ArrayList<Card>) reservedCards.clone();
+    return (ArrayList<Card>) reservedCards;
   }
 
   /**
