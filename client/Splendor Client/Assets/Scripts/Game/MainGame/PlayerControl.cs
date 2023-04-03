@@ -147,6 +147,7 @@ public class PlayerControl : MonoBehaviour {
                 //Debug.Log("Card");
                 //Debug.Log(selectReserve);
                 purchaseOrReserve.SetActive(true);
+                purchaseOrReserve.transform.GetChild(1).gameObject.SetActive(true);
                 selectedCard = go.GetComponent<CardSlot>();
                 allCards.GreyOutExcept(selectedCard);
                 /*CardSlot cardSlotObject = go.GetComponent<CardSlot>();
@@ -185,6 +186,7 @@ public class PlayerControl : MonoBehaviour {
         actionManager.MakeApiRequest(currSession.id, null, ActionManager.ActionType.endTurn, ActionManager.RequestType.POST, (response) => {
 
             if (response != null && ((string)response["status"]).Equals("success")) {
+                StartTurn();
                 errorText.GetComponent<FadeOut>().CompleteFade();
             }
 
@@ -196,6 +198,7 @@ public class PlayerControl : MonoBehaviour {
         Dictionary<string, object> requestDict = new Dictionary<string, object>();
         JSONObject selectedCardJson = new JSONObject(requestDict);
         selectedCardJson.Add("playerId", player.GetUsername());
+        Debug.Log(selectedReserve);
         if (selectedReserve == null) {
             selectedCardJson.Add("cardId", selectedCardToBuy.GetCard().GetId());
         }
@@ -609,6 +612,7 @@ public class PlayerControl : MonoBehaviour {
     public void buyReserve1() {
         if (player.GetReservedCards().Count > 0 ) {
             selectedReserve = player.GetReservedCards()[0];
+            Debug.Log(selectedReserve);
             purchaseOrReserve.SetActive(true);
             purchaseOrReserve.transform.GetChild(1).gameObject.SetActive(false);
         }
