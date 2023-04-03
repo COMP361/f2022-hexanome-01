@@ -17,8 +17,9 @@ public class MainMenuManager : MonoBehaviour {
 
     [SerializeField] private GameObject blankSessionSlot, sessionContent, lobbyView, blankSaveSlot, saveContent, blankPlayerSlot, playerContent, joinButton, startButton, startSessionButton;
     [SerializeField] private Toggle splendorToggle, citiesToggle, tradingPostsToggle;
-    [SerializeField] private UnityEvent promptEndSession, promptDeleteSession, joinSession, loadSave, createSession, exitToMain, exitToSession, exitToSave;
-    [SerializeField] private Text playerText, sessionNameText;
+    [SerializeField] private Toggle splendorSavesToggle, citiesSavesToggle, tradingPostsSavesToggle;
+    [SerializeField] private UnityEvent promptEndSession, promptDeleteSession, joinSession, loadSave, loadVariantSaves, createSession, exitToMain, exitToSession, exitToSave;
+    [SerializeField] private Text playerText, sessionNameText, savesViewTitle;
     [SerializeField] private Authentication authentication;
 
     private LastMenuVisited previousMenu = LastMenuVisited.MAIN;
@@ -36,6 +37,7 @@ public class MainMenuManager : MonoBehaviour {
         currentSession.Reset();
         sessionsHash = null;
         sessionHash = null;
+        savesHash = null;
 
         //switch menus
         if (previousMenu == LastMenuVisited.MAIN)
@@ -70,15 +72,29 @@ public class MainMenuManager : MonoBehaviour {
     /// and sends the data to "BaseLoad".
     /// </summary>
     public void OnBaseLoadClick() {
-        StartCoroutine(LSRequestManager.GetSaves(savesHash, (string hash, List<Save> saves) => {
-			if (hash != null) {            
-				if (saves != null && saves.Count > 0){
-                	MakeSaves(saves);
+        string variant = ""; //determine saved game version based on selected toggle
+        if (splendorSavesToggle.isOn) variant = "splendor";
+        else if (citiesSavesToggle.isOn) variant = "cities";
+        else if (tradingPostsSavesToggle.isOn) variant = "tradingposts";
+
+        Loading(variant);
+        
+        previousMenu = LastMenuVisited.MAIN;
+        savesViewTitle.text = "available " + variant + " saves";
+        loadVariantSaves.Invoke();
+    }
+
+    private void Loading(string variant)
+    {
+        StartCoroutine(LSRequestManager.GetSaves(savesHash, variant, (string hash, List<Save> saves) => {
+            if (hash != null) {            
+                if (saves != null && saves.Count > 0){
+                    MakeSaves(saves);
                 } else ClearChildren(saveContent); //clear saved games display
 				
-				savesHash = hash;
-				if (saveContent.activeInHierarchy) OnBaseLoadClick();
-			} else if (saveContent.activeInHierarchy) OnBaseLoadClick();
+                savesHash = hash;
+                if (saveContent.activeInHierarchy) Loading(variant);
+            } else if (saveContent.activeInHierarchy) Loading(variant);
         }));
     }
 
