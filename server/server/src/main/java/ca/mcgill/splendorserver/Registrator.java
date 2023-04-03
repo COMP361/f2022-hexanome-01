@@ -79,9 +79,6 @@ public class Registrator {
       for (String expansionName : expansionsServiceName) {
         registerGameService(accessToken, expansionName);
       }
-
-      // Register all saved games
-      registerAllSavedGames();
     } catch (UnirestException unirestException) {
       String errorMessage = "Failed to connect to Lobby Service";
       logger.error(errorMessage);
@@ -119,6 +116,9 @@ public class Registrator {
         throw new RuntimeException("Register game Failed. Response: " + response.getBody());
       }
       logger.info(serviceName + " Game registration Success");
+
+      // Register all saved games
+      registerAllSavedGames(serviceName);
     } catch (UnirestException unirestException) {
       String errorMessage = "Failed to connect to Lobby Service";
 
@@ -167,17 +167,17 @@ public class Registrator {
   /**
    * Registers all saved games to the lobby service.
    */
-  private void registerAllSavedGames() {
+  private void registerAllSavedGames(String variant) {
     List<SaveSession> savedGames = saveManager.getAllSavedGames();
 
     for (SaveSession saveSession : savedGames) {
       Game game = saveSession.getGame();
 
-      if (game.getVariant().equals(gameServiceName)) {
+      if (game.getVariant().equals(variant)) {
         LobbyServiceSaveData saveData = new LobbyServiceSaveData(game, saveSession.getSavegameid());
 
         try {
-          saveRegistrator.registerSavedGameWithLobbyService(gameServiceName, saveData);
+          saveRegistrator.registerSavedGameWithLobbyService(variant, saveData);
         } catch (UnirestException e) {
           logger.error("Failed to register saved game with id: " + game.getId(), e);
         }
