@@ -18231,6 +18231,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 11d57e01d95d54790bec4537eb84a5cb, type: 2}
   - {fileID: 11400000, guid: da3712c4b0e96473c9f4233b556bc535, type: 2}
   - {fileID: 11400000, guid: b03692547dcfe4b92b12b93eaf3ffb85, type: 2}
+  playerControl: {fileID: 1954223290}
   returnTokenButton: {fileID: 1877645787}
   colours:
   - {fileID: 890729745}
@@ -23781,7 +23782,9 @@ MonoBehaviour:
   selectedTokens: {fileID: 1020006018}
   takeTokensButton: {fileID: 925007009}
   returnTokenPanel: {fileID: 731581420}
+  tokenReturnPanel: {fileID: 731581418}
   returnTokenButton: {fileID: 1877645787}
+  selectedReturnTokens: {fileID: 1490823996}
   tokenOverflow: 0
   errorText: {fileID: 151965662}
   allCards: {fileID: 455084559}
@@ -23792,6 +23795,7 @@ MonoBehaviour:
   allNobles: {fileID: 1400802482}
   selectedNoble: {fileID: 0}
   claimNoblePanel: {fileID: 1188784818}
+  nobleClaimPanel: {fileID: 1188784817}
   orientPanelManager: {fileID: 1254382551}
   controls: {fileID: -944628639613478452, guid: 68b0984844d79b345af0ecff893baaed, type: 3}
   waiting: 0

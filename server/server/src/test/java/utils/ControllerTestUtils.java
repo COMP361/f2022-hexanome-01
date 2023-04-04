@@ -35,4 +35,16 @@ public class ControllerTestUtils {
 	    SessionData dummy = new SessionData("testCreator", "tradingposts", playersTest, "");
 	    return dummy;
 	  }
+  
+  public static SessionData createDummySave() {
+	    LobbyServicePlayerData creator = new LobbyServicePlayerData("josh", "blue");
+	    LobbyServicePlayerData playerTest = new LobbyServicePlayerData("emma", "red");
+	    LobbyServicePlayerData player2Test = new LobbyServicePlayerData("jeremy", "red");
+	    LinkedList<LobbyServicePlayerData> playersTest = new LinkedList<>();
+	    playersTest.add(creator);
+	    playersTest.add(playerTest);
+	    playersTest.add(player2Test);
+	    SessionData dummy = new SessionData("josh", "splendor", playersTest, "");
+	    return dummy;
+	  }
 }
