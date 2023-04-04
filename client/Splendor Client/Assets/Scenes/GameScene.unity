@@ -3256,6 +3256,7 @@ MonoBehaviour:
   selectedCity: {fileID: 0}
   claimNoblePanel: {fileID: 889997262}
   nobleClaimPanel: {fileID: 889997258}
+  cityClaimPanel: {fileID: 1843890879}
   claimCityPanel: {fileID: 1843890881}
   orientPanelManager: {fileID: 882211150}
   controls: {fileID: -944628639613478452, guid: 68b0984844d79b345af0ecff893baaed, type: 3}
