@@ -129,14 +129,15 @@ public class GameController {
   /**
    * generator for error responses.
 
-   * @param message to go with the error
+   * @param e exception to report
    * @return the response with the error
    */
   @SuppressWarnings("unchecked")
-  public ResponseEntity<String> errorResponse(String message) {
+  public ResponseEntity<String> errorResponse(Exception e) {
+    logger.error(e.getMessage());
     JSONObject error = new JSONObject();
     error.put("status", "failure");
-    error.put("message", "Error 500: " + message);
+    error.put("message", "Error 500: " + e.getMessage());
     return ResponseEntity.status(500).body(error.toJSONString());
   }
 
@@ -206,7 +207,7 @@ public class GameController {
               && System.currentTimeMillis() < end);
         }
       } catch (Exception e) {
-        result.setErrorResult(errorResponse(e.getMessage()).getBody());
+        result.setErrorResult(errorResponse(e).getBody());
       }
     });
     return result;
@@ -229,8 +230,7 @@ public class GameController {
         return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
       }
     } catch (Exception e) {
-      logger.error(e.getStackTrace().toString());
-      return errorResponse(e.getMessage());
+      return errorResponse(e);
     }
   }
 
@@ -273,8 +273,7 @@ public class GameController {
       //return the result of taking the tokens
       return ResponseEntity.ok(response.toJSONString());
     } catch (Exception e) {
-      logger.error(e.getMessage());
-      return errorResponse(e.getMessage());
+      return errorResponse(e);
     }
   }
 
@@ -318,8 +317,7 @@ public class GameController {
       //return the result of taking the tokens
       return ResponseEntity.ok(response.toJSONString());
     } catch (Exception e) {
-      logger.error(e.getMessage());
-      return errorResponse(e.getMessage());
+      return errorResponse(e);
     }
   }
 
@@ -366,8 +364,7 @@ public class GameController {
 
       return ResponseEntity.ok(response.toJSONString());
     } catch (Exception e) {
-      logger.error(e.getMessage());
-      return errorResponse(e.getMessage());
+      return errorResponse(e);
     }
   }
 
@@ -412,8 +409,7 @@ public class GameController {
 
       return ResponseEntity.ok(response.toJSONString());
     } catch (Exception e) {
-      logger.error(e.getStackTrace().toString());
-      return errorResponse(e.getMessage());
+      return errorResponse(e);
     }
   }
 
@@ -466,8 +462,7 @@ public class GameController {
 
       return ResponseEntity.ok(response.toJSONString());
     } catch (Exception e) {
-      logger.error(e.getStackTrace().toString());
-      return errorResponse(e.getMessage());
+      return errorResponse(e);
     }
   }
 
@@ -520,8 +515,7 @@ public class GameController {
 
       return ResponseEntity.ok(response.toJSONString());
     } catch (Exception e) {
-      logger.error(e.getStackTrace().toString());
-      return errorResponse(e.getMessage());
+      return errorResponse(e);
     }
   }
 
@@ -566,8 +560,7 @@ public class GameController {
 
       return ResponseEntity.ok(response.toJSONString());
     } catch (Exception e) {
-      logger.error(e.toString());
-      return errorResponse(e.getMessage());
+      return errorResponse(e);
     }
   }
 
@@ -610,7 +603,7 @@ public class GameController {
       }
       return ResponseEntity.ok(response.toJSONString());
     } catch (Exception e) {
-      return errorResponse(e.getMessage());
+      return errorResponse(e);
     }
   }
 
@@ -652,8 +645,7 @@ public class GameController {
 
       return ResponseEntity.ok(response.toJSONString());
     } catch (Exception e) {
-      logger.error(e.getStackTrace().toString());
-      return errorResponse(e.getMessage());
+      return errorResponse(e);
     }
   }
 
@@ -679,8 +671,7 @@ public class GameController {
       
       return ResponseEntity.ok().body(response.toJSONString());
     } catch (Exception e) {
-      logger.error(e.getStackTrace().toString());
-      return errorResponse(e.getMessage());
+      return errorResponse(e);
     }
   }
 
@@ -745,7 +736,7 @@ public class GameController {
       }
       
       if (!game.getCurrentPlayer().getInventory().containsCity()) {
-        return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
+        return ResponseEntity.badRequest().body(invalidAction.toJSONString());
       }
       
       gameManager.changeTurn(game);
@@ -755,8 +746,7 @@ public class GameController {
       
       return ResponseEntity.ok().body(response.toJSONString());
     } catch (Exception e) {
-      logger.error(e.getStackTrace().toString());
-      return errorResponse(e.getMessage());
+      return errorResponse(e);
     }
   }
   
@@ -800,8 +790,7 @@ public class GameController {
 
       return ResponseEntity.ok(response.toJSONString());
     } catch (Exception e) {
-      logger.error(e.getStackTrace().toString());
-      return errorResponse(e.getMessage());
+      return errorResponse(e);
     }
   }
   
@@ -873,8 +862,7 @@ public class GameController {
 
       return ResponseEntity.ok(response.toJSONString());
     } catch (Exception e) {
-      logger.error(e.getMessage());
-      return errorResponse(e.getMessage());
+      return errorResponse(e);
     }
   }
 
