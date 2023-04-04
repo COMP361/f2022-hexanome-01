@@ -382,12 +382,15 @@ public class GameManager {
     }
     
     if (inventory.reserve(CardRegistry.of(pickedUp))) {
-      boolean gold = addGoldWithReserve(game, playerId);
-      reserveCardResult.put("tokenOverflow", 0);
-      if (gold) {
-        int overflow = inventory.getTokens().checkOverflow();
-        reserveCardResult.put("tokenOverflow", overflow <= 40 ? overflow : 0);
-      }
+      addGoldWithReserve(game, playerId);
+      int overflow = inventory.getTokens().checkOverflow();
+      reserveCardResult.put("tokenOverflow", overflow <= 40 ? overflow : 0);
+      //boolean gold = addGoldWithReserve(game, playerId);
+      //reserveCardResult.put("tokenOverflow", 0);
+      //if (gold) {
+      //  int overflow = inventory.getTokens().checkOverflow();
+      //  reserveCardResult.put("tokenOverflow", overflow <= 40 ? overflow : 0);
+      //}
     }
 
     return reserveCardResult;
