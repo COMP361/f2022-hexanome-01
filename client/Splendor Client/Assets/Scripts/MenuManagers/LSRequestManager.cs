@@ -52,6 +52,39 @@ public class LSRequestManager : MonoBehaviour
 
     }
 
+    public static IEnumerator AddUser(Authentication authentication, string username, string password, Action<bool> result) {
+        // TODO: Implement and change from login
+        
+        mainPlayer = authentication;
+
+        string url = "http://" + HOST + ":4242/oauth/token"; //url for POST request
+
+        WWWForm form = new WWWForm();
+        form.AddField("grant_type", "password");
+        form.AddField("username", username);
+        form.AddField("password", password);
+
+        UnityWebRequest auth = UnityWebRequest.Post(url, form);
+        auth.SetRequestHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc="); //authenticate the POST request
+
+        yield return auth.SendWebRequest();
+
+        if (auth.result == UnityWebRequest.Result.Success)
+        {
+            JSONObject json = (JSONObject)JSONHandler.DecodeJsonRequest(auth.downloadHandler.text);
+            CallRefresh((long)json["expires_in"] - 5); //refresh automatically when token is about to expire
+
+            //set authentication fields
+            mainPlayer.SetUsername(username);
+            mainPlayer.SetAccessToken((string)json["access_token"]);
+            mainPlayer.SetRefreshToken((string)json["refresh_token"]);
+
+            result(true);
+        }
+        else
+            result(false);
+    }
+
     private static IEnumerator CallRefresh(long seconds) {
         yield return new WaitForSeconds(seconds);
         Refresh();
