@@ -129,7 +129,7 @@ public class GameController {
   /**
    * generator for error responses.
 
-   * @param message to go with the error
+   * @param e exception to report
    * @return the response with the error
    */
   @SuppressWarnings("unchecked")
