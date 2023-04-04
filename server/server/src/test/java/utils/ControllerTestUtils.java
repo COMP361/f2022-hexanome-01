@@ -36,15 +36,15 @@ public class ControllerTestUtils {
 	    return dummy;
 	  }
   
-  public static SessionData createDummySave() {
-	    LobbyServicePlayerData creator = new LobbyServicePlayerData("josh", "blue");
-	    LobbyServicePlayerData playerTest = new LobbyServicePlayerData("emma", "red");
-	    LobbyServicePlayerData player2Test = new LobbyServicePlayerData("jeremy", "red");
+  public static SessionData createDummySave(String name1, String name2, String name3) {
+	    LobbyServicePlayerData creator = new LobbyServicePlayerData(name1, "blue");
+	    LobbyServicePlayerData playerTest = new LobbyServicePlayerData(name2, "red");
+	    LobbyServicePlayerData player2Test = new LobbyServicePlayerData(name3, "red");
 	    LinkedList<LobbyServicePlayerData> playersTest = new LinkedList<>();
 	    playersTest.add(creator);
 	    playersTest.add(playerTest);
 	    playersTest.add(player2Test);
-	    SessionData dummy = new SessionData("josh", "splendor", playersTest, "");
+	    SessionData dummy = new SessionData(name1, "splendor", playersTest, "");
 	    return dummy;
 	  }
 }

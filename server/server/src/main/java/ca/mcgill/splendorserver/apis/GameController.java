@@ -882,8 +882,8 @@ public class GameController {
       return ResponseEntity.ok(gameNotFound.toJSONString());
     }
     //save and get the savegameid of the save
-    boolean successfulSave = saveManager.saveGame(game);
-    if (!successfulSave) {
+    String successfulSave = saveManager.saveGame(game);
+    if (successfulSave != null) {
       return ResponseEntity.ok(saveException.toJSONString());
     }
     response.put("status", "success");

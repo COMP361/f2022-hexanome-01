@@ -27,36 +27,35 @@ public class SaveManagerTest {
 	public static GameManager gameManager = new GameManager();
 	public static GameController gc = new GameController(gameManager, saveManager);
 
-	private static Player josh = new Player("josh");
-	private static Player emma = new Player("emma");
-	private static Player jeremy = new Player("jeremy");
+    private static final String randName1 = "test_dthyjgeui37gw8e7rtfgeo8yergdwiue";
+    private static final String randName2 = "test_hed7837gurfuhsiuey3wrefhuweyeuhu";
+    private static final String randName3 = "test_fe8d37tr8dwgey8dgw8g8dheg8deg8uw";
+
+	private static Player josh = new Player(randName1);
+	private static Player emma = new Player(randName2);
+    private static Player jeremy = new Player(randName3);
 	
 	private static Game game = new Game("test", "josh", new Player[] {josh, emma, jeremy}, "splendor");
 
-	private static boolean saved;
-
 	@BeforeClass
 	public static void initSaveDir() {
-		saveManager.initPlayer("josh");
-		saveManager.initPlayer("emma");
+		saveManager.initPlayer(randName1);
+		saveManager.initPlayer(randName2);
 	}
 
 	@Test
 	public void saveAndLoadSaveGameTest() {
-		gc.launchGame("test", ControllerTestUtils.createDummySave());
-		gc.save("test");
-		List<SaveSession> saves = saveManager.getAllSavedGames();
-		
-		
-		SaveSession save = saveManager.loadGame(saves.get(0).getSavegameid(), "josh");
-		assertEquals("josh", save.getGame().getCreatorId()); //HAHHHHH
+        String saveId = saveManager.saveGame(game);
+
+		SaveSession save = saveManager.loadGame(saveId, randName1);
+		assertEquals(randName1, save.getGame().getCreatorId()); //HAHHHHH
 		assertEquals(3, save.getGame().getPlayers().length);
 		assertEquals("splendor", save.getGame().getVariant());
 	}
 
 	@Test
 	public void incorrectCreatorSaveGameTest() {
-		gc.launchGame("test", ControllerTestUtils.createDummySave());
+		gc.launchGame("test", ControllerTestUtils.createDummySave(randName1, randName2, randName3));
 		gc.save("test");
 
 		//Game game = new Game("test", "josh", new Player[] {josh, emma, jeremy}, "splendor");
@@ -64,35 +63,27 @@ public class SaveManagerTest {
 
 		List<SaveSession> saves = saveManager.getAllSavedGames();
 		
-		SaveSession save = saveManager.loadGame(saves.get(0).getSavegameid(), "emma");
+		SaveSession save = saveManager.loadGame(saves.get(0).getSavegameid(), randName2);
 		assertNull(save);
 	}
 
 	@Test
 	public void saveAndLoadPlayedSaveGameTest() {
-		gc.launchGame("test", ControllerTestUtils.createDummySave());
-		gc.save("test");
+        gc.launchGame("test", ControllerTestUtils.createDummySave(randName1, randName2, randName3));
+        gc.save("test");
+        gameManager.getGame("test").getCurrentPlayer().getInventory().addCard(CardRegistry.of(1));
+        String saveId = saveManager.saveGame(game);
 
-		//Game game = new Game("test", "josh", new Player[] {josh, emma, jeremy}, "splendor");
-		gameManager.getGame("test").getCurrentPlayer().getInventory().addCard(CardRegistry.of(1));
-		//game.getCurrentPlayer().getInventory().addCard(CardRegistry.of(1));
-		//ArrayList<Card> before = game.getCurrentPlayer().getInventory().getCards();
-		gc.save("test");
-		
-		List<SaveSession> saves = saveManager.getAllSavedGames();
+        SaveSession save = saveManager.loadGame(saveId, randName1);
 
-		SaveSession save = saveManager.loadGame(saves.get(0).getSavegameid(), "josh");
 		assertSame(1, save.getGame().getCurrentPlayer().getInventory().getCards().get(0).getId()); //HAHAHAH
 	}
 
 	@After
 	public void deleteSave() {
-		
-		for (SaveSession ss : saveManager.getAllSavedGames()) {
-			saveManager.deleteTestSavefile(ss.getSavegameid(), "josh");
-			saveManager.deleteTestSavefile(ss.getSavegameid(), "emma");
-			saveManager.deleteTestSavefile(ss.getSavegameid(), "jeremy");
-		}
+
+        saveManager.deleteTestSavefile("test", randName1);
+
 	}
 
 }
