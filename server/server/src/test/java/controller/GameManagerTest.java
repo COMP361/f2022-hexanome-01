@@ -43,7 +43,8 @@ import utils.ControllerTestUtils;
  * Tester for Game controller endpoints and functionality.
  */
 public class GameManagerTest extends ControllerTestUtils {
-
+	
+	
   @Test
   public void launchGameTest() {
     SessionData dummy = createDummySessionData();
@@ -90,7 +91,22 @@ public class GameManagerTest extends ControllerTestUtils {
 	    Game game = gameManager.getGame("TestGame");
 	    GameController gc = new GameController(gameManager, new SaveManager());
 	    JSONObject data = new JSONObject();
-	    data.put("playerId", "testCreator");
+	    data.put("playerId", "fake");
+	    
+	    JSONObject gameNotFound = new JSONObject();
+	    gameNotFound.put("status", "failure");
+	    gameNotFound.put("message", "Game not found.");
+
+	    JSONObject playerNotTurn = new JSONObject();
+	    playerNotTurn.put("status", "failure");
+	    playerNotTurn.put("message", "Cannot make move outside of turn.");
+	    
+	    ResponseEntity<String> response = gc.freeTokens("fake", data);
+		assertEquals(gameNotFound.toJSONString(), response.getBody());
+	    response = gc.freeTokens("TestGame", data);
+		assertEquals(playerNotTurn.toJSONString(), response.getBody());
+	    data.replace("playerId", "testCreator");
+	    
 	    gc.freeTokens("TestGame", data);
 	    assertEquals(9999, game.getPlayers()[0].getInventory().getTokens().checkAmount(Token.RED));
   }
@@ -104,10 +120,23 @@ public class GameManagerTest extends ControllerTestUtils {
 	    Game game = gameManager.getGame("TestGame");
 	    GameController gc = new GameController(gameManager, new SaveManager());
 	    JSONObject data = new JSONObject();
-	    data.put("playerId", "testCreator");
 	    data.put("cityId", ((CitiesBoard) game.getBoard()).getCities()[0]);
 	    game.getCurrentPlayer().getInventory().getUnlockables().add(UnlockableRegistry.of(((CitiesBoard) game.getBoard()).getCities()[0]));
-	     
+	    
+	    data.put("playerId", "fake");
+	    
+	    JSONObject gameNotFound = new JSONObject();
+	    gameNotFound.put("status", "failure");
+	    gameNotFound.put("message", "Game not found.");
+
+	    JSONObject playerNotTurn = new JSONObject();
+	    playerNotTurn.put("status", "failure");
+	    playerNotTurn.put("message", "Cannot make move outside of turn.");
+	    
+	    ResponseEntity<String> response = gc.chooseCity("fake", data);
+		assertEquals(gameNotFound.toJSONString(), response.getBody());
+	    data.replace("playerId", "testCreator");
+	    
 	    gc.chooseCity("TestGame", data);
 	    
 	    assertTrue("player has a city when it should have remvoed it", game.getCurrentPlayer().getInventory().getUnlockables().isEmpty());
@@ -176,7 +205,7 @@ public class GameManagerTest extends ControllerTestUtils {
 	    }
 	    assertEquals(response.getResult().toString(), ""); //validate return
 	    
-	    ResponseEntity<String> error = gc.errorResponse("TEST");
+	    ResponseEntity<String> error = gc.errorResponse(new Exception("TEST"));
 	    assertEquals("{\"message\":\"Error 500: TEST\",\"status\":\"failure\"}", error.getBody());
   }
 
@@ -270,12 +299,29 @@ public class GameManagerTest extends ControllerTestUtils {
 	    
 	    JSONObject data = new JSONObject(), success = new JSONObject();
 	    success.put("status", "success");
-	    data.put("playerId", "testCreator");
+	    
+	    data.put("playerId", "fake");
+	    
+	    JSONObject gameNotFound = new JSONObject();
+	    gameNotFound.put("status", "failure");
+	    gameNotFound.put("message", "Game not found.");
+
+	    JSONObject playerNotTurn = new JSONObject();
+	    playerNotTurn.put("status", "failure");
+	    playerNotTurn.put("message", "Cannot make move outside of turn.");
+	    
+	    ResponseEntity<String> response = gc.returnTokens("fake", data);
+		assertEquals(gameNotFound.toJSONString(), response.getBody());
+	    response = gc.returnTokens("TestGame", data);
+		assertEquals(playerNotTurn.toJSONString(), response.getBody());
+	    data.replace("playerId", "testCreator");
+	    
+	    data.replace("playerId", "testCreator");
 	    data.put("tokens", tokens);
 	    
 	    gc.returnTokens("TestGame", data);
 	    assertEquals(0, game.getCurrentPlayer().getInventory().getTokens().checkAmount(Token.RED));
-	    ResponseEntity<String> response = gc.returnTokens("TestGame", data);
+	    response = gc.returnTokens("TestGame", data);
 	    assertTrue("returned tokens when it shouldnt have", !success.toString().equals(response.getBody().toString()));
   }
 }
