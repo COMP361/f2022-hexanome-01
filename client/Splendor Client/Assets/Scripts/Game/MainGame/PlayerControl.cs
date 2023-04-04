@@ -10,7 +10,7 @@ public class PlayerControl : MonoBehaviour {
     public Authentication mainPlayer;
     public Dashboard dashboard;
     [SerializeField] private GameObject inventoryPanel;
-    [SerializeField] private GameObject cursor, nobleSelectButton;
+    [SerializeField] private GameObject cursor, purchaseOrReserve, nobleSelectButton, citySelectButton;
     [SerializeField] private Camera playerCamera;
     [SerializeField] private Player player; //this client/player
     [SerializeField] public List<string> gamePlayersData; //can change this to a different type later, playerData is combined from LobbyPlayer and Player class
@@ -33,9 +33,12 @@ public class PlayerControl : MonoBehaviour {
     public CardSlot selectedCardToReserve;
 
     public NobleRow allNobles;
+    public CityRow allCities;
     public NobleSlot selectedNoble;
+    public CitySlot selectedCity;
     [SerializeField] private ClaimNoblePanel claimNoblePanel;
     [SerializeField] private GameObject nobleClaimPanel;
+    [SerializeField] private ClaimCityPanel claimCityPanel;
 
     public OrientPanelManager orientPanelManager;
 
@@ -49,7 +52,7 @@ public class PlayerControl : MonoBehaviour {
    
     [SerializeField] private ActionManager actionManager;
     public ActiveSession currSession;
-    public bool inOrientMenu, sacrificeMade, inNobleMenu, selectReserve, inTokenMenu;
+    public bool inOrientMenu, sacrificeMade, inNobleMenu, selectReserve, inTokenMenu, inCityMenu;
 
     [SerializeField] ObjectPool effectPool;
 
@@ -113,6 +116,7 @@ public class PlayerControl : MonoBehaviour {
         selectedCardToBuy = null;
         selectedCardToReserve = null;
         selectedNoble = null;
+        selectedCity = null;
         _inputActionMap = controls.FindActionMap("Player");
 
         fire = _inputActionMap.FindAction("Fire");
@@ -183,6 +187,11 @@ public class PlayerControl : MonoBehaviour {
                 selectedNoble = go.GetComponent<NobleSlot>();
                 nobleSelectButton.SetActive(true);
             }
+
+            if (go.CompareTag("City")) {
+                selectedCity = go.GetComponent<CitySlot>();
+                citySelectButton.SetActive(true);
+            }
         }
     }
 
@@ -194,9 +203,21 @@ public class PlayerControl : MonoBehaviour {
         actionManager.MakeApiRequest(currSession.id, null, ActionManager.ActionType.endTurn, ActionManager.RequestType.POST, (response) => {
 
             if (response != null && ((string)response["status"]).Equals("success")) {
-                StartTurn();
+
+                if((string)response["action"] == "city"){
+                    JSONArray jsonCitiesAquired = (JSONArray)response["options"];
+                
+                    long[] citiesAquired = new long[jsonCitiesAquired.Count];
+                    for (int i = 0; i < jsonCitiesAquired.Count; i++) {
+                        citiesAquired[i] = (long)jsonCitiesAquired[i];
+                    }
+
+                    claimCityPanel.DisplayCityClaim(allCities, citiesAquired);
+                }
+
                 errorText.GetComponent<FadeOut>().CompleteFade();
             }
+            StartTurn();
 
         });
     }
@@ -298,6 +319,32 @@ public class PlayerControl : MonoBehaviour {
                     return;
                 };
                 endTurnAction();
+
+            }
+            else {
+                errorText.GetComponent<FadeOut>().ResetFade(true);
+            }
+
+
+        });
+        
+    }
+
+    public void selectCityAction(){
+        Dictionary<string, object> requestDict = new Dictionary<string, object>();
+        JSONObject selectCityJson = new JSONObject(requestDict);
+        selectCityJson.Add("playerId", player.GetUsername());
+        selectCityJson.Add("cityId", selectedCity.GetCity().id);
+        actionManager.MakeApiRequest(currSession.id, selectCityJson, ActionManager.ActionType.chooseCity,ActionManager.RequestType.POST, (response) => {
+
+            if(response != null){
+                string status = (string)response["status"];
+
+                if (status.Equals("failure")) {
+                    errorText.GetComponent<FadeOut>().ResetFade();
+                    return;
+                };
+      
 
             }
             else {
@@ -683,6 +730,14 @@ public class PlayerControl : MonoBehaviour {
         }
     }
 
+    public void selectCityToClaim() {
+        if (selectedCity != null) {
+            //Add noble to inventory
+            claimCityPanel.TurnOffDisplay();
+            selectCityAction();
+        }
+    }
+
     public void EndTurn() // Player clicks "end turn"
     {    }
 
@@ -694,8 +749,15 @@ public class PlayerControl : MonoBehaviour {
         selectedCardToBuy = null;
         selectedCardToReserve = null;
         selectedNoble = null;
+<<<<<<< HEAD
         selectedReserve = null;
+<<<<<<< HEAD
         allCards.UnGreyOut();
+=======
+=======
+        selectedCity = null;
+>>>>>>> f2e03f0 (Action and UI for select city)
+>>>>>>> 2fb0205 (Merge in token panel)
         purchaseOrReserve.SetActive(false);
         selectedTokensObject.SetActive(false);
         takeTokensButton.SetActive(false);
