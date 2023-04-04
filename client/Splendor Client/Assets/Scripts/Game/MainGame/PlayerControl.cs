@@ -18,6 +18,7 @@ public class PlayerControl : MonoBehaviour {
     [SerializeField] private SelectedTokens selectedTokens;
     [SerializeField] private GameObject takeTokensButton;
     [SerializeField] private ReturnTokenPanel returnTokenPanel;
+    [SerializeField] private GameObject tokenReturnPanel;
     [SerializeField] private GameObject returnTokenButton;
     [SerializeField] private SelectedReturnTokens selectedReturnTokens;
 
@@ -34,6 +35,7 @@ public class PlayerControl : MonoBehaviour {
     public NobleRow allNobles;
     public NobleSlot selectedNoble;
     [SerializeField] private ClaimNoblePanel claimNoblePanel;
+    [SerializeField] private GameObject nobleClaimPanel;
 
     public OrientPanelManager orientPanelManager;
 
@@ -138,7 +140,7 @@ public class PlayerControl : MonoBehaviour {
             effect.SetActive(true);
         }
 
-        if (waiting || inventoryPanel.activeInHierarchy) return;
+        if (waiting || inventoryPanel.activeInHierarchy || nobleClaimPanel.activeInHierarchy || tokenReturnPanel.activeInHierarchy) return;
 
         RaycastHit2D hit = Physics2D.Raycast(worldPos2D, Vector2.zero);
         if (hit.collider != null) { // Check what was clicked (excluding UI elements)
@@ -339,10 +341,10 @@ public class PlayerControl : MonoBehaviour {
                 tokenOverflow = overFlowAmount;
                 if(overFlowAmount == 0){
                     // Handle removal of selected tokens
+                    endTurnAction();
                 }else{
                     returnTokenPanel.Display(overFlowAmount);
                 }
-                endTurnAction();
 
             }
             else {
@@ -375,10 +377,10 @@ public class PlayerControl : MonoBehaviour {
                 tokenOverflow = overFlowAmount;
                 if (overFlowAmount == 0) {
                     // Handle reserve card
+                    endTurnAction();
                 } else {
                     returnTokenPanel.Display(overFlowAmount);
                 }
-                endTurnAction();
             }
             else {
                     errorText.GetComponent<FadeOut>().ResetFade(true);

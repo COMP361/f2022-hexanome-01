@@ -292,7 +292,7 @@ public class MainMenuManager : MonoBehaviour {
     /// </summary>
     /// <param name="newSave">currently selected Save</param>
     public void SetSave(Save newSave) {
-        if (newSave != null) currentSave = newSave;
+        if (newSave != null) currentSave.SetSave(newSave);
     }
 
     /// <summary>
