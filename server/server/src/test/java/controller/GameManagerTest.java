@@ -88,7 +88,7 @@ public class GameManagerTest extends ControllerTestUtils {
 	    GameManager gameManager = new GameManager();
 	    gameManager.launchGame("TestGame", dummy);
 	    Game game = gameManager.getGame("TestGame");
-	    GameController gc = new GameController(gameManager);
+	    GameController gc = new GameController(gameManager, new SaveManager());
 	    JSONObject data = new JSONObject();
 	    data.put("playerId", "testCreator");
 	    gc.freeTokens("TestGame", data);
@@ -102,7 +102,7 @@ public class GameManagerTest extends ControllerTestUtils {
 	    GameManager gameManager = new GameManager();
 	    gameManager.launchGame("TestGame", dummy);
 	    Game game = gameManager.getGame("TestGame");
-	    GameController gc = new GameController(gameManager);
+	    GameController gc = new GameController(gameManager, new SaveManager());
 	    JSONObject data = new JSONObject();
 	    data.put("playerId", "testCreator");
 	    data.put("cityId", ((CitiesBoard) game.getBoard()).getCities()[0]);
@@ -125,7 +125,7 @@ public class GameManagerTest extends ControllerTestUtils {
 	    SessionData dummy = createDummySessionData();
 	    GameManager gameManager = new GameManager();
 	    gameManager.launchGame("TestGame", dummy);
-	    GameController gc = new GameController(gameManager);
+	    GameController gc = new GameController(gameManager, new SaveManager());
 	    
 	    
 	    ResponseEntity<String> response = gc.getBoard("TestGame");
@@ -146,7 +146,7 @@ public class GameManagerTest extends ControllerTestUtils {
 	    SessionData dummy = createDummySessionData();
 	    GameManager gameManager = new GameManager();
 	    gameManager.launchGame("TestGame", dummy);
-	    GameController gc = new GameController(gameManager);
+	    GameController gc = new GameController(gameManager, new SaveManager());
 	    Optional<Board> board = gameManager.getGameBoard("TestGame");
 	    
 	    DeferredResult<String> response = gc.getBoard("TestGame", ""); //first call to long poll
@@ -175,6 +175,9 @@ public class GameManagerTest extends ControllerTestUtils {
 	    	
 	    }
 	    assertEquals(response.getResult().toString(), ""); //validate return
+	    
+	    ResponseEntity<String> error = gc.errorResponse("TEST");
+	    assertEquals("{\"message\":\"Error 500: TEST\",\"status\":\"failure\"}", error.getBody());
   }
 
   @SuppressWarnings("unchecked")
@@ -190,7 +193,7 @@ public class GameManagerTest extends ControllerTestUtils {
 	    Game gameOrient = gameManager.getGame("TestOrient");
 	    Game gameTP = gameManager.getGame("TestTP");
 	    Game gameCity = gameManager.getGame("TestCity");
-	    GameController gc = new GameController(gameManager);
+	    GameController gc = new GameController(gameManager, new SaveManager());
 	    JSONObject data = new JSONObject();
 	    data.put("status", "success");
 	    
@@ -225,7 +228,7 @@ public class GameManagerTest extends ControllerTestUtils {
 	    gameManager.launchGame("TestCity", dummyCity);
 	    Game gameOrient = gameManager.getGame("TestOrient");
 	    Game gameCity = gameManager.getGame("TestCity");
-	    GameController gc = new GameController(gameManager);
+	    GameController gc = new GameController(gameManager, new SaveManager());
 	    JSONObject data = new JSONObject();
 	    data.put("status", "success");
 	    
@@ -256,9 +259,9 @@ public class GameManagerTest extends ControllerTestUtils {
   public void tokenReturnTest() throws JsonProcessingException {
 	    SessionData dummy = createDummySessionData();
 	    GameManager gameManager = new GameManager();
-	    gameManager.launchGame("TestGame", dummy);
+	    GameController gc = new GameController(gameManager, new SaveManager());
+	    gc.launchGame("TestGame", dummy);
 	    Game game = gameManager.getGame("TestGame");
-	    GameController gc = new GameController(gameManager);
 	    
 	    Token[] add = {Token.RED};
 	    ArrayList<String> tokens = new ArrayList<String>();

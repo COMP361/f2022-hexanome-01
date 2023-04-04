@@ -35,7 +35,7 @@ public class SaveManager {
   /**
    * Constructor that sets folders up.
    */
-  SaveManager() {
+  public SaveManager() {
     File dir = new File(saveDir.toString());
     if (!dir.exists()) {
       dir.mkdirs();
@@ -62,6 +62,10 @@ public class SaveManager {
    * @return the session created from the save
    */
   public SaveSession loadGame(String saveId, String playerId) {
+	File file = new File(saveDir.resolve(playerId).resolve(saveId + ".save").toString());
+	if (!file.exists()) {
+      return null;
+	}
     FileInputStream fileIn;
     try {
       initPlayer(playerId);
@@ -100,8 +104,10 @@ public class SaveManager {
       objectOut.writeObject(game);
       objectOut.close();
 
+      if(saveRegistrator != null) {
       saveRegistrator.registerSavedGameWithLobbyService(game.getVariant(),
           new LobbyServiceSaveData(game, saveId));
+      }
 
       return true;
     } catch (Exception e) {
@@ -116,29 +122,30 @@ public class SaveManager {
    * @return the list of all saves as SaveSessions
    */
   public List<SaveSession> getAllSavedGames() {
-    File saveDirectory = new File(saveDir.toString());
-    File[] playerDirectories = saveDirectory.listFiles(File::isDirectory);
     List<SaveSession> savedGames = new ArrayList<>();
+    File saveDirectory = new File(saveDir.toString());
+    if (saveDirectory.exists()) {
+      File[] playerDirectories = saveDirectory.listFiles(File::isDirectory);
 
-    for (File playerDir : playerDirectories) {
-      String playerId = playerDir.getName();
-      File[] saveFiles = playerDir.listFiles((dir, name) -> name.endsWith(".save"));
+      for (File playerDir : playerDirectories) {
+        String playerId = playerDir.getName();
+        File[] saveFiles = playerDir.listFiles((dir, name) -> name.endsWith(".save"));
 
-      for (File saveFile : saveFiles) {
-        try {
-          FileInputStream fileIn = new FileInputStream(saveFile);
-          ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+        for (File saveFile : saveFiles) {
+          try {
+            FileInputStream fileIn = new FileInputStream(saveFile);
+            ObjectInputStream objectIn = new ObjectInputStream(fileIn);
 
-          Game game = (Game) objectIn.readObject();
-          objectIn.close();
+            Game game = (Game) objectIn.readObject();
+            objectIn.close();
 
-          savedGames.add(new SaveSession(game, saveFile.getName().replace(".save", "")));
-        } catch (Exception e) {
-          e.printStackTrace();
+            savedGames.add(new SaveSession(game, saveFile.getName().replace(".save", "")));
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
         }
       }
     }
-
     return savedGames;
   }
 
@@ -150,6 +157,8 @@ public class SaveManager {
    */
   public void deleteTestSavefile(String saveId, String playerId) {
     File file = new File(saveDir.resolve(playerId).resolve(saveId + ".save").toString());
-    file.delete();
+    if(file.exists()) {
+      file.delete();
+    }
   }
 }

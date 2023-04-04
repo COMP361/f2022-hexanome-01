@@ -95,11 +95,14 @@ public class GameController {
   /**
    * Constructor for tests, where autowiring isnt a thing.
    * (For invocation by subclass constructors, typically implicit.)
+
+   * @param gm Game manager
+   * @param sm Save manager
    */
   @SuppressWarnings("unchecked")
-  public GameController(GameManager gm) {
-	gameManager = gm;
-	//saveManager = sm;
+  public GameController(GameManager gm, SaveManager sm) {
+    gameManager = gm;
+    saveManager = sm;
     logger = LoggerFactory.getLogger(GameController.class);
 
     gameNotFound = new JSONObject();
@@ -123,8 +126,14 @@ public class GameController {
     saveException.put("message", "Save threw an exception.");
   }
 
+  /**
+   * generator for error responses.
+
+   * @param message to go with the error
+   * 
+   */
   @SuppressWarnings("unchecked")
-  private ResponseEntity<String> errorResponse(String message) {
+  public ResponseEntity<String> errorResponse(String message) {
     JSONObject error = new JSONObject();
     error.put("status", "failure");
     error.put("message", "Error 500: " + message);
