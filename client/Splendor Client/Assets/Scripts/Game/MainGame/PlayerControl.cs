@@ -341,10 +341,10 @@ public class PlayerControl : MonoBehaviour {
                 tokenOverflow = overFlowAmount;
                 if(overFlowAmount == 0){
                     // Handle removal of selected tokens
+                    endTurnAction();
                 }else{
                     returnTokenPanel.Display(overFlowAmount);
                 }
-                endTurnAction();
 
             }
             else {
@@ -377,10 +377,10 @@ public class PlayerControl : MonoBehaviour {
                 tokenOverflow = overFlowAmount;
                 if (overFlowAmount == 0) {
                     // Handle reserve card
+                    endTurnAction();
                 } else {
                     returnTokenPanel.Display(overFlowAmount);
                 }
-                endTurnAction();
             }
             else {
                     errorText.GetComponent<FadeOut>().ResetFade(true);
