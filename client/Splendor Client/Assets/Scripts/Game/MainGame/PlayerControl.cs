@@ -16,7 +16,7 @@ public class PlayerControl : MonoBehaviour {
     [SerializeField] public List<string> gamePlayersData; //can change this to a different type later, playerData is combined from LobbyPlayer and Player class
     [SerializeField] private TokenBank tokenBank;
     [SerializeField] private GameObject selectedTokensObject;
-    [SerializeField] public GameObject takeTokensButton, purchaseOrReserve;
+    [SerializeField] public GameObject takeTokensButton;
     [SerializeField] private ReturnTokenPanel returnTokenPanel;
     [SerializeField] private GameObject tokenReturnPanel;
     [SerializeField] private GameObject returnTokenButton;
@@ -750,17 +750,8 @@ public class PlayerControl : MonoBehaviour {
         selectedCardToReserve = null;
         selectedNoble = null;
         selectedReserve = null;
-<<<<<<< HEAD
-<<<<<<< HEAD
         allCards.UnGreyOut();
-=======
-=======
         selectedCity = null;
->>>>>>> f2e03f0 (Action and UI for select city)
->>>>>>> 2fb0205 (Merge in token panel)
-=======
-        selectedCity = null;
->>>>>>> 55e7da2 (Merge in token panel)
         purchaseOrReserve.SetActive(false);
         selectedTokensObject.SetActive(false);
         takeTokensButton.SetActive(false);
