@@ -10,13 +10,13 @@ public class PlayerControl : MonoBehaviour {
     public Authentication mainPlayer;
     public Dashboard dashboard;
     [SerializeField] private GameObject inventoryPanel;
-    [SerializeField] private GameObject cursor, purchaseOrReserve, nobleSelectButton;
+    [SerializeField] private GameObject cursor, nobleSelectButton;
     [SerializeField] private Camera playerCamera;
     [SerializeField] private Player player; //this client/player
     [SerializeField] public List<string> gamePlayersData; //can change this to a different type later, playerData is combined from LobbyPlayer and Player class
     [SerializeField] private TokenBank tokenBank;
     [SerializeField] private GameObject selectedTokensObject;
-    [SerializeField] private GameObject takeTokensButton;
+    [SerializeField] public GameObject takeTokensButton, purchaseOrReserve;
     [SerializeField] private ReturnTokenPanel returnTokenPanel;
     [SerializeField] private GameObject tokenReturnPanel;
     [SerializeField] private GameObject returnTokenButton;
@@ -607,6 +607,11 @@ public class PlayerControl : MonoBehaviour {
             returnTokenAction();
             tokenOverflow = 0;
         }
+    }
+
+    public void hidePurchaseUI(){
+        allCards.UnGreyOut();
+        purchaseOrReserve.SetActive(false);
     }
 
 
