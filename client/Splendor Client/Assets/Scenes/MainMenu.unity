@@ -6445,7 +6445,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.38381636, y: 0.43927634}
   m_AnchorMax: {x: 0.5995307, y: 0.532}
-  m_AnchoredPosition: {x: -651.18, y: 486.83}
+  m_AnchoredPosition: {x: -651.18005, y: 486.83}
   m_SizeDelta: {x: -174.37, y: -0.91}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1628652394
@@ -8092,7 +8092,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.17488794, y: 0.15042353}
   m_AnchorMax: {x: 0.873444, y: 0.7338118}
-  m_AnchoredPosition: {x: -2.9080048, y: 5.897999}
+  m_AnchoredPosition: {x: -2.9080067, y: 5.897999}
   m_SizeDelta: {x: 1.9869995, y: 9.063999}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1900999424
@@ -8250,7 +8250,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.17488794, y: 0.15042353}
   m_AnchorMax: {x: 0.873444, y: 0.7338118}
-  m_AnchoredPosition: {x: -2.9080048, y: 5.897999}
+  m_AnchoredPosition: {x: -2.9080067, y: 5.897999}
   m_SizeDelta: {x: 1.9869995, y: 9.063999}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1979189838
@@ -9105,6 +9105,7 @@ MonoBehaviour:
   joinButton: {fileID: 1515662379}
   startButton: {fileID: 321641590}
   startSessionButton: {fileID: 2120501436}
+  adminButton: {fileID: 1628652392}
   splendorToggle: {fileID: 1661384216}
   citiesToggle: {fileID: 226980038}
   tradingPostsToggle: {fileID: 278111678}

@@ -330,4 +330,16 @@ public class LSRequestManager : MonoBehaviour
 
 		result(add.result == UnityWebRequest.Result.Success);
  	}
+
+	public static IEnumerator GetRole(Action<string> result) {
+		string url = "http://" + HOST + ":4242/oauth/role";
+		UnityWebRequest get = UnityWebRequest.Get(url);
+		get.SetRequestHeader("Authorization", "Bearer " + mainPlayer.GetAccessToken());
+
+		yield return get.SendWebRequest();
+
+		if (get.result == UnityWebRequest.Result.Success) {
+			result(get.downloadHandler.text);
+		} else result(null);
+	}
 }
