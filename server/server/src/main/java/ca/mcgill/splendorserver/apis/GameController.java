@@ -130,7 +130,7 @@ public class GameController {
    * generator for error responses.
 
    * @param message to go with the error
-   * 
+   * @return the response with the error
    */
   @SuppressWarnings("unchecked")
   public ResponseEntity<String> errorResponse(String message) {
@@ -605,7 +605,7 @@ public class GameController {
       if (response != null) {
         response.put("status", "success");
       } else {
-    	response = new JSONObject();
+        response = new JSONObject();
         response.put("status", "failure");
       }
       return ResponseEntity.ok(response.toJSONString());
