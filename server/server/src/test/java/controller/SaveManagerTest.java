@@ -3,13 +3,9 @@ package controller;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
-import static org.junit.Assert.assertTrue;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.After;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
 
 import ca.mcgill.splendorserver.apis.GameController;
@@ -17,7 +13,6 @@ import ca.mcgill.splendorserver.controllers.GameManager;
 import ca.mcgill.splendorserver.controllers.SaveManager;
 import ca.mcgill.splendorserver.models.Game;
 import ca.mcgill.splendorserver.models.Player;
-import ca.mcgill.splendorserver.models.cards.Card;
 import ca.mcgill.splendorserver.models.registries.CardRegistry;
 import ca.mcgill.splendorserver.models.saves.SaveSession;
 import utils.ControllerTestUtils;
@@ -35,12 +30,12 @@ public class SaveManagerTest {
 	private static Player emma = new Player(randName2);
     private static Player jeremy = new Player(randName3);
 	
-	private static Game game = new Game("test", "josh", new Player[] {josh, emma, jeremy}, "splendor");
+	private static Game game = new Game("test", randName1, new Player[] {josh, emma, jeremy}, "splendor");
 	
 	private static String saveId = "";
 
-	@BeforeClass
-	public static void initSaveDir() {
+	@Before
+	public void initSaveDir() {
 		saveManager.initPlayer(randName1);
 		saveManager.initPlayer(randName2);
 	}
@@ -88,9 +83,8 @@ public class SaveManagerTest {
 
 	@After
 	public void deleteSave() {
-		if (saveId.length() > 0) {
-          saveManager.deleteTestSavefile(saveId, randName1);
-		}
+	  saveManager.deleteSavedGamesOfUser(randName1);
+      saveManager.deleteSavedGamesOfUser(randName2);
 	}
 
 }

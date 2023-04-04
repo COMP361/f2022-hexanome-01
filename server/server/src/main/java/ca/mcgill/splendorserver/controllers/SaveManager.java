@@ -172,6 +172,31 @@ public class SaveManager {
   }
 
   /**
+   * Retrieves all saved games of user.
+   *
+   * @return the number of all saves as SaveSessions
+   */
+  public void deleteSavedGamesOfUser(String playerId) {
+    File saveDirectory = new File(saveDir.toString());
+    
+    if (saveDirectory.exists()) {
+      File[] playerDirectories = saveDirectory.listFiles(File::isDirectory);
+
+      for (File playerDir : playerDirectories) {
+        if (!playerId.equals(playerDir.getName())) {
+          continue;
+        }
+        File[] saveFiles = playerDir.listFiles((dir, name) -> name.endsWith(".save"));
+        for (File saveFile : saveFiles) {
+          saveFile.delete();
+        }
+        playerDir.delete();
+        return;
+      }
+    }
+  }
+
+  /**
    * Deletes the tester save.
    *
    * @param saveId the is of the tester save
