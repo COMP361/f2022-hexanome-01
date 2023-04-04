@@ -152,6 +152,7 @@ public class SaveManager {
   /**
    * Retrieves all saved games of user.
    *
+   * @param playerId id of player who made save
    * @return the number of all saves as SaveSessions
    */
   public int countSavedGamesOfUser(String playerId) {
@@ -173,8 +174,9 @@ public class SaveManager {
 
   /**
    * Retrieves all saved games of user.
-   *
-   * @return the number of all saves as SaveSessions
+
+   * @param playerId id of player who made save
+
    */
   public void deleteSavedGamesOfUser(String playerId) {
     File saveDirectory = new File(saveDir.toString());
