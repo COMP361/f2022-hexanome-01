@@ -2031,6 +2031,7 @@ MonoBehaviour:
   amount: {fileID: 1051660729}
   image: {fileID: 223610496}
   selectedTokens: {fileID: 1191895568}
+  selectedReturnTokens: {fileID: 0}
   tokenBank: {fileID: 1493752223}
   takeTokenButton: {fileID: 377587216}
 --- !u!114 &223610499
@@ -2751,6 +2752,7 @@ MonoBehaviour:
   cursor: {fileID: 0}
   purchaseOrReserve: {fileID: 1597933660}
   nobleSelectButton: {fileID: 0}
+  citySelectButton: {fileID: 0}
   playerCamera: {fileID: 1735013987}
   player: {fileID: 288864034}
   gamePlayersData: []
@@ -2758,6 +2760,10 @@ MonoBehaviour:
   selectedTokens: {fileID: 1191895568}
   takeTokensButton: {fileID: 377587216}
   returnTokenPanel: {fileID: 0}
+  tokenReturnPanel: {fileID: 0}
+  returnTokenButton: {fileID: 0}
+  selectedReturnTokens: {fileID: 0}
+  tokenOverflow: 0
   errorText: {fileID: 388194041}
   allCards: {fileID: 911230083}
   selectedCard: {fileID: 0}
@@ -2765,9 +2771,12 @@ MonoBehaviour:
   selectedCardToBuy: {fileID: 0}
   selectedCardToReserve: {fileID: 0}
   allNobles: {fileID: 1549385823}
+  allCities: {fileID: 262084527}
   selectedNoble: {fileID: 0}
   selectedCity: {fileID: 0}
   claimNoblePanel: {fileID: 889997262}
+  nobleClaimPanel: {fileID: 0}
+  claimCityPanel: {fileID: 1843890881}
   orientPanelManager: {fileID: 882211150}
   controls: {fileID: -944628639613478452, guid: 68b0984844d79b345af0ecff893baaed, type: 3}
   waiting: 0
@@ -2778,6 +2787,7 @@ MonoBehaviour:
   inNobleMenu: 0
   selectReserve: 0
   inTokenMenu: 0
+  inCityMenu: 0
   effectPool: {fileID: 2113461001}
 --- !u!114 &288864034
 MonoBehaviour:
@@ -6206,6 +6216,7 @@ MonoBehaviour:
   amount: {fileID: 1310818842}
   image: {fileID: 620833224}
   selectedTokens: {fileID: 1191895568}
+  selectedReturnTokens: {fileID: 0}
   tokenBank: {fileID: 1493752223}
   takeTokenButton: {fileID: 0}
 --- !u!114 &620833227
@@ -10379,6 +10390,7 @@ MonoBehaviour:
   amount: {fileID: 1397457322}
   image: {fileID: 973229743}
   selectedTokens: {fileID: 1191895568}
+  selectedReturnTokens: {fileID: 0}
   tokenBank: {fileID: 1493752223}
   takeTokenButton: {fileID: 377587216}
 --- !u!114 &973229746
@@ -11923,6 +11935,7 @@ MonoBehaviour:
   amount: {fileID: 1869528332}
   image: {fileID: 1120664521}
   selectedTokens: {fileID: 1191895568}
+  selectedReturnTokens: {fileID: 0}
   tokenBank: {fileID: 1493752223}
   takeTokenButton: {fileID: 377587216}
 --- !u!114 &1120664524
@@ -14171,6 +14184,7 @@ MonoBehaviour:
   amount: {fileID: 233896001}
   image: {fileID: 1229423503}
   selectedTokens: {fileID: 1191895568}
+  selectedReturnTokens: {fileID: 0}
   tokenBank: {fileID: 1493752223}
   takeTokenButton: {fileID: 377587216}
 --- !u!114 &1229423506
@@ -14779,6 +14793,7 @@ MonoBehaviour:
   amount: {fileID: 113148374}
   image: {fileID: 1279809575}
   selectedTokens: {fileID: 1191895568}
+  selectedReturnTokens: {fileID: 0}
   tokenBank: {fileID: 1493752223}
   takeTokenButton: {fileID: 377587216}
 --- !u!114 &1279809578
@@ -17027,6 +17042,7 @@ MonoBehaviour:
   amount: {fileID: 1841094957}
   image: {fileID: 1429226443}
   selectedTokens: {fileID: 1191895568}
+  selectedReturnTokens: {fileID: 0}
   tokenBank: {fileID: 1493752223}
   takeTokenButton: {fileID: 377587216}
 --- !u!114 &1429226442
@@ -22543,6 +22559,7 @@ MonoBehaviour:
   amount: {fileID: 1762923026}
   image: {fileID: 1950815097}
   selectedTokens: {fileID: 1191895568}
+  selectedReturnTokens: {fileID: 0}
   tokenBank: {fileID: 1493752223}
   takeTokenButton: {fileID: 377587216}
 --- !u!114 &1950815096
@@ -23287,6 +23304,7 @@ MonoBehaviour:
   amount: {fileID: 924265389}
   image: {fileID: 2031549376}
   selectedTokens: {fileID: 1191895568}
+  selectedReturnTokens: {fileID: 0}
   tokenBank: {fileID: 1493752223}
   takeTokenButton: {fileID: 377587216}
 --- !u!114 &2031549375
