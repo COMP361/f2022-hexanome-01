@@ -172,36 +172,6 @@ public class Inventory implements Serializable {
     cards.add(card);
   }
 
-  /**
-   * Pay for a card using player's tokens/discounts.
-   *
-   * @param card     the card to pay for.
-   * @param goldUsed the gold the player wishes to use
-   * @return the tokens used to pay for the card.
-   */
-  private Token[] payForCard(Card card, int goldUsed) {
-    ArrayList<Token> tokensPaid = new ArrayList<>();
-
-    tokens.removeRepeated(Token.GOLD, goldUsed);
-    for (int i = 0; i < goldUsed; i++) {
-      tokensPaid.add(Token.GOLD);
-    }
-
-    TokenBank bonuses = getBonuses();
-    for (Token token : Token.values()) {
-      if (token.equals(Token.GOLD)) {
-        continue;
-      }
-      int toRemove = Math.max(0, card.getCost().get(token) - bonuses.checkAmount(token));
-      tokens.removeRepeated(token, toRemove);
-      for (int i = 0; i < toRemove; i++) {
-        tokensPaid.add(token);
-      }
-    }
-
-    return tokensPaid.toArray(new Token[0]);
-  }
-
   public void acquireCard(Card card) {
     points += card.getPoints();
     bonuses.addRepeated(card.getBonus().getType(), card.getBonus().getAmount());
@@ -232,8 +202,10 @@ public class Inventory implements Serializable {
       TokenBank bonuses = getBonuses();
       int tokenAmount = tokens.checkAmount(token);
       int tokenCost = Math.max(0, cost.get(token) - bonuses.checkAmount(token));
+      payment.replace(token, tokenCost);
 
       if (tokenAmount < tokenCost) { //if insufficient funds
+    	  payment.replace(token, tokenAmount);
         int goldAvailable = tokens.checkAmount(Token.GOLD) - goldUsed;
         boolean doubleGold = false;
         for (Unlockable u : unlockables) { //check for trading post
@@ -257,7 +229,6 @@ public class Inventory implements Serializable {
         goldUsed += goldNeeded;
         payment.put(Token.GOLD, payment.get(Token.GOLD) + goldNeeded);
       }
-      payment.replace(token, tokenCost);
     }
 
     while (cardsUsed > 0) {

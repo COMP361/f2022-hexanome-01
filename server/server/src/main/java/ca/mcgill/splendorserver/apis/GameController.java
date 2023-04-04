@@ -605,7 +605,7 @@ public class GameController {
       if (response != null) {
         response.put("status", "success");
       } else {
-    	response = new JSONObject();
+        response = new JSONObject();
         response.put("status", "failure");
       }
       return ResponseEntity.ok(response.toJSONString());
