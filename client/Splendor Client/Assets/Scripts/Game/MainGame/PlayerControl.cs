@@ -591,6 +591,7 @@ public class PlayerControl : MonoBehaviour {
                     errorText.GetComponent<FadeOut>().ResetFade();
                     return;
                 }
+                endTurnAction();
             }
         });
     }
