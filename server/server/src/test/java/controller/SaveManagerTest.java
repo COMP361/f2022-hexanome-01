@@ -49,7 +49,7 @@ public class SaveManagerTest {
 		
 		
 		SaveSession save = saveManager.loadGame(saves.get(0).getSavegameid(), "josh");
-		assertEquals("josh", save.getGame().getCreatorId());
+		assertEquals("josh", save.getGame().getCreatorId()); //HAHHHHH
 		assertEquals(3, save.getGame().getPlayers().length);
 		assertEquals("splendor", save.getGame().getVariant());
 	}
@@ -82,7 +82,7 @@ public class SaveManagerTest {
 		List<SaveSession> saves = saveManager.getAllSavedGames();
 
 		SaveSession save = saveManager.loadGame(saves.get(0).getSavegameid(), "josh");
-		assertSame(1, save.getGame().getCurrentPlayer().getInventory().getCards().get(0).getId());
+		assertSame(1, save.getGame().getCurrentPlayer().getInventory().getCards().get(0).getId()); //HAHAHAH
 	}
 
 	@After

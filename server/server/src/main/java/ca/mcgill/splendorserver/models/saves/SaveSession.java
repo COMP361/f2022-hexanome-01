@@ -1,9 +1,8 @@
 package ca.mcgill.splendorserver.models.saves;
 
-import java.util.Arrays;
-
 import ca.mcgill.splendorserver.models.Game;
 import ca.mcgill.splendorserver.models.Player;
+import java.util.Arrays;
 
 /**
  * Session based on a save of a game.
@@ -30,25 +29,31 @@ public class SaveSession {
     return variant.equals(game.getVariant()) && playersRequired.length == numPlayers;
   }
   
+  /**
+   * Reassigns players when joining saves with different players than the original.
+   *
+   * @param players the game to save
+   * 
+   */
   public void reassignPlayers(String[] players) {
-	if (Arrays.equals(playersRequired, players)) {
+    if (Arrays.equals(playersRequired, players)) {
       return;
-	}
-	for (int i=0; i<playersRequired.length; i++) {
-	  if (!playersRequired[i].equals(players[i])) {
-	    int j = Arrays.asList(players).indexOf(playersRequired[i]);
-	    if (j != -1) {
-	      String tmp = players[i];
-	      players[i] = players[j];
-	      players[j] = tmp;
-	    }
-	  }
-	}
-	playersRequired = players.clone();
-	int index = 0;
-	for (Player player : game.getPlayers()) {
+    }
+    for (int i = 0; i < playersRequired.length; i++) {
+      if (!playersRequired[i].equals(players[i])) {
+        int j = Arrays.asList(players).indexOf(playersRequired[i]);
+        if (j != -1) {
+          String tmp = players[i];
+          players[i] = players[j];
+          players[j] = tmp;
+        }
+      }
+    }
+    playersRequired = players.clone();
+    int index = 0;
+    for (Player player : game.getPlayers()) {
       player.setUsername(players[index++]);
-	}
+    }
   }
 
   public Game getGame() {

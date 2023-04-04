@@ -62,10 +62,10 @@ public class SaveManager {
    * @return the session created from the save
    */
   public SaveSession loadGame(String saveId, String playerId) {
-	File file = new File(saveDir.resolve(playerId).resolve(saveId + ".save").toString());
-	if (!file.exists()) {
+    File file = new File(saveDir.resolve(playerId).resolve(saveId + ".save").toString());
+    if (!file.exists()) {
       return null;
-	}
+    }
     FileInputStream fileIn;
     try {
       initPlayer(playerId);
@@ -104,8 +104,8 @@ public class SaveManager {
       objectOut.writeObject(game);
       objectOut.close();
 
-      if(saveRegistrator != null) {
-      saveRegistrator.registerSavedGameWithLobbyService(game.getVariant(),
+      if (saveRegistrator != null) {
+        saveRegistrator.registerSavedGameWithLobbyService(game.getVariant(),
           new LobbyServiceSaveData(game, saveId));
       }
 
@@ -157,7 +157,7 @@ public class SaveManager {
    */
   public void deleteTestSavefile(String saveId, String playerId) {
     File file = new File(saveDir.resolve(playerId).resolve(saveId + ".save").toString());
-    if(file.exists()) {
+    if (file.exists()) {
       file.delete();
     }
   }

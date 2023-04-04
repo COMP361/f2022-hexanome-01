@@ -60,7 +60,7 @@ public class GameManager {
     if (!saveId.equals("")) {
       SaveSession save = saveManager.loadGame(gameId, session.getCreator());
       if (save != null && save.isValidLaunch(session.getVariant(), session.getPlayers().length)) {
-    	save.reassignPlayers(session.getPlayers());
+        save.reassignPlayers(session.getPlayers());
         gameRegistry.put(gameId, save.getGame());
         return true;
       }
@@ -490,7 +490,7 @@ public class GameManager {
       
       //if multiple cities unlocked, give player choice
       if (acquiredCities.size() > 1) {
-    	//remove all cities from player inventory
+        //remove all cities from player inventory
         ArrayList<Unlockable> unlockables = currentPlayer.getInventory().getUnlockables();
         for (int i = 0; i < unlockables.size(); i++) {
           if (unlockables.get(i) instanceof City) {
