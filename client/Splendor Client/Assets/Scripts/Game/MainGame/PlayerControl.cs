@@ -19,6 +19,7 @@ public class PlayerControl : MonoBehaviour {
     [SerializeField] private GameObject takeTokensButton;
     [SerializeField] private ReturnTokenPanel returnTokenPanel;
     [SerializeField] private GameObject returnTokenButton;
+    [SerializeField] private SelectedReturnTokens selectedReturnTokens;
 
     public long tokenOverflow;
 
@@ -369,6 +370,14 @@ public class PlayerControl : MonoBehaviour {
                     errorText.GetComponent<FadeOut>().ResetFade();
                     return;
                 };
+
+                long overFlowAmount = (long)response["tokenOverflow"];
+                tokenOverflow = overFlowAmount;
+                if (overFlowAmount == 0) {
+                    // Handle reserve card
+                } else {
+                    returnTokenPanel.Display(overFlowAmount);
+                }
                 endTurnAction();
             }
             else {
@@ -555,8 +564,8 @@ public class PlayerControl : MonoBehaviour {
         Dictionary<string, object> requestDict = new Dictionary<string, object>();
         JSONObject chosenTokensJson = new JSONObject(requestDict);
         chosenTokensJson.Add("playerId", player.GetUsername());
-        string[] tokenColours = selectedTokens.colours.Select(t => t.text).ToArray();
-        string[] tokenNums = selectedTokens.nums.Select(t => t.text).ToArray();
+        string[] tokenColours = selectedReturnTokens.colours.Select(t => t.text).ToArray();
+        string[] tokenNums = selectedReturnTokens.nums.Select(t => t.text).ToArray();
 
         List<string> tokenList = new List<string>();
 
@@ -571,7 +580,7 @@ public class PlayerControl : MonoBehaviour {
         actionManager.MakeApiRequest(currSession.id, chosenTokensJson, ActionManager.ActionType.returnTokens, ActionManager.RequestType.POST, (response) => {
 
             returnTokenButton.SetActive(false);
-            selectedTokens.reset(player.GetTokenBank());
+            selectedReturnTokens.reset(player.GetTokenBank());
 
             if(response != null) {
                 string status = (string)response["status"];
@@ -585,8 +594,11 @@ public class PlayerControl : MonoBehaviour {
     }
 
     public void confirmReturnToken() {
-        returnTokenPanel.TurnOffDisplay();
-        returnTokenAction();
+        if (selectedReturnTokens.CheckReturnAmount()) {    
+            returnTokenPanel.TurnOffDisplay();
+            returnTokenAction();
+            tokenOverflow = 0;
+        }
     }
 
 
