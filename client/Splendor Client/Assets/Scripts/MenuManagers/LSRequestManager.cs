@@ -52,39 +52,6 @@ public class LSRequestManager : MonoBehaviour
 
     }
 
-    public static IEnumerator AddUser(Authentication authentication, string username, string password, Action<bool> result) {
-        // TODO: Implement and change from login
-        
-        mainPlayer = authentication;
-
-        string url = "http://" + HOST + ":4242/oauth/token"; //url for POST request
-
-        WWWForm form = new WWWForm();
-        form.AddField("grant_type", "password");
-        form.AddField("username", username);
-        form.AddField("password", password);
-
-        UnityWebRequest auth = UnityWebRequest.Post(url, form);
-        auth.SetRequestHeader("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc="); //authenticate the POST request
-
-        yield return auth.SendWebRequest();
-
-        if (auth.result == UnityWebRequest.Result.Success)
-        {
-            JSONObject json = (JSONObject)JSONHandler.DecodeJsonRequest(auth.downloadHandler.text);
-            CallRefresh((long)json["expires_in"] - 5); //refresh automatically when token is about to expire
-
-            //set authentication fields
-            mainPlayer.SetUsername(username);
-            mainPlayer.SetAccessToken((string)json["access_token"]);
-            mainPlayer.SetRefreshToken((string)json["refresh_token"]);
-
-            result(true);
-        }
-        else
-            result(false);
-    }
-
     private static IEnumerator CallRefresh(long seconds) {
         yield return new WaitForSeconds(seconds);
         Refresh();
@@ -334,7 +301,6 @@ public class LSRequestManager : MonoBehaviour
 
     public static IEnumerator Launch(ActiveSession session, Action<bool> result)
     {
-
         string url = "http://" + HOST + ":4242/api/sessions/" + session.id; //url for POST request
         UnityWebRequest launch = UnityWebRequest.Post(url, "body"); //body of POST cannot be empty
         launch.SetRequestHeader("Authorization", "Bearer " + mainPlayer.GetAccessToken());
@@ -343,4 +309,25 @@ public class LSRequestManager : MonoBehaviour
 
         result(launch.result == UnityWebRequest.Result.Success);
     }
+
+	//******************************** ADMIN ********************************
+
+	public static IEnumerator AddUser(Authentication mainPlayer, string username, string password, 
+			string role, string colour, Action<bool> result) {
+		string url = "http://" + HOST + ":4242/api/users/" + username;
+		UnityWebRequest add = new UnityWebRequest(url);
+		add.method = "PUT";
+		add.SetRequestHeader("Authorization", "Bearer " + mainPlayer.GetAccessToken());
+		add.SetRequestHeader("Content-Type", "application/json");
+		string body = "{\"name\":\"" + username 
+			+ "\", \"password\":\"" + password 
+			+ "\", \"preferredColour\":\"" + colour 
+			+ "\", \"role\":\"" + role + "\"}";
+		add.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(body));
+		add.downloadHandler = new DownloadHandlerBuffer();
+
+		yield return add.SendWebRequest();
+
+		result(add.result == UnityWebRequest.Result.Success);
+ 	}
 }
