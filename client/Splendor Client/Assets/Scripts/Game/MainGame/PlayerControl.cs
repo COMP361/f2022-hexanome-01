@@ -749,8 +749,8 @@ public class PlayerControl : MonoBehaviour {
         selectedCardToBuy = null;
         selectedCardToReserve = null;
         selectedNoble = null;
-<<<<<<< HEAD
         selectedReserve = null;
+<<<<<<< HEAD
 <<<<<<< HEAD
         allCards.UnGreyOut();
 =======
@@ -758,6 +758,9 @@ public class PlayerControl : MonoBehaviour {
         selectedCity = null;
 >>>>>>> f2e03f0 (Action and UI for select city)
 >>>>>>> 2fb0205 (Merge in token panel)
+=======
+        selectedCity = null;
+>>>>>>> 55e7da2 (Merge in token panel)
         purchaseOrReserve.SetActive(false);
         selectedTokensObject.SetActive(false);
         takeTokensButton.SetActive(false);
