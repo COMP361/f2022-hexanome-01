@@ -19,7 +19,7 @@ public class AdminManager : MonoBehaviour
         string role = "ROLE_PLAYER";
         if (adminRole.isOn) role = "ROLE_ADMIN";
         
-        StartCoroutine(LSRequestManager.AddUser(mainPlayer, username.text, password.text, role, colour.text
+        StartCoroutine(LSRequestManager.AddUser(mainPlayer, username.text, password.text, role, colour.text,
             (bool success) => {
             if (!success)
             {
