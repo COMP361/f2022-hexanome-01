@@ -43,7 +43,7 @@ public class SaveManagerTest {
 
 	@Test
 	public void saveAndLoadSaveGameTest() {
-		gc.launchGame("test", ControllerTestUtils.createDummySave());
+//		gc.launchGame("test", ControllerTestUtils.createDummySave());
 		gc.save("test");
 		List<SaveSession> saves = saveManager.getAllSavedGames();
 		
@@ -56,7 +56,7 @@ public class SaveManagerTest {
 
 	@Test
 	public void incorrectCreatorSaveGameTest() {
-		gc.launchGame("test", ControllerTestUtils.createDummySave());
+//		gc.launchGame("test", ControllerTestUtils.createDummySave());
 		gc.save("test");
 
 		//Game game = new Game("test", "josh", new Player[] {josh, emma, jeremy}, "splendor");
@@ -70,7 +70,7 @@ public class SaveManagerTest {
 
 	@Test
 	public void saveAndLoadPlayedSaveGameTest() {
-		gc.launchGame("test", ControllerTestUtils.createDummySave());
+//		gc.launchGame("test", ControllerTestUtils.createDummySave());
 		gc.save("test");
 
 		//Game game = new Game("test", "josh", new Player[] {josh, emma, jeremy}, "splendor");
