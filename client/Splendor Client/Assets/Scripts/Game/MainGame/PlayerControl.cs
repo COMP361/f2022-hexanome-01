@@ -15,7 +15,7 @@ public class PlayerControl : MonoBehaviour {
     [SerializeField] private Player player; //this client/player
     [SerializeField] public List<string> gamePlayersData; //can change this to a different type later, playerData is combined from LobbyPlayer and Player class
     [SerializeField] private TokenBank tokenBank;
-    [SerializeField] private SelectedTokens selectedTokens;
+    [SerializeField] private GameObject selectedTokensObject;
     [SerializeField] private GameObject takeTokensButton;
     [SerializeField] private ReturnTokenPanel returnTokenPanel;
     [SerializeField] private GameObject tokenReturnPanel;
@@ -154,6 +154,10 @@ public class PlayerControl : MonoBehaviour {
                 selectedReserve = null;
                 selectedCard = go.GetComponent<CardSlot>();
                 allCards.GreyOutExcept(selectedCard);
+                SelectedTokens selectedTokens = selectedTokensObject.GetComponent<SelectedTokens>();
+                selectedTokens.reset(tokenBank);
+                selectedTokensObject.SetActive(false);
+                takeTokensButton.SetActive(false);
                 /*CardSlot cardSlotObject = go.GetComponent<CardSlot>();
                 allCards.GreyOutExcept(cardSlotObject);
                 if (!selectReserve){
@@ -310,6 +314,7 @@ public class PlayerControl : MonoBehaviour {
         JSONObject chosenTokensJson = new JSONObject(requestDict);
         chosenTokensJson.Add("playerId", player.GetUsername());
         //Text[] tokenColours = selectedTokens.colours.toArray();
+        SelectedTokens selectedTokens = selectedTokensObject.GetComponent<SelectedTokens>();
         string[] tokenColours = selectedTokens.colours.Select(t => t.text).ToArray();
         string[] tokenNums = selectedTokens.nums.Select(t => t.text).ToArray();
 
@@ -632,6 +637,10 @@ public class PlayerControl : MonoBehaviour {
             purchaseOrReserve.SetActive(true);
             purchaseOrReserve.transform.GetChild(1).gameObject.SetActive(false);
             allCards.UnGreyOut();
+            SelectedTokens selectedTokens = selectedTokensObject.GetComponent<SelectedTokens>();
+            selectedTokens.reset(tokenBank);
+            selectedTokensObject.SetActive(false);
+            takeTokensButton.SetActive(false);
         }
     }
 
@@ -641,6 +650,10 @@ public class PlayerControl : MonoBehaviour {
             purchaseOrReserve.SetActive(true);
             purchaseOrReserve.transform.GetChild(1).gameObject.SetActive(false);
             allCards.UnGreyOut();
+            SelectedTokens selectedTokens = selectedTokensObject.GetComponent<SelectedTokens>();
+            selectedTokens.reset(tokenBank);
+            selectedTokensObject.SetActive(false);
+            takeTokensButton.SetActive(false);
         }
     }
 
@@ -650,6 +663,10 @@ public class PlayerControl : MonoBehaviour {
             purchaseOrReserve.SetActive(true);
             purchaseOrReserve.transform.GetChild(1).gameObject.SetActive(false);
             allCards.UnGreyOut();
+            SelectedTokens selectedTokens = selectedTokensObject.GetComponent<SelectedTokens>();
+            selectedTokens.reset(tokenBank);
+            selectedTokensObject.SetActive(false);
+            takeTokensButton.SetActive(false);
         }
     }
 
@@ -673,7 +690,10 @@ public class PlayerControl : MonoBehaviour {
         selectedCardToReserve = null;
         selectedNoble = null;
         selectedReserve = null;
+        allCards.UnGreyOut();
         purchaseOrReserve.SetActive(false);
+        selectedTokensObject.SetActive(false);
+        takeTokensButton.SetActive(false);
     }
 
 
