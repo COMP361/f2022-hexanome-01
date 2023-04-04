@@ -110,7 +110,7 @@ public class GameManager {
     Inventory inventory = board.getInventory(playerId);
 
     if (card.getType() == CardType.SACRIFICE) {
-      return determineBody(card, board, inventory);
+      return purchaseCardBody(card, board, inventory);
     }
 
     int goldUsed = inventory.isCostAffordable(card.getCost());
@@ -122,7 +122,7 @@ public class GameManager {
     board.getTokens().addAll(toAddToBank);
     inventory.acquireCard(card);
 
-    JSONObject purchaseResults = determineBody(card, board, inventory);
+    JSONObject purchaseResults = purchaseCardBody(card, board, inventory);
 
     return purchaseResults;
   }
@@ -136,7 +136,7 @@ public class GameManager {
    * @return the JSONObject response containing the action being done, and choices for user.
    */
   @SuppressWarnings("unchecked")
-  public JSONObject determineBody(Card card, Board board, Inventory inventory) {
+  public JSONObject purchaseCardBody(Card card, Board board, Inventory inventory) {
     JSONObject response = new JSONObject();
     response.put("action", "none");
     response.put("options", new JSONArray());
@@ -183,12 +183,14 @@ public class GameManager {
     }
     CardBank cards = board.getCards();
     int pickedUp = cards.draw(card);
-    if (pickedUp != card.getId() && !inventory.getReservedCards().contains(card)) {
-      return false;
+    
+    if (pickedUp == card.getId()) {
+      inventory.addCard(card);
+      return true;
     }
 
-    if (inventory.getReservedCards().contains(card)) {
-      inventory.getReservedCards().remove(card);
+    if (inventory.containsReservedCard(card)) {
+      inventory.removeFromReservedCards(card);
     }
 
     inventory.addCard(card);
@@ -352,36 +354,43 @@ public class GameManager {
    * @param deckId   id of deck the card came from (if any)
    * @return true or false depending if the player can or cannot reserve card
    */
-  public boolean reserveCard(Game game, String playerId,
+  @SuppressWarnings("unchecked")
+  public JSONObject reserveCard(Game game, String playerId,
                                     String source, int cardId, String deckId) {
 
     Board board = game.getBoard();
     Inventory inventory = board.getInventory(playerId);
     CardBank cards = board.getCards();
+    
+    int pickedUp = -1;
+    JSONObject reserveCardResult = new JSONObject();
 
     if (source.equals("board")) {
       Card card = CardRegistry.of(cardId);
 
-      int pickedUp = cards.draw(card);
+      pickedUp = cards.draw(card);
       if (pickedUp != card.getId()) {
-        return false;
-      }
-      if (inventory.reserve(card)) {
-        return addGoldWithReserve(game, playerId);
+        return null;
       }
     } else if (source.equals("deck")) {
       CardLevel level = CardLevel.valueOfIgnoreCase(deckId);
 
-      int pickedUp = cards.drawCardFromDeck(level);
+      pickedUp = cards.drawCardFromDeck(level);
       if (pickedUp == -1) {
-        return false;
+        return null;
       }
-      if (inventory.reserve(CardRegistry.of(pickedUp))) {
-        return addGoldWithReserve(game, playerId);
+    }
+    
+    if (inventory.reserve(CardRegistry.of(pickedUp))) {
+      boolean gold = addGoldWithReserve(game, playerId);
+      reserveCardResult.put("tokenOverflow", 0);
+      if (gold) {
+        int overflow = inventory.getTokens().checkOverflow();
+        reserveCardResult.put("tokenOverflow", overflow <= 40 ? overflow : 0);
       }
     }
 
-    return false;
+    return reserveCardResult;
   }
 
   /**
@@ -389,17 +398,17 @@ public class GameManager {
    *
    * @param game     the game where this is occurring
    * @param playerId the player reserving a card
-   * @return whether it was successful
+   * @return whether gold was added
    */
   private boolean addGoldWithReserve(Game game, String playerId) {
     Board board = game.getBoard();
     Inventory inventory = board.getInventory(playerId);
     TokenBank tokens = board.getTokens();
 
-    if (tokens.removeOne(Token.GOLD)) {
-      return inventory.addTokens(new Token[] {Token.GOLD});
-    } else if (tokens.checkQuantity(Token.GOLD) == 0) {
-      return true; //you can still reserve a card if the bank has no gold tokens
+    if (tokens.checkQuantity(Token.GOLD) > 0) {
+      tokens.removeOne(Token.GOLD);
+      inventory.addTokens(new Token[] {Token.GOLD});
+      return true;
     }
 
     return false;

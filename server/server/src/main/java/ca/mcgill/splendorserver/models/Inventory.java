@@ -307,8 +307,29 @@ public class Inventory implements Serializable {
    *
    * @return reservedCards
    */
+  @SuppressWarnings("unchecked")
   public ArrayList<Card> getReservedCards() {
     return (ArrayList<Card>) reservedCards.clone();
+  }
+
+  /**
+   * Checker for the reserved cards of the player.
+   *
+   * @param card card to check
+   * @return status
+   */
+  public boolean containsReservedCard(Card card) {
+    return reservedCards.contains(card);
+  }
+
+  /**
+   * Remove from reserved cards.
+   *
+   * @param card card to remove
+   * @return status
+   */
+  public boolean removeFromReservedCards(Card card) {
+    return reservedCards.remove(card);
   }
 
   /**
