@@ -19,6 +19,10 @@ public class GameMenuManager : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
+    public void OnExitWin() {
+        SceneManager.LoadScene(1);
+    }
+
     public void OnSaveAndExitClick(){
         StartCoroutine(saveAndExitRoutine());
     }

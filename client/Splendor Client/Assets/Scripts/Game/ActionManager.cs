@@ -35,7 +35,8 @@ public class ActionManager : MonoBehaviour
         satchel,
         freeTokens,
         sacrifice,
-        returnTokens
+        returnTokens,
+        chooseCity
     }
 
     public enum RequestType
