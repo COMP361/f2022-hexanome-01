@@ -55,4 +55,10 @@ public class Save {
 		players = save.players;
 		savegameid = save.savegameid;
 	}
+
+	public void Reset() {
+		gamename = "";
+		players = new List<string>();
+		savegameid = "";
+	}
 }

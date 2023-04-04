@@ -235,22 +235,15 @@ public class LSRequestManager : MonoBehaviour
     /// <param name="HOST">IP address to send the request to</param>
     /// <param name="result">method that will receive the list of saved games as a parameter</param>
     /// <returns></returns>
-    public static IEnumerator GetSaves(string hash, string variant, Action<string, List<Save>> result)
+    public static IEnumerator GetSaves(string variant, Action<List<Save>> result)
     {
         string url = "http://" + HOST + ":4242/api/gameservices/" + variant + "/savegames"; //url for GET request
-        if (hash != null) url += ("?hash=" + hash); //url for GET request
         UnityWebRequest request = UnityWebRequest.Get(url);
         request.SetRequestHeader("Authorization", "Bearer " + mainPlayer.GetAccessToken());
         yield return request.SendWebRequest();
 
-        if (request.responseCode == 200)
+        if (request.result == UnityWebRequest.Result.Success)
         {
-            //get hash of result
-            byte[] newHashBytes = MD5.Create().ComputeHash(request.downloadHandler.data);
-            var sBuilder = new StringBuilder();
-            foreach (byte b in newHashBytes) sBuilder.Append(b.ToString("x2"));
-            string newHash = sBuilder.ToString();
-
             JSONArray json = (JSONArray)JSONHandler.DecodeJsonRequest(request.downloadHandler.text);
             List<Save> saves = new List<Save>();
             if (json.Count > 0)
@@ -258,11 +251,8 @@ public class LSRequestManager : MonoBehaviour
                 foreach (JSONObject save in json)
                     saves.Add(new Save(save));
             }
-            result(newHash, saves); //return save list
-        }
-        else if (request.responseCode == 408) result(null, null);
-        else
-            UnityEngine.Debug.Log("GET SAVES FAILED");
+            result(saves); //return save list
+        } else result(null);
     }
 
     /// <summary>
