@@ -235,9 +235,9 @@ public class LSRequestManager : MonoBehaviour
     /// <param name="HOST">IP address to send the request to</param>
     /// <param name="result">method that will receive the list of saved games as a parameter</param>
     /// <returns></returns>
-    public static IEnumerator GetSaves(string hash, Action<string, List<Save>> result)
+    public static IEnumerator GetSaves(string hash, string variant, Action<string, List<Save>> result)
     {
-        string url = "http://" + HOST + ":4242/api/gameservices/splendor/savegames"; //url for GET request
+        string url = "http://" + HOST + ":4242/api/gameservices/" + variant + "/savegames"; //url for GET request
         if (hash != null) url += ("?hash=" + hash); //url for GET request
         UnityWebRequest request = UnityWebRequest.Get(url);
         request.SetRequestHeader("Authorization", "Bearer " + mainPlayer.GetAccessToken());
