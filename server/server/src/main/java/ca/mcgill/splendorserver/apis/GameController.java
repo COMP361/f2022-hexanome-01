@@ -558,7 +558,7 @@ public class GameController {
         return ResponseEntity.ok().body(invalidAction.toJSONString());
       }
 
-      JSONObject response = gameManager.determineBody(card, board, inventory);
+      JSONObject response = gameManager.purchaseCardBody(card, board, inventory);
       if (response == null) {
         return ResponseEntity.badRequest().body(invalidAction.toJSONString());
       }
@@ -601,11 +601,11 @@ public class GameController {
       int cardId = (int) data.get("cardId");
       String deckId = (String) data.get("deckId");
 
-      boolean success = gameManager.reserveCard(game, playerId, source, cardId, deckId);
-      JSONObject response = new JSONObject();
-      if (success) {
+      JSONObject response = gameManager.reserveCard(game, playerId, source, cardId, deckId);
+      if (response != null) {
         response.put("status", "success");
       } else {
+    	response = new JSONObject();
         response.put("status", "failure");
       }
       return ResponseEntity.ok(response.toJSONString());

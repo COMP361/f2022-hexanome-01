@@ -7,7 +7,7 @@ using System;
 public class SelectedReturnTokens : MonoBehaviour
 {
     public List<Gem> sTokens = new List<Gem> ();
-    private PlayerControl playerControl;
+    public PlayerControl playerControl;
     public GameObject returnTokenButton;
 
     //displayed selected tokens amount
@@ -33,26 +33,22 @@ public class SelectedReturnTokens : MonoBehaviour
     }
 
     public bool addOne(string colour){
-        for (int i =0; i<3; i++){
-            //cannot take more than 2 of the same colour
-            if (sTokens[i].colour == colour){
-                if(this.getTotalNum()<=1){
-                    sTokens[i].amount += 1; 
+        if (this.getTotalNum() == playerControl.tokenOverflow) {
+            return false;
+        } else {
+            for (int i = 0; i < 3; i++) {
+                if (sTokens[i].colour == colour) {
+                    sTokens[i].amount += 1;
                     nums[i].text = sTokens[i].amount.ToString();
-                    return true;}
-                return false;
-            }
-            //when take 3 different colours
-            else if (sTokens[i].colour == "none"){
-                if (sTokens[0].amount<2 & sTokens[1].amount<2 & sTokens[2].amount<2
-                & sTokens[0].colour!=colour & sTokens[1].colour!=colour & sTokens[2].colour!=colour){
+                    return true;
+                } else if (sTokens[i].colour == "none") {
                     sTokens[i].colour = colour;
                     colours[i].text = colour;
                     sTokens[i].amount += 1;
                     nums[i].text = sTokens[i].amount.ToString();
-                    return true;}
+                    return true;
+                }
             }
-            
         }
         return false;
         
@@ -89,8 +85,8 @@ public class SelectedReturnTokens : MonoBehaviour
     }
 
     public bool CheckReturnAmount() {
-        long selectTotal = getTotalNum();
-        if (selectTotal == playerControl.tokenOverflow) {
+        // long selectTotal = getTotalNum();
+        if (this.getTotalNum() == playerControl.tokenOverflow) {
             return true;
         }
         return false;
