@@ -370,6 +370,14 @@ public class PlayerControl : MonoBehaviour {
                     errorText.GetComponent<FadeOut>().ResetFade();
                     return;
                 };
+
+                long overFlowAmount = (long)response["tokenOverflow"];
+                tokenOverflow = overFlowAmount;
+                if (overFlowAmount == 0) {
+                    // Handle reserve card
+                } else {
+                    returnTokenPanel.Display(overFlowAmount);
+                }
                 endTurnAction();
             }
             else {
