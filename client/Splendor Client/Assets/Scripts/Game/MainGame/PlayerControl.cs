@@ -10,13 +10,13 @@ public class PlayerControl : MonoBehaviour {
     public Authentication mainPlayer;
     public Dashboard dashboard;
     [SerializeField] private GameObject inventoryPanel;
-    [SerializeField] private GameObject cursor, purchaseOrReserve, nobleSelectButton;
+    [SerializeField] private GameObject cursor, purchaseOrReserve, nobleSelectButton, citySelectButton;
     [SerializeField] private Camera playerCamera;
     [SerializeField] private Player player; //this client/player
     [SerializeField] public List<string> gamePlayersData; //can change this to a different type later, playerData is combined from LobbyPlayer and Player class
     [SerializeField] private TokenBank tokenBank;
-    [SerializeField] private SelectedTokens selectedTokens;
-    [SerializeField] private GameObject takeTokensButton;
+    [SerializeField] private GameObject selectedTokensObject;
+    [SerializeField] public GameObject takeTokensButton;
     [SerializeField] private ReturnTokenPanel returnTokenPanel;
     [SerializeField] private GameObject tokenReturnPanel;
     [SerializeField] private GameObject returnTokenButton;
@@ -33,9 +33,12 @@ public class PlayerControl : MonoBehaviour {
     public CardSlot selectedCardToReserve;
 
     public NobleRow allNobles;
+    public CityRow allCities;
     public NobleSlot selectedNoble;
+    public CitySlot selectedCity;
     [SerializeField] private ClaimNoblePanel claimNoblePanel;
     [SerializeField] private GameObject nobleClaimPanel;
+    [SerializeField] private ClaimCityPanel claimCityPanel;
 
     public OrientPanelManager orientPanelManager;
 
@@ -49,7 +52,7 @@ public class PlayerControl : MonoBehaviour {
    
     [SerializeField] private ActionManager actionManager;
     public ActiveSession currSession;
-    public bool inOrientMenu, sacrificeMade, inNobleMenu, selectReserve, inTokenMenu;
+    public bool inOrientMenu, sacrificeMade, inNobleMenu, selectReserve, inTokenMenu, inCityMenu;
 
     [SerializeField] ObjectPool effectPool;
 
@@ -113,6 +116,7 @@ public class PlayerControl : MonoBehaviour {
         selectedCardToBuy = null;
         selectedCardToReserve = null;
         selectedNoble = null;
+        selectedCity = null;
         _inputActionMap = controls.FindActionMap("Player");
 
         fire = _inputActionMap.FindAction("Fire");
@@ -154,6 +158,10 @@ public class PlayerControl : MonoBehaviour {
                 selectedReserve = null;
                 selectedCard = go.GetComponent<CardSlot>();
                 allCards.GreyOutExcept(selectedCard);
+                SelectedTokens selectedTokens = selectedTokensObject.GetComponent<SelectedTokens>();
+                selectedTokens.reset(tokenBank);
+                selectedTokensObject.SetActive(false);
+                takeTokensButton.SetActive(false);
                 /*CardSlot cardSlotObject = go.GetComponent<CardSlot>();
                 allCards.GreyOutExcept(cardSlotObject);
                 if (!selectReserve){
@@ -179,6 +187,11 @@ public class PlayerControl : MonoBehaviour {
                 selectedNoble = go.GetComponent<NobleSlot>();
                 nobleSelectButton.SetActive(true);
             }
+
+            if (go.CompareTag("City")) {
+                selectedCity = go.GetComponent<CitySlot>();
+                citySelectButton.SetActive(true);
+            }
         }
     }
 
@@ -190,9 +203,21 @@ public class PlayerControl : MonoBehaviour {
         actionManager.MakeApiRequest(currSession.id, null, ActionManager.ActionType.endTurn, ActionManager.RequestType.POST, (response) => {
 
             if (response != null && ((string)response["status"]).Equals("success")) {
-                StartTurn();
+
+                if((string)response["action"] == "city"){
+                    JSONArray jsonCitiesAquired = (JSONArray)response["options"];
+                
+                    long[] citiesAquired = new long[jsonCitiesAquired.Count];
+                    for (int i = 0; i < jsonCitiesAquired.Count; i++) {
+                        citiesAquired[i] = (long)jsonCitiesAquired[i];
+                    }
+
+                    claimCityPanel.DisplayCityClaim(allCities, citiesAquired);
+                }
+
                 errorText.GetComponent<FadeOut>().CompleteFade();
             }
+            StartTurn();
 
         });
     }
@@ -305,11 +330,38 @@ public class PlayerControl : MonoBehaviour {
         
     }
 
+    public void selectCityAction(){
+        Dictionary<string, object> requestDict = new Dictionary<string, object>();
+        JSONObject selectCityJson = new JSONObject(requestDict);
+        selectCityJson.Add("playerId", player.GetUsername());
+        selectCityJson.Add("cityId", selectedCity.GetCity().id);
+        actionManager.MakeApiRequest(currSession.id, selectCityJson, ActionManager.ActionType.chooseCity,ActionManager.RequestType.POST, (response) => {
+
+            if(response != null){
+                string status = (string)response["status"];
+
+                if (status.Equals("failure")) {
+                    errorText.GetComponent<FadeOut>().ResetFade();
+                    return;
+                };
+      
+
+            }
+            else {
+                errorText.GetComponent<FadeOut>().ResetFade(true);
+            }
+
+
+        });
+        
+    }
+
     public void takeTokensAction(){
         Dictionary<string, object> requestDict = new Dictionary<string, object>();
         JSONObject chosenTokensJson = new JSONObject(requestDict);
         chosenTokensJson.Add("playerId", player.GetUsername());
         //Text[] tokenColours = selectedTokens.colours.toArray();
+        SelectedTokens selectedTokens = selectedTokensObject.GetComponent<SelectedTokens>();
         string[] tokenColours = selectedTokens.colours.Select(t => t.text).ToArray();
         string[] tokenNums = selectedTokens.nums.Select(t => t.text).ToArray();
 
@@ -604,6 +656,11 @@ public class PlayerControl : MonoBehaviour {
         }
     }
 
+    public void hidePurchaseUI(){
+        allCards.UnGreyOut();
+        purchaseOrReserve.SetActive(false);
+    }
+
 
     public void setReserveToTrue(){
         selectReserve = true;
@@ -632,6 +689,10 @@ public class PlayerControl : MonoBehaviour {
             purchaseOrReserve.SetActive(true);
             purchaseOrReserve.transform.GetChild(1).gameObject.SetActive(false);
             allCards.UnGreyOut();
+            SelectedTokens selectedTokens = selectedTokensObject.GetComponent<SelectedTokens>();
+            selectedTokens.reset(tokenBank);
+            selectedTokensObject.SetActive(false);
+            takeTokensButton.SetActive(false);
         }
     }
 
@@ -641,6 +702,10 @@ public class PlayerControl : MonoBehaviour {
             purchaseOrReserve.SetActive(true);
             purchaseOrReserve.transform.GetChild(1).gameObject.SetActive(false);
             allCards.UnGreyOut();
+            SelectedTokens selectedTokens = selectedTokensObject.GetComponent<SelectedTokens>();
+            selectedTokens.reset(tokenBank);
+            selectedTokensObject.SetActive(false);
+            takeTokensButton.SetActive(false);
         }
     }
 
@@ -650,6 +715,10 @@ public class PlayerControl : MonoBehaviour {
             purchaseOrReserve.SetActive(true);
             purchaseOrReserve.transform.GetChild(1).gameObject.SetActive(false);
             allCards.UnGreyOut();
+            SelectedTokens selectedTokens = selectedTokensObject.GetComponent<SelectedTokens>();
+            selectedTokens.reset(tokenBank);
+            selectedTokensObject.SetActive(false);
+            takeTokensButton.SetActive(false);
         }
     }
 
@@ -658,6 +727,14 @@ public class PlayerControl : MonoBehaviour {
             //Add noble to inventory
             claimNoblePanel.TurnOffDisplay();
             selectNobleAction();
+        }
+    }
+
+    public void selectCityToClaim() {
+        if (selectedCity != null) {
+            //Add noble to inventory
+            claimCityPanel.TurnOffDisplay();
+            selectCityAction();
         }
     }
 
@@ -673,7 +750,11 @@ public class PlayerControl : MonoBehaviour {
         selectedCardToReserve = null;
         selectedNoble = null;
         selectedReserve = null;
+        allCards.UnGreyOut();
+        selectedCity = null;
         purchaseOrReserve.SetActive(false);
+        selectedTokensObject.SetActive(false);
+        takeTokensButton.SetActive(false);
     }
 
 
