@@ -74,14 +74,15 @@ public class SaveManagerTest {
 		gc.save("test");
 
 		//Game game = new Game("test", "josh", new Player[] {josh, emma, jeremy}, "splendor");
-		game.getCurrentPlayer().getInventory().addCard(CardRegistry.of(1));
-		ArrayList<Card> before = game.getCurrentPlayer().getInventory().getCards();
+		gameManager.getGame("test").getCurrentPlayer().getInventory().addCard(CardRegistry.of(1));
+		//game.getCurrentPlayer().getInventory().addCard(CardRegistry.of(1));
+		//ArrayList<Card> before = game.getCurrentPlayer().getInventory().getCards();
 		gc.save("test");
 		
 		List<SaveSession> saves = saveManager.getAllSavedGames();
 
 		SaveSession save = saveManager.loadGame(saves.get(0).getSavegameid(), "josh");
-		//assertSame(1, save.getGame().getCurrentPlayer().getInventory().getCards().get(0).getId());
+		assertSame(1, save.getGame().getCurrentPlayer().getInventory().getCards().get(0).getId());
 	}
 
 	@After
