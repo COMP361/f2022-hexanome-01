@@ -38,6 +38,7 @@ public class PlayerControl : MonoBehaviour {
     public CitySlot selectedCity;
     [SerializeField] private ClaimNoblePanel claimNoblePanel;
     [SerializeField] private GameObject nobleClaimPanel;
+    [SerializeField] private GameObject cityClaimPanel;
     [SerializeField] private ClaimCityPanel claimCityPanel;
 
     public OrientPanelManager orientPanelManager;
@@ -144,7 +145,7 @@ public class PlayerControl : MonoBehaviour {
             effect.SetActive(true);
         }
 
-        if (waiting || inventoryPanel.activeInHierarchy || nobleClaimPanel.activeInHierarchy || tokenReturnPanel.activeInHierarchy) return;
+        if (waiting || inventoryPanel.activeInHierarchy || nobleClaimPanel.activeInHierarchy || tokenReturnPanel.activeInHierarchy || cityClaimPanel.activeInHierarchy) return;
 
         RaycastHit2D hit = Physics2D.Raycast(worldPos2D, Vector2.zero);
         if (hit.collider != null) { // Check what was clicked (excluding UI elements)
