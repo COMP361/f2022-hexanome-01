@@ -15,7 +15,7 @@ public enum LastMenuVisited {
 }
 public class MainMenuManager : MonoBehaviour {
 
-    [SerializeField] private GameObject blankSessionSlot, sessionContent, lobbyView, blankSaveSlot, saveContent, blankPlayerSlot, playerContent, joinButton, startButton, startSessionButton;
+    [SerializeField] private GameObject blankSessionSlot, sessionContent, lobbyView, blankSaveSlot, saveContent, blankPlayerSlot, playerContent, joinButton, startButton, startSessionButton, adminButton;
     [SerializeField] private Toggle splendorToggle, citiesToggle, tradingPostsToggle;
     [SerializeField] private Toggle splendorSavesToggle, citiesSavesToggle, tradingPostsSavesToggle;
     [SerializeField] private UnityEvent promptEndSession, promptDeleteSession, joinSession, loadSave, loadVariantSaves, createSession, exitToMain, exitToSession, exitToSave;
@@ -28,6 +28,16 @@ public class MainMenuManager : MonoBehaviour {
     [SerializeField] private ActiveSession currentSession;
     private string sessionsHash = null;
     private string sessionHash = null;
+
+    void Start()
+    {
+        StartCoroutine(LSRequestManager.GetRole((string role) =>
+        {
+            if (role == null) UnityEngine.Debug.Log("role is null");
+            if (adminButton == null) UnityEngine.Debug.Log("admin button is null");
+            if (role.Contains("ROLE_ADMIN")) adminButton.SetActive(true);
+        }));
+    }
 
     //******************************** MAIN MENU ********************************
 

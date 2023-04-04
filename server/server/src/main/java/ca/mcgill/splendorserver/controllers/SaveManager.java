@@ -92,7 +92,7 @@ public class SaveManager {
    * @param game the game to save
    * @return the id of the save, or null if an exception was thrown
    */
-  public boolean saveGame(Game game) {
+  public String saveGame(Game game) {
     FileOutputStream fileOut;
     try {
       initPlayer(game.getCreatorId());
@@ -109,10 +109,10 @@ public class SaveManager {
           new LobbyServiceSaveData(game, saveId));
       }
 
-      return true;
+      return saveId;
     } catch (Exception e) {
       e.printStackTrace();
-      return false;
+      return null;
     }
   }
 
@@ -147,6 +147,28 @@ public class SaveManager {
       }
     }
     return savedGames;
+  }
+
+  /**
+   * Retrieves all saved games of user.
+   *
+   * @return the number of all saves as SaveSessions
+   */
+  public int countSavedGamesOfUser(String playerId) {
+    File saveDirectory = new File(saveDir.toString());
+    
+    if (saveDirectory.exists()) {
+      File[] playerDirectories = saveDirectory.listFiles(File::isDirectory);
+
+      for (File playerDir : playerDirectories) {
+        if (!playerId.equals(playerDir.getName())) {
+          continue;
+        }
+        File[] saveFiles = playerDir.listFiles((dir, name) -> name.endsWith(".save"));
+        return saveFiles.length;
+      }
+    }
+    return 0;
   }
 
   /**
