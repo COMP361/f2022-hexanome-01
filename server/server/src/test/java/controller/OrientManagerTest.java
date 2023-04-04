@@ -43,6 +43,15 @@ public class OrientManagerTest {
 		JSONObject invalidAction = new JSONObject();
 	    invalidAction.put("status", "failure");
 	    invalidAction.put("message", "Invalid action.");
+	    
+	    JSONObject gameNotFound = new JSONObject();
+	    gameNotFound.put("status", "failure");
+	    gameNotFound.put("message", "Game not found.");
+
+	    JSONObject playerNotTurn = new JSONObject();
+	    playerNotTurn.put("status", "failure");
+	    playerNotTurn.put("message", "Cannot make move outside of turn.");
+	    
 		
 	    SessionData dummy = ControllerTestUtils.createDummySessionData();
 	    GameManager gameManager = new GameManager();
@@ -537,5 +546,85 @@ public class OrientManagerTest {
 			    } catch (AssertionError e) { 
 			    	fail("exception thrown");
 			    }
+	  }
+	  
+	  @Test
+	  public void endpointFailure() throws JsonProcessingException {
+			JSONObject invalidAction = new JSONObject();
+		    invalidAction.put("status", "failure");
+		    invalidAction.put("message", "Invalid action.");
+		    
+		    JSONObject gameNotFound = new JSONObject();
+		    gameNotFound.put("status", "failure");
+		    gameNotFound.put("message", "Game not found.");
+
+		    JSONObject playerNotTurn = new JSONObject();
+		    playerNotTurn.put("status", "failure");
+		    playerNotTurn.put("message", "Cannot make move outside of turn.");
+		    
+		    SessionData dummy = ControllerTestUtils.createDummySessionData();
+		    GameManager gameManager = new GameManager();
+		    gameManager.launchGame("TestGame", dummy);
+		    Game game = gameManager.getGame("TestGame");
+		    GameController gc = new GameController(gameManager, new SaveManager());
+		    
+		    JSONObject data = new JSONObject();
+		    data.put("playerId", "fake");
+		    
+		    ResponseEntity<String> response;
+		    
+		    response = gc.claimNobleAction("fake", data);
+			assertEquals(gameNotFound.toJSONString(), response.getBody());
+		    response = gc.claimNobleAction("TestGame", data);
+			assertEquals(playerNotTurn.toJSONString(), response.getBody());
+			
+		    response = gc.domino("fake", data);
+			assertEquals(gameNotFound.toJSONString(), response.getBody());
+		    response = gc.domino("TestGame", data);
+			assertEquals(playerNotTurn.toJSONString(), response.getBody());
+			
+		    response = gc.dominoSatchel("fake", data);
+			assertEquals(gameNotFound.toJSONString(), response.getBody());
+		    response = gc.dominoSatchel("TestGame", data);
+			assertEquals(playerNotTurn.toJSONString(), response.getBody());
+			
+		    response = gc.purchaseCard("fake", data);
+			assertEquals(gameNotFound.toJSONString(), response.getBody());
+		    response = gc.purchaseCard("TestGame", data);
+			assertEquals(playerNotTurn.toJSONString(), response.getBody());
+			
+		    response = gc.reserveCard("fake", data);
+			assertEquals(gameNotFound.toJSONString(), response.getBody());
+		    response = gc.reserveCard("TestGame", data);
+			assertEquals(playerNotTurn.toJSONString(), response.getBody());
+			
+		    response = gc.reserveNoble("fake", data);
+			assertEquals(gameNotFound.toJSONString(), response.getBody());
+		    response = gc.reserveNoble("TestGame", data);
+			assertEquals(playerNotTurn.toJSONString(), response.getBody());
+			
+		    response = gc.sacrifice("fake", data);
+			assertEquals(gameNotFound.toJSONString(), response.getBody());
+		    response = gc.sacrifice("TestGame", data);
+			assertEquals(playerNotTurn.toJSONString(), response.getBody());
+			
+		    response = gc.satchel("fake", data);
+			assertEquals(gameNotFound.toJSONString(), response.getBody());
+		    response = gc.satchel("TestGame", data);
+			assertEquals(playerNotTurn.toJSONString(), response.getBody());
+			
+		    response = gc.takeTokens("fake", data);
+			assertEquals(gameNotFound.toJSONString(), response.getBody());
+		    response = gc.takeTokens("TestGame", data);
+			assertEquals(playerNotTurn.toJSONString(), response.getBody());
+			
+		    response = gc.save("fake");
+			assertEquals(gameNotFound.toJSONString(), response.getBody());
+			
+			response = gc.getGame("fake");
+			assertEquals(gameNotFound.toJSONString(), response.getBody());
+
+			response = gc.endTurnAction("fake");
+			assertEquals(gameNotFound.toJSONString(), response.getBody());
 	  }
 }
