@@ -3,6 +3,7 @@ package controller;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -23,28 +24,29 @@ public class SaveManagerTest {
 	public static SaveManager saveManager = new SaveManager();
 	public static GameManager gameManager = new GameManager();
 	public static GameController gc = new GameController(gameManager, saveManager);
-	
-	
 
-	private Player josh = new Player("josh");
-	private Player emma = new Player("emma");
-	private Player jeremy = new Player("jeremy");
+	private static Player josh = new Player("josh");
+	private static Player emma = new Player("emma");
+	private static Player jeremy = new Player("jeremy");
 	
-	Game game = new Game("test", "josh", new Player[] {josh, emma, jeremy}, "splendor");
-	private boolean saved = saveManager.saveGame(game);
+	private static Game game = new Game("test", "josh", new Player[] {josh, emma, jeremy}, "splendor");
 
+	private static boolean saved;
 
 	@BeforeClass
 	public static void initSaveDir() {
-		gc.launchGame("test", ControllerTestUtils.createDummySave());
 		saveManager.initPlayer("josh");
 		saveManager.initPlayer("emma");
+		
+		gc.launchGame("test", ControllerTestUtils.createDummySave());
 	}
 
 	@Test
 	public void saveAndLoadSaveGameTest() {
 		gc.save("test");
 		List<SaveSession> saves = saveManager.getAllSavedGames();
+		
+		assertTrue(saved);
 		
 		SaveSession save = saveManager.loadGame(saves.get(0).getSavegameid(), "josh");
 		assertEquals("josh", save.getGame().getCreatorId());
@@ -54,6 +56,7 @@ public class SaveManagerTest {
 
 	@Test
 	public void incorrectCreatorSaveGameTest() {
+		gc.save("test");
 
 		//Game game = new Game("test", "josh", new Player[] {josh, emma, jeremy}, "splendor");
 		//saved = saveManager.saveGame(game);
@@ -69,12 +72,12 @@ public class SaveManagerTest {
 
 		//Game game = new Game("test", "josh", new Player[] {josh, emma, jeremy}, "splendor");
 		game.getCurrentPlayer().acquireCard(CardRegistry.of(1));
-		saveManager.saveGame(game);
+		gc.save("test");
 		
 		List<SaveSession> saves = saveManager.getAllSavedGames();
 
 		SaveSession save = saveManager.loadGame(saves.get(0).getSavegameid(), "josh");
-		//assertSame(1, save.getGame().getCurrentPlayer().getLastAcquired().getId());
+		assertSame(1, save.getGame().getCurrentPlayer().getLastAcquired().getId());
 	}
 
 	@After
