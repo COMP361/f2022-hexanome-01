@@ -57,7 +57,7 @@ public class OrientPanelManager : MonoBehaviour {
     }
 
     public void SelectCard(long selected) {
-        if (purchasingCard != -1) { //if doing sacrifice action
+        if (action == ActionManager.ActionType.sacrifice) { //if doing sacrifice action
             if (secondCard == selected) //if reselect the second option, deselect it
                 secondCard = -1;
             else if (selectedCard == selected) //if reselect first option, deselect it
