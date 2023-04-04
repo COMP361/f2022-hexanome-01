@@ -309,7 +309,7 @@ public class Inventory implements Serializable {
    */
   @SuppressWarnings("unchecked")
   public ArrayList<Card> getReservedCards() {
-    return (ArrayList<Card>) reservedCards.clone();
+    return (ArrayList<Card>) reservedCards;
   }
 
   /**
