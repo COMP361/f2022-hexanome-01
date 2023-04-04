@@ -113,12 +113,11 @@ public class GameManager {
       return purchaseCardBody(card, board, inventory);
     }
 
-    int goldUsed = inventory.isCostAffordable(card.getCost());
+    Token[] toAddToBank = inventory.isCostAffordable(card.getCost());
 
-    if (goldUsed == -1 || !acquireCard(card, board, inventory)) {
+    if (toAddToBank == null || !acquireCard(card, board, inventory)) {
       return null;
     }
-    Token[] toAddToBank = inventory.payForCard(card, goldUsed);
     board.getTokens().addAll(toAddToBank);
     inventory.acquireCard(card);
 

@@ -179,7 +179,7 @@ public class Inventory implements Serializable {
    * @param goldUsed the gold the player wishes to use
    * @return the tokens used to pay for the card.
    */
-  public Token[] payForCard(Card card, int goldUsed) {
+  private Token[] payForCard(Card card, int goldUsed) {
     ArrayList<Token> tokensPaid = new ArrayList<>();
 
     tokens.removeRepeated(Token.GOLD, goldUsed);
@@ -213,7 +213,15 @@ public class Inventory implements Serializable {
    * @param cost the amount to check for in the player's token bank
    * @return whether the player can afford the cost
    */
-  public int isCostAffordable(HashMap<Token, Integer> cost) {
+  public Token[] isCostAffordable(HashMap<Token, Integer> cost) {
+    HashMap<Token, Integer> payment = new HashMap<Token, Integer>();
+    payment.put(Token.GOLD, 0);
+    payment.put(Token.RED, 0);
+    payment.put(Token.BLUE, 0);
+    payment.put(Token.BLACK, 0);
+    payment.put(Token.GREEN, 0);
+    payment.put(Token.WHITE, 0);
+    
     int goldUsed = 0; //gold tokens being used
     int leftOver = 0; //rollover from gold orient cards
     int cardsUsed = 0; //gold orient cards being used
@@ -239,7 +247,7 @@ public class Inventory implements Serializable {
         int goldNeeded = doubleGold ? (tokenCost - tokenAmount) / 2 : tokenCost - tokenAmount;
         if (goldNeeded > goldAvailable
             + getBonuses().checkAmount(Token.GOLD) + leftOver - cardsUsed * 2) {
-          return -1;
+          return null;
         } else if (goldNeeded > goldAvailable + leftOver) {
           int remaining = goldNeeded - goldAvailable - leftOver;
           cardsUsed += (int) ((((double) remaining) / 2) + 0.5);
@@ -247,7 +255,9 @@ public class Inventory implements Serializable {
           goldNeeded = goldNeeded - remaining; //adjust needed goldTokens by removing goldCards
         }
         goldUsed += goldNeeded;
+        payment.put(Token.GOLD, payment.get(Token.GOLD) + goldNeeded);
       }
+      payment.replace(token, tokenCost);
     }
 
     while (cardsUsed > 0) {
@@ -258,8 +268,16 @@ public class Inventory implements Serializable {
         }
       }
     }
+    
+    ArrayList<Token> tokensPaid = new ArrayList<Token>();
+    for (Token token : Token.values()) {
+      for (int i = 0; i < payment.get(token); i++) {
+        tokensPaid.add(token);
+      }
+      tokens.removeRepeated(token, payment.get(token));
+    }
 
-    return goldUsed; //return gold tokens used
+    return tokensPaid.toArray(new Token[0]); //return gold tokens used
   }
 
   /**
