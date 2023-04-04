@@ -68,7 +68,7 @@ public class TokenSlot : MonoBehaviour
     public void passToSelectRemove() {
         bool active = false;
         string tempColour = token.colour;
-        active = selectedReturnTokens.removeOne(tempColour);
+        active = selectedReturnTokens.addOne(tempColour);
         if (active) {
             tokenBank.removeOne(tempColour);
             confirm = selectedReturnTokens.CheckReturnAmount();
@@ -84,7 +84,7 @@ public class TokenSlot : MonoBehaviour
     public void passToWallet() {
         bool active = false;
         string tempColour = token.colour;
-        active = selectedReturnTokens.addOne(tempColour);
+        active = selectedReturnTokens.removeOne(tempColour);
         if (active) {
             tokenBank.addOne(tempColour);
             confirm = selectedReturnTokens.CheckReturnAmount();

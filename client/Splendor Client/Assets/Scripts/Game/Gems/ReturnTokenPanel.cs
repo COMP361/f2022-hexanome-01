@@ -20,7 +20,7 @@ public class ReturnTokenPanel : MonoBehaviour
             //long toReturn = playerControl.client.GetTokenBank().GetTotalAmount() - 10;
 
             // To self: remember to add the exsessive token number
-            returnText.text = "Please return" + overFlowAmount.ToString() + "tokens";
+            returnText.text = "Please return " + overFlowAmount.ToString() + " tokens";
 
             returnTokenPanel.SetActive(true);
         }
