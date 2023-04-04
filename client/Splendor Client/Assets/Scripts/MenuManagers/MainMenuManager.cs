@@ -24,20 +24,19 @@ public class MainMenuManager : MonoBehaviour {
 
     private LastMenuVisited previousMenu = LastMenuVisited.MAIN;
 
-    public Save currentSave;
+    public Save currentSave = new Save();
     [SerializeField] private ActiveSession currentSession;
     private string sessionsHash = null;
     private string sessionHash = null;
-	private string savesHash = null;
 
     //******************************** MAIN MENU ********************************
 
     public void LoadLastMenu() {
         //reset all data
         currentSession.Reset();
+        currentSave.Reset();
         sessionsHash = null;
         sessionHash = null;
-        savesHash = null;
 
         //switch menus
         if (previousMenu == LastMenuVisited.MAIN)
@@ -77,24 +76,12 @@ public class MainMenuManager : MonoBehaviour {
         else if (citiesSavesToggle.isOn) variant = "cities";
         else if (tradingPostsSavesToggle.isOn) variant = "tradingposts";
 
-        Loading(variant);
-        
-        previousMenu = LastMenuVisited.MAIN;
-        savesViewTitle.text = "available " + variant + " saves";
-        loadVariantSaves.Invoke();
-    }
-
-    private void Loading(string variant)
-    {
-        StartCoroutine(LSRequestManager.GetSaves(savesHash, variant, (string hash, List<Save> saves) => {
-            if (hash != null) {            
-                if (saves != null && saves.Count > 0){
-                    MakeSaves(saves);
-                } else ClearChildren(saveContent); //clear saved games display
-				
-                savesHash = hash;
-                if (saveContent.activeInHierarchy) Loading(variant);
-            } else if (saveContent.activeInHierarchy) Loading(variant);
+        StartCoroutine(LSRequestManager.GetSaves(variant, (List<Save> saves) => {
+            if (saves != null && saves.Count > 0) MakeSaves(saves);
+            else ClearChildren(saveContent); //clear saved games display
+            previousMenu = LastMenuVisited.MAIN;
+            savesViewTitle.text = "available " + variant + " saves";
+            loadVariantSaves.Invoke();
         }));
     }
 
@@ -146,6 +133,7 @@ public class MainMenuManager : MonoBehaviour {
                         previousMenu = LastMenuVisited.LOAD;
                         currentSession.SetSession(session);
                         loadSave.Invoke(); // location of this event may change in the future
+                        SetupLobby();
                         MakePlayers(); // displays the players in the current session
 
                         if (currentSession.players.Count > 2 && currentSession.creator.Equals(authentication.GetUsername()))
@@ -320,11 +308,13 @@ public class MainMenuManager : MonoBehaviour {
     /// Displays saves in "load save" menu.
     /// </summary>
     /// <param name="saves">Save List of all saves relevant to the main player which must be displayed</param>
-    public void MakeSaves(List<Save> saves) { 
-        //currentSave = null;
-
+    public void MakeSaves(List<Save> saves)
+    {
+        currentSave.Reset();
+        
         ClearChildren(saveContent);
-        foreach (Save save in saves) {
+        foreach (Save save in saves)
+        {
             GameObject temp = Instantiate(blankSaveSlot, saveContent.transform.position, Quaternion.identity);
             temp.transform.SetParent(saveContent.transform);
             temp.transform.localScale = new Vector3(1, 1, 1);
