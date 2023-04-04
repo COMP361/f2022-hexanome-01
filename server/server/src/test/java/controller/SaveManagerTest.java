@@ -88,8 +88,9 @@ public class SaveManagerTest {
 
 	@After
 	public void deleteSave() {
-		if (saveId.length() > 0)
+		if (saveId.length() > 0) {
           saveManager.deleteTestSavefile(saveId, randName1);
+		}
 	}
 
 }
