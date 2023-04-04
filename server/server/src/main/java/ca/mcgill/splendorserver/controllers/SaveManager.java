@@ -92,7 +92,7 @@ public class SaveManager {
    * @param game the game to save
    * @return the id of the save, or null if an exception was thrown
    */
-  public boolean saveGame(Game game) {
+  public String saveGame(Game game) {
     FileOutputStream fileOut;
     try {
       initPlayer(game.getCreatorId());
@@ -109,10 +109,10 @@ public class SaveManager {
           new LobbyServiceSaveData(game, saveId));
       }
 
-      return true;
+      return saveId;
     } catch (Exception e) {
       e.printStackTrace();
-      return false;
+      return null;
     }
   }
 
