@@ -260,6 +260,7 @@ public class BoardManager : MonoBehaviour
             if ((string)boardData["winner"] != null) {
                 winner.playerName = ((string)boardData["winner"]);
                 SceneManager.LoadScene("WinScene");
+                //LSRequestManager.DeleteSession(currentSession.id);
                 //return;
             }
         }
