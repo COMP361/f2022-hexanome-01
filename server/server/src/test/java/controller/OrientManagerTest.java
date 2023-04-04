@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import ca.mcgill.splendorserver.controllers.OrientManager;
+import ca.mcgill.splendorserver.controllers.SaveManager;
 import ca.mcgill.splendorserver.apis.GameController;
 import ca.mcgill.splendorserver.apis.JsonHandler;
 import ca.mcgill.splendorserver.controllers.GameManager;
@@ -48,7 +49,7 @@ public class OrientManagerTest {
 	    gameManager.launchGame("TestGame", dummy);
 	    HashMap<String, Game> gameRegistry = gameManager.getGameRegistry();
 
-	    GameController gc = new GameController(gameManager);
+	    GameController gc = new GameController(gameManager, new SaveManager());
 	    JSONObject request = new JSONObject();
 	    Game game = gameRegistry.get("TestGame");
 	    Board board = game.getBoard();
@@ -149,7 +150,7 @@ public class OrientManagerTest {
 	    gameManager.launchGame("TestGame", dummy);
 	    HashMap<String, Game> gameRegistry = gameManager.getGameRegistry();
 
-	    GameController gc = new GameController(gameManager);
+	    GameController gc = new GameController(gameManager, new SaveManager());
 	    JSONObject request = new JSONObject();
 	    Game game = gameRegistry.get("TestGame");
 	    Board board = game.getBoard();
@@ -411,7 +412,7 @@ public class OrientManagerTest {
 		    gameManager.launchGame("TestGame", dummy);
 		    HashMap<String, Game> gameRegistry = gameManager.getGameRegistry();
 
-		    GameController gc = new GameController(gameManager);
+		    GameController gc = new GameController(gameManager, new SaveManager());
 		    JSONObject request = new JSONObject();
 		    Game game = gameRegistry.get("TestGame");
 		    Board board = game.getBoard();
@@ -464,7 +465,7 @@ public class OrientManagerTest {
 		    gameManager.launchGame("TestGame", dummy);
 		    HashMap<String, Game> gameRegistry = gameManager.getGameRegistry();
 
-		    GameController gc = new GameController(gameManager);
+		    GameController gc = new GameController(gameManager, new SaveManager());
 		    JSONObject request = new JSONObject();
 		    Game game = gameRegistry.get("TestGame");
 		    Board board = game.getBoard();
