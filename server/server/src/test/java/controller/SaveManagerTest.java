@@ -33,8 +33,6 @@ public class SaveManagerTest {
 	
 	private static Game game = new Game("test", "josh", new Player[] {josh, emma, jeremy}, "splendor");
 
-	private static boolean saved;
-
 	@BeforeClass
 	public static void initSaveDir() {
 		saveManager.initPlayer("josh");
@@ -43,10 +41,9 @@ public class SaveManagerTest {
 
 	@Test
 	public void saveAndLoadSaveGameTest() {
-//		gc.launchGame("test", ControllerTestUtils.createDummySave());
+		gc.launchGame("test", ControllerTestUtils.createDummySave());
 		gc.save("test");
 		List<SaveSession> saves = saveManager.getAllSavedGames();
-		
 		
 		SaveSession save = saveManager.loadGame(saves.get(0).getSavegameid(), "josh");
 		assertEquals("josh", save.getGame().getCreatorId()); //HAHHHHH
@@ -56,7 +53,7 @@ public class SaveManagerTest {
 
 	@Test
 	public void incorrectCreatorSaveGameTest() {
-//		gc.launchGame("test", ControllerTestUtils.createDummySave());
+		gc.launchGame("test", ControllerTestUtils.createDummySave());
 		gc.save("test");
 
 		//Game game = new Game("test", "josh", new Player[] {josh, emma, jeremy}, "splendor");
@@ -70,7 +67,7 @@ public class SaveManagerTest {
 
 	@Test
 	public void saveAndLoadPlayedSaveGameTest() {
-//		gc.launchGame("test", ControllerTestUtils.createDummySave());
+		gc.launchGame("test", ControllerTestUtils.createDummySave());
 		gc.save("test");
 
 		//Game game = new Game("test", "josh", new Player[] {josh, emma, jeremy}, "splendor");
