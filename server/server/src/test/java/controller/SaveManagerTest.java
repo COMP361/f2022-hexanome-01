@@ -37,7 +37,7 @@ public class SaveManagerTest {
 	
 	private static Game game = new Game("test", "josh", new Player[] {josh, emma, jeremy}, "splendor");
 	
-	private static String saveId;
+	private static String saveId = "";
 
 	@BeforeClass
 	public static void initSaveDir() {
@@ -80,13 +80,16 @@ public class SaveManagerTest {
 	public void saveThroughEndpointTest() {
         gc.launchGame("test", ControllerTestUtils.createDummySave(randName1, randName2, randName3));
         gc.save("test");
+        
+        saveId = "";
 		
         assertEquals(1, saveManager.countSavedGamesOfUser(randName1));
 	}
 
 	@After
 	public void deleteSave() {
-        saveManager.deleteTestSavefile(saveId, randName1);
+		if (saveId.length() > 0)
+          saveManager.deleteTestSavefile(saveId, randName1);
 	}
 
 }
