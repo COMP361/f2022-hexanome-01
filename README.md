@@ -56,9 +56,9 @@ Board Game Platform (BGP) = Lobby Service + Lobby Service Web UI + Sample Game, 
 
  * Joshua Morency [https://github.com/Joshua-M1]
  * Kevin Cui [https://github.com/kevinjycui]
- * Piexin Jin [https://github.com/RavannaW]
+ * Peixin Jin [https://github.com/RavannaW]
  * Alexandra Charland [https://github.com/alexandracharland]
- * Yang Tian [[https://github.com/RavannaW](https://github.com/PictureOfDorian)]
+ * Yang Tian [https://github.com/PictureOfDorian]
  * Cadin Londono [https://github.com/cadinsl]
  * Jeremy Eichler [https://github.com/JeremyE1999]
 
