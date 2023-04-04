@@ -205,7 +205,7 @@ public class Inventory implements Serializable {
       payment.replace(token, tokenCost);
 
       if (tokenAmount < tokenCost) { //if insufficient funds
-    	  payment.replace(token, tokenAmount);
+        payment.replace(token, tokenAmount);
         int goldAvailable = tokens.checkAmount(Token.GOLD) - goldUsed;
         boolean doubleGold = false;
         for (Unlockable u : unlockables) { //check for trading post
