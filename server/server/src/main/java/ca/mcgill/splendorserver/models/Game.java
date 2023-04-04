@@ -45,7 +45,7 @@ public class Game implements Serializable {
     this.variant = variant;
     this.creator = creator;
     this.players = players;
-
+    
     switch (variant) {
       case "cities":
         board = new CitiesBoard(creator, players);

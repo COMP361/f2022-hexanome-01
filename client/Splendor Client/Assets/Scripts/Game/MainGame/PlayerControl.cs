@@ -18,7 +18,9 @@ public class PlayerControl : MonoBehaviour {
     [SerializeField] private SelectedTokens selectedTokens;
     [SerializeField] private GameObject takeTokensButton;
     [SerializeField] private ReturnTokenPanel returnTokenPanel;
+    [SerializeField] private GameObject tokenReturnPanel;
     [SerializeField] private GameObject returnTokenButton;
+    [SerializeField] private SelectedReturnTokens selectedReturnTokens;
 
     public long tokenOverflow;
 
@@ -33,6 +35,7 @@ public class PlayerControl : MonoBehaviour {
     public NobleRow allNobles;
     public NobleSlot selectedNoble;
     [SerializeField] private ClaimNoblePanel claimNoblePanel;
+    [SerializeField] private GameObject nobleClaimPanel;
 
     public OrientPanelManager orientPanelManager;
 
@@ -137,7 +140,7 @@ public class PlayerControl : MonoBehaviour {
             effect.SetActive(true);
         }
 
-        if (waiting || inventoryPanel.activeInHierarchy) return;
+        if (waiting || inventoryPanel.activeInHierarchy || nobleClaimPanel.activeInHierarchy || tokenReturnPanel.activeInHierarchy) return;
 
         RaycastHit2D hit = Physics2D.Raycast(worldPos2D, Vector2.zero);
         if (hit.collider != null) { // Check what was clicked (excluding UI elements)
@@ -147,6 +150,8 @@ public class PlayerControl : MonoBehaviour {
                 //Debug.Log("Card");
                 //Debug.Log(selectReserve);
                 purchaseOrReserve.SetActive(true);
+                purchaseOrReserve.transform.GetChild(1).gameObject.SetActive(true);
+                selectedReserve = null;
                 selectedCard = go.GetComponent<CardSlot>();
                 allCards.GreyOutExcept(selectedCard);
                 /*CardSlot cardSlotObject = go.GetComponent<CardSlot>();
@@ -185,6 +190,7 @@ public class PlayerControl : MonoBehaviour {
         actionManager.MakeApiRequest(currSession.id, null, ActionManager.ActionType.endTurn, ActionManager.RequestType.POST, (response) => {
 
             if (response != null && ((string)response["status"]).Equals("success")) {
+                StartTurn();
                 errorText.GetComponent<FadeOut>().CompleteFade();
             }
 
@@ -196,6 +202,7 @@ public class PlayerControl : MonoBehaviour {
         Dictionary<string, object> requestDict = new Dictionary<string, object>();
         JSONObject selectedCardJson = new JSONObject(requestDict);
         selectedCardJson.Add("playerId", player.GetUsername());
+        Debug.Log(selectedReserve);
         if (selectedReserve == null) {
             selectedCardJson.Add("cardId", selectedCardToBuy.GetCard().GetId());
         }
@@ -365,6 +372,14 @@ public class PlayerControl : MonoBehaviour {
                     errorText.GetComponent<FadeOut>().ResetFade();
                     return;
                 };
+
+                long overFlowAmount = (long)response["tokenOverflow"];
+                tokenOverflow = overFlowAmount;
+                if (overFlowAmount == 0) {
+                    // Handle reserve card
+                } else {
+                    returnTokenPanel.Display(overFlowAmount);
+                }
                 endTurnAction();
             }
             else {
@@ -551,8 +566,8 @@ public class PlayerControl : MonoBehaviour {
         Dictionary<string, object> requestDict = new Dictionary<string, object>();
         JSONObject chosenTokensJson = new JSONObject(requestDict);
         chosenTokensJson.Add("playerId", player.GetUsername());
-        string[] tokenColours = selectedTokens.colours.Select(t => t.text).ToArray();
-        string[] tokenNums = selectedTokens.nums.Select(t => t.text).ToArray();
+        string[] tokenColours = selectedReturnTokens.colours.Select(t => t.text).ToArray();
+        string[] tokenNums = selectedReturnTokens.nums.Select(t => t.text).ToArray();
 
         List<string> tokenList = new List<string>();
 
@@ -567,7 +582,7 @@ public class PlayerControl : MonoBehaviour {
         actionManager.MakeApiRequest(currSession.id, chosenTokensJson, ActionManager.ActionType.returnTokens, ActionManager.RequestType.POST, (response) => {
 
             returnTokenButton.SetActive(false);
-            selectedTokens.reset(player.GetTokenBank());
+            selectedReturnTokens.reset(player.GetTokenBank());
 
             if(response != null) {
                 string status = (string)response["status"];
@@ -581,8 +596,11 @@ public class PlayerControl : MonoBehaviour {
     }
 
     public void confirmReturnToken() {
-        returnTokenPanel.TurnOffDisplay();
-        returnTokenAction();
+        if (selectedReturnTokens.CheckReturnAmount()) {    
+            returnTokenPanel.TurnOffDisplay();
+            returnTokenAction();
+            tokenOverflow = 0;
+        }
     }
 
 
@@ -609,8 +627,10 @@ public class PlayerControl : MonoBehaviour {
     public void buyReserve1() {
         if (player.GetReservedCards().Count > 0 ) {
             selectedReserve = player.GetReservedCards()[0];
+            Debug.Log(selectedReserve);
             purchaseOrReserve.SetActive(true);
             purchaseOrReserve.transform.GetChild(1).gameObject.SetActive(false);
+            allCards.UnGreyOut();
         }
     }
 
@@ -619,6 +639,7 @@ public class PlayerControl : MonoBehaviour {
             selectedReserve = player.GetReservedCards()[1];
             purchaseOrReserve.SetActive(true);
             purchaseOrReserve.transform.GetChild(1).gameObject.SetActive(false);
+            allCards.UnGreyOut();
         }
     }
 
@@ -627,6 +648,7 @@ public class PlayerControl : MonoBehaviour {
             selectedReserve = player.GetReservedCards()[2];
             purchaseOrReserve.SetActive(true);
             purchaseOrReserve.transform.GetChild(1).gameObject.SetActive(false);
+            allCards.UnGreyOut();
         }
     }
 

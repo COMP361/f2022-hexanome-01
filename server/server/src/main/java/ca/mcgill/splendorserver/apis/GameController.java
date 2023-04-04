@@ -95,11 +95,14 @@ public class GameController {
   /**
    * Constructor for tests, where autowiring isnt a thing.
    * (For invocation by subclass constructors, typically implicit.)
+
+   * @param gm Game manager
+   * @param sm Save manager
    */
   @SuppressWarnings("unchecked")
-  public GameController(GameManager gm) {
-	gameManager = gm;
-	//saveManager = sm;
+  public GameController(GameManager gm, SaveManager sm) {
+    gameManager = gm;
+    saveManager = sm;
     logger = LoggerFactory.getLogger(GameController.class);
 
     gameNotFound = new JSONObject();
@@ -123,8 +126,14 @@ public class GameController {
     saveException.put("message", "Save threw an exception.");
   }
 
+  /**
+   * generator for error responses.
+
+   * @param message to go with the error
+   * 
+   */
   @SuppressWarnings("unchecked")
-  private ResponseEntity<String> errorResponse(String message) {
+  public ResponseEntity<String> errorResponse(String message) {
     JSONObject error = new JSONObject();
     error.put("status", "failure");
     error.put("message", "Error 500: " + message);
@@ -549,7 +558,7 @@ public class GameController {
         return ResponseEntity.ok().body(invalidAction.toJSONString());
       }
 
-      JSONObject response = gameManager.determineBody(card, board, inventory);
+      JSONObject response = gameManager.purchaseCardBody(card, board, inventory);
       if (response == null) {
         return ResponseEntity.badRequest().body(invalidAction.toJSONString());
       }
@@ -592,11 +601,11 @@ public class GameController {
       int cardId = (int) data.get("cardId");
       String deckId = (String) data.get("deckId");
 
-      boolean success = gameManager.reserveCard(game, playerId, source, cardId, deckId);
-      JSONObject response = new JSONObject();
-      if (success) {
+      JSONObject response = gameManager.reserveCard(game, playerId, source, cardId, deckId);
+      if (response != null) {
         response.put("status", "success");
       } else {
+    	response = new JSONObject();
         response.put("status", "failure");
       }
       return ResponseEntity.ok(response.toJSONString());
