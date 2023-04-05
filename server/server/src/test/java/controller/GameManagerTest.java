@@ -280,7 +280,7 @@ public class GameManagerTest extends ControllerTestUtils {
 	    assertEquals(gameCity.getPlayerIds()[0], gameCity.checkWinState());
 	    gameCity.getPlayers()[1].getInventory().getUnlockables().clear();
 	    gameCity.getPlayers()[1].getInventory().getUnlockables().add(UnlockableRegistry.of(14));
-	    assertEquals(gameCity.getPlayerIds()[0], gameCity.checkWinState());
+	    assertEquals(gameCity.getPlayerIds()[1], gameCity.checkWinState());
   }
   
   @SuppressWarnings("unchecked")
