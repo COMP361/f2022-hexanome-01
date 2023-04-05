@@ -29,6 +29,15 @@ public class Noble implements Serializable {
     cost.put(Token.WHITE.toString(), Integer.parseInt((String) obj.get("white")));
     cost.put(Token.BLACK.toString(), Integer.parseInt((String) obj.get("black")));
   }
+  
+  /**
+   * Constructor for noble from id (testing).
+   *
+   * @param id JSONObject containing noble data
+   */
+  public Noble(int id) {
+    this.id = id;
+  }
 
   /**
    * Checks whether the noble will be impressed given an amount of bonuses.
