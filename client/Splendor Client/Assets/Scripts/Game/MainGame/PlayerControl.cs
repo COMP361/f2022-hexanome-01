@@ -465,18 +465,19 @@ public class PlayerControl : MonoBehaviour {
                     return;
                 };
 
-                JSONArray jsonNoblesVisited = (JSONArray)response["noblesVisiting"];//int[] noblesVisiting = new int[]
+                if (response["noblesVisiting"] != null) {
+                    JSONArray jsonNoblesVisited = (JSONArray)response["noblesVisiting"];//int[] noblesVisiting = new int[]
 
-                long[] noblesVisiting = new long[jsonNoblesVisited.Count];
-                for (int i = 0; i < jsonNoblesVisited.Count; i++) {
-                    noblesVisiting[i] = (int)jsonNoblesVisited[i];
-                }
+                    long[] noblesVisiting = new long[jsonNoblesVisited.Count];
+                    for (int i = 0; i < jsonNoblesVisited.Count; i++) {
+                        noblesVisiting[i] = (int)jsonNoblesVisited[i];
+                    }
 
-                if (noblesVisiting.Count() == 0) {
-                    endTurnAction();
+                    claimNoblePanel.DisplayNobleClaim(allNobles, noblesVisiting);
+
                 }
                 else {
-                    claimNoblePanel.DisplayNobleClaim(allNobles, noblesVisiting);
+                    endTurnAction();
                 }
             }
             else {
@@ -553,13 +554,6 @@ public class PlayerControl : MonoBehaviour {
                 return;
             };
             string action = (string)response["action"];
-            JSONArray jsonNoblesVisited = (JSONArray)JSONHandler.DecodeJsonRequest((string)response["noblesVisiting"]);
-            //int[] noblesVisiting = new int[]
-
-            long[] noblesVisiting = new long[jsonNoblesVisited.Count];
-            for (int i = 0; i < jsonNoblesVisited.Count; i++) {
-                noblesVisiting[i] = (int)jsonNoblesVisited[i];
-            }
 
             if (action.Equals("token")) {
                 returnTokenPanel.DisplayTP();
@@ -567,7 +561,7 @@ public class PlayerControl : MonoBehaviour {
                 tokenTP = true;
             }
 
-            if (action.Equals("domino1") || action.Equals("domino2") || action.Equals("satchel") || action.Equals("reserve")) {
+            else if (action.Equals("domino1") || action.Equals("domino2") || action.Equals("satchel") || action.Equals("reserve")) {
                 Debug.Log("GOT TO ORIENT");
                 JSONArray jsonChoices = (JSONArray)JSONHandler.DecodeJsonRequest((string)response["options"]);
                 if (action.Equals("reserve")) {
@@ -598,11 +592,20 @@ public class PlayerControl : MonoBehaviour {
                 }
 
             }
-            else if (noblesVisiting.Count() == 0) {
-                endTurnAction();
+
+            else if (response["noblesVisiting"] != null) {
+                JSONArray jsonNoblesVisited = (JSONArray)response["noblesVisiting"];//int[] noblesVisiting = new int[]
+
+                long[] noblesVisiting = new long[jsonNoblesVisited.Count];
+                for (int i = 0; i < jsonNoblesVisited.Count; i++) {
+                    noblesVisiting[i] = (int)jsonNoblesVisited[i];
+                }
+
+                claimNoblePanel.DisplayNobleClaim(allNobles, noblesVisiting);
+
             }
             else {
-                claimNoblePanel.DisplayNobleClaim(allNobles, noblesVisiting);
+                endTurnAction();
             }
         }
         else {
@@ -664,7 +667,8 @@ public class PlayerControl : MonoBehaviour {
                     endTurnAction();
                 }
             });
-        } else {
+        }
+        else {
             actionManager.MakeApiRequest(currSession.id, chosenTokensJson, ActionManager.ActionType.takeTokens, ActionManager.RequestType.POST, (response) => {
                 returnTokenButton.SetActive(false);
                 selectedReturnTokens.reset(player.GetTokenBank());
@@ -676,7 +680,7 @@ public class PlayerControl : MonoBehaviour {
                         errorText.GetComponent<FadeOut>().ResetFade();
                         return;
                     }
-                    
+
                     tokenTP = false;
                     long overFlowAmount = (long)response["tokenOverflow"];
                     tokenOverflow = overFlowAmount;
