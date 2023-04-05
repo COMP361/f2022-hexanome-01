@@ -31,6 +31,8 @@ public class SaveManager {
 
   @Autowired
   private SaveRegistrator saveRegistrator;
+  
+  public boolean test = false;
 
   /**
    * Constructor that sets folders up.
@@ -104,7 +106,7 @@ public class SaveManager {
       objectOut.writeObject(game);
       objectOut.close();
 
-      if (saveRegistrator != null) {
+      if (!test) {
         saveRegistrator.registerSavedGameWithLobbyService(game.getVariant(),
           new LobbyServiceSaveData(game, saveId));
       }
