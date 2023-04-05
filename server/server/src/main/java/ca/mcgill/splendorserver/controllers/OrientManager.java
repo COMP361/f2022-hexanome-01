@@ -57,7 +57,7 @@ public class OrientManager {
       choices = OrientManager.getDominoOptions(board, 2);
     }
     
-    if(choices.size() == 0) {
+    if (choices.size() == 0) {
       return null;
     }
   
@@ -115,7 +115,7 @@ public static JSONObject satchel(Card card, Inventory inventory) {
     response.put("type", card.getType().toString());
     ArrayList<Integer> choices = satchelableCards(card, inventory);
 
-    if(choices.size() == 0) {
+    if (choices.size() == 0) {
       return null;
     }
     
