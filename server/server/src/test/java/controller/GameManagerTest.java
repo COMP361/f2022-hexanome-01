@@ -80,6 +80,12 @@ public class GameManagerTest extends ControllerTestUtils {
     Noble nobleToReserve = NobleRegistry.of(board.getNobles().getNobles()[1]);
     OrientManager.reserveNoble(nobleToReserve, board, testInventory);
     assertEquals(nobleToReserve, testInventory.getReservedNobles().get(0));
+    
+    JSONObject fake = new JSONObject();
+    
+    
+    //assertTrue("succeeded when should have failed noble1", !gameManager.acquireNoble(null, board, testInventory));
+    //assertTrue("succeeded when should have failed noble1", !gameManager.acquireNoble(new Noble(55), board, testInventory));
   }
   
   @SuppressWarnings("unchecked")
