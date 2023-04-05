@@ -472,9 +472,10 @@ public class PlayerControl : MonoBehaviour {
                     for (int i = 0; i < jsonNoblesVisited.Count; i++) {
                         noblesVisiting[i] = (int)jsonNoblesVisited[i];
                     }
-
-                    claimNoblePanel.DisplayNobleClaim(allNobles, noblesVisiting);
-
+                    if (noblesVisiting.Count() != 0)
+                        claimNoblePanel.DisplayNobleClaim(allNobles, noblesVisiting);
+                    else
+                        endTurnAction();
                 }
                 else {
                     endTurnAction();
@@ -601,7 +602,10 @@ public class PlayerControl : MonoBehaviour {
                     noblesVisiting[i] = (int)jsonNoblesVisited[i];
                 }
 
-                claimNoblePanel.DisplayNobleClaim(allNobles, noblesVisiting);
+                if (noblesVisiting.Count() != 0)
+                    claimNoblePanel.DisplayNobleClaim(allNobles, noblesVisiting);
+                else
+                    endTurnAction();
 
             }
             else {
