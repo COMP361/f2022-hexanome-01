@@ -39,7 +39,7 @@ public class OrientPanelManager : MonoBehaviour {
                 long x = card.GetId();
                 temp.transform.GetComponent<Button>().onClick.AddListener(() => SelectCard(x));
                 temp.transform.SetParent(cardContent.transform);
-                temp.transform.localScale = new Vector3(1, 1, 1);
+                temp.transform.localScale = new Vector3(1.6f, 1.6f, 1.6f);
                 temp.GetComponent<CardSlot>().SetupInventory(card);
             }
         }
@@ -50,7 +50,7 @@ public class OrientPanelManager : MonoBehaviour {
                 long x = noble.id;
                 temp.transform.GetComponent<Button>().onClick.AddListener(() => SelectCard(x));
                 temp.transform.SetParent(cardContent.transform);
-                temp.transform.localScale = new Vector3(1, 1, 1);
+                temp.transform.localScale = new Vector3(1.2f, 1.2f, 1.2f);
                 temp.GetComponent<NobleSlot>().SetupInventory(noble);
             }
         }
