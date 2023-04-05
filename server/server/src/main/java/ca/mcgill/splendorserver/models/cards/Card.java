@@ -42,6 +42,16 @@ public class Card implements Serializable {
   }
 
   /**
+   * Constructor from an id (for tests).
+   *
+   * @param id of the card
+   */
+  public Card(int id, CardLevel level) {
+	this.id = id;
+	this.level = level;
+  }
+
+/**
    * Getter for the card's special abilities.
    *
    * @return refer to CardType enum

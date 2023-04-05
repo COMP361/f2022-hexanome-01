@@ -1,6 +1,7 @@
 package controller;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -309,8 +310,7 @@ public class OrientManagerTest {
 	    Inventory testInventory = new Inventory();
 	    testInventory.addCard(CardRegistry.of(1));
 	    JSONObject result1 = OrientManager.satchel(CardRegistry.of(1), testInventory);
-	    String options1 = (String)result1.get("options");
-	    assertEquals("[]", options1);
+	    assertNull(result1);
 	    
 	    JSONObject result2 = OrientManager.satchel(CardRegistry.of(2), testInventory);
 	    String options2 = ((JSONArray)JsonHandler.decodeJsonRequest((String)result2.get("options"))).toJSONString();
@@ -626,5 +626,29 @@ public class OrientManagerTest {
 
 			response = gc.endTurnAction("fake");
 			assertEquals(gameNotFound.toJSONString(), response.getBody());
+	  }
+	  
+	  @Test
+	  public void invalidSatchelTest() {
+		    SessionData dummy = ControllerTestUtils.createDummySessionData();
+		    GameManager gameManager = new GameManager();
+		    GameController gc = new GameController(gameManager, new SaveManager());
+		    gc.launchGame("TestGame", dummy);
+		    Game game = gameManager.getGame("TestGame");
+		    Board board = game.getBoard();
+		    Inventory testInventory = board.getInventory("testCreator");
+		    //satchel id: 116
+		    //domino1 id: 115
+		    
+		    assertNull(gameManager.purchaseCardBody(CardRegistry.of(116), board, testInventory));
+		    assertNull(gameManager.purchaseCardBody(CardRegistry.of(115), board, testInventory));
+		    
+		    assertNull(gameManager.purchaseCard(game, "testCreator", 116));
+		    
+		    assertTrue("purchase of satchel went through", testInventory.getCards().isEmpty());
+		    
+		    assertNull(gameManager.purchaseCard(game, "testCreator", 115));
+		    
+		    assertTrue("purchase of domino1 went through", testInventory.getCards().isEmpty());
 	  }
 }
