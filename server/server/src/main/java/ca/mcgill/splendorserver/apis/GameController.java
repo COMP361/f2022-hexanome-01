@@ -883,7 +883,7 @@ public class GameController {
     }
     //save and get the savegameid of the save
     String successfulSave = saveManager.saveGame(game);
-    if (successfulSave != null) {
+    if (successfulSave == null) {
       return ResponseEntity.ok(saveException.toJSONString());
     }
     response.put("status", "success");
