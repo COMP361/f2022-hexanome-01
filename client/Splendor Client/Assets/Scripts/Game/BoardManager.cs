@@ -118,6 +118,9 @@ public class BoardManager : MonoBehaviour
                     case 3:
                         players = new[] { boardPlayers[0], boardPlayers[2], boardPlayers[3] };
                         break;
+                    case 4:
+                        players = new[] { boardPlayers[0], boardPlayers[1], boardPlayers[2], boardPlayers[3] };
+                        break;
                 }
 
                 //set main player data and display data
