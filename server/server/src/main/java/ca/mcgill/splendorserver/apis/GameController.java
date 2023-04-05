@@ -872,6 +872,7 @@ public class GameController {
    * @param gameId the id of the game to save
    * @return the id of the save if successful, the error message otherwise
    */
+  @SuppressWarnings("unchecked")
   @PostMapping("/api/action/{gameId}/save")
   public ResponseEntity<String> save(@PathVariable String gameId) {
     System.out.println("Saving: " + gameId);

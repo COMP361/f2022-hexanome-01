@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import ca.mcgill.splendorserver.apis.GameController;
@@ -34,6 +35,11 @@ public class SaveManagerTest {
 	private static Game game = new Game("test", randName1, new Player[] {josh, emma, jeremy}, "splendor");
 	
 	private static String saveId = "";
+	
+	@BeforeClass
+	public static void setTest() {
+	  saveManager.test = true;
+	}
 
 	@Before
 	public void initSaveDir() {
