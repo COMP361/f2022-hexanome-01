@@ -7008,7 +7008,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerControl: {fileID: 288864033}
   returnTokenPanel: {fileID: 603139697}
-  messageText: {fileID: 0}
+  messageText: {fileID: 2050086530}
   needToReturn: 0
 --- !u!114 &603139702
 MonoBehaviour:
