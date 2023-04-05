@@ -198,11 +198,12 @@ public class GameManager {
     }
 
     if (inventory.containsReservedCard(card)) {
-      inventory.removeFromReservedCards(card);
+      inventory.removeFromReservedCards(card);    
+      inventory.addCard(card);
+      return true;
     }
-
-    inventory.addCard(card);
-    return true;
+    
+    return false;
   }
 
   /**
@@ -461,11 +462,9 @@ public class GameManager {
       return true;
     }
 
-    if (nobles.removeId(noble.getId())) {
-      inventory.addNobleToInventory(noble);
-      return true;
-    }
-    return false;
+    nobles.removeId(noble.getId());
+    inventory.addNobleToInventory(noble);
+    return true;
   }
 
   /**
