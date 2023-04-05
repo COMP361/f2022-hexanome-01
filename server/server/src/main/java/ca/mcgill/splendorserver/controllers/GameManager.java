@@ -115,6 +115,12 @@ public class GameManager {
     if (card.getType() == CardType.SACRIFICE) {
       return purchaseCardBody(card, board, inventory);
     }
+    
+    if (card.getType() == CardType.SATCHEL || card.getType() == CardType.DOMINO1) {
+      if (!checkValidPairing(inventory)) {
+        return null;
+      }
+    }
 
     Token[] toAddToBank = inventory.isCostAffordable(card.getCost());
 
