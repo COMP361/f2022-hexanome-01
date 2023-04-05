@@ -60,7 +60,8 @@ public class GameManager {
     String saveId = session.getSavegame();
 
     if (!saveId.equals("")) {
-      SaveSession save = saveManager.loadGame(saveId, session.getCreator());
+      System.out.println("Attempting to load save: " + saveId);
+      SaveSession save = saveManager.loadGame(saveId);
       if (save != null && save.isValidLaunch(session.getVariant(), session.getPlayers().length)) {
         save.reassignPlayers(session.getPlayers());
         gameRegistry.put(gameId, save.getGame());
