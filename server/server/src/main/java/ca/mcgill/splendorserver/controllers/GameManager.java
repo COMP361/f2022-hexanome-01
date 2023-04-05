@@ -1,5 +1,15 @@
 package ca.mcgill.splendorserver.controllers;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Optional;
+
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import ca.mcgill.splendorserver.models.Game;
 import ca.mcgill.splendorserver.models.Inventory;
 import ca.mcgill.splendorserver.models.Noble;
@@ -22,14 +32,6 @@ import ca.mcgill.splendorserver.models.expansion.Unlockable;
 import ca.mcgill.splendorserver.models.registries.CardRegistry;
 import ca.mcgill.splendorserver.models.registries.UnlockableRegistry;
 import ca.mcgill.splendorserver.models.saves.SaveSession;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Optional;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * This is the controller for all game managing functionality.
@@ -360,6 +362,11 @@ public class GameManager {
 
     Board board = game.getBoard();
     Inventory inventory = board.getInventory(playerId);
+    
+    if (inventory.getReservedCards().size() >= 3) {
+      return null;
+    }
+    
     CardBank cards = board.getCards();
     
     int pickedUp = -1;
