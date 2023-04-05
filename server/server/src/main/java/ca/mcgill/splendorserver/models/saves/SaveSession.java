@@ -63,5 +63,8 @@ public class SaveSession {
   public String getSavegameid() {
     return savegameid;
   }
-
+  
+  public String[] getPlayersRequired() {
+    return playersRequired;
+  }
 }

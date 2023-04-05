@@ -3,6 +3,7 @@ package controller;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
 import org.junit.Before;
@@ -45,9 +46,24 @@ public class SaveManagerTest {
         saveId = saveManager.saveGame(game);
 
 		SaveSession save = saveManager.loadGame(saveId, randName1);
-		assertEquals(randName1, save.getGame().getCreatorId()); //HAHHHHH
+		assertTrue("invalid save launch", save.isValidLaunch("splendor", 3));
+		assertTrue("invalid save launch", !save.isValidLaunch("FAKE", 3));
+		assertTrue("invalid save launch", !save.isValidLaunch("splendor", 0));
+		assertEquals(randName1, save.getGame().getCreatorId());
 		assertEquals(3, save.getGame().getPlayers().length);
 		assertEquals("splendor", save.getGame().getVariant());
+		assertEquals(saveId, save.getSavegameid());
+		
+		save.reassignPlayers(new String[] {josh.getUsername(), emma.getUsername(), jeremy.getUsername()});
+		assertEquals(josh.getUsername(), save.getPlayersRequired()[0]);
+		
+		save.reassignPlayers(new String[] {josh.getUsername(), "emma", jeremy.getUsername()});
+		assertEquals(josh.getUsername(), save.getPlayersRequired()[0]);
+		
+		save.reassignPlayers(new String[] {"josh", "jeremy", "emma"});
+		assertEquals("josh", save.getPlayersRequired()[0]);
+		
+		assertTrue("Not getting list of saves", saveManager.getAllSavedGames().size() > 0);
 	}
 
 	@Test
@@ -68,7 +84,7 @@ public class SaveManagerTest {
 
         SaveSession save = saveManager.loadGame(saveId, randName1);
 
-		assertSame(1, save.getGame().getCurrentPlayer().getInventory().getCards().get(0).getId()); //HAHAHAH
+		assertSame(1, save.getGame().getCurrentPlayer().getInventory().getCards().get(0).getId());
 	}
 	
 	@Test

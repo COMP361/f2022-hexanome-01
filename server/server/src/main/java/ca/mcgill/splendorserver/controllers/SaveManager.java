@@ -173,7 +173,7 @@ public class SaveManager {
   }
 
   /**
-   * Retrieves all saved games of user.
+   * deletes all saved games of user.
 
    * @param playerId id of player who made save
 
@@ -195,19 +195,6 @@ public class SaveManager {
         playerDir.delete();
         return;
       }
-    }
-  }
-
-  /**
-   * Deletes the tester save.
-   *
-   * @param saveId the is of the tester save
-   * @param playerId the creator of the game whose save is being deleted
-   */
-  public void deleteTestSavefile(String saveId, String playerId) {
-    File file = new File(saveDir.resolve(playerId).resolve(saveId + ".save").toString());
-    if (file.exists()) {
-      file.delete();
     }
   }
 }
