@@ -8477,7 +8477,7 @@ GameObject:
   - component: {fileID: 731581424}
   - component: {fileID: 731581423}
   m_Layer: 5
-  m_Name: Return Token Panel
+  m_Name: Select Token Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8520,6 +8520,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerControl: {fileID: 1954223290}
   returnTokenPanel: {fileID: 731581418}
+  messageText: {fileID: 0}
   needToReturn: 0
 --- !u!114 &731581421
 MonoBehaviour:
@@ -23833,14 +23834,15 @@ MonoBehaviour:
   dashboard: {fileID: 1954223293}
   inventoryPanel: {fileID: 565933684}
   cursor: {fileID: 0}
+  purchaseOrReserve: {fileID: 1886655494}
   nobleSelectButton: {fileID: 0}
+  citySelectButton: {fileID: 0}
   playerCamera: {fileID: 1622624154}
   player: {fileID: 1954223296}
   gamePlayersData: []
   tokenBank: {fileID: 952403172}
   selectedTokensObject: {fileID: 1020006014}
   takeTokensButton: {fileID: 925007009}
-  purchaseOrReserve: {fileID: 1886655494}
   returnTokenPanel: {fileID: 731581420}
   tokenReturnPanel: {fileID: 731581418}
   returnTokenButton: {fileID: 1877645787}
@@ -23853,9 +23855,13 @@ MonoBehaviour:
   selectedCardToBuy: {fileID: 0}
   selectedCardToReserve: {fileID: 0}
   allNobles: {fileID: 1400802482}
+  allCities: {fileID: 0}
   selectedNoble: {fileID: 0}
+  selectedCity: {fileID: 0}
   claimNoblePanel: {fileID: 1188784818}
   nobleClaimPanel: {fileID: 1188784817}
+  cityClaimPanel: {fileID: 0}
+  claimCityPanel: {fileID: 0}
   orientPanelManager: {fileID: 1254382551}
   controls: {fileID: -944628639613478452, guid: 68b0984844d79b345af0ecff893baaed, type: 3}
   waiting: 0
@@ -23866,6 +23872,8 @@ MonoBehaviour:
   inNobleMenu: 0
   selectReserve: 0
   inTokenMenu: 0
+  inCityMenu: 0
+  tokenTP: 0
   effectPool: {fileID: 1260539373}
 --- !u!114 &1954223291
 MonoBehaviour:
