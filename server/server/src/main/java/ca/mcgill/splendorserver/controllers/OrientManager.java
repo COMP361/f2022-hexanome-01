@@ -56,6 +56,10 @@ public class OrientManager {
     } else { //pass free cards choices (i.e. this is a domino2)
       choices = OrientManager.getDominoOptions(board, 2);
     }
+    
+    if(choices.size() == 0) {
+      return null;
+    }
   
     response.put("options", JSONArray.toJSONString(choices));
     
@@ -111,6 +115,10 @@ public static JSONObject satchel(Card card, Inventory inventory) {
     response.put("type", card.getType().toString());
     ArrayList<Integer> choices = satchelableCards(card, inventory);
 
+    if(choices.size() == 0) {
+      return null;
+    }
+    
     response.put("options", JSONArray.toJSONString(choices));
 
     return response;
