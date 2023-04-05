@@ -222,7 +222,8 @@ public class MainMenuManager : MonoBehaviour {
                     if (lobbyView.activeInHierarchy) LobbyPolling(currentSession.id);
                 }
             }
-            else if (lobbyView.activeInHierarchy) LobbyPolling(currentSession.id);
+            else if (hash != null && lobbyView.activeInHierarchy) LobbyPolling(currentSession.id);
+            else if (session == null && hash == null) LoadLastMenu();
         }));
     }
 

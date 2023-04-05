@@ -201,7 +201,9 @@ public class LSRequestManager : MonoBehaviour
 
                 result(newHash, session);
             }
-        } else if (request.responseCode == 408) result(null, null);
+        } 
+        else if (request.responseCode == 408) result(hash, null);
+        else result(null, null);
     }
 
     /// <summary>
