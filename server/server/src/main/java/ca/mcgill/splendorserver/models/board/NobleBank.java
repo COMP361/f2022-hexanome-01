@@ -78,7 +78,6 @@ public class NobleBank implements Serializable {
         return true;
       }
     }
-
     return false;
   }
 
