@@ -23,11 +23,11 @@ public class OrientPanelManager : MonoBehaviour {
     }
 
     public void Display(List<Card> cards, List<Noble> nobles, ActionManager.ActionType _action) {
-            cardsDebug = cards;
-            this.action = _action;
-            panel.SetActive(true);
-            Debug.Log(cards.Count);
-            DisplayPlayerCards(cards, nobles);
+        cardsDebug = cards;
+        this.action = _action;
+        panel.SetActive(true);
+        Debug.Log(cards.Count);
+        DisplayPlayerCards(cards, nobles);
     }
 
     public void DisplayPlayerCards(List<Card> cards, List<Noble> nobles) { //displays acquired cards/nobles
@@ -94,7 +94,7 @@ public class OrientPanelManager : MonoBehaviour {
             playerControl.reserveNobleAction(selectedCard);
             panel.SetActive(false);
         }
-        else if ((selectedCard != -1 || secondCard != -1 ) && action == ActionManager.ActionType.sacrifice) {
+        else if ((selectedCard != -1 || secondCard != -1) && action == ActionManager.ActionType.sacrifice) {
             playerControl.sacrificeCardAction(selectedCard, secondCard, purchasingCard);
             purchasingCard = -1; //this may lead to an error somewhere, might need to be moved
             panel.SetActive(false);
