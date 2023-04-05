@@ -45,41 +45,24 @@ public class SaveManager {
   }
 
   /**
-   * Runs at server startup.
-   *
-   * @param playerId the id of the game to save's creator
-   */
-  public void initPlayer(String playerId) {
-    File dir = new File(saveDir.resolve(playerId).toString());
-    if (!dir.exists()) {
-      dir.mkdirs();
-    }
-  }
-
-  /**
    * Loads a game from a save.
    *
    * @param saveId the id of the save
    * @param playerId the id of the game creator
    * @return the session created from the save
    */
-  public SaveSession loadGame(String saveId, String playerId) {
-    File file = new File(saveDir.resolve(playerId).resolve(saveId + ".save").toString());
+  public SaveSession loadGame(String saveId) {
+    File file = new File(saveDir.resolve(saveId + ".save").toString());
     if (!file.exists()) {
       return null;
     }
     FileInputStream fileIn;
     try {
-      initPlayer(playerId);
-      fileIn = new FileInputStream(saveDir.resolve(playerId).resolve(saveId + ".save").toString());
+      fileIn = new FileInputStream(saveDir.resolve(saveId + ".save").toString());
       ObjectInputStream objectIn = new ObjectInputStream(fileIn);
 
       Game game = (Game) objectIn.readObject();
       objectIn.close();
-
-      if (!game.getCreatorId().equals(playerId)) {
-        return null;
-      }
 
       return new SaveSession(game, saveId);
     } catch (Exception e) {
@@ -97,11 +80,9 @@ public class SaveManager {
   public String saveGame(Game game) {
     FileOutputStream fileOut;
     try {
-      initPlayer(game.getCreatorId());
       LocalDateTime now = LocalDateTime.now();
       String saveId = game.getId() + "_" + dtf.format(now);
-      fileOut = new FileOutputStream(saveDir.resolve(
-          game.getCreatorId()).resolve(saveId + ".save").toString());
+      fileOut = new FileOutputStream(saveDir.resolve(saveId + ".save").toString());
       ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
       objectOut.writeObject(game);
       objectOut.close();
@@ -127,11 +108,7 @@ public class SaveManager {
     List<SaveSession> savedGames = new ArrayList<>();
     File saveDirectory = new File(saveDir.toString());
     if (saveDirectory.exists()) {
-      File[] playerDirectories = saveDirectory.listFiles(File::isDirectory);
-
-      for (File playerDir : playerDirectories) {
-        String playerId = playerDir.getName();
-        File[] saveFiles = playerDir.listFiles((dir, name) -> name.endsWith(".save"));
+        File[] saveFiles = saveDirectory.listFiles((dir, name) -> name.endsWith(".save"));
 
         for (File saveFile : saveFiles) {
           try {
@@ -146,7 +123,6 @@ public class SaveManager {
             e.printStackTrace();
           }
         }
-      }
     }
     return savedGames;
   }
@@ -158,45 +134,19 @@ public class SaveManager {
    * @return the number of all saves as SaveSessions
    */
   public int countSavedGamesOfUser(String playerId) {
-    File saveDirectory = new File(saveDir.toString());
-    
-    if (saveDirectory.exists()) {
-      File[] playerDirectories = saveDirectory.listFiles(File::isDirectory);
-
-      for (File playerDir : playerDirectories) {
-        if (!playerId.equals(playerDir.getName())) {
-          continue;
-        }
-        File[] saveFiles = playerDir.listFiles((dir, name) -> name.endsWith(".save"));
-        return saveFiles.length;
-      }
-    }
-    return 0;
+    return getAllSavedGames().size();
   }
 
   /**
-   * deletes all saved games of user.
+   * deletes saved game.
 
    * @param playerId id of player who made save
 
    */
-  public void deleteSavedGamesOfUser(String playerId) {
-    File saveDirectory = new File(saveDir.toString());
-    
-    if (saveDirectory.exists()) {
-      File[] playerDirectories = saveDirectory.listFiles(File::isDirectory);
-
-      for (File playerDir : playerDirectories) {
-        if (!playerId.equals(playerDir.getName())) {
-          continue;
-        }
-        File[] saveFiles = playerDir.listFiles((dir, name) -> name.endsWith(".save"));
-        for (File saveFile : saveFiles) {
-          saveFile.delete();
-        }
-        playerDir.delete();
-        return;
-      }
+  public void deleteSavedGame(String saveId) {
+    File file = new File(saveDir.resolve(saveId + ".save").toString());
+    if (file.exists()) {
+      file.delete();
     }
   }
 }
