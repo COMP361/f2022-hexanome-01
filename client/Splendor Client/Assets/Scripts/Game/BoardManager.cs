@@ -17,6 +17,7 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private CityRow cities;
     [SerializeField] private GameObject tradingPostsDisplay;
     [SerializeField] private Winner winner;
+    [SerializeField] private SelectedTokens selectedTokens;
     private Player[] players;
 
     private string currentPlayer;
@@ -89,6 +90,7 @@ public class BoardManager : MonoBehaviour
                 (long)tokenBank["red"],
                 (long)tokenBank["white"]
             );
+            selectedTokens.clearUI();
 
             //INTERMEDIATE STEP: set cities if variant is cities
             if (currentSession.name.Equals("cities"))
