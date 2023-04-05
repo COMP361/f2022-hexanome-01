@@ -88,6 +88,19 @@ public class SelectedTokens : MonoBehaviour
         }
     }
 
+    public void clearUI(){
+        foreach (Gem token in sTokens){
+            token.colour = "none";
+            token.amount = 0;
+        }
+        foreach (Text colour in colours){
+            colour.text = "none";
+        }
+        foreach (Text amount in nums){
+            amount.text = "0";
+        }
+    }
+
     public bool checkAmount(){
         long total = getTotalNum();
         if (total == 3){
