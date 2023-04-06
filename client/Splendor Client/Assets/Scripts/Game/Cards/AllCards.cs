@@ -109,23 +109,32 @@ public class AllCards : MonoBehaviour
 
         GameObject prefab = Instantiate(cardObject, new Vector3(x + index * 0.85F, y, 0), Quaternion.identity);
         prefabs.Add(prefab);
-        Card toSet = cards.Find(x => x.id.Equals(id)); //find card with given id
 
-        if (orient) {
-            orientCards[level][index] = prefab.GetComponent<CardSlot>();
-            
-            if (toSet == null)
-                orientCards[level][index].EmptySlot(); //still need to remove the last card sprite if we cant find the right card
-            else
-                orientCards[level][index].SetCard(toSet);
-        }
-        else {
-            baseCards[level][index] = prefab.GetComponent<CardSlot>();
+        if (id != -1)
+        {
+            Card toSet = cards.Find(x => x.id.Equals(id)); //find card with given id
 
-            if (toSet == null)
-                baseCards[level][index].EmptySlot(); //still need to remove the last card sprite if we cant find the right card
+
+            if (orient)
+            {
+                orientCards[level][index] = prefab.GetComponent<CardSlot>();
+
+                if (toSet == null)
+                    orientCards[level][index]
+                        .EmptySlot(); //still need to remove the last card sprite if we cant find the right card
+                else
+                    orientCards[level][index].SetCard(toSet);
+            }
             else
-                baseCards[level][index].SetCard(toSet);
+            {
+                baseCards[level][index] = prefab.GetComponent<CardSlot>();
+
+                if (toSet == null)
+                    baseCards[level][index]
+                        .EmptySlot(); //still need to remove the last card sprite if we cant find the right card
+                else
+                    baseCards[level][index].SetCard(toSet);
+            }
         }
     }
 
