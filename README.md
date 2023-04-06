@@ -11,10 +11,10 @@ Splendor runs on Windows x64 or macOS
 
 Clone the repository with the LobbyService submodule
 ```sh
-git clone --recurse-submodules git@github.com:COMP361/f2022-hexanome-01.git
-cd f2022-hexanome-01/server/LobbyService
-git checkout 3c1f996
-cd ../../..
+git clone git@github.com:COMP361/f2022-hexanome-01.git
+cd f2022-hexanome-01/server
+git clone git@github.com:m5c/LobbyService.git
+cd ../..
 ```
 
 Build and run Docker containers
