@@ -10,13 +10,11 @@ public class DoubleGold implements Action {
 
   @Override
   public void activate(Player player) {
-    player.setDoubleGold(true);
     player.getInventory().incrementPosts();
   }
 
   @Override
   public void deactivate(Player player) {
-    player.setDoubleGold(false);
     player.getInventory().decrementPosts();
   }
 

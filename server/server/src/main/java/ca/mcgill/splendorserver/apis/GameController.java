@@ -559,10 +559,9 @@ public class GameController {
         return ResponseEntity.ok().body(invalidAction.toJSONString());
       }
 
+      //result cannot be null due to nature of domino
       JSONObject response = gameManager.purchaseCardBody(card, board, inventory);
-      if (response == null) {
-        return ResponseEntity.badRequest().body(invalidAction.toJSONString());
-      }
+
       response.put("status", "success");
 
       return ResponseEntity.ok(response.toJSONString());

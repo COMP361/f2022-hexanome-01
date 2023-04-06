@@ -380,7 +380,7 @@ public class GameManager {
    * @param source   the data receive from the request
    * @param cardId   the card being reserved
    * @param deckId   id of deck the card came from (if any)
-   * @return true or false depending if the player can or cannot reserve card
+   * @return object or not depending if the player can or cannot reserve card
    */
   @SuppressWarnings("unchecked")
   public JSONObject reserveCard(Game game, String playerId,
