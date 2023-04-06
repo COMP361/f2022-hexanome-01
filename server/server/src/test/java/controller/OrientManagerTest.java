@@ -271,12 +271,18 @@ public class OrientManagerTest {
 	      fail("expected exception not thrown");
 	    } catch (AssertionError e) { }
 	    
+	    tokens2.clear();
+	    tokens2.add("RED");
+	    request.replace("tokens", tokens2);
+	    response = gc.takeTokens("TestGame", request);
+	    assertEquals(ResponseEntity.ok().body(invalidAction.toJSONString()), response);
 	    
 	    testInventory.getUnlockables().add(UnlockableRegistry.of(15));
 	    testInventory.getUnlockables().add(UnlockableRegistry.of(16));
 	    testInventory.getUnlockables().add(UnlockableRegistry.of(17));
 	    testInventory.getUnlockables().add(UnlockableRegistry.of(18));
 	    testInventory.getUnlockables().add(UnlockableRegistry.of(19));
+	    
 	    tokens2.clear();
 	    tokens2.add("RED");
 	    tokens2.add("RED");
@@ -291,9 +297,41 @@ public class OrientManagerTest {
 	    
 	    tokens2.clear();
 	    tokens2.add("RED");
+	    tokens2.add("BLUE");
+	    tokens2.add("RED");
+	    request.replace("tokens", tokens2);
+	    response = gc.takeTokens("TestGame", request);
+	    try {
+	      assertEquals(ResponseEntity.ok().body(invalidAction.toJSONString()), response);
+	      fail("expected exception not thrown");
+	    } catch (AssertionError e) { }
+	    
+	    tokens2.clear();
+	    tokens2.add("BLUE");
 	    tokens2.add("RED");
 	    tokens2.add("RED");
 	    request.replace("tokens", tokens2);
+	    response = gc.takeTokens("TestGame", request);
+	    try {
+	      assertEquals(ResponseEntity.ok().body(invalidAction.toJSONString()), response);
+	      fail("expected exception not thrown");
+	    } catch (AssertionError e) { }
+	    
+	    tokens2.clear();
+	    tokens2.add("RED");
+	    tokens2.add("RED");
+	    tokens2.add("RED");
+	    request.replace("tokens", tokens2);
+	    response = gc.takeTokens("TestGame", request);
+	    try {
+	      assertEquals(ResponseEntity.ok().body(invalidAction.toJSONString()), response);
+	      fail("expected exception not thrown");
+	    } catch (AssertionError e) { }
+	    
+	    tokens2.clear();
+	    tokens2.add("RED");
+	    request.replace("tokens", tokens2);
+	    testInventory.getUnlockables().add(UnlockableRegistry.of(15));
 	    response = gc.takeTokens("TestGame", request);
 	    try {
 	      assertEquals(ResponseEntity.ok().body(invalidAction.toJSONString()), response);
@@ -650,5 +688,9 @@ public class OrientManagerTest {
 		    assertNull(gameManager.purchaseCard(game, "testCreator", 115));
 		    
 		    assertTrue("purchase of domino1 went through", testInventory.getCards().isEmpty());
+		    
+		    testInventory.getCards().add(CardRegistry.of(0));
+		    
+		    assertTrue("should exist a valid pairing", gameManager.checkValidPairing(testInventory));
 	  }
 }
