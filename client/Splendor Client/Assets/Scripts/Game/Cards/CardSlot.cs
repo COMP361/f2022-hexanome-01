@@ -16,6 +16,7 @@ public class CardSlot : MonoBehaviour {
     private bool active = true;
 
     public void SetupInventory(Card card) { //sets regular display info for inventory
+        this.card = card;
         m_SpriteRenderer = GetComponent<SpriteRenderer>();
         m_SpriteRenderer.sprite = card.sprite;
         image.sprite = card.sprite;
