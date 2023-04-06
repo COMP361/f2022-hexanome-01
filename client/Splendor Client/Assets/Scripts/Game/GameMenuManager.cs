@@ -45,7 +45,7 @@ public class GameMenuManager : MonoBehaviour
     }
 
     IEnumerator saveAndExitEndSessionRoutine(){
-        yield return StartCoroutine(GameRequestManager.SaveGameServer(currentSession.id));
+        yield return StartCoroutine(GameRequestManager.SaveGameServer(currentSession.id, successText, failText));
         SceneManager.LoadScene(1);
     }
     IEnumerator exitRoutine(){

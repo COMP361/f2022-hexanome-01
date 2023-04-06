@@ -11,10 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: 1985f8e7a67f095489e2be5ad840cd73
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/GameScene - EndSessionExit.unity
     guid: 9c0b02edb8d833b4d920ce5b7c9dc098
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/GameScene.unity
     guid: 799162ba93fac7c4aae7216c2b3fe27d
   - enabled: 0
