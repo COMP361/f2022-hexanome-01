@@ -48,7 +48,6 @@ public class SaveManager {
    * Loads a game from a save.
    *
    * @param saveId the id of the save
-   * @param playerId the id of the game creator
    * @return the session created from the save
    */
   public SaveSession loadGame(String saveId) {
@@ -108,21 +107,21 @@ public class SaveManager {
     List<SaveSession> savedGames = new ArrayList<>();
     File saveDirectory = new File(saveDir.toString());
     if (saveDirectory.exists()) {
-        File[] saveFiles = saveDirectory.listFiles((dir, name) -> name.endsWith(".save"));
+      File[] saveFiles = saveDirectory.listFiles((dir, name) -> name.endsWith(".save"));
 
-        for (File saveFile : saveFiles) {
-          try {
-            FileInputStream fileIn = new FileInputStream(saveFile);
-            ObjectInputStream objectIn = new ObjectInputStream(fileIn);
+      for (File saveFile : saveFiles) {
+        try {
+          FileInputStream fileIn = new FileInputStream(saveFile);
+          ObjectInputStream objectIn = new ObjectInputStream(fileIn);
 
-            Game game = (Game) objectIn.readObject();
-            objectIn.close();
+          Game game = (Game) objectIn.readObject();
+          objectIn.close();
 
-            savedGames.add(new SaveSession(game, saveFile.getName().replace(".save", "")));
-          } catch (Exception e) {
-            e.printStackTrace();
-          }
+          savedGames.add(new SaveSession(game, saveFile.getName().replace(".save", "")));
+        } catch (Exception e) {
+          e.printStackTrace();
         }
+      }
     }
     return savedGames;
   }
@@ -139,7 +138,7 @@ public class SaveManager {
   /**
    * deletes saved game.
 
-   * @param savId id of player who made save
+   * @param saveId id of player who made save
 
    */
   public void deleteSavedGame(String saveId) {
