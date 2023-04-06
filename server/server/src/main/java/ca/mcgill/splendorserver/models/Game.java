@@ -130,9 +130,12 @@ public class Game implements Serializable {
 
   /**
    * Sets the creator player.
+
+   * @param username name of user
+
    */
   public void setCreator(String username) {
-	  this.creator = username;
+    this.creator = username;
   }
 
   /**
