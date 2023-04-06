@@ -192,13 +192,17 @@ public class GameManager {
     int pickedUp = cards.draw(card);
     
     if (pickedUp == card.getId()) {
-      inventory.addCard(card);
+      if (card.getType() != CardType.DOMINO1 && card.getType() != CardType.SATCHEL) {
+        inventory.addCard(card);
+      }
       return true;
     }
 
     if (inventory.containsReservedCard(card)) {
       inventory.removeFromReservedCards(card);    
-      inventory.addCard(card);
+      if (card.getType() != CardType.DOMINO1 && card.getType() != CardType.SATCHEL) {
+        inventory.addCard(card);
+      }
       return true;
     }
     
