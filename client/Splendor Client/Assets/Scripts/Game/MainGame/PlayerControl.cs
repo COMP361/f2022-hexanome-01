@@ -799,7 +799,7 @@ public class PlayerControl : MonoBehaviour {
             selectedReserve = player.GetReservedCards()[0];
             Debug.Log(selectedReserve);
             purchaseOrReserve.SetActive(true);
-            purchaseButton.SetActive(false);
+            purchaseButton.SetActive(true);
             reserveButton.SetActive(false);
             allCards.UnGreyOut();
             SelectedTokens selectedTokens = selectedTokensObject.GetComponent<SelectedTokens>();
@@ -813,7 +813,7 @@ public class PlayerControl : MonoBehaviour {
         if (player.GetReservedCards().Count > 1) {
             selectedReserve = player.GetReservedCards()[1];
             purchaseOrReserve.SetActive(true);
-            purchaseButton.SetActive(false);
+            purchaseButton.SetActive(true);
             reserveButton.SetActive(false);
             allCards.UnGreyOut();
             SelectedTokens selectedTokens = selectedTokensObject.GetComponent<SelectedTokens>();
@@ -827,7 +827,7 @@ public class PlayerControl : MonoBehaviour {
         if (player.GetReservedCards().Count > 2) {
             selectedReserve = player.GetReservedCards()[2];
             purchaseOrReserve.SetActive(true);
-            purchaseButton.SetActive(false);
+            purchaseButton.SetActive(true);
             reserveButton.SetActive(false);
             allCards.UnGreyOut();
             SelectedTokens selectedTokens = selectedTokensObject.GetComponent<SelectedTokens>();
