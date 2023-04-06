@@ -2,14 +2,15 @@ package ca.mcgill.splendorserver.models.expansion;
 
 import ca.mcgill.splendorserver.apis.JsonHandler;
 import ca.mcgill.splendorserver.models.Player;
-import java.util.ArrayList;
+import java.io.Serializable;
 import org.json.simple.JSONObject;
 
 /**
  * Model class for trading post from Splendor trading post extension.
  */
-public class TradingPost implements Unlockable {
+public class TradingPost implements Unlockable, Serializable {
 
+  private static final long serialVersionUID = -3196160135947464174L;
   private int id;
   private Condition condition; //condition to unlock this post
   private Action action;
@@ -30,9 +31,9 @@ public class TradingPost implements Unlockable {
                break;
       case 17: action = new DoubleGold(); 
                break;
-      case 18: action = new DynamicPointAction(); 
+      case 18: action =  new FlatPointAction(5);
                break;
-      case 19: action = new FlatPointAction(5); 
+      case 19: action = new DynamicPointAction(); 
                break;
       default: break;
     }

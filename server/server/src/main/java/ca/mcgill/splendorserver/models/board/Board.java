@@ -1,17 +1,24 @@
 package ca.mcgill.splendorserver.models.board;
 
+
 import ca.mcgill.splendorserver.models.Inventory;
 import ca.mcgill.splendorserver.models.Player;
-import java.util.HashMap;
+import java.io.Serializable;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 /**
  * Model class for the Splendor board.
  */
-public class Board {
+public class Board implements Serializable {
+
+  private static final long serialVersionUID = 1977163128205559350L;
 
   private String currentPlayer;
+
+  private String host;
+
+  private String winner;
 
   private Player[] players;
   private TokenBank tokens;
@@ -33,8 +40,9 @@ public class Board {
     nobles = new NobleBank(playerNum + 1);
     this.players = players;
     this.currentPlayer = creator;
+    this.host = creator;
   }
-  
+
   public void setCurrentPlayer(String player) {
     currentPlayer = player;
   }
@@ -76,6 +84,8 @@ public class Board {
     json.put("decks", cardsAndDecks[1]);
     json.put("nobles", nobles.toJson());
     json.put("tokens", tokens.toJson());
+    json.put("host", host);
+    json.put("winner", winner);
 
     JSONObject inventoriesJson = new JSONObject();
     for (Player player : players) {
@@ -103,5 +113,14 @@ public class Board {
   public void setCards(CardBank cards) {
     this.cards = cards;
   }
+
+  public String getHost() {
+    return host;
+  }
+
+  public void setWinner(String winner) {
+    this.winner = winner;
+  }
+
 
 }

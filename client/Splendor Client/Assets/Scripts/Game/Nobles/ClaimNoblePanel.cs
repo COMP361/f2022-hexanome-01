@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor;
 
 public class ClaimNoblePanel : MonoBehaviour
 {
@@ -16,13 +17,32 @@ public class ClaimNoblePanel : MonoBehaviour
 
         hasImpressedNoble = false;
         List<Noble> availNobles = new List<Noble>();
+        List<Noble> noblesReserved = new List<Noble>();
         //TokenBank playerBonus = playerControl.client.GetBonusBank();
+        noblesReserved = playerControl.client.GetReservedNobles();
+
+
 
         NobleSlot[] nobleSlots = allNobles.GetAllNobels();
+
         for (int i = 0; i < nobleSlots.Length; i++) {
             if (nobleSlots[i] != null)
             {
                 Noble noble = nobleSlots[i].GetNoble();
+                for (int j = 0; j < impressedNobles.Length; j++)
+                {
+                    if (noble.id == impressedNobles[j])
+                    {
+                        availNobles.Add(noble);
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < noblesReserved.Count; i++) {
+            if (noblesReserved[i] != null)
+            {
+                Noble noble = noblesReserved[i];
                 for (int j = 0; j < impressedNobles.Length; j++)
                 {
                     if (noble.id == impressedNobles[j])
@@ -44,8 +64,9 @@ public class ClaimNoblePanel : MonoBehaviour
     //Displays the pop-up window when a player reaches requirements to get a noble
     public void Display(List<Noble> availNobles) {
         //TOCheck
-        if (claimNoblePanel.activeInHierarchy)
+        if (claimNoblePanel.activeInHierarchy) 
             claimNoblePanel.SetActive(false);
+        
         else {
             claimNoblePanel.SetActive(true);
             DisplayAvailableNobles(availNobles);

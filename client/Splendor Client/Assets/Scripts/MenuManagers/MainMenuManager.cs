@@ -15,24 +15,36 @@ public enum LastMenuVisited {
 }
 public class MainMenuManager : MonoBehaviour {
 
-    [SerializeField] private GameObject blankSessionSlot, sessionContent, lobbyView, blankSaveSlot, saveContent, blankPlayerSlot, playerContent, joinButton, startButton, startSessionButton;
+    [SerializeField] private GameObject blankSessionSlot, sessionContent, lobbyView, blankSaveSlot, saveContent, blankPlayerSlot, playerContent, joinButton, startButton, startSessionButton, adminButton;
     [SerializeField] private Toggle splendorToggle, citiesToggle, tradingPostsToggle;
-    [SerializeField] private UnityEvent promptEndSession, promptDeleteSession, joinSession, loadSave, createSession, exitToMain, exitToSession, exitToSave;
-    [SerializeField] private Text playerText, sessionNameText;
+    [SerializeField] private Toggle splendorSavesToggle, citiesSavesToggle, tradingPostsSavesToggle;
+    [SerializeField] private UnityEvent promptEndSession, promptDeleteSession, joinSession, loadSave, loadVariantSaves, createSession, exitToMain, exitToSession, exitToSave;
+    [SerializeField] private Text playerText, sessionNameText, savesViewTitle;
     [SerializeField] private Authentication authentication;
 
     private LastMenuVisited previousMenu = LastMenuVisited.MAIN;
 
-    public Save currentSave;
+    public Save currentSave = new Save();
     [SerializeField] private ActiveSession currentSession;
     private string sessionsHash = null;
     private string sessionHash = null;
+
+    void Start()
+    {
+        StartCoroutine(LSRequestManager.GetRole((string role) =>
+        {
+            if (role == null) UnityEngine.Debug.Log("role is null");
+            if (adminButton == null) UnityEngine.Debug.Log("admin button is null");
+            if (role.Contains("ROLE_ADMIN")) adminButton.SetActive(true);
+        }));
+    }
 
     //******************************** MAIN MENU ********************************
 
     public void LoadLastMenu() {
         //reset all data
         currentSession.Reset();
+        currentSave.Reset();
         sessionsHash = null;
         sessionHash = null;
 
@@ -69,13 +81,17 @@ public class MainMenuManager : MonoBehaviour {
     /// and sends the data to "BaseLoad".
     /// </summary>
     public void OnBaseLoadClick() {
-        StartCoroutine(LSRequestManager.GetSaves((List<Save> saves) => {
-            if (saves != null && saves.Count > 0){
-                List<Save> relevant = determineRelevant(saves);
+        string variant = ""; //determine saved game version based on selected toggle
+        if (splendorSavesToggle.isOn) variant = "splendor";
+        else if (citiesSavesToggle.isOn) variant = "cities";
+        else if (tradingPostsSavesToggle.isOn) variant = "tradingposts";
 
-                if (relevant != null && relevant.Count > 0) MakeSaves(relevant); //displays relevant saved games
-                else ClearChildren(saveContent); //clear saved games display
-            } else ClearChildren(saveContent); //clear saved games display
+        StartCoroutine(LSRequestManager.GetSaves(variant, (List<Save> saves) => {
+            if (saves != null && saves.Count > 0) MakeSaves(saves);
+            else ClearChildren(saveContent); //clear saved games display
+            previousMenu = LastMenuVisited.MAIN;
+            savesViewTitle.text = "available " + variant + " saves";
+            loadVariantSaves.Invoke();
         }));
     }
 
@@ -127,6 +143,7 @@ public class MainMenuManager : MonoBehaviour {
                         previousMenu = LastMenuVisited.LOAD;
                         currentSession.SetSession(session);
                         loadSave.Invoke(); // location of this event may change in the future
+                        SetupLobby();
                         MakePlayers(); // displays the players in the current session
 
                         if (currentSession.players.Count > 2 && currentSession.creator.Equals(authentication.GetUsername()))
@@ -205,7 +222,8 @@ public class MainMenuManager : MonoBehaviour {
                     if (lobbyView.activeInHierarchy) LobbyPolling(currentSession.id);
                 }
             }
-            else if (lobbyView.activeInHierarchy) LobbyPolling(currentSession.id);
+            else if (hash != null && lobbyView.activeInHierarchy) LobbyPolling(currentSession.id);
+            else if (session == null && hash == null) LoadLastMenu();
         }));
     }
 
@@ -237,7 +255,9 @@ public class MainMenuManager : MonoBehaviour {
 
         foreach (Save save in saves)
         {
-            if (save.players.Contains(authentication.GetUsername())) relevantSaves.Add(save);
+            //if (save.players.Contains(authentication.GetUsername())) relevantSaves.Add(save);
+            if (save.players[0].Equals(authentication.GetUsername())) //only show saves where the player was the creator
+                relevantSaves.Add(save); 
         }
 
         return relevantSaves; 
@@ -271,7 +291,7 @@ public class MainMenuManager : MonoBehaviour {
     /// </summary>
     /// <param name="newSave">currently selected Save</param>
     public void SetSave(Save newSave) {
-        if (newSave != null) currentSave = newSave;
+        if (newSave != null) currentSave.SetSave(newSave);
     }
 
     /// <summary>
@@ -299,11 +319,13 @@ public class MainMenuManager : MonoBehaviour {
     /// Displays saves in "load save" menu.
     /// </summary>
     /// <param name="saves">Save List of all saves relevant to the main player which must be displayed</param>
-    public void MakeSaves(List<Save> saves) { 
-        //currentSave = null;
-
+    public void MakeSaves(List<Save> saves)
+    {
+        currentSave.Reset();
+        
         ClearChildren(saveContent);
-        foreach (Save save in saves) {
+        foreach (Save save in saves)
+        {
             GameObject temp = Instantiate(blankSaveSlot, saveContent.transform.position, Quaternion.identity);
             temp.transform.SetParent(saveContent.transform);
             temp.transform.localScale = new Vector3(1, 1, 1);
@@ -336,5 +358,8 @@ public class MainMenuManager : MonoBehaviour {
 
     public void StartJoinedGame() {
         SceneManager.LoadScene(2);
+    }
+    public void Winning() {
+        SceneManager.LoadScene("WinScene");
     }
 }

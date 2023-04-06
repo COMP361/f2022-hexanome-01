@@ -2,13 +2,15 @@ package ca.mcgill.splendorserver.models.expansion;
 
 import ca.mcgill.splendorserver.apis.JsonHandler;
 import ca.mcgill.splendorserver.models.Player;
+import java.io.Serializable;
 import org.json.simple.JSONObject;
 
 /**
  * Model class for cities from Splendor cities expansion.
  */
-public class City implements Unlockable {
+public class City implements Unlockable, Serializable {
 
+  private static final long serialVersionUID = -6421194523179986103L;
   private int id;
   private Condition condition; //condition to unlock this city
 
@@ -43,6 +45,15 @@ public class City implements Unlockable {
   @Override
   public int getId() {
     return id;
+  }
+
+  /**
+   * Getter for this city's point requirement.
+   *
+   * @return point threshold
+   */
+  public int getPoints() {
+    return condition.getPoints();
   }
 
 }

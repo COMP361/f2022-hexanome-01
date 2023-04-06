@@ -6,5 +6,5 @@ using UnityEngine.UI;
 [CreateAssetMenu]
 public class Winner : ScriptableObject
 {
-    [SerializeField] private string playerName;
+    [SerializeField] public string playerName;
 }

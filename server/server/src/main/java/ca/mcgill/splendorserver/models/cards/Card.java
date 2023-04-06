@@ -1,14 +1,16 @@
 package ca.mcgill.splendorserver.models.cards;
 
 import ca.mcgill.splendorserver.models.Token;
+import java.io.Serializable;
 import java.util.HashMap;
 import org.json.simple.JSONObject;
 
 /**
  * Model class for a Splendor development card.
  */
-public class Card {
+public class Card implements Serializable {
 
+  private static final long serialVersionUID = -4044194965826569425L;
   private int id; //uniquely identify a card
   private int pts;
   private CardBonus bonus = new CardBonus();
@@ -36,6 +38,17 @@ public class Card {
     satchelCount = 0;
 
     type = CardType.valueOf((String) obj.get("action"));
+    this.level = level;
+  }
+
+  /**
+   * Constructor from an id (for tests).
+   *
+   * @param id of the card
+   * @param level of the card
+   */
+  public Card(int id, CardLevel level) {
+    this.id = id;
     this.level = level;
   }
 

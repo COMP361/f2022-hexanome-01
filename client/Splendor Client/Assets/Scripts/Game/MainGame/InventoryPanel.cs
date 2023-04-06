@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor;
 
 /* 
  * This script it's used to display the cards and nobles that any player has in their inventory.
@@ -17,13 +18,14 @@ public class InventoryPanel : MonoBehaviour {
     //Display is called by the button to open/close the panel
 
     public void Display() { //displays/hides the menu
-        if (inventoryPanel.activeInHierarchy)
+        if (inventoryPanel.activeInHierarchy) {
             inventoryPanel.SetActive(false);
+        }
         else {
             //set inventory panel title as the inventory owner's name
             Text ownerName = inventoryPanel.transform.Find("OwnerName").gameObject.GetComponent<Text>();
             if (ownerName != null) ownerName.text = player.GetUsername();
-            
+
             inventoryPanel.SetActive(true);
             DisplayPlayerCards(player.GetAcquiredCards(), player.GetAcquiredNobles());
         }

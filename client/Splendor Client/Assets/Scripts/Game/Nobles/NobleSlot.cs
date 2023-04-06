@@ -48,4 +48,6 @@ public class NobleSlot : MonoBehaviour {
     public Noble GetNoble() {
         return noble;
     }
+
+   
 }

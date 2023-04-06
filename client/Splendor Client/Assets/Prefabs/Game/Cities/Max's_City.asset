@@ -20,8 +20,8 @@ MonoBehaviour:
     red: 0
     blue: 0
     green: 0
-    white: 0
-    brown: 0
+    white: 2
+    black: 0
     generic: 0
-    points: 0
+    points: 16
     nobleRequired: 0

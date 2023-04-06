@@ -119,6 +119,7 @@ public class Card : ScriptableObject {
     [SerializeField] private int points;
     [SerializeField] private char bonus;
     [SerializeField] private int bonusAmount = 1;
+    [SerializeField] private long satchels = 0;
 
     [SerializeField] public int red;
     [SerializeField] public int blue;
@@ -133,6 +134,14 @@ public class Card : ScriptableObject {
     public Sprite sprite;
 
     private SpriteRenderer m_SpriteRenderer;
+
+    public long GetSatchels() {
+        return satchels;
+    }
+
+    public void SetSatchels(long amount) {
+        satchels = amount;
+    }
 
     public long GetId() {
         return id;

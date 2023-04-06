@@ -1,12 +1,16 @@
 package ca.mcgill.splendorserver;
 
+import ca.mcgill.splendorserver.controllers.SaveManager;
+import ca.mcgill.splendorserver.models.Game;
+import ca.mcgill.splendorserver.models.saves.LobbyServiceSaveData;
+import ca.mcgill.splendorserver.models.saves.SaveRegistrator;
+import ca.mcgill.splendorserver.models.saves.SaveSession;
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -29,12 +33,15 @@ public class Registrator {
   private final GameServiceRegistrationParameters gameServiceRegistrationParameters;
   @Value("${lobbyservice.location}")
   private String lobbyLocation;
-  @Value("${oauth2.name}")
-  private String serviceOauthName;
-  @Value("${oauth2.password}")
-  private String serviceOauthPassword;
   private final String[] expansionsServiceName =
         {"cities", "tradingposts"};
+
+  @Autowired
+  private SaveManager saveManager;
+  @Autowired
+  private Authentication auth;
+  @Autowired
+  private SaveRegistrator saveRegistrator;
 
   /**
    * This is the constructor that will get its value provided by spring from the
@@ -66,7 +73,7 @@ public class Registrator {
   @PostConstruct
   private void init() throws InterruptedException {
     try {
-      String accessToken = getAccessToken();
+      String accessToken = auth.getAccessToken();
       //Register default (main) splendor service
       registerGameService(accessToken, gameServiceName);
       for (String expansionName : expansionsServiceName) {
@@ -76,43 +83,6 @@ public class Registrator {
       String errorMessage = "Failed to connect to Lobby Service";
       logger.error(errorMessage);
       throw new RuntimeException(errorMessage);
-    }
-  }
-
-  /**
-   * Signs in as an user with service role to the database to get the access token for request.
-   *
-   * @return the access token provided by lobby service (String)
-   * @throws UnirestException throws exception if can't login or can't access lobby service
-   */
-  private String getAccessToken() throws UnirestException {
-    try {
-      String lobbyServiceTokenUrl = lobbyLocation + "/oauth/token";
-      String bodyString =
-          "grant_type=password&username=" + serviceOauthName + "&password=" + serviceOauthPassword;
-      HttpResponse<String> response = Unirest
-          .post(lobbyServiceTokenUrl)
-
-          .header("Authorization", "Basic YmdwLWNsaWVudC1uYW1lOmJncC1jbGllbnQtcHc=")
-          .header("Content-Type", "application/x-www-form-urlencoded")
-          .body(bodyString)
-          .asString();
-      if (response.getStatus() != 200) {
-        String errorMessage = "LS rejected login credentials";
-        logger.error(errorMessage);
-        throw new RuntimeException(errorMessage);
-      }
-      // Server succesful token response
-
-      JsonObject responseJson = new JsonParser().parse(response.getBody()).getAsJsonObject();
-      String token = responseJson.get("access_token").toString().replaceAll("\"", "");
-      logger.info("token for registration: " + token);
-
-      return token;
-    } catch (UnirestException unirestException) {
-      String errorMessage = "Failed to get access token from lobby service";
-      logger.error(errorMessage);
-      throw unirestException;
     }
   }
 
@@ -146,6 +116,9 @@ public class Registrator {
         throw new RuntimeException("Register game Failed. Response: " + response.getBody());
       }
       logger.info(serviceName + " Game registration Success");
+
+      // Register all saved games
+      registerAllSavedGames(serviceName);
     } catch (UnirestException unirestException) {
       String errorMessage = "Failed to connect to Lobby Service";
 
@@ -161,7 +134,7 @@ public class Registrator {
   @PreDestroy
   public void unregisterGameService() {
     try {
-      String accessToken = getAccessToken();
+      String accessToken = auth.getAccessToken();
       String lobbyGameServiceUrl = lobbyLocation + "/api/gameservices/" + gameServiceName;
       logger.info("Unregistering game service at: " + lobbyGameServiceUrl);
       HttpResponse<String> response = Unirest
@@ -188,6 +161,27 @@ public class Registrator {
 
     } catch (UnirestException e) {
       logger.error(e.getMessage());
+    }
+  }
+
+  /**
+   * Registers all saved games to the lobby service.
+   */
+  private void registerAllSavedGames(String variant) {
+    List<SaveSession> savedGames = saveManager.getAllSavedGames();
+
+    for (SaveSession saveSession : savedGames) {
+      Game game = saveSession.getGame();
+
+      if (game.getVariant().equals(variant)) {
+        LobbyServiceSaveData saveData = new LobbyServiceSaveData(game, saveSession.getSavegameid());
+
+        try {
+          saveRegistrator.registerSavedGameWithLobbyService(variant, saveData);
+        } catch (UnirestException e) {
+          logger.error("Failed to register saved game with id: " + game.getId(), e);
+        }
+      }
     }
   }
 }
