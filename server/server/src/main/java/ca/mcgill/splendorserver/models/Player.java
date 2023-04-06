@@ -11,8 +11,6 @@ public class Player implements Serializable {
   private static final long serialVersionUID = 5868176809531230694L;
   private String username;
   private Inventory inventory;
-  private Card lastAcquired;
-  private boolean doubleGold = false;
 
   /**
    * Constructor to create a new player. It only takes a
@@ -35,34 +33,6 @@ public class Player implements Serializable {
   }
 
   /**
-   * Getter for trading post C status.
-   *
-   * @return inventory of this player.
-   */
-  public boolean getDoubleGold() {
-    return doubleGold;
-  }
-
-  /**
-   * Setter for trading post C status.
-   *
-   * @param doubleGold new status of trading post C.
-   */
-  public void setDoubleGold(boolean doubleGold) {
-    this.doubleGold = doubleGold;
-  }
-
-  /**
-   * Add the card to the player's inventory.
-   *
-   * @param card the card to add
-   */
-  public void acquireCard(Card card) {
-    lastAcquired = card;
-    inventory.addCard(card);
-  }
-
-  /**
    * Remove a card from the player's inventory.
    *
    * @param card the card to remove
@@ -70,15 +40,6 @@ public class Player implements Serializable {
    */
   public boolean removeCard(Card card) {
     return inventory.removeCard(card);
-  }
-
-  /**
-   * Getter for the card last acquired by the player.
-   *
-   * @return the card last acquired by the player.
-   */
-  public Card getLastAcquired() {
-    return lastAcquired;
   }
 
   /**
