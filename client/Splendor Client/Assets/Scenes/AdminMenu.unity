@@ -1207,8 +1207,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Nuh uh uh. Failed to add user. Password must contain lowercase letters,
-    uppercase letters, numbers, and special characters.
+  m_Text: Nuh uh uh. Failed to add user. User possibly already exists. Password must
+    contain lowercase letters, uppercase letters, numbers, and special characters.
 --- !u!222 &1068479512
 CanvasRenderer:
   m_ObjectHideFlags: 0

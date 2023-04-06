@@ -157,8 +157,8 @@ public class PlayerControl : MonoBehaviour {
                 //Debug.Log(selectReserve);
                 selectedDeckToReserve = null;
                 purchaseOrReserve.SetActive(true);
-                purchaseOrReserve.transform.GetChild(1).gameObject.SetActive(true);
                 purchaseButton.SetActive(true);
+                reserveButton.SetActive(true);
                 selectedReserve = null;
                 selectedCard = go.GetComponent<CardSlot>();
                 allCards.GreyOutExcept(selectedCard);
@@ -201,18 +201,11 @@ public class PlayerControl : MonoBehaviour {
 
     public void reserveDeck(Deck deck) {
         purchaseOrReserve.SetActive(true);
-        purchaseOrReserve.transform.GetChild(1).gameObject.SetActive(false);
         purchaseButton.SetActive(false);
         reserveButton.SetActive(true);
 
         selectedTokensObject.SetActive(false);
         takeTokensButton.SetActive(false);
-        selectedReserve = null;
-        selectedCardToBuy = null;
-        selectedCardToReserve = null;
-        selectedNoble = null;
-        selectedCity = null;
-        selectedCard = null;
 
         dashboard.DisplayReserve();
         allCards.GreyOut();
@@ -447,6 +440,7 @@ public class PlayerControl : MonoBehaviour {
         JSONObject reserveCardJson = new JSONObject(requestDict);
         reserveCardJson.Add("playerId", player.GetUsername());
         reserveCardJson.Add("source", "deck");
+        reserveCardJson.Add("cardId", -1);
         reserveCardJson.Add("deckId", selectedDeckToReserve.GetId());
         actionManager.MakeApiRequest(currSession.id, reserveCardJson, ActionManager.ActionType.reserveCard, ActionManager.RequestType.POST, (response) => {
             if (response != null) {
@@ -486,6 +480,7 @@ public class PlayerControl : MonoBehaviour {
         reserveCardJson.Add("playerId", player.GetUsername());
         reserveCardJson.Add("source", "board");
         reserveCardJson.Add("cardId", selectedCardToReserve.GetCard().GetId());
+        reserveCardJson.Add("deckId", "");
         actionManager.MakeApiRequest(currSession.id, reserveCardJson, ActionManager.ActionType.reserveCard, ActionManager.RequestType.POST, (response) => {
             if (response != null) {
                 string status = (string)response["status"];
@@ -800,7 +795,8 @@ public class PlayerControl : MonoBehaviour {
             selectedReserve = player.GetReservedCards()[0];
             Debug.Log(selectedReserve);
             purchaseOrReserve.SetActive(true);
-            purchaseOrReserve.transform.GetChild(1).gameObject.SetActive(false);
+            purchaseButton.SetActive(false);
+            reserveButton.SetActive(false);
             allCards.UnGreyOut();
             SelectedTokens selectedTokens = selectedTokensObject.GetComponent<SelectedTokens>();
             selectedTokens.reset(tokenBank);
@@ -813,7 +809,8 @@ public class PlayerControl : MonoBehaviour {
         if (player.GetReservedCards().Count > 1) {
             selectedReserve = player.GetReservedCards()[1];
             purchaseOrReserve.SetActive(true);
-            purchaseOrReserve.transform.GetChild(1).gameObject.SetActive(false);
+            purchaseButton.SetActive(false);
+            reserveButton.SetActive(false);
             allCards.UnGreyOut();
             SelectedTokens selectedTokens = selectedTokensObject.GetComponent<SelectedTokens>();
             selectedTokens.reset(tokenBank);
@@ -826,7 +823,8 @@ public class PlayerControl : MonoBehaviour {
         if (player.GetReservedCards().Count > 2) {
             selectedReserve = player.GetReservedCards()[2];
             purchaseOrReserve.SetActive(true);
-            purchaseOrReserve.transform.GetChild(1).gameObject.SetActive(false);
+            purchaseButton.SetActive(false);
+            reserveButton.SetActive(false);
             allCards.UnGreyOut();
             SelectedTokens selectedTokens = selectedTokensObject.GetComponent<SelectedTokens>();
             selectedTokens.reset(tokenBank);
