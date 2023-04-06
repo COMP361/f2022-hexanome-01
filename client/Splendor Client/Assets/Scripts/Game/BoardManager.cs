@@ -17,6 +17,8 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private CityRow cities;
     [SerializeField] private GameObject tradingPostsDisplay;
     [SerializeField] private Winner winner;
+
+    [SerializeField] private GameObject endSessionPopUp;
     [SerializeField] private SelectedTokens selectedTokens;
     private Player[] players;
 
@@ -36,8 +38,16 @@ public class BoardManager : MonoBehaviour
 
     public void SetBoard(string hash, JSONObject boardData)
     {
+        if(hash != null){
+            if(hash.Equals("End Session")){
+                //Debug.Log("NO BOARD");
+                endSessionPopUp.SetActive(true);
+                return;//ending the polling
+            }
+        }
         if (hash != null && boardData != null)
         {
+            Debug.Log(boardData.ToString());
             boardHash = hash;
             
             //STEP 1: set cards
