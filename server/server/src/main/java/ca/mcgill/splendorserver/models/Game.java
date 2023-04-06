@@ -240,8 +240,8 @@ public class Game implements Serializable {
       }
     } else {
       for (Player player : players) {
-        // 5 is the hard coded win rule
-        if (player.getInventory().getPoints() >= 5) {
+        // 15 is the hard coded win rule
+        if (player.getInventory().getPoints() >= 15) {
           if (player.getInventory().getPoints() == winPoints) {
             tiePlayers.add(player);
             if (potentialWinner != null) {
