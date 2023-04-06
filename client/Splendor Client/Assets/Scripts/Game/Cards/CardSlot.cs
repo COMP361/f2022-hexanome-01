@@ -11,6 +11,7 @@ public class CardSlot : MonoBehaviour {
     [SerializeField] private Card card;
     [SerializeField] private Image image;
     private SpriteRenderer m_SpriteRenderer;
+    [SerializeField] private Text satchelText;
 
     private bool active = true;
 
@@ -18,6 +19,10 @@ public class CardSlot : MonoBehaviour {
         m_SpriteRenderer = GetComponent<SpriteRenderer>();
         m_SpriteRenderer.sprite = card.sprite;
         image.sprite = card.sprite;
+        if (card.GetSatchels() == 0)
+            satchelText.text = "";
+        else
+            satchelText.text = "+ " + card.GetSatchels();
     }
 
     public void GreyOut() {
