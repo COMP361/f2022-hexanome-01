@@ -7,9 +7,9 @@ import ca.mcgill.splendorserver.models.Player;
  */
 public interface Unlockable {
 
-  public void observe(Player player);
+  void observe(Player player);
 
-  public void use(Player player);
+  void use(Player player);
 
-  public int getId();
+  int getId();
 }

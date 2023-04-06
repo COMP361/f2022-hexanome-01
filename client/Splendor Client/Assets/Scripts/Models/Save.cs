@@ -49,4 +49,16 @@ public class Save {
         }
         return result.Trim().TrimEnd(',');
     }
+
+	public void SetSave(Save save) {
+		gamename = save.gamename;
+		players = save.players;
+		savegameid = save.savegameid;
+	}
+
+	public void Reset() {
+		gamename = "";
+		players = new List<string>();
+		savegameid = "";
+	}
 }

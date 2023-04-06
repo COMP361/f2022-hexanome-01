@@ -84,6 +84,10 @@ public class TokenBank : MonoBehaviour{
         }
     }
 
+    public long GetTotalAmount() {
+        return gold + blue + green + black + red + white;
+    }
+
     public void addOne(string colour){
         switch(colour){
             case "gold": gold += 1; goldAmount.text = gold.ToString(); break;

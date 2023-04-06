@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class BoardManager : MonoBehaviour
 {
@@ -15,6 +16,10 @@ public class BoardManager : MonoBehaviour
 	[SerializeField] private TokenBank tokens;
     [SerializeField] private CityRow cities;
     [SerializeField] private GameObject tradingPostsDisplay;
+    [SerializeField] private Winner winner;
+
+    [SerializeField] private GameObject endSessionPopUp;
+    [SerializeField] private SelectedTokens selectedTokens;
     private Player[] players;
 
     private string currentPlayer;
@@ -33,8 +38,16 @@ public class BoardManager : MonoBehaviour
 
     public void SetBoard(string hash, JSONObject boardData)
     {
+        if(hash != null){
+            if(hash.Equals("End Session")){
+                //Debug.Log("NO BOARD");
+                endSessionPopUp.SetActive(true);
+                return;//ending the polling
+            }
+        }
         if (hash != null && boardData != null)
         {
+            Debug.Log(boardData.ToString());
             boardHash = hash;
             
             //STEP 1: set cards
@@ -58,12 +71,36 @@ public class BoardManager : MonoBehaviour
 
             //STEP 2: remove empty deck sprites
             JSONArray decks = (JSONArray)boardData["decks"];
-            if (!decks.Contains("level1")) GameObject.Find("CardBack1").SetActive(false);
-            if (!decks.Contains("level2")) GameObject.Find("CardBack2").SetActive(false);
-            if (!decks.Contains("level3")) GameObject.Find("CardBack3").SetActive(false);
-            if (!decks.Contains("orientlevel1")) GameObject.Find("ExpansionCardBack1").SetActive(false);
-            if (!decks.Contains("orientlevel2")) GameObject.Find("ExpansionCardBack2").SetActive(false);
-            if (!decks.Contains("orientlevel3")) GameObject.Find("ExpansionCardBack3").SetActive(false);
+            if (!decks.Contains("level1"))
+            {
+                GameObject deck = GameObject.Find("CardBack1");
+                if (deck != null) deck.SetActive(false);
+            }
+            if (!decks.Contains("level2")) 
+            {
+                GameObject deck = GameObject.Find("CardBack2");
+                if (deck != null) deck.SetActive(false);
+            }
+            if (!decks.Contains("level3")) 
+            {
+                GameObject deck = GameObject.Find("CardBack3");
+                if (deck != null) deck.SetActive(false);
+            }
+            if (!decks.Contains("orientlevel1")) 
+            {
+                GameObject deck = GameObject.Find("ExpansionCardBack1");
+                if (deck != null) deck.SetActive(false);
+            }
+            if (!decks.Contains("orientlevel2")) 
+            {
+                GameObject deck = GameObject.Find("ExpansionCardBack2");
+                if (deck != null) deck.SetActive(false);
+            }
+            if (!decks.Contains("orientlevel3")) 
+            {
+                GameObject deck = GameObject.Find("ExpansionCardBack3");
+                if (deck != null) deck.SetActive(false);
+            }
 
             //STEP 3: set nobles
             JSONArray noblesData = (JSONArray)boardData["nobles"];
@@ -87,6 +124,7 @@ public class BoardManager : MonoBehaviour
                 (long)tokenBank["red"],
                 (long)tokenBank["white"]
             );
+            selectedTokens.clearUI();
 
             //INTERMEDIATE STEP: set cities if variant is cities
             if (currentSession.name.Equals("cities"))
@@ -115,6 +153,9 @@ public class BoardManager : MonoBehaviour
                         break;
                     case 3:
                         players = new[] { boardPlayers[0], boardPlayers[2], boardPlayers[3] };
+                        break;
+                    case 4:
+                        players = new[] { boardPlayers[0], boardPlayers[1], boardPlayers[2], boardPlayers[3] };
                         break;
                 }
 
@@ -174,6 +215,14 @@ public class BoardManager : MonoBehaviour
                 while (acquiredCards.MoveNext())
                 {
                     player.AddAcquiredCard(cards.cards.Find(x => x.id.Equals((long)acquiredCards.Current)));
+                }
+
+                //set satchel cards
+                IEnumerator satcheledCards = ((JSONArray)inventory["satcheledCards"]).GetEnumerator();
+                while (satcheledCards.MoveNext()) {
+                    Card current = cards.cards.Find(x => x.id.Equals((long)satcheledCards.Current));
+                    satcheledCards.MoveNext();
+                    current.SetSatchels((long) satcheledCards.Current);
                 }
 
                 //set reserved nobles
@@ -238,6 +287,8 @@ public class BoardManager : MonoBehaviour
             foreach (Player player in players)
             {
                 player.gameObject.SetActive(true);
+                //player.GetComponent<Dashboard>().SetActive(true);
+                //player.GetComponent<MultiplayerInfoPanel>().SetActive(true);
 
                 //display city slot if variant is cities
                 if (currentSession.name.Equals("cities"))
@@ -250,6 +301,16 @@ public class BoardManager : MonoBehaviour
             //display trading posts if variant is trading posts
             if (currentSession.name.Equals("tradingposts"))
                 tradingPostsDisplay.SetActive(true);
+
+            //takes everyone to WinScene when there's a winner
+            //Debug.Log((string)boardData["winner"]);
+            if ((string)boardData["winner"] != null) {
+                winner.playerName = ((string)boardData["winner"]);
+                LSRequestManager.DeleteSession(currentSession.id);
+                SceneManager.LoadScene("WinScene");
+                //LSRequestManager.DeleteSession(currentSession.id);
+                //return;
+            }
         }
 
         BoardPolling();

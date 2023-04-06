@@ -11,6 +11,7 @@ public class TokenSlot : MonoBehaviour
     public Text amount;
     public Image image;
     [SerializeField] private SelectedTokens selectedTokens;
+    [SerializeField] private SelectedReturnTokens selectedReturnTokens;
     [SerializeField] private TokenBank tokenBank;
     public GameObject takeTokenButton;
     private bool confirm;
@@ -63,13 +64,45 @@ public class TokenSlot : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        //initialises the displayed amount text to amount given to scriptableobject
-        //tokenBank.setExceptGold(7);
-        amount.text = token.amount.ToString();
+    // Select token to be removed from the inventory
+    public void passToSelectRemove() {
+        bool active = false;
+        string tempColour = token.colour;
+        active = selectedReturnTokens.addOne(tempColour);
+        if (active) {
+            tokenBank.removeOne(tempColour);
+            confirm = selectedReturnTokens.CheckReturnAmount();
+            if (confirm) {
+                takeTokenButton.SetActive(true);
+            } else {
+                takeTokenButton.SetActive(false);
+            }
+        }
     }
+
+    // Unselect token to have it return to inventory
+    public void passToWallet() {
+        bool active = false;
+        string tempColour = token.colour;
+        active = selectedReturnTokens.removeOne(tempColour);
+        if (active) {
+            tokenBank.addOne(tempColour);
+            confirm = selectedReturnTokens.CheckReturnAmount();
+            if (confirm) {
+                takeTokenButton.SetActive(true);
+            } else {
+                takeTokenButton.SetActive(false);
+            }
+        }
+    }
+
+    // Start is called before the first frame update
+    // void Start()
+    // {
+    //     //initialises the displayed amount text to amount given to scriptableobject
+    //     //tokenBank.setExceptGold(7);
+    //     amount.text = token.amount.ToString();
+    // }
 
     // Update is called once per frame
     /*void Update()

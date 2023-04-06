@@ -2,6 +2,7 @@ package ca.mcgill.splendorserver.models.board;
 
 import ca.mcgill.splendorserver.models.Player;
 import ca.mcgill.splendorserver.models.registries.UnlockableRegistry;
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Stack;
 import org.json.simple.JSONArray;
@@ -10,8 +11,9 @@ import org.json.simple.JSONObject;
 /**
  * Model class for a Splendor board with cities expansion.
  */
-public class CitiesBoard extends Board {
+public class CitiesBoard extends Board implements Serializable {
 
+  private static final long serialVersionUID = -7929497336733966617L;
   private int[] cities;
 
   /**

@@ -29,9 +29,14 @@ public class ActionManager : MonoBehaviour
         reserveCard,
         claimNoble,
         domino,
+        dominoSatchel,
+        reserveNoble,
         endTurn,
         satchel,
-        freeTokens
+        freeTokens,
+        sacrifice,
+        returnTokens,
+        chooseCity
     }
 
     public enum RequestType

@@ -88,6 +88,19 @@ public class SelectedTokens : MonoBehaviour
         }
     }
 
+    public void clearUI(){
+        foreach (Gem token in sTokens){
+            token.colour = "none";
+            token.amount = 0;
+        }
+        foreach (Text colour in colours){
+            colour.text = "none";
+        }
+        foreach (Text amount in nums){
+            amount.text = "0";
+        }
+    }
+
     public bool checkAmount(){
         long total = getTotalNum();
         if (total == 3){
@@ -102,6 +115,15 @@ public class SelectedTokens : MonoBehaviour
         }
         return false;
     }
+
+    // public bool CheckReturnAmount() {
+    //     long selectTotal = getTotalNum();
+    //     long ownTotal = playerControl.client.GetTokenBank().GetTotalAmount();
+    //     if (selectTotal == ownTotal - 10) {
+    //         return true;
+    //     }
+    //     return false;
+    // }
     // Start is called before the first frame update
     /*void Start()
     {

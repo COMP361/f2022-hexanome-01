@@ -52,17 +52,13 @@ public class OrientManager {
     ArrayList<Integer> choices = new ArrayList<Integer>();
   
     if (card.getType() == CardType.DOMINO1) { //pass satchelable cards
-      for (int i = 0; i < inventory.getCards().size(); i++) {
-        if (inventory.getCards().get(i).getId() != card.getId()) {
-          Card currentCard = inventory.getCards().get(i);
-          if (currentCard.getBonus().getType() != null 
-              && currentCard.getBonus().getType() != Token.GOLD) {
-            choices.add(inventory.getCards().get(i).getId());
-          }
-        }
-      }
+      choices = satchelableCards(card, inventory);
     } else { //pass free cards choices (i.e. this is a domino2)
       choices = OrientManager.getDominoOptions(board, 2);
+    }
+    
+    if (choices.size() == 0) {
+      return null;
     }
   
     response.put("options", JSONArray.toJSONString(choices));
@@ -117,6 +113,25 @@ public class OrientManager {
 public static JSONObject satchel(Card card, Inventory inventory) {
     JSONObject response = new JSONObject();
     response.put("type", card.getType().toString());
+    ArrayList<Integer> choices = satchelableCards(card, inventory);
+
+    if (choices.size() == 0) {
+      return null;
+    }
+    
+    response.put("options", JSONArray.toJSONString(choices));
+
+    return response;
+  }
+  
+  /**
+   * Handles orient satchel card options.
+   *
+   * @param card that has been acquired.
+   * @param inventory of player making the action.
+   * @return the list of valid satchel targets.
+   */
+  public static ArrayList<Integer> satchelableCards(Card card, Inventory inventory) {
     ArrayList<Integer> choices = new ArrayList<Integer>();
 
     for (int i = 0; i < inventory.getCards().size(); i++) {
@@ -128,10 +143,7 @@ public static JSONObject satchel(Card card, Inventory inventory) {
         }
       }
     }
-
-    response.put("options", JSONArray.toJSONString(choices));
-
-    return response;
+    return choices;
   }
   
   /**
@@ -198,8 +210,10 @@ public static JSONObject reserve(Card card, Board board) {
 
     if (!satchels.isEmpty()) {
       response.put("options", JSONArray.toJSONString(satchels));
-    } else {
+    } else if (regular.size() >= 2) {
       response.put("options", JSONArray.toJSONString(regular));
+    } else {
+      return null;
     }
 
     return response;
@@ -233,6 +247,7 @@ public static JSONObject reserve(Card card, Board board) {
       return false;
     }
     inventory.reserveNoble(noble);
+    board.getNobles().removeId(noble.getId());
     return true;
   }
   

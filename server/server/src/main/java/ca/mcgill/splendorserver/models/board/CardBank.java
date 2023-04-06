@@ -3,6 +3,8 @@ package ca.mcgill.splendorserver.models.board;
 import ca.mcgill.splendorserver.models.cards.Card;
 import ca.mcgill.splendorserver.models.cards.CardLevel;
 import ca.mcgill.splendorserver.models.registries.CardRegistry;
+import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Stack;
@@ -11,8 +13,10 @@ import org.json.simple.JSONArray;
 /**
  * Model class holding all Splendor development card decks.
  */
-public class CardBank {
+public class CardBank implements Serializable {
 
+  private static final long serialVersionUID = 4250728141496188403L;
+  
   private HashMap<CardLevel, int[]> rows = new HashMap<CardLevel, int[]>();
   private HashMap<CardLevel, Stack<Integer>> decks = new HashMap<CardLevel, Stack<Integer>>();
 
@@ -77,7 +81,11 @@ public class CardBank {
   public int draw(CardLevel level, int index) {
     Stack<Integer> deck = decks.get(level);
     if (deck.isEmpty()) {
-      return -1;
+      int[] row = rows.get(level);
+      int old = row[index];
+      row[index] = -1;
+      rows.put(level, row);
+      return old;
     }
     int[] row = rows.get(level);
     int old = row[index];
@@ -94,12 +102,15 @@ public class CardBank {
    */
   public int draw(Card card) {
     Stack<Integer> deck = decks.get(card.getLevel());
-    if (deck.isEmpty()) {
-      return -1;
-    }
     int[] row = rows.get(card.getLevel());
     for (int i = 0; i < row.length; i++) {
       if (row[i] == card.getId()) {
+        if (deck.isEmpty()) {
+          int old = row[i];
+          row[i] = -1;
+          rows.put(card.getLevel(), row);
+          return old;
+        }
         int old = row[i];
         row[i] = deck.pop();
         rows.put(card.getLevel(), row);

@@ -1,14 +1,16 @@
 package ca.mcgill.splendorserver.models;
 
 import ca.mcgill.splendorserver.models.board.TokenBank;
+import java.io.Serializable;
 import java.util.HashMap;
 import org.json.simple.JSONObject;
 
 /**
  * Model class for Splendor noble tiles.
  */
-public class Noble {
+public class Noble implements Serializable {
 
+  private static final long serialVersionUID = 2326481723951152262L;
   private int id;
   private int pts;
   private HashMap<String, Integer> cost = new HashMap<String, Integer>();
@@ -26,6 +28,15 @@ public class Noble {
     cost.put(Token.RED.toString(), Integer.parseInt((String) obj.get("red")));
     cost.put(Token.WHITE.toString(), Integer.parseInt((String) obj.get("white")));
     cost.put(Token.BLACK.toString(), Integer.parseInt((String) obj.get("black")));
+  }
+  
+  /**
+   * Constructor for noble from id (testing).
+   *
+   * @param id JSONObject containing noble data
+   */
+  public Noble(int id) {
+    this.id = id;
   }
 
   /**

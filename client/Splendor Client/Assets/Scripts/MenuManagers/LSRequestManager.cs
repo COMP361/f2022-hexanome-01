@@ -114,14 +114,13 @@ public class LSRequestManager : MonoBehaviour
             string newHash = sBuilder.ToString();
 
             JSONObject json = (JSONObject)JSONHandler.DecodeJsonRequest(request.downloadHandler.text);
+            List<Session> sessions = new List<Session>();
             if (!json.Equals("{\"sessions\":{}}"))
             {
-                List<Session> sessions = new List<Session>();
                 foreach (DictionaryEntry de in (IDictionary)json["sessions"])
                     sessions.Add(new Session(de.Key.ToString(), (IDictionary)de.Value));
-
-                result(newHash, sessions); //to imitate returning the session list
             }
+            result(newHash, sessions); //return session list
         }
         else if (request.responseCode == 408) result(null, null);
     }
@@ -202,7 +201,9 @@ public class LSRequestManager : MonoBehaviour
 
                 result(newHash, session);
             }
-        } else if (request.responseCode == 408) result(null, null);
+        } 
+        else if (request.responseCode == 408) result(hash, null);
+        else result(null, null);
     }
 
     /// <summary>
@@ -236,9 +237,9 @@ public class LSRequestManager : MonoBehaviour
     /// <param name="HOST">IP address to send the request to</param>
     /// <param name="result">method that will receive the list of saved games as a parameter</param>
     /// <returns></returns>
-    public static IEnumerator GetSaves(Action<List<Save>> result)
+    public static IEnumerator GetSaves(string variant, Action<List<Save>> result)
     {
-        string url = "http://" + HOST + ":4242/api/gameservices/splendor/savegames"; //url for GET request
+        string url = "http://" + HOST + ":4242/api/gameservices/" + variant + "/savegames"; //url for GET request
         UnityWebRequest request = UnityWebRequest.Get(url);
         request.SetRequestHeader("Authorization", "Bearer " + mainPlayer.GetAccessToken());
         yield return request.SendWebRequest();
@@ -246,51 +247,15 @@ public class LSRequestManager : MonoBehaviour
         if (request.result == UnityWebRequest.Result.Success)
         {
             JSONArray json = (JSONArray)JSONHandler.DecodeJsonRequest(request.downloadHandler.text);
-            IEnumerator enumerator = json.GetEnumerator();
-            List<Save> allSaves = new List<Save>();
-            while (enumerator.MoveNext())
-                allSaves.Add(new Save((JSONObject)enumerator.Current));
-
-            result(allSaves);
-        }
+            List<Save> saves = new List<Save>();
+            if (json.Count > 0)
+            {
+                foreach (JSONObject save in json)
+                    saves.Add(new Save(save));
+            }
+            result(saves); //return save list
+        } else result(null);
     }
-
-    /*
-    /// <summary>
-    /// Allows PUT request to create a savegame in the LobbyService.
-    /// </summary>
-    public void CreateSaveStart()
-    {
-        StartCoroutine(CreateSave());
-    }
-
-    /// <summary>
-    /// Creates a savegame in the LobbyService.
-    /// </summary>
-    /// <returns>Allows PUT request</returns>
-    public IEnumerator CreateSave()
-    {
-        Session session = mmm.currentSession;
-        string savegameid = session.creator + "0" + session.variant; //must be changed eventually when we have a better system for creating savegameids
-        string url = "http://" + HOST + ":4242/api/gameservices/splendor/savegames/" + savegameid ; //url for PUT request
-        //LobbyService requires UTF8 encoded json NOT UnityWebRequest's default of URL encoded
-        UnityWebRequest create = new UnityWebRequest(url);
-        create.method = "PUT";
-        create.SetRequestHeader("Authorization", "Bearer " + mainPlayer.access_token);
-        create.SetRequestHeader("Content-Type", "application/json");
-        string body = "{\"gamename\":\"splendor\", \"players\":" + session.PlayersToJSONString() + ", \"savegameid\":\"" + savegameid + "\"}";
-        create.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(body));
-        create.downloadHandler = new DownloadHandlerBuffer();
-
-        yield return create.SendWebRequest();
-
-        if (create.result != UnityWebRequest.Result.Success)
-        {
-            UnityEngine.Debug.Log("ERROR: SAVE NOT CREATED");
-        }
-    }
-
-    */
 
     /// <summary>
     /// Creates a session in the LobbyService from a saved game and gets back its id,
@@ -328,6 +293,8 @@ public class LSRequestManager : MonoBehaviour
 
         yield return remove.SendWebRequest();
 
+        
+
         //TO BE WARNED IF THE REQUEST WAS NOT SUCCESSFUL, UNCOMMENT THE FOLLOWING LINES
         //if (remove.result != UnityWebRequest.Result.Success)
         //{
@@ -338,7 +305,6 @@ public class LSRequestManager : MonoBehaviour
 
     public static IEnumerator Launch(ActiveSession session, Action<bool> result)
     {
-
         string url = "http://" + HOST + ":4242/api/sessions/" + session.id; //url for POST request
         UnityWebRequest launch = UnityWebRequest.Post(url, "body"); //body of POST cannot be empty
         launch.SetRequestHeader("Authorization", "Bearer " + mainPlayer.GetAccessToken());
@@ -347,4 +313,39 @@ public class LSRequestManager : MonoBehaviour
 
         result(launch.result == UnityWebRequest.Result.Success);
     }
+
+	//******************************** ADMIN ********************************
+
+	public static IEnumerator AddUser(Authentication mainPlayer, string username, string password, 
+			string role, string colour, Action<bool> result) {
+		string url = "http://" + HOST + ":4242/api/users/" + username;
+		UnityWebRequest add = new UnityWebRequest(url);
+		add.method = "PUT";
+		add.SetRequestHeader("Authorization", "Bearer " + mainPlayer.GetAccessToken());
+		add.SetRequestHeader("Content-Type", "application/json");
+		string body = "{\"name\":\"" + username 
+			+ "\", \"password\":\"" + password 
+			+ "\", \"preferredColour\":\"" + colour 
+			+ "\", \"role\":\"" + role + "\"}";
+		add.uploadHandler = new UploadHandlerRaw(Encoding.UTF8.GetBytes(body));
+		add.downloadHandler = new DownloadHandlerBuffer();
+
+		yield return add.SendWebRequest();
+
+        UnityEngine.Debug.Log(add.downloadHandler.text);
+
+		result(add.result == UnityWebRequest.Result.Success);
+ 	}
+
+	public static IEnumerator GetRole(Action<string> result) {
+		string url = "http://" + HOST + ":4242/oauth/role";
+		UnityWebRequest get = UnityWebRequest.Get(url);
+		get.SetRequestHeader("Authorization", "Bearer " + mainPlayer.GetAccessToken());
+
+		yield return get.SendWebRequest();
+
+		if (get.result == UnityWebRequest.Result.Success) {
+			result(get.downloadHandler.text);
+		} else result(null);
+	}
 }

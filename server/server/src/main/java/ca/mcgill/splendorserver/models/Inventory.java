@@ -3,8 +3,10 @@ package ca.mcgill.splendorserver.models;
 import ca.mcgill.splendorserver.models.board.TokenBank;
 import ca.mcgill.splendorserver.models.cards.Card;
 import ca.mcgill.splendorserver.models.expansion.City;
+import ca.mcgill.splendorserver.models.expansion.DoubleGold;
 import ca.mcgill.splendorserver.models.expansion.TradingPost;
 import ca.mcgill.splendorserver.models.expansion.Unlockable;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.json.simple.JSONArray;
@@ -13,8 +15,9 @@ import org.json.simple.JSONObject;
 /**
  * Model class for a Splendor player's inventory i.e. everything they've acquired.
  */
-public class Inventory {
+public class Inventory implements Serializable {
 
+  private static final long serialVersionUID = -8218270563314325614L;
   private int points;
   private TokenBank tokens;
   private TokenBank bonuses;
@@ -108,6 +111,16 @@ public class Inventory {
   }
 
   /**
+   * Remove an array of tokens from the player's inventory.
+   *
+   * @param selectedTokens an array of String representing the colors of the tokens to remove
+   * @return whether the tokens were successfully removed
+   */
+  public boolean removeTokens(Token[] selectedTokens) {
+    return tokens.removeAll(selectedTokens);
+  }
+
+  /**
    * Add a card to the player's reserved cards,
    * assuming they haven't reached the limit of 3 reserved cards yet.
    *
@@ -159,36 +172,6 @@ public class Inventory {
     cards.add(card);
   }
 
-  /**
-   * Pay for a card using player's tokens/discounts.
-   *
-   * @param card the card to pay for.
-   * @param goldUsed the gold the player wishes to use
-   * @return the tokens used to pay for the card.
-   */
-  public Token[] payForCard(Card card, int goldUsed) {
-    ArrayList<Token> tokensPaid = new ArrayList<>();
-
-    tokens.removeRepeated(Token.GOLD, goldUsed);
-    for (int i = 0; i < goldUsed; i++) {
-      tokensPaid.add(Token.GOLD);
-    }
-
-    TokenBank bonuses = getBonuses();
-    for (Token token : Token.values()) {
-      if (token.equals(Token.GOLD)) {
-        continue;
-      }
-      int toRemove = Math.max(0, card.getCost().get(token) - bonuses.checkAmount(token));
-      tokens.removeRepeated(token, toRemove);
-      for (int i = 0; i < toRemove; i++) {
-        tokensPaid.add(token);
-      }
-    }
-
-    return tokensPaid.toArray(new Token[0]);
-  }
-
   public void acquireCard(Card card) {
     points += card.getPoints();
     bonuses.addRepeated(card.getBonus().getType(), card.getBonus().getAmount());
@@ -200,24 +183,72 @@ public class Inventory {
    * @param cost the amount to check for in the player's token bank
    * @return whether the player can afford the cost
    */
-  public int isCostAffordable(HashMap<Token, Integer> cost) {
-    int goldUsed = 0;
-    for (Token token : Token.values()) {
+  public Token[] isCostAffordable(HashMap<Token, Integer> cost) {
+    HashMap<Token, Integer> payment = new HashMap<Token, Integer>();
+    payment.put(Token.GOLD, 0);
+    payment.put(Token.RED, 0);
+    payment.put(Token.BLUE, 0);
+    payment.put(Token.BLACK, 0);
+    payment.put(Token.GREEN, 0);
+    payment.put(Token.WHITE, 0);
+    
+    int goldUsed = 0; //gold tokens being used
+    int leftOver = 0; //rollover from gold orient cards
+    int cardsUsed = 0; //gold orient cards being used
+    for (Token token : Token.values()) { //for each token type
       if (token.equals(Token.GOLD)) {
         continue;
       }
       TokenBank bonuses = getBonuses();
       int tokenAmount = tokens.checkAmount(token);
       int tokenCost = Math.max(0, cost.get(token) - bonuses.checkAmount(token));
-      if (tokenAmount < tokenCost) {
+      payment.replace(token, tokenCost);
+
+      if (tokenAmount < tokenCost) { //if insufficient funds
+        payment.replace(token, tokenAmount);
         int goldAvailable = tokens.checkAmount(Token.GOLD) - goldUsed;
-        if (tokenCost - tokenAmount > goldAvailable) {
-          return -1;
+        boolean doubleGold = false;
+        for (Unlockable u : unlockables) { //check for trading post
+          if (u instanceof TradingPost
+              && ((TradingPost) u).getAction() instanceof DoubleGold) {
+            doubleGold = true;
+            break;
+          }
         }
-        goldUsed += tokenCost - tokenAmount;
+
+        int goldNeeded = doubleGold ? (tokenCost - tokenAmount) / 2 : tokenCost - tokenAmount;
+        if (goldNeeded > goldAvailable
+            + getBonuses().checkAmount(Token.GOLD) + leftOver - cardsUsed * 2) {
+          return null;
+        } else if (goldNeeded > goldAvailable + leftOver) {
+          int remaining = goldNeeded - goldAvailable - leftOver;
+          cardsUsed += (int) ((((double) remaining) / 2) + 0.5);
+          leftOver = remaining % 2;
+          goldNeeded = goldNeeded - remaining; //adjust needed goldTokens by removing goldCards
+        }
+        goldUsed += goldNeeded;
+        payment.put(Token.GOLD, payment.get(Token.GOLD) + goldNeeded);
       }
     }
-    return goldUsed;
+
+    while (cardsUsed > 0) {
+      for (int i = 0; i < cards.size(); i++) {
+        if (cards.get(i).getBonus().getType() == Token.GOLD) {
+          cards.remove(i); //if this is gold card, remove it decrement cards used
+          cardsUsed--;
+        }
+      }
+    }
+    
+    ArrayList<Token> tokensPaid = new ArrayList<Token>();
+    for (Token token : Token.values()) {
+      for (int i = 0; i < payment.get(token); i++) {
+        tokensPaid.add(token);
+      }
+      tokens.removeRepeated(token, payment.get(token));
+    }
+
+    return tokensPaid.toArray(new Token[0]); //return gold tokens used
   }
 
   /**
@@ -253,7 +284,7 @@ public class Inventory {
     TokenBank bonuses = new TokenBank();
     for (Card card : cards) {
       if (card.getBonus().getType() != null) {
-        bonuses.addRepeated(card.getBonus().getType(), 
+        bonuses.addRepeated(card.getBonus().getType(),
             card.getBonus().getAmount() + card.getSatchelCount());
       }
     }
@@ -265,8 +296,29 @@ public class Inventory {
    *
    * @return reservedCards
    */
+  @SuppressWarnings("unchecked")
   public ArrayList<Card> getReservedCards() {
-    return (ArrayList<Card>) reservedCards.clone();
+    return reservedCards;
+  }
+
+  /**
+   * Checker for the reserved cards of the player.
+   *
+   * @param card card to check
+   * @return status
+   */
+  public boolean containsReservedCard(Card card) {
+    return reservedCards.contains(card);
+  }
+
+  /**
+   * Remove from reserved cards.
+   *
+   * @param card card to remove
+   * @return status
+   */
+  public boolean removeFromReservedCards(Card card) {
+    return reservedCards.remove(card);
   }
 
   /**
@@ -300,6 +352,15 @@ public class Inventory {
       cardsJson.add(card.getId());
     }
     json.put("acquiredCards", cardsJson);
+    
+    //satcheled cards. i = cardid, i+1 = satchel count
+    JSONArray satchelCardsJson = new JSONArray();
+    for (Card card : cards) {
+      satchelCardsJson.add(card.getId());
+      satchelCardsJson.add(card.getSatchelCount());
+    }
+    json.put("satcheledCards", satchelCardsJson);
+    
     //nobles
     JSONArray noblesJson = new JSONArray();
     for (Noble noble : nobles) {
@@ -321,7 +382,7 @@ public class Inventory {
     //tokens
     json.put("tokens", tokens.toJson());
     //bonuses
-    json.put("bonuses", bonuses.toJson());
+    json.put("bonuses", getBonuses().toJson());
     //trading posts
     JSONArray tradingPostsJson = new JSONArray();
     for (Unlockable unlockable : unlockables) {
@@ -356,7 +417,40 @@ public class Inventory {
     return json;
   }
 
+  /**
+   * Getter for reserved nobles.
+   *
+   * @return list of claimed nobles
+   */
   public ArrayList<Noble> getReservedNobles() {
-    return (ArrayList<Noble>) reservedNobles.clone();
+    return reservedNobles;
+  }
+
+  /**
+   * Checker for city containment.
+   *
+   * @return whether this inventory contains a city
+   */
+  public boolean containsCity() {
+    for (Unlockable u : unlockables) {
+      if (u instanceof City) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * getter for city.
+   *
+   * @return this inventory's city card
+   */
+  public City getCity() {
+    for (Unlockable u : unlockables) {
+      if (u instanceof City) {
+        return (City) u;
+      }
+    }
+    return null;
   }
 }
