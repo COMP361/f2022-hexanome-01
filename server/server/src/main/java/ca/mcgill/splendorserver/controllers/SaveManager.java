@@ -190,7 +190,7 @@ public class SaveManager {
         if (!playerId.equals(playerDir.getName())) {
           continue;
         }
-        File[] saveFiles = playerDir.listFiles((dir, name) -> name.endsWith(".save"));
+        File[] saveFiles = saveDirectory.listFiles((dir, name) -> name.endsWith(".save"));
         for (File saveFile : saveFiles) {
           saveFile.delete();
         }

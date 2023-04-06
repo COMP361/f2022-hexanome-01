@@ -844,6 +844,7 @@ public class GameController {
       
       inventory.acquireCard(originalCard);
       inventory.addCard(originalCard);
+      board.getCards().draw(originalCard);
       
       JSONObject response = new JSONObject();
       response.put("action", "none");
