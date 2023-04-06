@@ -26,7 +26,19 @@ public class AllCards : MonoBehaviour
     [SerializeField] private float yLevel2;
     [SerializeField] private float yLevel3;
 
-    private List<GameObject> prefabs = new List<GameObject>();
+    private GameObject[][] basePrefabs =
+    {
+       new GameObject[]{null, null, null, null},
+       new GameObject[]{null, null, null, null},
+       new GameObject[]{null, null, null, null}
+    };
+
+    private GameObject[][] orientPrefabs =
+    {
+        new GameObject[] { null, null },
+        new GameObject[] { null, null },
+        new GameObject[] { null, null }
+    };
 
     public void GreyOutExcept(CardSlot _card)
     {
@@ -38,7 +50,7 @@ public class AllCards : MonoBehaviour
             {
                 if (!baseCards[level][i].Equals(_card))
                 {
-                    baseCards[level][i].GreyOut();
+                    if (baseCards[level][i] != null) baseCards[level][i].GreyOut();
                 }
             }
 
@@ -47,7 +59,7 @@ public class AllCards : MonoBehaviour
             {
                 if (!orientCards[level][i].Equals(_card))
                 {
-                    orientCards[level][i].GreyOut();
+                    if (orientCards[level][i] != null) orientCards[level][i].GreyOut();
                 }
             }
         }
@@ -61,13 +73,13 @@ public class AllCards : MonoBehaviour
             //base cards
             for (int i = 0; i < baseCards[level].Length; i++)
             {
-                baseCards[level][i].GreyOut();
+                if (baseCards[level][i] != null) baseCards[level][i].GreyOut();
             }
 
             //orient cards
             for (int i = 0; i < orientCards[level].Length; i++)
             {
-                orientCards[level][i].GreyOut();
+                if (orientCards[level][i] != null) orientCards[level][i].GreyOut();
             }
         }
     }
@@ -80,21 +92,30 @@ public class AllCards : MonoBehaviour
             //base cards
             for (int i = 0; i < baseCards[level].Length; i++)
             {
-                baseCards[level][i].UnGreyOut();
+                if (baseCards[level][i] != null) baseCards[level][i].UnGreyOut();
             }
 
             //orient cards
             for (int i = 0; i < orientCards[level].Length; i++)
             {
-                orientCards[level][i].UnGreyOut();
+                if (orientCards[level][i] != null) orientCards[level][i].UnGreyOut();
             }
         }
     }
 
     public void ResetAllCards()
     {
-        foreach (var card in prefabs) {
-            Destroy(card);
+        for (int level = 0; level < 3; level++)
+        {
+            for (int index = 0; index < 4; index++)
+            {
+                Destroy(basePrefabs[level][index]);
+            }
+
+            for (int index = 0; index < 2; index++)
+            {
+                Destroy(orientPrefabs[level][index]);
+            }
         }
     }
 
@@ -108,7 +129,8 @@ public class AllCards : MonoBehaviour
         else if (level == 2) y = yLevel3;
 
         GameObject prefab = Instantiate(cardObject, new Vector3(x + index * 0.85F, y, 0), Quaternion.identity);
-        prefabs.Add(prefab);
+        if (orient) orientPrefabs[level][index] = prefab;
+        else basePrefabs[level][index] = prefab;
 
         if (id != -1)
         {
@@ -136,6 +158,17 @@ public class AllCards : MonoBehaviour
                     baseCards[level][index].SetCard(toSet);
             }
         }
+        else
+        {
+            if (orient)
+            {
+                Destroy(orientPrefabs[level][index]);
+            }
+            else
+            {
+                Destroy(baseCards[level][index]);
+            }
+        }
     }
 
     public void RemoveCard(CardSlot cardToRemove)
@@ -146,7 +179,7 @@ public class AllCards : MonoBehaviour
             //base cards
             for (int i = 0; i < baseCards[level].Length; i++)
             {
-                if (baseCards[level][i].Equals(cardToRemove))
+                if (baseCards[level][i] != null && baseCards[level][i].Equals(cardToRemove))
                 {
                     Destroy(baseCards[level][i].gameObject);
                     return;
@@ -156,7 +189,7 @@ public class AllCards : MonoBehaviour
             //orient cards
             for (int i = 0; i < orientCards[level].Length; i++)
             {
-                if (orientCards[level][i].Equals(cardToRemove))
+                if (orientCards[level][i] != null && orientCards[level][i].Equals(cardToRemove))
                 {
                     Destroy(orientCards[level][i].gameObject);
                     return;
@@ -172,7 +205,7 @@ public class AllCards : MonoBehaviour
             //base cards
             for (int i = 0; i < baseCards[level].Length; i++)
             {
-                if (baseCards[level][i].GetCard().Equals(cardToRemove))
+                if (baseCards[level][i] != null && baseCards[level][i].GetCard().Equals(cardToRemove))
                 {
                     Destroy(baseCards[level][i].gameObject);
                     return;
@@ -182,19 +215,13 @@ public class AllCards : MonoBehaviour
             //orient cards
             for (int i = 0; i < orientCards[level].Length; i++)
             {
-                if (orientCards[level][i].GetCard().Equals(cardToRemove))
+                if (orientCards[level][i] != null && orientCards[level][i].GetCard().Equals(cardToRemove))
                 {
                     Destroy(orientCards[level][i].gameObject);
                     return;
                 }
             }
         }
-    }
-
-    public CardSlot GetCard(bool orient, int level, int index)
-    {
-        if (orient) return orientCards[level][index];
-        else return baseCards[level][index];
     }
 
     public Card GetCardFromId(long id){
