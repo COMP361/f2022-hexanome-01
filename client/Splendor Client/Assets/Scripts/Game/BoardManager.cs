@@ -207,6 +207,14 @@ public class BoardManager : MonoBehaviour
                     player.AddAcquiredCard(cards.cards.Find(x => x.id.Equals((long)acquiredCards.Current)));
                 }
 
+                //set acquired cards
+                IEnumerator satcheledCards = ((JSONArray)inventory["satcheledCards"]).GetEnumerator();
+                while (acquiredCards.MoveNext()) {
+                    Card current = cards.cards.Find(x => x.id.Equals((long)acquiredCards.Current));
+                    acquiredCards.MoveNext();
+                    current.SetSatchels((long) satcheledCards.Current);
+                }
+
                 //set reserved nobles
                 IEnumerator reservedNobles = ((JSONArray)inventory["reservedNobles"]).GetEnumerator();
                 while (reservedNobles.MoveNext())
