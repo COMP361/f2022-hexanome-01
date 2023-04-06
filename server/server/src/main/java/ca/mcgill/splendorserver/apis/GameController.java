@@ -275,6 +275,11 @@ public class GameController {
       if (response == null) {
         return ResponseEntity.ok().body(invalidAction.toJSONString());
       }
+      
+      Board board = game.getBoard();
+      Inventory inventory = board.getInventory(playerId);
+      JSONArray noblesVisiting = gameManager.checkImpressedNobles(inventory, board);
+      response.put("noblesVisiting", noblesVisiting);
 
       response.put("status", "success");
       //return the result of taking the tokens
@@ -320,6 +325,12 @@ public class GameController {
       }
 
       JSONObject response = new JSONObject();
+      
+      Board board = game.getBoard();
+      Inventory inventory = board.getInventory(playerId);
+      JSONArray noblesVisiting = gameManager.checkImpressedNobles(inventory, board);
+      response.put("noblesVisiting", noblesVisiting);
+      
       response.put("status", "success");
       //return the result of taking the tokens
       return ResponseEntity.ok(response.toJSONString());
