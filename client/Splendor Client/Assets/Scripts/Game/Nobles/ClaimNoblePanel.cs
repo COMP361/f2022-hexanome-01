@@ -26,8 +26,9 @@ public class ClaimNoblePanel : MonoBehaviour
         NobleSlot[] nobleSlots = allNobles.GetAllNobels();
 
         for (int i = 0; i < nobleSlots.Length; i++) {
-            if (nobleSlots[i] != null)
+            if (nobleSlots[i] != null && nobleSlots[i].GetNoble() != null)
             {
+                
                 Noble noble = nobleSlots[i].GetNoble();
                 for (int j = 0; j < impressedNobles.Length; j++)
                 {
