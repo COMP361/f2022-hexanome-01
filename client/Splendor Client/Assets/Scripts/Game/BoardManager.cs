@@ -219,9 +219,9 @@ public class BoardManager : MonoBehaviour
 
                 //set satchel cards
                 IEnumerator satcheledCards = ((JSONArray)inventory["satcheledCards"]).GetEnumerator();
-                while (acquiredCards.MoveNext()) {
-                    Card current = cards.cards.Find(x => x.id.Equals((long)acquiredCards.Current));
-                    acquiredCards.MoveNext();
+                while (satcheledCards.MoveNext()) {
+                    Card current = cards.cards.Find(x => x.id.Equals((long)satcheledCards.Current));
+                    satcheledCards.MoveNext();
                     current.SetSatchels((long) satcheledCards.Current);
                 }
 
