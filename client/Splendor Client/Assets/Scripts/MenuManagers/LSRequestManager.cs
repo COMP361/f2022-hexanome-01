@@ -201,9 +201,7 @@ public class LSRequestManager : MonoBehaviour
 
                 result(newHash, session);
             }
-        } 
-        else if (request.responseCode == 408) result(hash, null);
-        else result(null, null);
+        } else if (request.responseCode == 408) result(null, null);
     }
 
     /// <summary>
@@ -292,6 +290,8 @@ public class LSRequestManager : MonoBehaviour
         remove.SetRequestHeader("Authorization", "Bearer " + mainPlayer.GetAccessToken());
 
         yield return remove.SendWebRequest();
+
+        
 
         //TO BE WARNED IF THE REQUEST WAS NOT SUCCESSFUL, UNCOMMENT THE FOLLOWING LINES
         //if (remove.result != UnityWebRequest.Result.Success)
