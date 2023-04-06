@@ -91,11 +91,11 @@ public class GameController {
     saveException.put("status", "failure");
     saveException.put("message", "Save threw an exception.");
   }
-  
+
   /**
    * Constructor for tests, where autowiring isnt a thing.
    * (For invocation by subclass constructors, typically implicit.)
-
+   *
    * @param gm Game manager
    * @param sm Save manager
    */
@@ -128,7 +128,7 @@ public class GameController {
 
   /**
    * generator for error responses.
-
+   *
    * @param e exception to report
    * @return the response with the error
    */
@@ -160,7 +160,7 @@ public class GameController {
   /**
    * Getter for the board.
    *
-   * @param gameId the id of the game to get
+   * @param gameId   the id of the game to get
    * @param lastHash of the previous attempt
    * @return success flag
    */
@@ -192,15 +192,22 @@ public class GameController {
         } else { //return the board if there's been an update since this isn't the first request
           //System.out.println("last hash is not empty:" + lastHash);
           do {
-            boardOptional = gameManager.getGameBoard(gameId);
-            //check if there's been an update on the board
-            if (!boardOptional.isPresent()) {
-              //an empty board when the previous board wasn't empty is an update
-              //the previous board couldn't have been empty since there was a hash provided
-              result.setResult("");
-            } else if (!DigestUtils.md5Hex(boardOptional.get().toJson().toJSONString()).equals(
-                lastHash)) {
-              result.setResult(boardOptional.get().toJson().toJSONString());
+            //System.out.println("UPDATE");
+            if (gameManager.getGame(gameId) == null && gameManager.getPastGame(gameId) != null) {
+              //System.out.println("CALLED END SESSION");
+              result.setResult("End Session");
+              break;
+            } else {
+              boardOptional = gameManager.getGameBoard(gameId);
+              //check if there's been an update on the board
+              if (!boardOptional.isPresent()) {
+                //an empty board when the previous board wasn't empty is an update
+                //the previous board couldn't have been empty since there was a hash provided
+                result.setResult("");
+              } else if (!DigestUtils.md5Hex(boardOptional.get().toJson().toJSONString()).equals(
+                  lastHash)) {
+                result.setResult(boardOptional.get().toJson().toJSONString());
+              }
             }
           } while (boardOptional.isPresent() && DigestUtils.md5Hex(
               boardOptional.get().toJson().toJSONString()).equals(lastHash)
@@ -268,7 +275,7 @@ public class GameController {
       if (response == null) {
         return ResponseEntity.ok().body(invalidAction.toJSONString());
       }
-      
+
       response.put("status", "success");
       //return the result of taking the tokens
       return ResponseEntity.ok(response.toJSONString());
@@ -289,7 +296,7 @@ public class GameController {
   @PostMapping("/api/action/{gameId}/returnTokens")
   public ResponseEntity<String> returnTokens(@PathVariable String gameId,
                                              @RequestBody JSONObject data)
-          throws JsonProcessingException {
+      throws JsonProcessingException {
     try {
       //check validity of request
       String playerId = (String) data.get("playerId");
@@ -359,7 +366,7 @@ public class GameController {
       if (response == null) {
         return ResponseEntity.ok().body(invalidAction.toJSONString());
       }
-      
+
       response.put("status", "success");
 
       return ResponseEntity.ok(response.toJSONString());
@@ -449,11 +456,11 @@ public class GameController {
       response.put("action", "none");
 
       JSONArray noblesVisiting = gameManager.checkImpressedNobles(inventory, board);
-      
+
       if (gameManager.checkFreeToken(inventory)) {
         response.replace("action", "token");
       }
-      
+
       response.put("noblesVisiting", noblesVisiting);
 
       response.put("options", JSONArray.toJSONString(new ArrayList<Integer>()));
@@ -502,11 +509,11 @@ public class GameController {
       response.put("action", "none");
 
       JSONArray noblesVisiting = gameManager.checkImpressedNobles(inventory, board);
-      
+
       if (gameManager.checkFreeToken(inventory)) {
         response.replace("action", "token");
       }
-      
+
       response.put("noblesVisiting", noblesVisiting);
 
       response.put("options", JSONArray.toJSONString(new ArrayList<Integer>()));
@@ -568,15 +575,15 @@ public class GameController {
   /**
    * Takes token.
    *
-   * @param gameId          the id of the game
-   * @param data the game data of the take reserve card action
-   * @return success flaggit 
+   * @param gameId the id of the game
+   * @param data   the game data of the take reserve card action
+   * @return success flaggit
    * @throws JsonProcessingException when JSON processing error occurs
    */
   @SuppressWarnings("unchecked")
   @PostMapping("/api/action/{gameId}/reserveCard")
   public ResponseEntity<String> reserveCard(@PathVariable String gameId,
-                                                  @RequestBody JSONObject data)
+                                            @RequestBody JSONObject data)
       throws JsonProcessingException {
     try {
       String playerId = (String) data.get("playerId");
@@ -665,10 +672,10 @@ public class GameController {
       if (game == null) {
         return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
       }
-      
+
       JSONObject response = gameManager.endTurn(game);
       response.put("status", "success");
-      
+
       return ResponseEntity.ok().body(response.toJSONString());
     } catch (Exception e) {
       return errorResponse(e);
@@ -677,11 +684,11 @@ public class GameController {
 
 
   /**
-   * Removes a game from the server upon lobby service request.
+   * Removes a game from the server upon client request.
    *
    * @param gameId the id of the game we want to delete
    */
-  @DeleteMapping(path = "/api/splendor/{gameId}")
+  @DeleteMapping(path = "/api/action/{gameId}/delete")
   public void deleteGame(@PathVariable(required = true, name = "gameId") long gameId) {
     gameManager.deleteGame("" + gameId);
   }
@@ -708,12 +715,12 @@ public class GameController {
       return ResponseEntity.status(500).body(HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
-  
+
   /**
    * Sets chosen city for current player, then ends turn.
    *
    * @param gameId the id of the game
-   * @param data the city data
+   * @param data   the city data
    * @return success flag
    * @throws JsonProcessingException when JSON processing error occurs
    */
@@ -727,29 +734,29 @@ public class GameController {
       if (game == null) {
         return ResponseEntity.badRequest().body(gameNotFound.toJSONString());
       }
-      
+
       int cityId = (int) data.get("cityId");
       for (int i : ((CitiesBoard) game.getBoard()).getCities()) {
-        if (i == cityId) { 
+        if (i == cityId) {
           UnlockableRegistry.of(cityId).observe(game.getCurrentPlayer());
         }
       }
-      
+
       if (!game.getCurrentPlayer().getInventory().containsCity()) {
         return ResponseEntity.badRequest().body(invalidAction.toJSONString());
       }
-      
+
       gameManager.changeTurn(game);
-      
-      JSONObject response = new JSONObject(); 
+
+      JSONObject response = new JSONObject();
       response.put("status", "success");
-      
+
       return ResponseEntity.ok().body(response.toJSONString());
     } catch (Exception e) {
       return errorResponse(e);
     }
   }
-  
+
   /**
    * Takes many tokens.
    *
@@ -761,7 +768,7 @@ public class GameController {
   @SuppressWarnings("unchecked")
   @PostMapping("/api/action/{gameId}/freeTokens")
   public ResponseEntity<String> freeTokens(@PathVariable String gameId,
-                                                 @RequestBody JSONObject data)
+                                           @RequestBody JSONObject data)
       throws JsonProcessingException {
     try {
       String playerId = (String) data.get("playerId");
@@ -776,7 +783,7 @@ public class GameController {
 
       Board board = game.getBoard();
       Inventory inventory = board.getInventory(playerId);
-      
+
       for (Token token : Token.values()) {
         if (token.equals(Token.GOLD)) {
           continue;
@@ -784,7 +791,7 @@ public class GameController {
         inventory.getTokens().removeRepeated(token, inventory.getTokens().checkAmount(token));
         inventory.getTokens().addRepeated(token, 9999);
       }
-      
+
       JSONObject response = new JSONObject();
       response.put("status", "success");
 
@@ -793,7 +800,7 @@ public class GameController {
       return errorResponse(e);
     }
   }
-  
+
   /**
    * Attaches a satchel to the selected card.
    *
@@ -805,7 +812,7 @@ public class GameController {
   @SuppressWarnings("unchecked")
   @PostMapping("/api/action/{gameId}/sacrifice")
   public ResponseEntity<String> sacrifice(@PathVariable String gameId,
-                                        @RequestBody JSONObject data)
+                                          @RequestBody JSONObject data)
       throws JsonProcessingException {
     try {
       String playerId = (String) data.get("playerId");
@@ -825,7 +832,7 @@ public class GameController {
       } else {
         cardId1 = -1;
       }
-      
+
       if (data.get("cardId2") != null) {
         cardId2 = (int) data.get("cardId2");
       } else {
@@ -841,19 +848,19 @@ public class GameController {
       if (originalCard == null || !OrientManager.makeSacrifice(card1, card2, inventory)) {
         return ResponseEntity.ok().body(invalidAction.toJSONString());
       }
-      
+
       inventory.acquireCard(originalCard);
       inventory.addCard(originalCard);
-      
+
       JSONObject response = new JSONObject();
       response.put("action", "none");
 
       JSONArray noblesVisiting = gameManager.checkImpressedNobles(inventory, board);
-      
+
       if (gameManager.checkFreeToken(inventory)) {
         response.replace("action", "token");
       }
-      
+
       response.put("noblesVisiting", noblesVisiting);
 
       response.put("options", JSONArray.toJSONString(new ArrayList<Integer>()));
@@ -879,7 +886,10 @@ public class GameController {
     //get the game to save
     Game game = gameManager.getGame(gameId);
     if (game == null) {
-      return ResponseEntity.ok(gameNotFound.toJSONString());
+      game = gameManager.getPastGame(gameId);
+      if (game == null) {
+        return ResponseEntity.ok(gameNotFound.toJSONString());
+      }
     }
     //save and get the savegameid of the save
     String successfulSave = saveManager.saveGame(game);
