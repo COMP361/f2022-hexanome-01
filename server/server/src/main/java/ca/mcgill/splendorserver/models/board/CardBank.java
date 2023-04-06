@@ -81,11 +81,11 @@ public class CardBank implements Serializable {
   public int draw(CardLevel level, int index) {
     Stack<Integer> deck = decks.get(level);
     if (deck.isEmpty()) {
-        int[] row = rows.get(level);
-        int old = row[index];
-        row[index] = -1;
-        rows.put(level, row);
-        return old;
+      int[] row = rows.get(level);
+      int old = row[index];
+      row[index] = -1;
+      rows.put(level, row);
+      return old;
     }
     int[] row = rows.get(level);
     int old = row[index];
@@ -106,10 +106,10 @@ public class CardBank implements Serializable {
     for (int i = 0; i < row.length; i++) {
       if (row[i] == card.getId()) {
         if (deck.isEmpty()) {
-            int old = row[i];
-            row[i] = -1;
-            rows.put(card.getLevel(), row);
-            return old;
+          int old = row[i];
+          row[i] = -1;
+          rows.put(card.getLevel(), row);
+          return old;
         }
         int old = row[i];
         row[i] = deck.pop();
