@@ -10,7 +10,7 @@ public class PlayerControl : MonoBehaviour {
     public Authentication mainPlayer;
     public Dashboard dashboard;
     [SerializeField] private GameObject inventoryPanel;
-    [SerializeField] private GameObject cursor, purchaseOrReserve, nobleSelectButton, citySelectButton;
+    [SerializeField] private GameObject cursor, purchaseOrReserve, reserveButton, nobleSelectButton, citySelectButton;
     [SerializeField] private Camera playerCamera;
     [SerializeField] private Player player; //this client/player
     [SerializeField] public List<string> gamePlayersData; //can change this to a different type later, playerData is combined from LobbyPlayer and Player class
@@ -31,6 +31,7 @@ public class PlayerControl : MonoBehaviour {
     public Card selectedReserve;
     public CardSlot selectedCardToBuy;
     public CardSlot selectedCardToReserve;
+    public Deck selectedDeckToReserve;
 
     public NobleRow allNobles;
     public CityRow allCities;
@@ -154,6 +155,7 @@ public class PlayerControl : MonoBehaviour {
 
                 //Debug.Log("Card");
                 //Debug.Log(selectReserve);
+                selectedDeckToReserve = null;
                 purchaseOrReserve.SetActive(true);
                 purchaseOrReserve.transform.GetChild(1).gameObject.SetActive(true);
                 selectedReserve = null;
@@ -194,6 +196,24 @@ public class PlayerControl : MonoBehaviour {
                 citySelectButton.SetActive(true);
             }
         }
+    }
+
+    public void reserveDeck(Deck deck) {
+        purchaseOrReserve.SetActive(false);
+        purchaseOrReserve.transform.GetChild(1).gameObject.SetActive(false);
+        selectedTokensObject.SetActive(false);
+        takeTokensButton.SetActive(false);
+        selectedReserve = null;
+        selectedCardToBuy = null;
+        selectedCardToReserve = null;
+        selectedNoble = null;
+        selectedCity = null;
+        selectedCard = null;
+
+        dashboard.DisplayReserve();
+        allCards.GreyOut();
+
+        selectedDeckToReserve = deck;
     }
 
     bool PurchaseAction() { //attempt to purchase a card
@@ -417,12 +437,50 @@ public class PlayerControl : MonoBehaviour {
 
     }
 
-    public void reserveCardAction() {
+    public void reserveDeckAction() {
         Dictionary<string, object> requestDict = new Dictionary<string, object>();
 
         JSONObject reserveCardJson = new JSONObject(requestDict);
         reserveCardJson.Add("playerId", player.GetUsername());
-        reserveCardJson.Add("source", "board"); //TO DO: add deck source option i.e. reserve card at top of deck for some given deck
+        reserveCardJson.Add("source", "deck");
+        reserveCardJson.Add("deckId", selectedDeckToReserve.GetId());
+        actionManager.MakeApiRequest(currSession.id, reserveCardJson, ActionManager.ActionType.reserveCard, ActionManager.RequestType.POST, (response) => {
+            if (response != null) {
+                string status = (string)response["status"];
+
+                if (status.Equals("failure")) {
+                    errorText.GetComponent<FadeOut>().ResetFade();
+                    return;
+                };
+
+                long overFlowAmount = (long)response["tokenOverflow"];
+                tokenOverflow = overFlowAmount;
+                if (overFlowAmount == 0) {
+                    // Handle reserve card
+                    endTurnAction();
+                }
+                else {
+                    returnTokenPanel.Display(overFlowAmount);
+                }
+            }
+            else {
+                errorText.GetComponent<FadeOut>().ResetFade(true);
+            }
+        });
+
+    }
+
+    public void reserveCardAction() {
+        if (selectedDeckToReserve != null) {
+            reserveDeckAction();
+            return;
+        }
+
+        Dictionary<string, object> requestDict = new Dictionary<string, object>();
+
+        JSONObject reserveCardJson = new JSONObject(requestDict);
+        reserveCardJson.Add("playerId", player.GetUsername());
+        reserveCardJson.Add("source", "board");
         reserveCardJson.Add("cardId", selectedCardToReserve.GetCard().GetId());
         actionManager.MakeApiRequest(currSession.id, reserveCardJson, ActionManager.ActionType.reserveCard, ActionManager.RequestType.POST, (response) => {
             if (response != null) {
@@ -712,7 +770,6 @@ public class PlayerControl : MonoBehaviour {
         allCards.UnGreyOut();
         purchaseOrReserve.SetActive(false);
     }
-
 
     public void setReserveToTrue() {
         selectReserve = true;

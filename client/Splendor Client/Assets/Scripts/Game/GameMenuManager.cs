@@ -18,7 +18,10 @@ public class GameMenuManager : MonoBehaviour
 
     public void OnExitClick()
     {
-        StartCoroutine(LSRequestManager.DeleteSession(currentSession.id));
+        StartCoroutine(exitRoutine());
+    }
+
+    public void OnExitEndSessionClick(){
         SceneManager.LoadScene(1);
     }
 
@@ -30,10 +33,23 @@ public class GameMenuManager : MonoBehaviour
         StartCoroutine(saveAndExitRoutine());
     }
 
+    public void OnSaveAndExitEndSessionClick(){
+        StartCoroutine(saveAndExitEndSessionRoutine());
+    }
+
     IEnumerator saveAndExitRoutine(){
         yield return StartCoroutine(GameRequestManager.SaveGameServer(currentSession.id, successText, failText));
         Debug.Log("saved game");
-        yield return StartCoroutine(LSRequestManager.DeleteSession(currentSession.id));
+        yield return StartCoroutine(GameRequestManager.DeleteGameServer(currentSession.id));
+        SceneManager.LoadScene(1);
+    }
+
+    IEnumerator saveAndExitEndSessionRoutine(){
+        yield return StartCoroutine(GameRequestManager.SaveGameServer(currentSession.id, successText, failText));
+        SceneManager.LoadScene(1);
+    }
+    IEnumerator exitRoutine(){
+        yield return StartCoroutine(GameRequestManager.DeleteGameServer(currentSession.id));
         SceneManager.LoadScene(1);
     }
 }
