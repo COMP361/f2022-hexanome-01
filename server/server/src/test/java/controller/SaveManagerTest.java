@@ -78,12 +78,15 @@ public class SaveManagerTest {
 	
 	@Test
 	public void saveThroughEndpointTest() {
+		
+		int original = saveManager.countSavedGamesOfUser();
+		
         gc.launchGame("test", ControllerTestUtils.createDummySave(randName1, randName2, randName3));
         gc.save("test");
         
         saveId = "";
 		
-        assertEquals(1, saveManager.countSavedGamesOfUser(randName1));
+        assertEquals(original, saveManager.countSavedGamesOfUser() - 1);
 	}
 
 	@After

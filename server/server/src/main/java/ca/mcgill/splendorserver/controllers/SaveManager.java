@@ -130,10 +130,9 @@ public class SaveManager {
   /**
    * Retrieves all saved games of user.
    *
-   * @param playerId id of player who made save
    * @return the number of all saves as SaveSessions
    */
-  public int countSavedGamesOfUser(String playerId) {
+  public int countSavedGamesOfUser() {
     return getAllSavedGames().size();
   }
 
