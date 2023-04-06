@@ -1,15 +1,5 @@
 package ca.mcgill.splendorserver.controllers;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Optional;
-
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import ca.mcgill.splendorserver.models.Game;
 import ca.mcgill.splendorserver.models.Inventory;
 import ca.mcgill.splendorserver.models.Noble;
@@ -32,6 +22,14 @@ import ca.mcgill.splendorserver.models.expansion.Unlockable;
 import ca.mcgill.splendorserver.models.registries.CardRegistry;
 import ca.mcgill.splendorserver.models.registries.UnlockableRegistry;
 import ca.mcgill.splendorserver.models.saves.SaveSession;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Optional;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * This is the controller for all game managing functionality.
@@ -60,7 +58,8 @@ public class GameManager {
     String saveId = session.getSavegame();
 
     if (!saveId.equals("")) {
-      SaveSession save = saveManager.loadGame(gameId, session.getCreator());
+      System.out.println("Attempting to load save: " + saveId);
+      SaveSession save = saveManager.loadGame(saveId);
       if (save != null && save.isValidLaunch(session.getVariant(), session.getPlayers().length)) {
         save.reassignPlayers(session.getPlayers());
         gameRegistry.put(gameId, save.getGame());
@@ -193,13 +192,17 @@ public class GameManager {
     int pickedUp = cards.draw(card);
     
     if (pickedUp == card.getId()) {
-      inventory.addCard(card);
+      if (card.getType() != CardType.DOMINO1 && card.getType() != CardType.SATCHEL) {
+        inventory.addCard(card);
+      }
       return true;
     }
 
     if (inventory.containsReservedCard(card)) {
       inventory.removeFromReservedCards(card);    
-      inventory.addCard(card);
+      if (card.getType() != CardType.DOMINO1 && card.getType() != CardType.SATCHEL) {
+        inventory.addCard(card);
+      }
       return true;
     }
     
