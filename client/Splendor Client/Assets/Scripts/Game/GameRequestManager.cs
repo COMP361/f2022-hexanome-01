@@ -21,6 +21,10 @@ public class GameRequestManager : MonoBehaviour
             //get hash of result
             using (MD5 hasher = MD5.Create())
             {
+                //Debug.Log(request.downloadHandler.text);
+                if(request.downloadHandler.text.Equals("End Session")){
+                    result("End Session", null);
+                }
                 byte[] newHashBytes = hasher.ComputeHash(request.downloadHandler.data);
                 var sBuilder = new StringBuilder();
                 foreach (byte b in newHashBytes) sBuilder.Append(b.ToString("x2"));
@@ -49,5 +53,15 @@ public class GameRequestManager : MonoBehaviour
         else {
             failText.ResetFade(false);
         }
+    }
+
+     public static IEnumerator DeleteGameServer(string gameid)
+    {
+        string url = "http://" + HOST + ":4244/splendor/api/action/" + gameid + "/delete"; //url for POST request
+        UnityWebRequest request = UnityWebRequest.Delete(url); //body of POST cannot be empty
+        yield return request.SendWebRequest();
+        
+        //TO BE WARNED IF THE REQUEST WAS NOT SUCCESSFUL, UNCOMMENT THE FOLLOWING LINES
+        //UnityEngine.Debug.Log("Server save fail");
     }
 }
