@@ -83,7 +83,7 @@ public class ClaimNoblePanel : MonoBehaviour
         ClearChildren(nobleContent);
         foreach (Noble noble in availNobles) {
             GameObject nobleInstance = Instantiate(nobleSlot, nobleContent.transform.position, Quaternion.identity);
-            nobleInstance.AddComponent<Button>().onClick.AddListener( delegate
+            nobleInstance.GetComponent<Button>().onClick.AddListener( delegate
             {
                 playerControl.selectedNoble = nobleInstance.GetComponent<NobleSlot>();
             });
