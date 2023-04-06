@@ -209,7 +209,7 @@ public class GameManagerTest extends ControllerTestUtils {
 	    while (!response.hasResult()) { //wait for return value
 	    	
 	    }
-//	    assertEquals(response.getResult().toString(), ""); //validate return
+	    assertEquals(response.getResult().toString(), "End Session"); //validate return
 	    
 	    ResponseEntity<String> error = gc.errorResponse(new Exception("TEST"));
 	    assertEquals("{\"message\":\"Error 500: TEST\",\"status\":\"failure\"}", error.getBody());
