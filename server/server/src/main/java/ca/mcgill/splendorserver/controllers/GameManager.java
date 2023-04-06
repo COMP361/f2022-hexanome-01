@@ -59,7 +59,8 @@ public class GameManager {
     String saveId = session.getSavegame();
 
     if (!saveId.equals("")) {
-      SaveSession save = saveManager.loadGame(gameId, session.getCreator());
+      System.out.println("Attempting to load save: " + saveId);
+      SaveSession save = saveManager.loadGame(saveId);
       if (save != null && save.isValidLaunch(session.getVariant(), session.getPlayers().length)) {
         save.reassignPlayers(session.getPlayers());
         gameRegistry.put(gameId, save.getGame());
@@ -127,6 +128,12 @@ public class GameManager {
 
     if (card.getType() == CardType.SACRIFICE) {
       return purchaseCardBody(card, board, inventory);
+    }
+    
+    if (card.getType() == CardType.SATCHEL || card.getType() == CardType.DOMINO1) {
+      if (!checkValidPairing(inventory)) {
+        return null;
+      }
     }
 
     Token[] toAddToBank = inventory.isCostAffordable(card.getCost());
@@ -200,16 +207,21 @@ public class GameManager {
     int pickedUp = cards.draw(card);
     
     if (pickedUp == card.getId()) {
-      inventory.addCard(card);
+      if (card.getType() != CardType.DOMINO1 && card.getType() != CardType.SATCHEL) {
+        inventory.addCard(card);
+      }
       return true;
     }
 
     if (inventory.containsReservedCard(card)) {
-      inventory.removeFromReservedCards(card);
+      inventory.removeFromReservedCards(card);    
+      if (card.getType() != CardType.DOMINO1 && card.getType() != CardType.SATCHEL) {
+        inventory.addCard(card);
+      }
+      return true;
     }
-
-    inventory.addCard(card);
-    return true;
+    
+    return false;
   }
 
   /**
@@ -376,6 +388,11 @@ public class GameManager {
 
     Board board = game.getBoard();
     Inventory inventory = board.getInventory(playerId);
+    
+    if (inventory.getReservedCards().size() >= 3) {
+      return null;
+    }
+    
     CardBank cards = board.getCards();
     
     int pickedUp = -1;
@@ -464,11 +481,9 @@ public class GameManager {
       return true;
     }
 
-    if (nobles.removeId(noble.getId())) {
-      inventory.addNobleToInventory(noble);
-      return true;
-    }
-    return false;
+    nobles.removeId(noble.getId());
+    inventory.addNobleToInventory(noble);
+    return true;
   }
 
   /**

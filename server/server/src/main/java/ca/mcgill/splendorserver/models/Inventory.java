@@ -298,7 +298,7 @@ public class Inventory implements Serializable {
    */
   @SuppressWarnings("unchecked")
   public ArrayList<Card> getReservedCards() {
-    return (ArrayList<Card>) reservedCards;
+    return reservedCards;
   }
 
   /**
@@ -414,7 +414,7 @@ public class Inventory implements Serializable {
    * @return list of claimed nobles
    */
   public ArrayList<Noble> getReservedNobles() {
-    return (ArrayList<Noble>) reservedNobles.clone();
+    return reservedNobles;
   }
 
   /**

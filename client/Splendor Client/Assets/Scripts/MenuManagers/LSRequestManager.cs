@@ -201,7 +201,9 @@ public class LSRequestManager : MonoBehaviour
 
                 result(newHash, session);
             }
-        } else if (request.responseCode == 408) result(null, null);
+        } 
+        else if (request.responseCode == 408) result(hash, null);
+        else result(null, null);
     }
 
     /// <summary>
@@ -327,6 +329,8 @@ public class LSRequestManager : MonoBehaviour
 		add.downloadHandler = new DownloadHandlerBuffer();
 
 		yield return add.SendWebRequest();
+
+        UnityEngine.Debug.Log(add.downloadHandler.text);
 
 		result(add.result == UnityWebRequest.Result.Success);
  	}

@@ -80,6 +80,12 @@ public class GameManagerTest extends ControllerTestUtils {
     Noble nobleToReserve = NobleRegistry.of(board.getNobles().getNobles()[1]);
     OrientManager.reserveNoble(nobleToReserve, board, testInventory);
     assertEquals(nobleToReserve, testInventory.getReservedNobles().get(0));
+    
+    assertTrue("succeeded when should have failed noble1", !gameManager.acquireNoble(null, board, testInventory));
+    assertTrue("succeeded when should have failed noble2", !gameManager.acquireNoble(new Noble(69), board, testInventory));
+    Noble test = new Noble(69);
+    testInventory.getReservedNobles().add(test);
+    assertTrue("failed when should have succeeded noble3", gameManager.acquireNoble(test, board, testInventory));
   }
   
   @SuppressWarnings("unchecked")
@@ -323,5 +329,26 @@ public class GameManagerTest extends ControllerTestUtils {
 	    assertEquals(0, game.getCurrentPlayer().getInventory().getTokens().checkAmount(Token.RED));
 	    response = gc.returnTokens("TestGame", data);
 	    assertTrue("returned tokens when it shouldnt have", !success.toString().equals(response.getBody().toString()));
+  }
+  
+  @Test
+  public void cardTests() {
+	    SessionData dummy = createDummySessionData();
+	    GameManager gameManager = new GameManager();
+	    GameController gc = new GameController(gameManager, new SaveManager());
+	    gc.launchGame("TestGame", dummy);
+	    Game game = gameManager.getGame("TestGame");
+	    Board board = game.getBoard();
+	    Inventory testInventory = board.getInventory("testCreator");
+	    
+	    assertTrue("succeeded when should have failed cards1", !gameManager.acquireCard(null, board, testInventory));
+	    
+	    Card test = new Card(420, CardLevel.LEVEL1);
+	    
+	    assertTrue("succeeded when should have failed cards2", !gameManager.acquireCard(test, board, testInventory));
+	    
+	    testInventory.getReservedCards().add(test);
+	    
+	    assertTrue("failed when should have succeeded cards2", gameManager.acquireCard(test, board, testInventory));
   }
 }
