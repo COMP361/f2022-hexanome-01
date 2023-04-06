@@ -610,7 +610,6 @@ public class GameController {
       }
       return ResponseEntity.ok(response.toJSONString());
     } catch (Exception e) {
-      System.out.println(e.getMessage());
       return errorResponse(e);
     }
   }
@@ -705,16 +704,17 @@ public class GameController {
   public ResponseEntity<HttpStatus> launchGame(
       @PathVariable(required = true, name = "gameId") String gameId,
       @RequestBody SessionData session) {
-    try {
-      System.out.println("launching: " + gameId);
-      if (!gameManager.launchGame(gameId, session)) {
-        throw new Exception();
-      }
-
-      return ResponseEntity.ok(HttpStatus.OK);
-    } catch (Exception e) {
-      return ResponseEntity.status(500).body(HttpStatus.INTERNAL_SERVER_ERROR);
+    //try {
+    System.out.println("launching: " + gameId);
+    if (!gameManager.launchGame(gameId, session)) {
+      return ResponseEntity.status(500).body(HttpStatus.INTERNAL_SERVER_ERROR); 
+      //throw new Exception();
     }
+
+    return ResponseEntity.ok(HttpStatus.OK);
+    //} catch (Exception e) {
+    //return ResponseEntity.status(500).body(HttpStatus.INTERNAL_SERVER_ERROR);
+    //}
   }
 
   /**
