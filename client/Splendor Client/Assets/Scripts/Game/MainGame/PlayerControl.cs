@@ -10,7 +10,7 @@ public class PlayerControl : MonoBehaviour {
     public Authentication mainPlayer;
     public Dashboard dashboard;
     [SerializeField] private GameObject inventoryPanel;
-    [SerializeField] private GameObject cursor, purchaseOrReserve, reserveButton, nobleSelectButton, citySelectButton;
+    [SerializeField] private GameObject cursor, purchaseOrReserve, purchaseButton, reserveButton, nobleSelectButton, citySelectButton;
     [SerializeField] private Camera playerCamera;
     [SerializeField] private Player player; //this client/player
     [SerializeField] public List<string> gamePlayersData; //can change this to a different type later, playerData is combined from LobbyPlayer and Player class
@@ -158,6 +158,7 @@ public class PlayerControl : MonoBehaviour {
                 selectedDeckToReserve = null;
                 purchaseOrReserve.SetActive(true);
                 purchaseOrReserve.transform.GetChild(1).gameObject.SetActive(true);
+                purchaseButton.SetActive(true);
                 selectedReserve = null;
                 selectedCard = go.GetComponent<CardSlot>();
                 allCards.GreyOutExcept(selectedCard);
@@ -199,8 +200,11 @@ public class PlayerControl : MonoBehaviour {
     }
 
     public void reserveDeck(Deck deck) {
-        purchaseOrReserve.SetActive(false);
+        purchaseOrReserve.SetActive(true);
         purchaseOrReserve.transform.GetChild(1).gameObject.SetActive(false);
+        purchaseButton.SetActive(false);
+        reserveButton.SetActive(true);
+
         selectedTokensObject.SetActive(false);
         takeTokensButton.SetActive(false);
         selectedReserve = null;

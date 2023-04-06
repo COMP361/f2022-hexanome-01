@@ -3404,7 +3404,8 @@ MonoBehaviour:
   inventoryPanel: {fileID: 1171159220}
   cursor: {fileID: 0}
   purchaseOrReserve: {fileID: 1597933660}
-  reserveButton: {fileID: 0}
+  purchaseButton: {fileID: 995555033}
+  reserveButton: {fileID: 1393067510}
   nobleSelectButton: {fileID: 0}
   citySelectButton: {fileID: 0}
   playerCamera: {fileID: 1735013987}
