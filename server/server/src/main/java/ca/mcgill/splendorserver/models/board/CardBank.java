@@ -106,10 +106,10 @@ public class CardBank implements Serializable {
     for (int i = 0; i < row.length; i++) {
       if (row[i] == card.getId()) {
         if (deck.isEmpty()) {
-          int[] cardIds = rows.get(card.getLevel());
-          int index = Arrays.asList(cardIds).indexOf(card.getId());
-          cardIds[index] = -1;
-          return card.getId();
+            int old = row[i];
+            row[i] = -1;
+            rows.put(card.getLevel(), row);
+            return old;
         }
         int old = row[i];
         row[i] = deck.pop();
