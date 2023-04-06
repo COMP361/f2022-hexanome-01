@@ -115,7 +115,7 @@ public class PlayerControl : MonoBehaviour {
         Debug.Log(obj2Params["price"]);
         */
 
-        foreach(Card c in allCards.cards) {
+        foreach (Card c in allCards.cards) {
             c.SetSatchels(0);
         }
 
@@ -419,13 +419,26 @@ public class PlayerControl : MonoBehaviour {
 
                 long overFlowAmount = (long)response["tokenOverflow"];
                 tokenOverflow = overFlowAmount;
-                if (overFlowAmount == 0) {
+                if (overFlowAmount != 0) {
                     // Handle removal of selected tokens
-                    endTurnAction();
-                }
-                else {
                     returnTokenPanel.Display(overFlowAmount);
+                    return;
                 }
+                else if (response["noblesVisiting"] != null) {
+                    JSONArray jsonNoblesVisited = (JSONArray)response["noblesVisiting"];//int[] noblesVisiting = new int[]
+
+                    long[] noblesVisiting = new long[jsonNoblesVisited.Count];
+                    for (int i = 0; i < jsonNoblesVisited.Count; i++) {
+                        noblesVisiting[i] = (int)jsonNoblesVisited[i];
+                    }
+
+                    if (noblesVisiting.Count() != 0)
+                        claimNoblePanel.DisplayNobleClaim(allNobles, noblesVisiting);
+                    else
+                        endTurnAction();
+                }
+                else
+                    endTurnAction();
 
             }
             else {
@@ -729,7 +742,23 @@ public class PlayerControl : MonoBehaviour {
                         errorText.GetComponent<FadeOut>().ResetFade();
                         return;
                     }
-                    endTurnAction();
+
+                    if (response["noblesVisiting"] != null) {
+                        JSONArray jsonNoblesVisited = (JSONArray)response["noblesVisiting"];//int[] noblesVisiting = new int[]
+
+                        long[] noblesVisiting = new long[jsonNoblesVisited.Count];
+                        for (int i = 0; i < jsonNoblesVisited.Count; i++) {
+                            noblesVisiting[i] = (int)jsonNoblesVisited[i];
+                        }
+
+                        if (noblesVisiting.Count() != 0)
+                            claimNoblePanel.DisplayNobleClaim(allNobles, noblesVisiting);
+                        else
+                            endTurnAction();
+
+                    }
+                    else
+                        endTurnAction();
                 }
             });
         }
@@ -749,13 +778,25 @@ public class PlayerControl : MonoBehaviour {
                     tokenTP = false;
                     long overFlowAmount = (long)response["tokenOverflow"];
                     tokenOverflow = overFlowAmount;
-                    if (overFlowAmount == 0) {
+                    if (overFlowAmount != 0) {
                         // Handle removal of selected tokens
-                        endTurnAction();
-                    }
-                    else {
                         returnTokenPanel.Display(overFlowAmount);
                     }
+                    else if (response["noblesVisiting"] != null) {
+                        JSONArray jsonNoblesVisited = (JSONArray)response["noblesVisiting"];//int[] noblesVisiting = new int[]
+
+                        long[] noblesVisiting = new long[jsonNoblesVisited.Count];
+                        for (int i = 0; i < jsonNoblesVisited.Count; i++) {
+                            noblesVisiting[i] = (int)jsonNoblesVisited[i];
+                        }
+
+                        if (noblesVisiting.Count() != 0)
+                            claimNoblePanel.DisplayNobleClaim(allNobles, noblesVisiting);
+                        else
+                            endTurnAction();
+                    }
+                    else
+                        endTurnAction();
                 }
             });
         }
