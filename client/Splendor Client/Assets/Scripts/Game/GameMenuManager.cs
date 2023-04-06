@@ -41,15 +41,15 @@ public class GameMenuManager : MonoBehaviour
         yield return StartCoroutine(GameRequestManager.SaveGameServer(currentSession.id, successText, failText));
         Debug.Log("saved game");
         yield return StartCoroutine(GameRequestManager.DeleteGameServer(currentSession.id));
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 
     IEnumerator saveAndExitEndSessionRoutine(){
         yield return StartCoroutine(GameRequestManager.SaveGameServer(currentSession.id, successText, failText));
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
     IEnumerator exitRoutine(){
         yield return StartCoroutine(GameRequestManager.DeleteGameServer(currentSession.id));
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(1);
     }
 }
