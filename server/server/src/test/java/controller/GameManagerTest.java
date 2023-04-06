@@ -213,6 +213,8 @@ public class GameManagerTest extends ControllerTestUtils {
 	    
 	    ResponseEntity<String> error = gc.errorResponse(new Exception("TEST"));
 	    assertEquals("{\"message\":\"Error 500: TEST\",\"status\":\"failure\"}", error.getBody());
+	    
+	    gc.deleteGame(42069);
   }
 
   @SuppressWarnings("unchecked")
