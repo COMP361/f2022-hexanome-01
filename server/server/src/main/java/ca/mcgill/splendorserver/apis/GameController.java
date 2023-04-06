@@ -610,6 +610,7 @@ public class GameController {
       }
       return ResponseEntity.ok(response.toJSONString());
     } catch (Exception e) {
+      System.out.println(e.getMessage());
       return errorResponse(e);
     }
   }

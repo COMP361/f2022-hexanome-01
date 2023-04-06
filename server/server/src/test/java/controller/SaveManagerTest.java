@@ -91,6 +91,9 @@ public class SaveManagerTest {
 
 	@After
 	public void deleteSave() {
+      if (saveId.equals("")) {
+    	  saveManager.deleteTestSavedGame();
+      }
       saveManager.deleteSavedGame(saveId);
 	}
 

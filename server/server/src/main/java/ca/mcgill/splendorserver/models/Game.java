@@ -118,7 +118,21 @@ public class Game implements Serializable {
    */
   public void nextPlayer() {
     currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+    syncPlayer();
+  }
+
+  /**
+   * Sets the current player.
+   */
+  public void syncPlayer() {
     this.board.setCurrentPlayer(getCurrentPlayer().getUsername());
+  }
+
+  /**
+   * Sets the creator player.
+   */
+  public void setCreator(String username) {
+	  this.creator = username;
   }
 
   /**

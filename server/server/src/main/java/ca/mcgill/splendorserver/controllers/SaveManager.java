@@ -147,4 +147,22 @@ public class SaveManager {
       file.delete();
     }
   }
+
+  /**
+   * deletes test saved game.
+
+
+   */
+  public void deleteTestSavedGame() {
+	  File saveDirectory = new File(saveDir.toString());
+	  if (saveDirectory.exists()) {
+		  File[] saveFiles = saveDirectory.listFiles((dir, name) -> name.endsWith(".save"));
+
+		  for (File saveFile : saveFiles) {
+			  if (saveFile.getName().contains("test")) {
+				saveFile.delete();
+			  }
+		  }
+	  }
+  }
 }

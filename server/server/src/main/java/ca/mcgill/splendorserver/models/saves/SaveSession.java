@@ -54,6 +54,8 @@ public class SaveSession {
     for (Player player : game.getPlayers()) {
       player.setUsername(players[index++]);
     }
+    game.syncPlayer();
+    game.setCreator(players[0]);
   }
 
   public Game getGame() {
