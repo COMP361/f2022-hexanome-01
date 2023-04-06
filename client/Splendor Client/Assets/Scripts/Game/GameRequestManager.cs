@@ -39,7 +39,7 @@ public class GameRequestManager : MonoBehaviour
         }
     }
 
-    public static IEnumerator SaveGameServer(string gameid)
+    public static IEnumerator SaveGameServer(string gameid, FadeOut successText, FadeOut failText)
     {
         string url = "http://" + HOST + ":4244/splendor/api/action/" + gameid + "/save"; //url for POST request
         UnityWebRequest request = UnityWebRequest.Post(url, "body"); //body of POST cannot be empty
@@ -47,6 +47,12 @@ public class GameRequestManager : MonoBehaviour
         
         //TO BE WARNED IF THE REQUEST WAS NOT SUCCESSFUL, UNCOMMENT THE FOLLOWING LINES
         //UnityEngine.Debug.Log("Server save fail");
+        if (request.responseCode == 200) {
+            successText.ResetFade(false);
+        }
+        else {
+            failText.ResetFade(false);
+        }
     }
 
      public static IEnumerator DeleteGameServer(string gameid)

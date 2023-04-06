@@ -7,6 +7,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import ca.mcgill.splendorserver.apis.GameController;
@@ -34,18 +35,17 @@ public class SaveManagerTest {
 	private static Game game = new Game("test", randName1, new Player[] {josh, emma, jeremy}, "splendor");
 	
 	private static String saveId = "";
-
-	@Before
-	public void initSaveDir() {
-		saveManager.initPlayer(randName1);
-		saveManager.initPlayer(randName2);
+	
+	@BeforeClass
+	public static void setTest() {
+	  saveManager.test = true;
 	}
 
 	@Test
 	public void saveAndLoadSaveGameTest() {
         saveId = saveManager.saveGame(game);
 
-		SaveSession save = saveManager.loadGame(saveId, randName1);
+		SaveSession save = saveManager.loadGame(saveId);
 		assertTrue("invalid save launch", save.isValidLaunch("splendor", 3));
 		assertTrue("invalid save launch", !save.isValidLaunch("FAKE", 3));
 		assertTrue("invalid save launch", !save.isValidLaunch("splendor", 0));
@@ -67,40 +67,31 @@ public class SaveManagerTest {
 	}
 
 	@Test
-	public void incorrectCreatorSaveGameTest() {
-        saveId = saveManager.saveGame(game);
-
-		//Game game = new Game("test", "josh", new Player[] {josh, emma, jeremy}, "splendor");
-		//saved = saveManager.saveGame(game);
-		
-		SaveSession save = saveManager.loadGame(saveId, randName2);
-		assertNull(save);
-	}
-
-	@Test
 	public void saveAndLoadPlayedSaveGameTest() {
         game.getCurrentPlayer().getInventory().addCard(CardRegistry.of(1));
         saveId = saveManager.saveGame(game);
 
-        SaveSession save = saveManager.loadGame(saveId, randName1);
+        SaveSession save = saveManager.loadGame(saveId);
 
 		assertSame(1, save.getGame().getCurrentPlayer().getInventory().getCards().get(0).getId());
 	}
 	
 	@Test
 	public void saveThroughEndpointTest() {
+		
+		int original = saveManager.countSavedGamesOfUser();
+		
         gc.launchGame("test", ControllerTestUtils.createDummySave(randName1, randName2, randName3));
         gc.save("test");
         
         saveId = "";
 		
-        assertEquals(1, saveManager.countSavedGamesOfUser(randName1));
+        assertEquals(original, saveManager.countSavedGamesOfUser() - 1);
 	}
 
 	@After
 	public void deleteSave() {
-	  saveManager.deleteSavedGamesOfUser(randName1);
-      saveManager.deleteSavedGamesOfUser(randName2);
+      saveManager.deleteSavedGame(saveId);
 	}
 
 }

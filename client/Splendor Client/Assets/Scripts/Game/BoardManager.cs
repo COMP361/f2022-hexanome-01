@@ -19,6 +19,7 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private Winner winner;
 
     [SerializeField] private GameObject endSessionPopUp;
+    [SerializeField] private SelectedTokens selectedTokens;
     private Player[] players;
 
     private string currentPlayer;
@@ -99,6 +100,7 @@ public class BoardManager : MonoBehaviour
                 (long)tokenBank["red"],
                 (long)tokenBank["white"]
             );
+            selectedTokens.clearUI();
 
             //INTERMEDIATE STEP: set cities if variant is cities
             if (currentSession.name.Equals("cities"))
@@ -127,6 +129,9 @@ public class BoardManager : MonoBehaviour
                         break;
                     case 3:
                         players = new[] { boardPlayers[0], boardPlayers[2], boardPlayers[3] };
+                        break;
+                    case 4:
+                        players = new[] { boardPlayers[0], boardPlayers[1], boardPlayers[2], boardPlayers[3] };
                         break;
                 }
 
