@@ -97,12 +97,12 @@ public class TokenSlot : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
-    {
-        //initialises the displayed amount text to amount given to scriptableobject
-        //tokenBank.setExceptGold(7);
-        amount.text = token.amount.ToString();
-    }
+    // void Start()
+    // {
+    //     //initialises the displayed amount text to amount given to scriptableobject
+    //     //tokenBank.setExceptGold(7);
+    //     amount.text = token.amount.ToString();
+    // }
 
     // Update is called once per frame
     /*void Update()
