@@ -352,6 +352,15 @@ public class Inventory implements Serializable {
       cardsJson.add(card.getId());
     }
     json.put("acquiredCards", cardsJson);
+    
+    //satcheled cards. i = cardid, i+1 = satchel count
+    JSONArray satchelCardsJson = new JSONArray();
+    for (Card card : cards) {
+      satchelCardsJson.add(card.getId());
+      satchelCardsJson.add(card.getSatchelCount());
+    }
+    json.put("acquiredCards", cardsJson);
+    
     //nobles
     JSONArray noblesJson = new JSONArray();
     for (Noble noble : nobles) {
