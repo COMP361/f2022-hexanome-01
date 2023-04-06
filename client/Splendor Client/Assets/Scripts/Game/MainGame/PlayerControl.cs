@@ -115,6 +115,10 @@ public class PlayerControl : MonoBehaviour {
         Debug.Log(obj2Params["price"]);
         */
 
+        foreach(Card c in allCards.cards) {
+            c.SetSatchels(0);
+        }
+
         selectedCardToBuy = null;
         selectedCardToReserve = null;
         selectedNoble = null;
