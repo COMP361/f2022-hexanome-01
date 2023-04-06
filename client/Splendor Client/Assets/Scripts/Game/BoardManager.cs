@@ -61,12 +61,36 @@ public class BoardManager : MonoBehaviour
 
             //STEP 2: remove empty deck sprites
             JSONArray decks = (JSONArray)boardData["decks"];
-            if (!decks.Contains("level1")) GameObject.Find("CardBack1").SetActive(false);
-            if (!decks.Contains("level2")) GameObject.Find("CardBack2").SetActive(false);
-            if (!decks.Contains("level3")) GameObject.Find("CardBack3").SetActive(false);
-            if (!decks.Contains("orientlevel1")) GameObject.Find("ExpansionCardBack1").SetActive(false);
-            if (!decks.Contains("orientlevel2")) GameObject.Find("ExpansionCardBack2").SetActive(false);
-            if (!decks.Contains("orientlevel3")) GameObject.Find("ExpansionCardBack3").SetActive(false);
+            if (!decks.Contains("level1"))
+            {
+                GameObject deck = GameObject.Find("CardBack1");
+                if (deck != null) deck.SetActive(false);
+            }
+            if (!decks.Contains("level2")) 
+            {
+                GameObject deck = GameObject.Find("CardBack2");
+                if (deck != null) deck.SetActive(false);
+            }
+            if (!decks.Contains("level3")) 
+            {
+                GameObject deck = GameObject.Find("CardBack3");
+                if (deck != null) deck.SetActive(false);
+            }
+            if (!decks.Contains("orientlevel1")) 
+            {
+                GameObject deck = GameObject.Find("ExpansionCardBack1");
+                if (deck != null) deck.SetActive(false);
+            }
+            if (!decks.Contains("orientlevel2")) 
+            {
+                GameObject deck = GameObject.Find("ExpansionCardBack2");
+                if (deck != null) deck.SetActive(false);
+            }
+            if (!decks.Contains("orientlevel3")) 
+            {
+                GameObject deck = GameObject.Find("ExpansionCardBack3");
+                if (deck != null) deck.SetActive(false);
+            }
 
             //STEP 3: set nobles
             JSONArray noblesData = (JSONArray)boardData["nobles"];
