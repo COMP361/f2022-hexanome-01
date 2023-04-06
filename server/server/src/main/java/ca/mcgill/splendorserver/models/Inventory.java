@@ -359,7 +359,7 @@ public class Inventory implements Serializable {
       satchelCardsJson.add(card.getId());
       satchelCardsJson.add(card.getSatchelCount());
     }
-    json.put("acquiredCards", cardsJson);
+    json.put("satcheledCards", cardsJson);
     
     //nobles
     JSONArray noblesJson = new JSONArray();
