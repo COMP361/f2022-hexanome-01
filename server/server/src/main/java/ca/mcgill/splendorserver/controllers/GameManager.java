@@ -40,6 +40,7 @@ import org.springframework.stereotype.Component;
 public class GameManager {
 
   private static HashMap<String, Game> gameRegistry = new HashMap<String, Game>();
+  private static HashMap<String, Game> pastGameRegistry = new HashMap<String, Game>();
 
   private static HashMap<String, Game> saves = new HashMap<>();
 
@@ -92,6 +93,20 @@ public class GameManager {
   public Game getGame(String gameId) {
     if (gameRegistry.containsKey(gameId)) {
       return gameRegistry.get(gameId);
+    } else {
+      return null;
+    }
+  }
+
+  /**
+   * Returns the game saved in the not longer active game list.
+   *
+   * @param gameId the id of the game we want to find.
+   * @return the game object saved
+   */
+  public Game getPastGame(String gameId) {
+    if (pastGameRegistry.containsKey(gameId)) {
+      return pastGameRegistry.get(gameId);
     } else {
       return null;
     }
@@ -339,6 +354,7 @@ public class GameManager {
    * @param gameId the id of the games
    */
   public void deleteGame(String gameId) {
+    pastGameRegistry.put(gameId, gameRegistry.get(gameId));
     gameRegistry.remove(gameId);
   }
 
